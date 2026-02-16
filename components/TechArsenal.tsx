@@ -134,20 +134,19 @@ const CodeDecoration = () => (
       className="transform -rotate-[15deg] scale-[1.7] opacity-[0.03] dark:opacity-[0.04] blur-[1px]"
     >
       <pre className="font-mono text-3xl md:text-5xl font-black leading-tight text-foreground">
-        <span className="text-emerald-600">class</span> <span className="text-amber-600">SystemCore</span> <span className="text-emerald-600">extends</span> <span className="text-emerald-500">Bezalelv2</span> {"{"}
+        <span className="text-macos-green">class</span> <span className="text-macos-yellow">SystemCore</span> <span className="text-macos-green">extends</span> <span className="text-macos-green">Bezalelv2</span> {"{"}
         {"\n"}
-        {"  "}<span className="text-emerald-500">@HighFrequency</span>
+        {"  "}<span className="text-macos-green">@HighFrequency</span>
         {"\n"}
-        {"  "}<span className="text-emerald-600">async</span> <span className="text-amber-500">executeOrder</span>(payload: <span className="text-orange-400">Transaction</span>) {"{"}
+        {"  "}<span className="text-macos-green">async</span> <span className="text-macos-yellow">executeOrder</span>(payload: <span className="text-orange-400">Transaction</span>) {"{"}
         {"\n"}
-        {"    "}<span className="text-emerald-600">const</span> secureChannel = <span className="text-emerald-600">await</span> <span className="text-emerald-500">Encrypt</span>.init();
+        {"    "}<span className="text-macos-green">const</span> secureChannel = <span className="text-macos-green">await</span> <span className="text-macos-green">Encrypt</span>.init();
         {"\n"}
-        {"    "}<span className="text-emerald-600">await</span> secureChannel.transmit(payload);
+        {"    "}<span className="text-macos-green">await</span> secureChannel.transmit(payload);
         {"\n"}
-        {/* FIXED LINE BELOW: Changed < to &lt; */}
-        {"    "}<span className="text-amber-600">// Optimized for &lt; 50ms latency</span>
+        {"    "}<span className="text-macos-yellow">// Optimized for &lt; 50ms latency</span>
         {"\n"}
-        {"    "}<span className="text-emerald-600">return</span> <span className="text-amber-600">true</span>;
+        {"    "}<span className="text-macos-green">return</span> <span className="text-macos-yellow">true</span>;
         {"\n"}
         {"  "}{"}"}
         {"\n"}
@@ -212,16 +211,16 @@ export default function TechArsenal() {
             className="flex flex-col gap-6"
           >
             {/* Tag */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 w-fit">
-              <BsTerminal className="text-emerald-600 text-xs" />
-              <span className="text-emerald-600 font-mono text-xs tracking-widest uppercase font-bold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-macos-green/20 bg-macos-green/5 w-fit">
+              <BsTerminal className="text-macos-green text-xs" />
+              <span className="text-macos-green font-mono text-xs tracking-widest uppercase font-bold">
                 System_Capabilities
               </span>
             </div>
             
             {/* Title */}
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground leading-[0.9]">
-              THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-amber-500">ARSENAL</span>
+              THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green via-macos-green to-macos-yellow">ARSENAL</span>
             </h2>
             
             {/* Subtitle */}
@@ -245,7 +244,7 @@ export default function TechArsenal() {
               {/* Group Header (Terminal Style) */}
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 border-b border-border pb-4 gap-2">
                  <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 shadow-[0_0_10px_#059669]"></div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-macos-green shadow-[0_0_10px_hsl(var(--macos-green))]"></div>
                     <code className="text-base md:text-lg font-mono text-foreground font-medium tracking-tight">
                        {group.command}
                     </code>
@@ -269,7 +268,7 @@ export default function TechArsenal() {
       {/* 4. FOOTER STATUS BAR */}
       <div className="absolute bottom-0 left-0 right-0 h-8 bg-background border-t border-border flex items-center justify-between px-4 text-[10px] md:text-xs font-mono text-muted-foreground z-50">
          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1 hover:text-emerald-600 transition-colors cursor-pointer"><span className="text-lg">⑂</span> main*</div>
+            <div className="flex items-center gap-1 hover:text-macos-green transition-colors cursor-pointer"><span className="text-lg">⑂</span> main*</div>
             <div className="hidden sm:flex items-center gap-2">
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-transparent border border-red-500"></span> 0 ERR</span>
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-transparent border border-yellow-500"></span> 0 WARN</span>
@@ -278,8 +277,8 @@ export default function TechArsenal() {
          <div className="flex items-center gap-6">
             <span className="hidden sm:inline">Ln 842, Col 12</span>
             <span className="hidden sm:inline">UTF-8</span>
-            <span className="flex items-center gap-1 font-bold text-emerald-600">
-               <span className="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-pulse"></span> ONLINE
+            <span className="flex items-center gap-1 font-bold text-macos-green">
+               <span className="w-1.5 h-1.5 bg-macos-green rounded-full animate-pulse"></span> ONLINE
             </span>
          </div>
       </div>
@@ -298,7 +297,7 @@ const TechItem = memo(function TechItem({ tech }: { tech: Tech }) {
       // Inject color variable
       style={{ "--tech-color": tech.color } as React.CSSProperties}
       className="group relative flex flex-col items-center justify-center h-32 rounded-xl 
-                 bg-card/40 backdrop-blur-md border border-border/60
+                 glass-card border border-border/60
                  hover:border-[var(--tech-color)] hover:bg-[var(--tech-color)]/5
                  hover:shadow-[0_0_20px_-5px_var(--tech-color)]
                  transition-all duration-300 cursor-crosshair overflow-hidden"

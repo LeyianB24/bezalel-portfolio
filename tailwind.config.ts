@@ -27,7 +27,13 @@ const config: Config = {
       // 2. High-Performance Font Stack
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
-        mono: ["var(--font-geist-mono)", ...defaultTheme.fontFamily.mono],
+        mono: [
+          "var(--font-geist-mono)",
+          "SF Mono",
+          "JetBrains Mono",
+          "Fira Code",
+          ...defaultTheme.fontFamily.mono
+        ],
       },
 
       // 3. The Color Palette (HSL Linked)
@@ -67,6 +73,11 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        
+        // macOS Accent Colors
+        "macos-green": "hsl(var(--macos-green))",
+        "macos-yellow": "hsl(var(--macos-yellow))",
+        "macos-red": "hsl(var(--macos-red))",
       },
 
       // 4. Engineering Patterns (Grids & Dots)

@@ -2,16 +2,18 @@
 
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FiArrowUp, FiActivity } from "react-icons/fi"; // Added Activity icon for tech feel
+import { FiArrowUp } from "react-icons/fi";
 
 // Components
-import Header from "@/components/Header";
+import MenuBar from "@/components/MenuBar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import TechArsenal from "@/components/TechArsenal";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import CommandPalette from "@/components/CommandPalette";
+import CursorTrail from "@/components/CursorTrail";
 
 export default function Home() {
   // --- 1. Scroll Progress Bar Logic ---
@@ -46,9 +48,9 @@ export default function Home() {
     // Removed hardcoded selection colors (Globals.css handles the Cyan selection now)
     <div className="min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-hidden">
       
-      {/* --- 1. GLOBAL SCROLL LASER (Cyan Glow) --- */}
+      {/* --- 1. GLOBAL SCROLL LASER (macOS Green Glow) --- */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[100] shadow-[0_0_15px_rgba(5,150,105,0.7)]"
+        className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[100] shadow-[0_0_15px_hsl(var(--macos-green)/0.7)]"
         style={{ scaleX }}
       />
 
@@ -65,7 +67,7 @@ export default function Home() {
       {/* Swapped Purple/Indigo for Cyan/Blue/Zinc */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Top Center: The Core Light */}
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[80vw] h-[60vh] bg-emerald-500/10 dark:bg-emerald-900/10 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-screen animate-pulse-slow"></div>
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[80vw] h-[60vh] bg-macos-green/10 dark:bg-macos-green/10 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-screen animate-pulse-slow"></div>
         
         {/* Bottom Right: Deep Data Stream */}
         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vh] bg-amber-600/5 dark:bg-amber-800/10 blur-[100px] rounded-full mix-blend-multiply dark:mix-blend-screen animate-pulse-slow delay-700"></div>
@@ -81,7 +83,7 @@ export default function Home() {
         transition={{ duration: 0.8 }}
         className="relative z-10 flex flex-col"
       >
-        <Header />
+        <MenuBar />
         
         <main className="flex-grow">
           <section id="home"><Hero /></section>
@@ -94,6 +96,10 @@ export default function Home() {
         <Footer />
       </motion.div>
 
+      {/* --- INTERACTIVE FEATURES --- */}
+      <CommandPalette />
+      <CursorTrail />
+
       {/* --- 6. HOLOGRAPHIC SCROLL-TO-TOP BUTTON --- */}
       <AnimatePresence>
         {showTopBtn && (
@@ -105,9 +111,9 @@ export default function Home() {
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
             className="fixed bottom-8 right-8 z-50 p-4 rounded-full 
-                       bg-background/80 backdrop-blur-md 
+                       glass-card 
                        border border-primary/20 text-primary
-                       shadow-lg hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] 
+                       shadow-lg hover:shadow-[0_0_20px_hsl(var(--macos-green)/0.4)] 
                        hover:border-primary hover:bg-primary hover:text-primary-foreground
                        transition-all duration-300 group"
             aria-label="Scroll to top"

@@ -25,15 +25,14 @@ export default function ThemeToggle() {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative group flex items-center justify-center w-10 h-10 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] transition-colors duration-500 overflow-hidden"
+      className="relative group flex items-center justify-center w-10 h-10 rounded-full 
+                 glass-card border border-border/50 transition-all duration-500 overflow-hidden"
       aria-label="Toggle Theme"
     >
       {/* --- BACKGROUND GLOW --- */}
-      {/* This creates the "atmosphere" effect. 
-         Amber glow for Sun, Indigo glow for Moon.
-      */}
+      {/* macOS Green glow for Moon, Yellow glow for Sun */}
       <div className={`absolute inset-0 transition-opacity duration-500 blur-xl opacity-0 group-hover:opacity-40 ${
-        isDark ? "bg-emerald-500" : "bg-amber-400"
+        isDark ? "bg-macos-green" : "bg-macos-yellow"
       }`} />
 
       {/* --- ICONS --- */}
@@ -43,24 +42,24 @@ export default function ThemeToggle() {
           {isDark ? (
             <motion.div
               key="moon"
-              initial={{ y: -20, rotate: -45, opacity: 0 }}
+              initial={{ y: -20, rotate: -90, opacity: 0 }}
               animate={{ y: 0, rotate: 0, opacity: 1 }}
-              exit={{ y: 20, rotate: 45, opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
+              exit={{ y: 20, rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <Moon size={20} className="text-emerald-400 fill-emerald-400/20" strokeWidth={2} />
+              <Moon size={20} className="text-macos-green fill-macos-green/20" strokeWidth={2} />
             </motion.div>
           ) : (
             <motion.div
               key="sun"
-              initial={{ y: 20, rotate: 45, opacity: 0 }}
+              initial={{ y: 20, rotate: 90, opacity: 0 }}
               animate={{ y: 0, rotate: 0, opacity: 1 }}
-              exit={{ y: -20, rotate: -45, opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
+              exit={{ y: -20, rotate: -90, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <Sun size={20} className="text-amber-500 fill-amber-500/20" strokeWidth={2} />
+              <Sun size={20} className="text-macos-yellow fill-macos-yellow/20" strokeWidth={2} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -69,7 +68,7 @@ export default function ThemeToggle() {
       {/* --- BORDER HIGHLIGHT --- */}
       {/* A subtle ring that shines when the theme is active */}
       <div className={`absolute inset-0 rounded-full border opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-        isDark ? "border-emerald-500/30" : "border-amber-500/30"
+        isDark ? "border-macos-green/30" : "border-macos-yellow/30"
       }`} />
 
     </motion.button>

@@ -4,6 +4,8 @@
 
 import { motion, useMotionValue, useMotionTemplate, easeOut } from "framer-motion";
 import { FiArrowRight, FiCpu, FiTerminal } from "react-icons/fi";
+import AnimatedCircuitBoard from "./AnimatedCircuitBoard";
+import FloatingTechIcons from "./FloatingTechIcons";
 
 export default function Hero() {
   // --- 1. Spotlight Logic (High Performance) ---
@@ -37,7 +39,7 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative flex flex-col items-center justify-center text-center px-4 h-screen min-h-[800px] overflow-hidden bg-background group selection:bg-emerald-500/30"
+      className="relative flex flex-col items-center justify-center text-center px-4 h-screen min-h-[800px] overflow-hidden bg-background group selection:bg-macos-green/30"
       onMouseMove={handleMouseMove}
     >
       
@@ -49,6 +51,12 @@ export default function Hero() {
           className="w-full h-full object-cover grayscale brightness-[0.4] contrast-[1.2] opacity-30 dark:opacity-20 mix-blend-color-dodge scale-110 motion-safe:animate-pulse-slow"
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_90%)]"></div>
+        
+        {/* Animated Circuit Board */}
+        <AnimatedCircuitBoard />
+        
+        {/* Floating Tech Icons */}
+        <FloatingTechIcons />
       </div>
       
       {/* --- LAYER 1: ENGINEERING GRID (Blueprint) --- */}
@@ -79,14 +87,14 @@ export default function Hero() {
         
         {/* 1. Terminal Badge */}
         <motion.div variants={itemVariants} className="mb-6">
-          <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/20 backdrop-blur-md shadow-[0_0_15px_rgba(5,150,105,0.1)]">
-            <FiTerminal className="text-emerald-400 text-xs" />
-            <span className="text-emerald-300 text-[10px] font-mono tracking-[0.2em] uppercase">
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-macos-green/30 bg-macos-green/5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--macos-green)/0.1)]">
+            <FiTerminal className="text-macos-green text-xs" />
+            <span className="text-macos-green text-[10px] font-mono tracking-[0.2em] uppercase">
               System Online // v2.0
             </span>
             <span className="relative flex h-1.5 w-1.5 ml-1">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-600"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-macos-green opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-macos-green"></span>
             </span>
           </div>
         </motion.div>
@@ -98,7 +106,7 @@ export default function Hero() {
         >
           ENGINEERING <br />
           <span className="relative inline-block text-transparent bg-clip-text 
-                           bg-gradient-to-r from-foreground via-zinc-400 to-foreground 
+                           bg-gradient-to-r from-foreground via-muted-foreground to-foreground 
                            dark:from-white dark:via-zinc-500 dark:to-zinc-200
                            animate-shimmer bg-[length:200%_100%]
                            drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
@@ -111,7 +119,7 @@ export default function Hero() {
           variants={itemVariants} 
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10 font-light"
         >
-          We architect <span className="text-emerald-600 font-medium text-glow-subtle">scalable digital ecosystems</span> using high-performance infrastructure and military-grade precision.
+          We architect <span className="text-macos-green font-medium text-glow-subtle">scalable digital ecosystems</span> using high-performance infrastructure and military-grade precision.
         </motion.p>
 
         {/* 4. Action Array */}
@@ -119,7 +127,7 @@ export default function Hero() {
           
           <a 
             href="#contact"
-            className="group relative px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] active:scale-[0.98]"
+            className="group relative px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_hsl(var(--macos-green)/0.4)] active:scale-[0.98]"
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
             <span className="relative flex items-center gap-2">
@@ -129,9 +137,9 @@ export default function Hero() {
 
           <a 
             href="#arsenal"
-            className="px-8 py-4 rounded-lg border border-input bg-background/50 backdrop-blur-sm text-foreground font-medium text-lg hover:bg-accent hover:text-accent-foreground hover:border-emerald-500/50 transition-all duration-300 flex items-center gap-3 group"
+            className="px-8 py-4 rounded-lg border border-input glass-card text-foreground font-medium text-lg hover:bg-accent hover:text-accent-foreground hover:border-macos-green/50 transition-all duration-300 flex items-center gap-3 group"
           >
-             <FiCpu className="text-emerald-600 group-hover:text-amber-500 transition-colors" /> 
+             <FiCpu className="text-macos-green group-hover:text-macos-yellow transition-colors" /> 
              View Arsenal
           </a>
 

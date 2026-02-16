@@ -126,9 +126,9 @@ export default function RootLayout({
           antialiased 
           bg-background 
           text-foreground
-          /* 👇 UPDATED: Matches your theme's accent color */
-          selection:bg-emerald-500/30 
-          selection:text-emerald-600
+          /* 👇 UPDATED: Matches macOS green accent color */
+          selection:bg-macos-green/30 
+          selection:text-macos-green
           scrollbar-hide
         `}
       >

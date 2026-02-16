@@ -82,15 +82,15 @@ export default function ContactTerminal() {
               viewport={{ once: true }}
             >
               <div className="flex items-center gap-3 mb-8">
-                <div className="h-px w-8 bg-emerald-600" />
-                <span className="text-xs font-mono font-bold text-emerald-600 tracking-widest uppercase">
+                <div className="h-px w-8 bg-macos-green" />
+                <span className="text-xs font-mono font-bold text-macos-green tracking-widest uppercase">
                   Open for Business
                 </span>
               </div>
 
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-6">
                 READY TO <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-amber-500">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green to-macos-yellow">
                   BUILD THIS?
                 </span>
               </h2>
@@ -129,12 +129,12 @@ export default function ContactTerminal() {
               className="relative"
             >
               {/* Decorative "Cable" */}
-              <div className="absolute -left-10 top-20 w-10 h-px bg-gradient-to-r from-transparent to-cyan-500/50 hidden lg:block" />
+              <div className="absolute -left-10 top-20 w-10 h-px bg-gradient-to-r from-transparent to-macos-green/50 hidden lg:block" />
 
               {/* Terminal Container */}
               <form 
                 onSubmit={handleEmailDirect}
-                className="relative bg-emerald-50/50 dark:bg-[#0A0A0A] border border-stone-200 dark:border-white/10 rounded-xl overflow-hidden shadow-2xl"
+                className="relative glass-card border border-stone-200 dark:border-white/10 rounded-xl overflow-hidden shadow-2xl"
               >
                 {/* Terminal Header Bar */}
                 <div className="bg-slate-100 dark:bg-white/5 px-4 py-3 border-b border-slate-200 dark:border-white/5 flex items-center justify-between">
@@ -181,7 +181,7 @@ export default function ContactTerminal() {
                           onClick={() => handleServiceSelect(s)}
                           className={`relative cursor-pointer group p-3 rounded border transition-all duration-300
                             ${formState.service.id === s.id 
-                              ? "bg-emerald-500/5 border-emerald-500/50" 
+                              ? "bg-macos-green/5 border-macos-green/50" 
                               : "bg-transparent border-stone-200 dark:border-white/10 hover:border-stone-400"
                             }
                           `}
@@ -189,15 +189,15 @@ export default function ContactTerminal() {
                           {formState.service.id === s.id && (
                             <motion.div 
                               layoutId="active-ring"
-                              className="absolute inset-0 border-2 border-cyan-500 rounded pointer-events-none"
+                              className="absolute inset-0 border-2 border-macos-green rounded pointer-events-none"
                             />
                           )}
                           
                           <div className="flex justify-between items-center relative z-10">
-                            <span className={`text-sm font-bold ${formState.service.id === s.id ? "text-cyan-600 dark:text-cyan-400" : "text-muted-foreground"}`}>
+                            <span className={`text-sm font-bold ${formState.service.id === s.id ? "text-macos-green" : "text-muted-foreground"}`}>
                               {s.label}
                             </span>
-                            {formState.service.id === s.id && <FiActivity className="text-cyan-500 animate-pulse" />}
+                            {formState.service.id === s.id && <FiActivity className="text-macos-green animate-pulse" />}
                           </div>
                           <div className="text-[10px] font-mono text-slate-400 mt-1">{s.price}</div>
                         </div>
@@ -215,7 +215,7 @@ export default function ContactTerminal() {
                       rows={5}
                       value={formState.message}
                       onChange={handleChange}
-                      className="w-full bg-slate-100 dark:bg-white/5 border-l-2 border-slate-300 dark:border-white/10 focus:border-cyan-500 p-4 text-sm text-foreground focus:outline-none transition-colors resize-none font-mono"
+                      className="w-full bg-slate-100 dark:bg-white/5 border-l-2 border-slate-300 dark:border-white/10 focus:border-macos-green p-4 text-sm text-foreground focus:outline-none transition-colors resize-none font-mono"
                       placeholder="> Tell us a bit about what you need..."
                     />
                   </div>
@@ -266,16 +266,16 @@ function ContactNode({ icon, label, value, action }: { icon: React.ReactNode, la
   return (
     <div 
       onClick={action}
-      className="group flex items-center gap-4 p-4 border border-slate-200 dark:border-white/5 rounded-lg hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all cursor-pointer"
+      className="group flex items-center gap-4 p-4 border border-slate-200 dark:border-white/5 rounded-lg hover:border-macos-green/30 hover:bg-macos-green/5 transition-all cursor-pointer"
     >
-      <div className="w-10 h-10 rounded flex items-center justify-center bg-slate-100 dark:bg-white/5 text-slate-500 group-hover:text-cyan-500 transition-colors">
+      <div className="w-10 h-10 rounded flex items-center justify-center bg-slate-100 dark:bg-white/5 text-slate-500 group-hover:text-macos-green transition-colors">
         {icon}
       </div>
       <div>
         <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-0.5">{label}</div>
-        <div className="font-medium text-foreground group-hover:text-cyan-500 transition-colors">{value}</div>
+        <div className="font-medium text-foreground group-hover:text-macos-green transition-colors">{value}</div>
       </div>
-      <FiArrowRight className="ml-auto opacity-0 group-hover:opacity-100 text-cyan-500 transition-opacity" />
+      <FiArrowRight className="ml-auto opacity-0 group-hover:opacity-100 text-macos-green transition-opacity" />
     </div>
   );
 }
@@ -288,7 +288,7 @@ function TerminalInput({ label, name, type = "text", placeholder, value, onChang
     <div className="relative group">
       <label className="flex justify-between text-[10px] font-mono text-stone-400 uppercase tracking-wider mb-2">
         <span>{`// ${label}`}</span>
-        <span className={`w-1.5 h-1.5 rounded-full shadow-sm transition-colors duration-300 ${hasValue ? "bg-emerald-500 shadow-emerald-500/50" : "bg-stone-600"}`} />
+        <span className={`w-1.5 h-1.5 rounded-full shadow-sm transition-colors duration-300 ${hasValue ? "bg-macos-green shadow-macos-green/50" : "bg-stone-600"}`} />
       </label>
       <div className="relative">
         <input 
@@ -302,7 +302,7 @@ function TerminalInput({ label, name, type = "text", placeholder, value, onChang
           className="w-full bg-slate-100 dark:bg-white/5 border-b-2 border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-foreground focus:outline-none transition-colors"
         />
         <div 
-          className={`absolute bottom-0 left-0 h-0.5 bg-cyan-500 transition-all duration-300 ease-out
+          className={`absolute bottom-0 left-0 h-0.5 bg-macos-green transition-all duration-300 ease-out
             ${focused ? "w-full" : "w-0"}
           `} 
         />

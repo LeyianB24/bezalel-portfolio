@@ -4,82 +4,94 @@
 
 @layer base {
   :root {
-    /* --- LIGHT MODE: "The Artisan's Atelier" --- */
-    /* Warm, Ivory backgrounds with Deep Forest and Gold accents */
+    /* --- LIGHT MODE: "macOS Inspired" --- */
+    /* Soft white background with macOS accent colors */
     
-    --background: 45 25% 98%;      /* Soft Ivory/Bone White */
-    --foreground: 160 30% 12%;      /* Deep Forest Charcoal */
+    --background: 0 0% 96%;         /* #F5F5F5 - Soft White */
+    --foreground: 0 0% 17%;         /* #2C2C2C - Dark Text */
 
-    --card: 45 15% 100%;            /* Pure White with slight warmth */
-    --card-foreground: 160 30% 12%;
+    --card: 0 0% 100%;              /* Pure White */
+    --card-foreground: 0 0% 17%;
  
-    --popover: 45 15% 100%;
-    --popover-foreground: 160 30% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 17%;
  
-    /* Primary: Deep Emerald/Forest (Quality & Precision) */
-    --primary: 162 84% 25%;         /* Emerald 800 */
-    --primary-foreground: 45 25% 98%; 
+    /* Primary: macOS Green */
+    --primary: 134 65% 47%;         /* #28C840 - macOS Green */
+    --primary-foreground: 0 0% 100%; 
  
-    /* Secondary: Sage Stone (Organic Structure) */
-    --secondary: 160 15% 94%;       /* Very soft sage-tinted gray */
-    --secondary-foreground: 160 30% 12%;
+    /* Secondary: Subtle Gray */
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 0 0% 17%;
  
-    --muted: 160 10% 94%;
-    --muted-foreground: 160 10% 45%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 45%;
  
-    /* Accent: Burnished Gold (Excellence) */
-    --accent: 38 92% 50%;           /* Amber 600 */
-    --accent-foreground: 45 25% 98%;
+    /* Accent: macOS Yellow */
+    --accent: 44 100% 59%;          /* #FFBD2E - macOS Yellow */
+    --accent-foreground: 0 0% 17%;
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 45 25% 98%;
+    /* Destructive: macOS Red */
+    --destructive: 4 100% 67%;      /* #FF5F57 - macOS Red */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 160 15% 88%;
-    --input: 160 15% 88%;
-    --ring: 162 84% 25%;            /* Focus ring matches Primary */
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 134 65% 47%;            /* Focus ring matches Primary */
  
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* macOS Accent Colors */
+    --macos-green: 134 65% 47%;     /* #28C840 */
+    --macos-yellow: 44 100% 59%;    /* #FFBD2E */
+    --macos-red: 4 100% 67%;        /* #FF5F57 */
   }
  
   .dark {
-    /* --- DARK MODE: "The Reactor Core" --- */
-    /* Deep Zinc Void with Glowing Neon Cyan */
+    /* --- DARK MODE: "macOS Dark" --- */
+    /* Deep charcoal background with macOS accent colors */
 
-    --background: 240 10% 3.9%;     /* Zinc 950 - Industrial Dark */
-    --foreground: 0 0% 98%;
+    --background: 0 0% 12%;         /* #1E1E1E - Deep Charcoal */
+    --foreground: 0 0% 91%;         /* #E8E8E8 - Light Text */
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 91%;
  
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 91%;
  
-    /* Primary: Neon Cyan */
-    --primary: 190 100% 50%;        /* Cyan 400 - Glowing Electric */
-    --primary-foreground: 240 5.9% 10%; /* Dark text on bright button */
+    /* Primary: macOS Green (brighter in dark mode) */
+    --primary: 134 65% 52%;         /* Slightly brighter #28C840 */
+    --primary-foreground: 0 0% 12%;
  
-    /* Secondary: Deep Plasma */
-    --secondary: 240 3.7% 15.9%;    /* Zinc 800 */
-    --secondary-foreground: 0 0% 98%;
+    /* Secondary: Dark Gray */
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 91%;
  
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 64%;
  
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 44 100% 59%;          /* macOS Yellow */
+    --accent-foreground: 0 0% 12%;
  
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 4 100% 67%;      /* macOS Red */
+    --destructive-foreground: 0 0% 91%;
  
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 190 100% 50%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 134 65% 52%;
+    
+    /* macOS Accent Colors (same in both modes) */
+    --macos-green: 134 65% 52%;
+    --macos-yellow: 44 100% 59%;
+    --macos-red: 4 100% 67%;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
   
   body {
@@ -89,9 +101,10 @@
   }
 
   /* --- BRANDED TEXT SELECTION --- */
-  /* Neon Cyan highlight */
+  /* macOS Green highlight */
   ::selection {
-    @apply bg-cyan-500/30 text-cyan-400;
+    background-color: hsl(var(--macos-green) / 0.3);
+    color: hsl(var(--macos-green));
   }
   
   /* --- VIEW TRANSITIONS API --- */
@@ -103,42 +116,129 @@
 }
 
 @layer utilities {
-  /* --- 1. GLASSMORPHISM SUITE --- */
+  /* --- 1. HD GLASSMORPHISM SUITE --- */
   
-  /* Standard Glass */
-  .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
+  /* HD Glass - Premium blur effect */
+  .glass-hd {
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
   }
   
-  /* Darker Glass for Heavy Cards */
-  .glass-dark {
-    @apply bg-black/40 backdrop-blur-xl border border-white/5 shadow-2xl;
+  .dark .glass-hd {
+    background: rgba(30, 30, 30, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
-
-  /* Holographic Glass (Reflective Edges) */
-  .glass-holographic {
-    @apply bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl border-t border-l border-white/20 shadow-2xl relative overflow-hidden;
+  
+  /* Glass Card - For content cards */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
   }
-  .glass-holographic::before {
-    content: "";
+  
+  .dark .glass-card {
+    background: rgba(38, 38, 38, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Glass Panel - For navigation/sidebars */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  }
+  
+  .dark .glass-panel {
+    background: rgba(48, 48, 48, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Ultra Glass - Advanced blur with saturation */
+  .glass-ultra {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .dark .glass-ultra {
+    background: rgba(30, 30, 30, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Glass Reflection Effect */
+  .glass-reflection {
+    position: relative;
+  }
+  
+  .glass-reflection::before {
+    content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.05) 40%, transparent 60%);
-    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, 
+      rgba(255, 255, 255, 0.15) 0%, 
+      transparent 100%);
+    pointer-events: none;
+    border-radius: inherit;
   }
 
-  /* --- 2. TEXT GLOW (Dynamic) --- */
-  /* Uses CSS variables so it auto-updates if you change the Primary color */
+  /* Holographic Glass (Reflective Edges with macOS green) */
+  .glass-holographic {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(40, 200, 64, 0.2);
+    border-left: 1px solid rgba(40, 200, 64, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .dark .glass-holographic {
+    background: linear-gradient(135deg, rgba(40, 200, 64, 0.05), rgba(0, 0, 0, 0.2));
+    border-top: 1px solid rgba(40, 200, 64, 0.3);
+    border-left: 1px solid rgba(40, 200, 64, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(40, 200, 64, 0.1);
+  }
+
+  /* --- 2. TEXT GLOW (macOS Green) --- */
   .text-glow {
-    text-shadow: 0 0 20px hsl(var(--primary) / 0.6); 
+    text-shadow: 0 0 20px hsl(var(--macos-green) / 0.6); 
   }
   
   .text-glow-subtle {
-    text-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+    text-shadow: 0 0 10px hsl(var(--macos-green) / 0.3);
   }
   
   .text-glow-white {
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  }
+  
+  .text-glow-yellow {
+    text-shadow: 0 0 20px hsl(var(--macos-yellow) / 0.6);
+  }
+  
+  .text-glow-red {
+    text-shadow: 0 0 20px hsl(var(--macos-red) / 0.6);
   }
 
   /* --- 3. SCANLINE TEXTURE (HUD Effect) --- */
@@ -178,15 +278,17 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-zinc-800 rounded-full border-[1px] border-zinc-900;
+  background: hsl(var(--muted));
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary; /* Highlights Cyan on hover */
+  background: hsl(var(--macos-green)); /* macOS Green on hover */
 }
 
 /* --- 7. LENIS SMOOTH SCROLL CONFIG --- */

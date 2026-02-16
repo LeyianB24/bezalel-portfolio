@@ -71,16 +71,16 @@ export default function PricingArsenal() {
              className="flex items-center gap-2 mb-6 px-3 py-1 rounded-full border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-macos-green opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-macos-green"></span>
             </span>
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-amber-600">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-macos-yellow">
               System Configuration
             </span>
           </motion.div>
 
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground mb-6">
-            CHOOSE YOUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-emerald-600 to-amber-500">ENGINE</span>
+            CHOOSE YOUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green via-macos-green to-macos-yellow">ENGINE</span>
           </h2>
 
           <p className="text-muted-foreground max-w-2xl text-lg mb-12 leading-relaxed">
@@ -119,7 +119,7 @@ function ToggleSwitch({ isFullScale, onToggle }: { isFullScale: boolean, onToggl
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
         className={`absolute top-1.5 bottom-1.5 w-[142px] rounded-full shadow-lg z-0
           ${isFullScale 
-            ? 'left-[150px] bg-gradient-to-r from-emerald-700 to-emerald-600' 
+            ? 'left-[150px] bg-gradient-to-r from-macos-green to-macos-green' 
             : 'left-1.5 bg-white dark:bg-stone-800'
           }`}
       />
@@ -162,7 +162,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
       onMouseMove={handleMouseMove}
       className={`group relative flex flex-col h-full rounded-2xl border transition-all duration-300 overflow-hidden
         ${plan.highlight 
-          ? "bg-emerald-950/40 border-amber-500/30 shadow-[0_0_40px_-10px_rgba(217,119,6,0.15)]" 
+          ? "bg-macos-green/10 border-macos-yellow/30 shadow-[0_0_40px_-10px_hsl(var(--macos-yellow)/0.15)]" 
           : "bg-emerald-50/50 dark:bg-stone-900/20 border-border hover:border-stone-300 dark:hover:border-stone-700"
         }
       `}
@@ -173,7 +173,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
           background: useMotionTemplate`
             radial-gradient(
               650px circle at ${mouseX}px ${mouseY}px,
-              rgba(5, 150, 105, 0.15),
+              rgba(40, 200, 64, 0.15),
               transparent 80%
             )
           `,
@@ -182,7 +182,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
       
       <div className="relative z-10 p-8 flex flex-col h-full">
         <div className="flex justify-between items-start mb-6">
-          <div className={`p-3 rounded-xl ${plan.highlight ? "bg-amber-500 text-stone-950" : "bg-emerald-500/10 text-emerald-600"}`}>
+          <div className={`p-3 rounded-xl ${plan.highlight ? "bg-macos-yellow text-stone-950" : "bg-macos-green/10 text-macos-green"}`}>
             {plan.icon}
           </div>
           <span className="text-[10px] font-mono text-stone-400">ID: {plan.id}</span>
@@ -194,7 +194,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
         <div className="mb-8 p-4 rounded-xl bg-stone-500/5 border border-stone-500/10">
           <div className="flex justify-between items-end mb-1">
             <span className="text-[10px] font-mono text-stone-400 uppercase tracking-tighter">Current Build</span>
-            <span className="text-xs font-bold text-emerald-600">{isFullScale ? "Scale-Ready" : "Core Engine"}</span>
+            <span className="text-xs font-bold text-macos-green">{isFullScale ? "Scale-Ready" : "Core Engine"}</span>
           </div>
           <div className="text-3xl font-black tracking-tighter">
             {isFullScale ? plan.rates.scale : plan.rates.core}
@@ -208,7 +208,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${isFullScale ? plan.capacity.scale : plan.capacity.core}%` }}
-                  className="h-full bg-gradient-to-r from-emerald-500 to-amber-500"
+                  className="h-full bg-gradient-to-r from-macos-green to-macos-yellow"
                 />
              </div>
           </div>
@@ -217,7 +217,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
         <ul className="space-y-4 mb-8 flex-1">
           {plan.features.map((feature, i) => (
             <li key={i} className="flex items-center gap-3 text-sm text-muted-foreground">
-              <FiCheck className="text-emerald-500 shrink-0" />
+              <FiCheck className="text-macos-green shrink-0" />
               <span>{feature}</span>
             </li>
           ))}
@@ -228,7 +228,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
           className={`w-full py-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 group/btn
             ${plan.highlight 
               ? "bg-amber-500 text-stone-950 hover:bg-amber-400 shadow-lg shadow-amber-500/25" 
-              : "border border-stone-200 dark:border-stone-700 hover:border-emerald-500/50 hover:bg-emerald-500/5"
+              : "border border-stone-200 dark:border-stone-700 hover:border-macos-green/50 hover:bg-macos-green/5"
             }
           `}
         >

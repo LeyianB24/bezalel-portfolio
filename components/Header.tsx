@@ -133,7 +133,7 @@ export default function Header() {
         <div 
             className={`relative w-full transition-all duration-500 flex justify-between items-center ${
             isScrolled 
-                ? "max-w-5xl mx-4 bg-background/80 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl shadow-black/5 px-6 py-3" 
+                ? "max-w-5xl mx-4 glass-hd border border-border/50 rounded-2xl shadow-2xl shadow-black/5 px-6 py-3" 
                 : "max-w-7xl px-6 bg-transparent border-transparent py-2"
             }`}
         >
@@ -147,10 +147,10 @@ export default function Header() {
             <div className="relative flex items-center justify-center">
               <Hexagon 
                 strokeWidth={1.5} 
-                className={`transition-all duration-700 ease-in-out text-foreground group-hover:rotate-180 group-hover:text-emerald-600 ${isScrolled ? "w-8 h-8" : "w-10 h-10"}`} 
+                className={`transition-all duration-700 ease-in-out text-foreground group-hover:rotate-180 group-hover:text-macos-green ${isScrolled ? "w-8 h-8" : "w-10 h-10"}`} 
               />
               <div className="absolute w-1.5 h-1.5 bg-foreground rounded-full group-hover:scale-0 transition-transform duration-500" />
-              <Terminal className="absolute w-4 h-4 text-emerald-600 scale-0 group-hover:scale-100 transition-transform duration-500" />
+              <Terminal className="absolute w-4 h-4 text-macos-green scale-0 group-hover:scale-100 transition-transform duration-500" />
             </div>
             
             <div className="flex flex-col">
@@ -226,7 +226,7 @@ export default function Header() {
             <Link 
               href="#contact" 
               onClick={(e) => handleScrollToSection(e, "#contact")}
-              className="group relative px-5 py-2.5 bg-gradient-to-r from-emerald-700 to-emerald-600 text-white text-xs font-bold uppercase tracking-wider rounded-lg overflow-hidden shadow-lg shadow-emerald-900/20 hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              className="group relative px-5 py-2.5 bg-macos-green text-white text-xs font-bold uppercase tracking-wider rounded-lg overflow-hidden shadow-lg shadow-macos-green/20 hover:shadow-macos-green/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
               <span className="relative z-10 flex items-center gap-2">
@@ -248,7 +248,7 @@ export default function Header() {
 
           {/* --- PROGRESS LINE (Attached to bottom of floating nav) --- */}
           <motion.div 
-            className="absolute bottom-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-emerald-600 to-transparent opacity-50"
+            className="absolute bottom-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-macos-green to-transparent opacity-50"
             style={{ scaleX }}
           />
         </div>
@@ -271,7 +271,7 @@ export default function Header() {
             
             <div className="flex-1 flex flex-col justify-between relative z-10">
                 <nav className="flex flex-col gap-6">
-                    <div className="text-xs font-mono text-emerald-500 mb-4 flex items-center gap-2">
+                    <div className="text-xs font-mono text-macos-green mb-4 flex items-center gap-2">
                         <ShieldCheck className="w-3 h-3" /> SYSTEM_NAVIGATION
                     </div>
                     {NAV_LINKS.map((item, i) => (
@@ -288,8 +288,8 @@ export default function Header() {
                                     activeSection === item.href ? "text-foreground" : "text-muted-foreground"
                                 }`}
                             >
-                                <span className="group-hover:text-emerald-500 transition-colors">{item.name}</span>
-                                <span className="text-xs font-mono font-normal text-muted-foreground group-hover:text-emerald-500">0{i+1}</span>
+                                <span className="group-hover:text-macos-green transition-colors">{item.name}</span>
+                                <span className="text-xs font-mono font-normal text-muted-foreground group-hover:text-macos-green">0{i+1}</span>
                             </Link>
                         </motion.div>
                     ))}

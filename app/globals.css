@@ -1,26 +1,211 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* --- LIGHT MODE: "The Artisan's Atelier" --- */
+    /* Warm, Ivory backgrounds with Deep Forest and Gold accents */
+    
+    --background: 45 25% 98%;      /* Soft Ivory/Bone White */
+    --foreground: 160 30% 12%;      /* Deep Forest Charcoal */
+
+    --card: 45 15% 100%;            /* Pure White with slight warmth */
+    --card-foreground: 160 30% 12%;
+ 
+    --popover: 45 15% 100%;
+    --popover-foreground: 160 30% 12%;
+ 
+    /* Primary: Deep Emerald/Forest (Quality & Precision) */
+    --primary: 162 84% 25%;         /* Emerald 800 */
+    --primary-foreground: 45 25% 98%; 
+ 
+    /* Secondary: Sage Stone (Organic Structure) */
+    --secondary: 160 15% 94%;       /* Very soft sage-tinted gray */
+    --secondary-foreground: 160 30% 12%;
+ 
+    --muted: 160 10% 94%;
+    --muted-foreground: 160 10% 45%;
+ 
+    /* Accent: Burnished Gold (Excellence) */
+    --accent: 38 92% 50%;           /* Amber 600 */
+    --accent-foreground: 45 25% 98%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 45 25% 98%;
+
+    --border: 160 15% 88%;
+    --input: 160 15% 88%;
+    --ring: 162 84% 25%;            /* Focus ring matches Primary */
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    /* --- DARK MODE: "The Reactor Core" --- */
+    /* Deep Zinc Void with Glowing Neon Cyan */
+
+    --background: 240 10% 3.9%;     /* Zinc 950 - Industrial Dark */
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+ 
+    /* Primary: Neon Cyan */
+    --primary: 190 100% 50%;        /* Cyan 400 - Glowing Electric */
+    --primary-foreground: 240 5.9% 10%; /* Dark text on bright button */
+ 
+    /* Secondary: Deep Plasma */
+    --secondary: 240 3.7% 15.9%;    /* Zinc 800 */
+    --secondary-foreground: 0 0% 98%;
+ 
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+ 
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+ 
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 190 100% 50%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Optical sizing for precise engineering text */
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "zero" 1; /* "zero" gives slashed zeros for code */
+  }
+
+  /* --- BRANDED TEXT SELECTION --- */
+  /* Neon Cyan highlight */
+  ::selection {
+    @apply bg-cyan-500/30 text-cyan-400;
+  }
+  
+  /* --- VIEW TRANSITIONS API --- */
+  /* Enables native smooth morphing between pages */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+  }
+}
+
+@layer utilities {
+  /* --- 1. GLASSMORPHISM SUITE --- */
+  
+  /* Standard Glass */
+  .glass {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
+  }
+  
+  /* Darker Glass for Heavy Cards */
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-xl border border-white/5 shadow-2xl;
+  }
+
+  /* Holographic Glass (Reflective Edges) */
+  .glass-holographic {
+    @apply bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl border-t border-l border-white/20 shadow-2xl relative overflow-hidden;
+  }
+  .glass-holographic::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.05) 40%, transparent 60%);
+    z-index: -1;
+  }
+
+  /* --- 2. TEXT GLOW (Dynamic) --- */
+  /* Uses CSS variables so it auto-updates if you change the Primary color */
+  .text-glow {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.6); 
+  }
+  
+  .text-glow-subtle {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+  }
+  
+  .text-glow-white {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  }
+
+  /* --- 3. SCANLINE TEXTURE (HUD Effect) --- */
+  /* Adds a very subtle TV-line effect to backgrounds */
+  .scanlines {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0,0,0,0.2) 50%,
+      rgba(0,0,0,0.2)
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+  }
+
+  /* --- 4. TEXT BALANCE --- */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* --- 5. HIDE SCROLLBAR --- */
+  .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+  }
+  .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
+}
+
+/* --- 6. GLOBAL SCROLLBAR POLISH --- */
+/* Sleek, thin, and matches the theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-800 rounded-full border-[1px] border-zinc-900;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary; /* Highlights Cyan on hover */
+}
+
+/* --- 7. LENIS SMOOTH SCROLL CONFIG --- */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }

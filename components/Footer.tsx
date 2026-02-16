@@ -1,137 +1,287 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
+
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { FaGithub, FaWhatsapp, FaInstagram, FaTiktok } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6"; 
+import { FiArrowUpRight, FiCommand, FiCpu, FiGlobe, FiTerminal, FiArrowUp } from "react-icons/fi";
 
 export default function Footer() {
+  const [time, setTime] = useState("");
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  // Real-time Nairobi Clock
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString('en-US', { 
+        timeZone: 'Africa/Nairobi', 
+        hour: '2-digit', 
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false 
+      }));
+    };
+    updateTime(); 
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setTimeout(() => {
+        setEmail("");
+        setSubscribed(false);
+    }, 3000);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    { 
-      icon: <FaInstagram />, 
-      href: "https://instagram.com/leyian_.b", 
-      label: "Instagram" 
-    },
-    { 
-      icon: <FaXTwitter />, 
-      href: "https://twitter.com/LeyianB", 
-      label: "X (Twitter)" 
-    },
-    { 
-      icon: <FaTiktok />, 
-      href: "https://www.tiktok.com/@leyian_.b", 
-      label: "TikTok" 
-    },
-    { 
-      icon: <FaGithub />, 
-      href: "https://github.com/LeyianB24", 
-      label: "GitHub" 
-    },
-    { 
-      icon: <FaWhatsapp />, 
-      // Formatted for international clicking (Kenya code +254)
-      href: "https://wa.me/254796157265", 
-      label: "WhatsApp" 
-    },
-  ];
-
   const footerLinks = [
-    { title: "Company", links: ["About", "Careers", "Contact"] },
-    { title: "Services", links: ["Web Development", "Mobile Apps", "Fintech Integrations"] },
-    { title: "Legal", links: ["Privacy Policy", "Terms of Service"] },
+    { 
+      title: "Directory: /Studio", 
+      links: [
+        { name: "The Logic", href: "/studio/logic" },
+        { name: "Process", href: "/studio/process" },
+        { name: "Careers", href: "/studio/careers" }
+      ] 
+    },
+    { 
+      title: "Directory: /Services", 
+      links: [
+        { name: "Web Systems", href: "/services/web-systems" },
+        { name: "Mobile Arch", href: "/services/mobile" },
+        { name: "API Infra", href: "/services/api" }
+      ] 
+    },
+    { 
+      title: "Directory: /Legal", 
+      links: [
+        { name: "Privacy.md", href: "/legal/privacy" },
+        { name: "Terms.md", href: "/legal/terms" }
+      ] 
+    },
   ];
 
   return (
-    // ID="CONTACT" allows the Header button to scroll here
-    <footer id="contact" className="bg-[#02040a] border-t border-white/10 pt-24 pb-12 relative overflow-hidden">
+    <footer className="relative bg-background pt-32 overflow-hidden border-t border-slate-200 dark:border-white/10">
       
-      {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+      {/* --- BACKGROUND FX --- */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
       
-      {/* Glowing Blob for depth */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-900/10 blur-[120px] rounded-full pointer-events-none"></div>
+      {/* --- GIANT GHOST TYPOGRAPHY --- */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full select-none pointer-events-none overflow-hidden">
+        <h1 className="text-[15vw] font-black text-foreground opacity-[0.03] leading-none text-center tracking-tighter whitespace-nowrap">
+          SYSTEM ROOT
+        </h1>
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        {/* --- Top Section: Call to Action --- */}
-        <div className="flex flex-col md:flex-row justify-between items-end gap-10 mb-20 border-b border-white/5 pb-10">
-          <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
-              Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-500">Scale?</span>
+        {/* --- TOP: CALL TO ACTION --- */}
+        <div className="flex flex-col lg:flex-row justify-between items-end gap-12 mb-24 border-b border-slate-200 dark:border-white/10 pb-12">
+          <div className="max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-3 mb-6"
+            >
+               <span className="px-3 py-1 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
+                 <span className="relative flex h-2 w-2">
+                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                 </span>
+                 System Online
+               </span>
+               <span className="px-3 py-1 rounded bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
+                 <FiCpu /> Kernel v2.4.0
+               </span>
+            </motion.div>
+
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-foreground leading-[0.9]">
+              READY TO <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-amber-600">
+                DEPLOY?
+              </span>
             </h2>
-            <p className="text-slate-400 text-lg">
-              Stop settling for generic templates. Let's build a system that actually handles your business logic.
-            </p>
           </div>
-          
-          <a 
+
+          <motion.a 
             href="https://wa.me/254796157265" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group flex items-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-purple-500 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]"
+            target="_blank"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative px-8 py-6 bg-foreground text-background rounded-lg font-bold text-xl overflow-hidden shadow-2xl shadow-cyan-500/10 w-full md:w-auto text-center"
           >
-            Start a Conversation
-            <FaWhatsapp className="text-xl group-hover:scale-110 transition-transform" />
-          </a>
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"></div>
+            <span className="relative flex items-center justify-center gap-3">
+              Start Project <FiArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </span>
+          </motion.a>
         </div>
 
-        {/* --- Middle Section: Links & Brand --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        {/* --- MIDDLE: GRID SYSTEM --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
           
-          {/* Brand Column (Span 2) */}
-          <div className="lg:col-span-2 space-y-6">
-            <h3 className="text-3xl font-black text-white tracking-tighter">
-              BEZALEL<span className="text-purple-600">.</span>
-            </h3>
-            <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-              Architecting the digital future with precision code and robust integrations. From Nairobi to the world.
-            </p>
+          {/* Column 1: Brand & Terminal */}
+          <div className="lg:col-span-5 space-y-8">
+            <div>
+              <h3 className="text-2xl font-black tracking-tight flex items-center gap-2 mb-4">
+                <FiCommand className="text-emerald-500" /> BEZALEL
+              </h3>
+              <p className="text-muted-foreground max-w-sm leading-relaxed text-sm">
+                Architecting high-performance digital infrastructure. We treat code as a raw material for building assets.
+              </p>
+            </div>
+
+            {/* Terminal Newsletter Input */}
+            <div className="bg-slate-900 rounded-lg p-4 font-mono text-sm border border-slate-800 shadow-xl max-w-sm">
+                <div className="flex gap-1.5 mb-3">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
+                </div>
+                <div className="text-slate-400 text-xs mb-2"># Stay updated on system patches</div>
+                <form onSubmit={handleSubscribe} className="flex items-center gap-2">
+                    <span className="text-cyan-500">➜</span>
+                    <span className="text-purple-400">~</span>
+                    <input 
+                        type="email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder={subscribed ? "Subscription initialized..." : "enter_email.exe"}
+                        disabled={subscribed}
+                        className="bg-transparent border-none focus:ring-0 text-slate-200 placeholder:text-slate-600 w-full px-0 py-0"
+                    />
+                </form>
+            </div>
+          </div>
+
+          {/* Column 2: Directory Links */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-8">
+            {footerLinks.map((column, idx) => (
+              <div key={idx}>
+                <h4 className="font-mono font-bold text-foreground mb-6 text-[10px] uppercase tracking-widest opacity-60">
+                    {column.title}
+                </h4>
+                <ul className="space-y-3">
+                  {column.links.map((link, linkIdx) => (
+                    <li key={linkIdx}>
+                      <Link 
+                        href={link.href} 
+                        className="text-muted-foreground hover:text-cyan-500 transition-colors flex items-center gap-2 group w-fit text-sm"
+                      >
+                        <span className="opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-cyan-500">/</span>
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Column 3: Live Telemetry */}
+          <div className="lg:col-span-3 space-y-4">
+             <h4 className="font-mono font-bold text-foreground mb-6 text-[10px] uppercase tracking-widest opacity-60">
+                System Telemetry
+            </h4>
             
-            {/* Social Icons moved here for visibility */}
-            <div className="flex gap-4 pt-2">
-              {socialLinks.map((social, idx) => (
-                <motion.a
-                  key={idx}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ y: -3 }}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-purple-600 hover:border-purple-500 transition-all duration-300"
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
+            {/* Clock Widget */}
+            <div className="p-4 rounded border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/5 backdrop-blur-sm">
+               <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">
+                 <span>HQ Time (NBO)</span>
+                 <FiGlobe className="text-emerald-500" />
+               </div>
+               <div className="text-2xl font-mono font-bold text-foreground tabular-nums tracking-tight">
+                 {time}
+               </div>
             </div>
-          </div>
 
-          {/* Links Columns */}
-          {footerLinks.map((column, idx) => (
-            <div key={idx}>
-              <h4 className="font-bold text-white mb-6 tracking-wide">{column.title}</h4>
-              <ul className="space-y-4 text-sm text-slate-400">
-                {column.links.map((link, linkIdx) => (
-                  <li key={linkIdx}>
-                    <a href="#" className="hover:text-purple-400 transition-colors duration-200 flex items-center gap-2 group">
-                      <span className="w-1 h-1 rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+             {/* Server Status Widget */}
+            <div className="p-4 rounded border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/5 backdrop-blur-sm">
+               <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-2">
+                 <span>Server Load</span>
+                 <div className="flex gap-0.5">
+                    <span className="w-0.5 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <span className="w-0.5 h-2 bg-green-500 rounded-full animate-pulse delay-75" />
+                    <span className="w-0.5 h-2 bg-green-500 rounded-full animate-pulse delay-100" />
+                 </div>
+               </div>
+               <div className="w-full bg-stone-200 dark:bg-white/10 h-1 rounded-full overflow-hidden">
+                   <div className="bg-emerald-500 h-full w-[42%] animate-pulse" />
+               </div>
+               <div className="flex justify-between mt-2 text-[10px] font-mono text-slate-500">
+                   <span>CPU: 42%</span>
+                   <span>RAM: 12GB</span>
+               </div>
             </div>
-          ))}
-        </div>
 
-        {/* --- Bottom Bar --- */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-600 uppercase tracking-widest">
-          <p>© {currentYear} Bezalel Technologies.</p>
-          <div className="flex gap-8">
-            <span>Nairobi, Kenya</span>
-            <span>Est. {currentYear}</span>
           </div>
         </div>
 
+        {/* --- BOTTOM: UTILITY BAR --- */}
+        <div className="pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20 pb-10">
+          
+          <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">
+            © {currentYear} Bezalel Technologies. // All Rights Reserved.
+          </p>
+
+          <div className="flex items-center gap-4">
+             {/* Social Array */}
+            {[
+                { icon: <FaInstagram />, href: "https://instagram.com/leyian_.b" },
+                { icon: <FaXTwitter />, href: "https://twitter.com/LeyianB" },
+                { icon: <FaTiktok />, href: "https://www.tiktok.com/@leyian_.b" },
+                { icon: <FaGithub />, href: "https://github.com/LeyianB24" },
+                { icon: <FaWhatsapp />, href: "https://wa.me/254796157265" },
+            ].map((social, idx) => (
+              <a
+                key={idx}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-stone-400 hover:text-emerald-500 hover:scale-110 transition-all duration-300"
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
+
+          <button 
+            onClick={scrollToTop} 
+            className="group flex items-center gap-2 text-[10px] font-mono font-bold text-foreground uppercase tracking-widest hover:text-emerald-500 transition-colors"
+          >
+            Return to Top 
+            <span className="p-1 bg-stone-100 dark:bg-white/10 rounded group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                <FiArrowUp />
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* --- INFINITE TICKER --- */}
+      <div className="border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] py-2 overflow-hidden">
+         <motion.div 
+            className="flex whitespace-nowrap gap-8 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]"
+            animate={{ x: [0, -1000] }}
+            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+         >
+            {/* Repeated text for marquee effect */}
+            {Array(10).fill(" // Architecting the Future // Logic First // Scale Infinite").map((item, i) => (
+                <span key={i}>{item}</span>
+            ))}
+         </motion.div>
       </div>
     </footer>
   );

@@ -1,11 +1,11 @@
-/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { motion, useMotionValue, useMotionTemplate, easeOut } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import { FiArrowRight, FiCpu, FiTerminal } from "react-icons/fi";
 import AnimatedCircuitBoard from "./AnimatedCircuitBoard";
 import FloatingTechIcons from "./FloatingTechIcons";
+import { jellyPresets } from "@/lib/jelly-springs";
 
 export default function Hero() {
   // --- 1. Spotlight Logic (High Performance) ---
@@ -18,22 +18,24 @@ export default function Hero() {
     mouseY.set(clientY - top);
   }
 
-  // --- 2. Animations Configuration ---
+  // --- 2. Jelly Animations Configuration ---
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.3 },
+      transition: { staggerChildren: 0.08, delayChildren: 0.2 },
     },
   };
 
+  // Jelly drop entrance for each item
   const itemVariants = {
-    hidden: { y: 30, opacity: 0, filter: "blur(8px)" },
+    hidden: { y: 40, opacity: 0, scaleY: 0.6, scaleX: 1.15 },
     visible: { 
       y: 0, 
       opacity: 1, 
-      filter: "blur(0px)",
-      transition: { duration: 0.8, ease: easeOut } 
+      scaleY: 1,
+      scaleX: 1,
+      transition: jellyPresets.soft
     },
   };
 
@@ -72,10 +74,10 @@ export default function Hero() {
         }}
       />
 
-      {/* --- LAYER 3: AMBIENT REACTOR GLOW --- */}
-      <div className="absolute top-[-20%] left-[10%] w-[600px] h-[600px] bg-emerald-500/20 blur-[150px] rounded-full pointer-events-none mix-blend-screen z-0 animate-pulse-slow"></div>
-      <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-amber-600/15 blur-[120px] rounded-full pointer-events-none mix-blend-screen z-0 animate-pulse-slow delay-700"></div>
-      <div className="absolute top-[20%] right-[15%] w-[300px] h-[300px] bg-emerald-600/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen z-0"></div>
+      {/* --- LAYER 3: JELLY BLOB ORBS (Breathing) --- */}
+      <div className="absolute top-[-20%] left-[10%] w-[600px] h-[600px] bg-emerald-500/20 blur-[150px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe"></div>
+      <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-amber-600/15 blur-[120px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-[20%] right-[15%] w-[300px] h-[300px] bg-red-500/10 blur-[100px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe" style={{ animationDelay: '2s' }}></div>
 
       {/* --- HERO CONTENT --- */}
       <motion.div 
@@ -125,23 +127,31 @@ export default function Hero() {
         {/* 4. Action Array */}
         <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full justify-center">
           
-          <a 
+          {/* Primary CTA with jelly-pulse */}
+          <motion.a 
             href="#contact"
-            className="group relative px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_hsl(var(--macos-green)/0.4)] active:scale-[0.98]"
+            className="group relative px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-[14px] overflow-hidden jelly-pulse"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scaleX: 1.1, scaleY: 0.88 }}
+            transition={jellyPresets.bouncy}
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
             <span className="relative flex items-center gap-2">
               Start Building <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
             </span>
-          </a>
+          </motion.a>
 
-          <a 
+          {/* Secondary CTA with jelly hover */}
+          <motion.a 
             href="#arsenal"
-            className="px-8 py-4 rounded-lg border border-input glass-card text-foreground font-medium text-lg hover:bg-accent hover:text-accent-foreground hover:border-macos-green/50 transition-all duration-300 flex items-center gap-3 group"
+            className="px-8 py-4 rounded-[14px] border border-input jelly-glass text-foreground font-medium text-lg flex items-center gap-3 group"
+            whileHover={{ scale: 1.04, y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            transition={jellyPresets.bubble}
           >
              <FiCpu className="text-macos-green group-hover:text-macos-yellow transition-colors" /> 
              View Arsenal
-          </a>
+          </motion.a>
 
         </motion.div>
       </motion.div>

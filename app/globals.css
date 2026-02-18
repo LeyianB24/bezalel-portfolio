@@ -91,7 +91,7 @@
 @layer base {
   * {
     @apply border-border;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
   
   body {
@@ -267,6 +267,152 @@
   .scrollbar-hide {
       -ms-overflow-style: none;
       scrollbar-width: none;
+  }
+
+  /* --- 6. JELLY PHYSICS KEYFRAMES --- */
+  
+  /* Jelly wobble — continuous idle animation for active elements */
+  @keyframes jelly-wobble {
+    0%   { transform: scale(1, 1); }
+    15%  { transform: scale(1.05, 0.95); }
+    30%  { transform: scale(0.96, 1.06); }
+    45%  { transform: scale(1.03, 0.97); }
+    60%  { transform: scale(0.98, 1.02); }
+    75%  { transform: scale(1.01, 0.99); }
+    100% { transform: scale(1, 1); }
+  }
+
+  /* Jelly pulse — for buttons, CTAs, status indicators */
+  @keyframes jelly-pulse {
+    0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.4); }
+    40%  { transform: scale(1.04); box-shadow: 0 0 0 8px rgba(40, 200, 64, 0); }
+    70%  { transform: scale(0.98); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 200, 64, 0); }
+  }
+
+  /* Jelly drop — for items appearing from top */
+  @keyframes jelly-drop {
+    0%   { transform: scaleY(0.6) scaleX(1.15); opacity: 0; }
+    60%  { transform: scaleY(1.08) scaleX(0.95); opacity: 1; }
+    80%  { transform: scaleY(0.97) scaleX(1.02); }
+    100% { transform: scale(1); }
+  }
+
+  /* Squish on click — for buttons */
+  @keyframes jelly-click {
+    0%   { transform: scale(1); }
+    25%  { transform: scaleX(1.1) scaleY(0.9); }
+    50%  { transform: scaleX(0.95) scaleY(1.06); }
+    75%  { transform: scaleX(1.02) scaleY(0.99); }
+    100% { transform: scale(1); }
+  }
+
+  /* Blob morph — organic shape morphing */
+  @keyframes blob-morph {
+    0%   { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+    25%  { border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%; }
+    50%  { border-radius: 55% 45% 60% 40% / 40% 60% 45% 55%; }
+    75%  { border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%; }
+    100% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+  }
+
+  /* Jelly breathing — subtle idle animation */
+  @keyframes jelly-breathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.02); }
+  }
+
+  /* Utility classes */
+  .jelly-wobble  { animation: jelly-wobble 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+  .jelly-pulse   { animation: jelly-pulse 2s infinite; }
+  .jelly-drop    { animation: jelly-drop 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+  .jelly-click   { animation: jelly-click 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+  .jelly-breathe { animation: jelly-breathe 4s ease-in-out infinite; }
+
+  /* --- 7. JELLY GLASS MATERIALS --- */
+  
+  /* JELLY GLASS — Dark Mode (default) */
+  .jelly-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 50%,
+      rgba(40, 200, 64, 0.04) 100%
+    );
+    -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.05);
+    backdrop-filter: blur(20px) saturate(200%) brightness(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.22),
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+      inset 1px 0 0 rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+  }
+
+  /* JELLY GLASS — Light Mode */
+  .light .jelly-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.65) 50%,
+      rgba(40, 200, 64, 0.06) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+  }
+
+  /* JELLY GLASS — Green variant */
+  .jelly-glass-green {
+    background: linear-gradient(135deg,
+      rgba(40, 200, 64, 0.12) 0%,
+      rgba(40, 200, 64, 0.04) 100%
+    );
+    border: 1px solid rgba(40, 200, 64, 0.25);
+    box-shadow: 0 8px 32px rgba(40, 200, 64, 0.12),
+                inset 0 1px 0 rgba(40, 200, 64, 0.2);
+  }
+
+  /* JELLY GLASS — Yellow variant */
+  .jelly-glass-yellow {
+    background: linear-gradient(135deg,
+      rgba(255, 189, 46, 0.12) 0%,
+      rgba(255, 189, 46, 0.04) 100%
+    );
+    border: 1px solid rgba(255, 189, 46, 0.25);
+    box-shadow: 0 8px 32px rgba(255, 189, 46, 0.12),
+                inset 0 1px 0 rgba(255, 189, 46, 0.2);
+  }
+
+  /* JELLY GLASS — Red variant */
+  .jelly-glass-red {
+    background: linear-gradient(135deg,
+      rgba(255, 95, 87, 0.12) 0%,
+      rgba(255, 95, 87, 0.04) 100%
+    );
+    border: 1px solid rgba(255, 95, 87, 0.25);
+    box-shadow: 0 8px 32px rgba(255, 95, 87, 0.12),
+                inset 0 1px 0 rgba(255, 95, 87, 0.2);
+  }
+
+  /* JELLY BLOB — organic rounded shape with no hard corners */
+  .jelly-blob {
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+    animation: blob-morph 8s ease-in-out infinite;
+  }
+
+  /* Jelly focus ring */
+  :focus-visible {
+    outline: 2px solid hsl(var(--macos-green));
+    outline-offset: 3px;
+    animation: jelly-pulse 1.5s ease-in-out;
   }
 }
 

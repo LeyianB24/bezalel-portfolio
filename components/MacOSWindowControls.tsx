@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { jellyPresets } from "@/lib/jelly-springs";
 
 interface MacOSWindowControlsProps {
   onClose?: () => void;
@@ -17,6 +18,7 @@ export default function MacOSWindowControls({
   className = "",
 }: MacOSWindowControlsProps) {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
+  const [isGroupHovered, setIsGroupHovered] = useState(false);
 
   const buttons = [
     {
@@ -46,12 +48,29 @@ export default function MacOSWindowControls({
   ];
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      {buttons.map((button) => (
+    <div 
+      className={`flex items-center gap-2 ${className}`}
+      onMouseEnter={() => setIsGroupHovered(true)}
+      onMouseLeave={() => setIsGroupHovered(false)}
+    >
+      {buttons.map((button, index) => (
         <div key={button.id} className="relative group">
           <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            // Jelly breathing pulse when idle
+            animate={
+              isGroupHovered
+                ? { scale: [1, 1.05, 1] }
+                : { scale: 1 }
+            }
+            transition={
+              isGroupHovered
+                ? { ...jellyPresets.wave, delay: index * 0.05, repeat: Infinity, repeatDelay: 2 }
+                : jellyPresets.snap
+            }
+            // Jelly bounce on hover
+            whileHover={{ scale: 1.3 }}
+            // Jelly squish on tap
+            whileTap={{ scaleX: 1.2, scaleY: 0.7 }}
             onClick={button.onClick}
             onMouseEnter={() => setHoveredButton(button.id)}
             onMouseLeave={() => setHoveredButton(null)}
@@ -76,13 +95,15 @@ export default function MacOSWindowControls({
             </span>
           </motion.button>
 
-          {/* Tooltip */}
+          {/* Tooltip with jelly entrance */}
           {hoveredButton === button.id && (
             <motion.div
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: -5, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={jellyPresets.bouncy}
               className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 
-                         bg-black/80 text-white text-[10px] rounded whitespace-nowrap
+                         bg-black/80 text-white text-[10px] rounded-[10px] whitespace-nowrap
                          pointer-events-none z-50"
             >
               {button.tooltip}

@@ -64,7 +64,7 @@ export default function MacOSWindowControls({
             }
             transition={
               isGroupHovered
-                ? { ...jellyPresets.wave, delay: index * 0.05, repeat: Infinity, repeatDelay: 2 }
+                ? { duration: 1.5, ease: "easeInOut", delay: index * 0.05, repeat: Infinity, repeatDelay: 2 }
                 : jellyPresets.snap
             }
             // Jelly bounce on hover

@@ -6,6 +6,7 @@ import { ReactLenis } from "@studio-freight/react-lenis";
 import { Toaster } from "sonner";
 import NextTopLoader from "nextjs-toploader";
 import { TooltipProvider } from "@radix-ui/react-tooltip"; // Assuming you use Radix/Shadcn
+import { SessionProvider } from "next-auth/react";
 
 // --- SYSTEM BOOT EFFECT ---
 const SystemBoot = () => {
@@ -22,12 +23,13 @@ const SystemBoot = () => {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider 
-      attribute="class" 
-      defaultTheme="dark" 
-      enableSystem={true} 
-      disableTransitionOnChange
-    >
+    <SessionProvider>
+      <ThemeProvider 
+        attribute="class" 
+        defaultTheme="dark" 
+        enableSystem={true} 
+        disableTransitionOnChange
+      >
       {/* 1. UI PRIMITIVE LAYER 
           Wraps app to ensure tooltips (Shadcn/Radix) function instantly without lag 
       */}
@@ -65,7 +67,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         >
           
           <SystemBoot />
-          {children}
+          {children as any}
 
           {/* 4. HOLOGRAPHIC HUD NOTIFICATIONS 
               Styled to look like "System Logs" or "Tactical Alerts"
@@ -105,5 +107,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         </ReactLenis>
       </TooltipProvider>
     </ThemeProvider>
+    </SessionProvider>
   );
 }

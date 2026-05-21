@@ -163,7 +163,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   }
   
-  /* Ultra Glass - Advanced blur with saturation */
+  /* Ultra Glass - Elite blur with saturation and inset depth */
   .glass-ultra {
     background: rgba(255, 255, 255, 0.05);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -175,16 +175,17 @@
   }
   
   .dark .glass-ultra {
-    background: rgba(30, 30, 30, 0.4);
+    background: rgba(15, 15, 15, 0.5); /* Deep dark ultra glass */
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 
-      0 8px 32px 0 rgba(0, 0, 0, 0.4),
+      0 8px 32px 0 rgba(0, 0, 0, 0.5),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   }
   
-  /* Glass Reflection Effect */
+  /* Glass Reflection Effect - Premium lens-like gloss */
   .glass-reflection {
     position: relative;
+    overflow: hidden;
   }
   
   .glass-reflection::before {
@@ -193,12 +194,42 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 30%;
+    height: 35%;
     background: linear-gradient(180deg, 
       rgba(255, 255, 255, 0.15) 0%, 
       transparent 100%);
     pointer-events: none;
     border-radius: inherit;
+    z-index: 1;
+  }
+
+  /* --- NEUMORPHISM ELEMENTS --- */
+  .neuro-card {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 
+      20px 20px 60px #d9d9d9,
+      -20px -20px 60px #ffffff;
+  }
+
+  .dark .neuro-card {
+    background: linear-gradient(145deg, #232323, #1a1a1a);
+    box-shadow: 
+      10px 10px 30px #0b0b0b,
+      -10px -10px 30px #2d2d2d;
+  }
+
+  .neuro-inset {
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    box-shadow: 
+      inset 20px 20px 60px #d9d9d9,
+      inset -20px -20px 60px #ffffff;
+  }
+
+  .dark .neuro-inset {
+    background: linear-gradient(145deg, #1a1a1a, #232323);
+    box-shadow: 
+      inset 10px 10px 30px #0b0b0b,
+      inset -10px -10px 30px #2d2d2d;
   }
 
   /* Holographic Glass (Reflective Edges with macOS green) */

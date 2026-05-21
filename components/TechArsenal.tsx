@@ -4,6 +4,7 @@
 
 import { memo } from "react";
 import { motion, Variants } from "framer-motion";
+import TechGlobe from "./TechGlobe";
 import {
   // Frontend
   SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiRedux, SiVuedotjs, SiSvelte, SiGraphql,
@@ -187,20 +188,15 @@ export default function TechArsenal() {
   return (
     <section id="arsenal" className="relative overflow-hidden pt-32 pb-32 px-4 bg-background transition-colors duration-500 min-h-screen">
       
-      {/* 1. BACKGROUND LAYER (Code + Grid) */}
-      <CodeDecoration />
+      {/* 1. BACKGROUND LAYER (3D Tech Globe + Noise) */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-30 dark:opacity-20 pointer-events-none">
+        <TechGlobe />
+      </div>
       
       <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
 
-      {/* 2. SIDEBAR (Line Numbers) */}
-      <aside className="absolute left-0 top-0 bottom-8 hidden w-16 border-r border-border bg-background/30 backdrop-blur-[2px] md:flex flex-col items-end pr-4 pt-32 text-xs font-mono text-muted-foreground/40 select-none z-10">
-        {Array.from({ length: 40 }).map((_, i) => (
-          <div key={i} className="leading-8">{i + 100}</div>
-        ))}
-      </aside>
-
-      {/* 3. MAIN CONTENT */}
-      <div className="relative z-10 mx-auto max-w-7xl md:pl-20">
+      {/* 2. MAIN CONTENT */}
+      <div className="relative z-10 mx-auto max-w-7xl">
         
         {/* Header */}
         <header className="mb-24">

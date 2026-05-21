@@ -3,7 +3,7 @@
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FiArrowUp } from "react-icons/fi";
-import MenuBar from "./MenuBar";
+import IDEWrapper from "./IDEWrapper";
 import UnifiedBackground from "./UnifiedBackground";
 import Footer from "./Footer";
 import CommandPalette from "./CommandPalette";
@@ -19,6 +19,7 @@ interface PageLayoutProps {
   showCommandPalette?: boolean;
   showCursorTrail?: boolean;
   className?: string;
+  title?: string;
 }
 
 export default function PageLayout({
@@ -30,6 +31,7 @@ export default function PageLayout({
   showCommandPalette = true,
   showCursorTrail = true,
   className = '',
+  title,
 }: PageLayoutProps) {
   
   // --- Scroll Progress Bar Logic ---
@@ -65,7 +67,7 @@ export default function PageLayout({
       {/* --- SCROLL PROGRESS BAR --- */}
       {showScrollProgress && (
         <motion.div
-          className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[100] shadow-[0_0_15px_hsl(var(--macos-green)/0.7)]"
+          className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[110] shadow-[0_0_15px_hsl(var(--macos-green)/0.7)]"
           style={{ scaleX }}
         />
       )}
@@ -73,21 +75,19 @@ export default function PageLayout({
       {/* --- UNIFIED BACKGROUND SYSTEM --- */}
       <UnifiedBackground variant={variant} />
 
-      {/* --- PAGE CONTENT --- */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 flex flex-col min-h-screen"
-      >
-        <MenuBar />
-        
-        <main className="flex-grow">
+      {/* --- PREMIUM IDE WRAPPER --- */}
+      <IDEWrapper title={title}>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="relative flex flex-col min-h-full"
+        >
           {children}
-        </main>
 
-        {showFooter && <Footer />}
-      </motion.div>
+          {showFooter && <div className="mt-auto"><Footer /></div>}
+        </motion.div>
+      </IDEWrapper>
 
       {/* --- INTERACTIVE FEATURES --- */}
       {showCommandPalette && <CommandPalette />}

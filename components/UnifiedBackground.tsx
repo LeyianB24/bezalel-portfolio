@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import ParticleField from "./ParticleField";
 
 interface UnifiedBackgroundProps {
   variant?: 'default' | 'subtle' | 'vibrant' | 'cyber';
@@ -64,6 +65,7 @@ export default function UnifiedBackground({
 
   return (
     <>
+      <ParticleField />
       {/* --- 1. ENGINEERING GRID --- */}
       {showGrid && (
         <div className={`fixed inset-0 z-0 pointer-events-none ${config.gridOpacity} bg-grid-pattern bg-grid-md mask-radial-faded`}></div>

@@ -1,11 +1,11 @@
 "use client";
 
-import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FiArrowUp } from "react-icons/fi";
 
 // Components
-import MenuBar from "@/components/MenuBar";
+import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import TechArsenal from "@/components/TechArsenal";
@@ -15,28 +15,18 @@ import Footer from "@/components/Footer";
 import CommandPalette from "@/components/CommandPalette";
 import CursorTrail from "@/components/CursorTrail";
 import UnifiedBackground from "@/components/UnifiedBackground";
-import { jellyPresets } from "@/lib/jelly-springs";
+import PageTransition from "@/components/PageTransition";
+
+const jellyPresets = {
+  bouncy: { type: "spring" as const, stiffness: 400, damping: 10 }
+};
 
 export default function Home() {
-  // --- 1. Scroll Progress Bar Logic ---
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  // --- 2. Scroll-to-Top Logic ---
   const [showTopBtn, setShowTopBtn] = useState(false);
-  
+
   useEffect(() => {
     const handleScroll = () => {
-      // Show button after scrolling down 1 screen height
-      if (window.scrollY > window.innerHeight) {
-        setShowTopBtn(true);
-      } else {
-        setShowTopBtn(false);
-      }
+      setShowTopBtn(window.scrollY > 400);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -47,37 +37,26 @@ export default function Home() {
   };
 
   return (
-    // Removed hardcoded selection colors (Globals.css handles the Cyan selection now)
     <div className="min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-hidden">
-      
-      {/* --- 1. GLOBAL SCROLL LASER (macOS Green Glow) --- */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[100] shadow-[0_0_15px_hsl(var(--macos-green)/0.7)]"
-        style={{ scaleX }}
-      />
-
       {/* --- 2. UNIFIED BACKGROUND SYSTEM --- */}
       <UnifiedBackground variant="default" />
 
       {/* --- 5. PAGE CONTENT --- */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 flex flex-col"
-      >
-        <MenuBar />
-        
-        <main className="flex-grow">
-          <section id="home"><Hero /></section>
-          <section id="about"><About /></section>
-          <section id="arsenal"><TechArsenal /></section>
-          <section id="pricing"><Pricing /></section>
-          <section id="contact"><Contact /></section>
-        </main>
-        
-        <Footer />
-      </motion.div>
+      <PageTransition>
+        <div className="relative z-10 flex flex-col">
+          <Header />
+          
+          <main className="flex-grow">
+            <section id="home"><Hero /></section>
+            <section id="about"><About /></section>
+            <section id="arsenal"><TechArsenal /></section>
+            <section id="pricing"><Pricing /></section>
+            <section id="contact"><Contact /></section>
+          </main>
+          
+          <Footer />
+        </div>
+      </PageTransition>
 
       {/* --- INTERACTIVE FEATURES --- */}
       <CommandPalette />
@@ -102,7 +81,6 @@ export default function Home() {
                        transition-all duration-300 group"
             aria-label="Scroll to top"
           >
-            {/* Swapping arrow for a more technical looking up-arrow or keeping sleek arrow */}
             <FiArrowUp className="text-xl group-hover:-translate-y-1 transition-transform duration-300" />
           </motion.button>
         )}

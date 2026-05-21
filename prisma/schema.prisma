@@ -1,0 +1,245 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── AUTH & USERS ───────────────────────────────────────────────
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String?
+  image           String?
+  password        String?   // Added for credentials-based login
+  role            Role      @default(CUSTOMER)
+  emailVerified   DateTime?
+  accounts        Account[]
+  sessions        Session[]
+  applications    JobApplication[]
+  orders          Order[]
+  projectRequests ProjectRequest[]
+  messages        ContactMessage[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum Role {
+  ADMIN
+  CUSTOMER
+  APPLICANT
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── CAREERS ────────────────────────────────────────────────────
+
+model Job {
+  id           String           @id @default(cuid())
+  title        String
+  department   String
+  location     String
+  type         JobType
+  description  String           @db.Text
+  requirements String[]
+  isOpen       Boolean          @default(true)
+  applications JobApplication[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  REMOTE
+  INTERNSHIP
+}
+
+model JobApplication {
+  id        String        @id @default(cuid())
+  userId    String?
+  jobId     String
+  name      String
+  email     String
+  phone     String?
+  cvUrl     String
+  coverNote String?       @db.Text
+  status    AppStatus     @default(PENDING)
+  adminNote String?
+  user      User?         @relation(fields: [userId], references: [id])
+  job       Job           @relation(fields: [jobId], references: [id])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+enum AppStatus {
+  PENDING
+  REVIEWED
+  SHORTLISTED
+  INTERVIEWED
+  OFFERED
+  REJECTED
+}
+
+// ─── CLIENT PROJECT PIPELINE ────────────────────────────────────
+
+model ProjectRequest {
+  id          String        @id @default(cuid())
+  userId      String?
+  name        String
+  email       String
+  company     String?
+  title       String
+  description String        @db.Text
+  category    ProjectCategory
+  budget      Float?
+  timeline    String?
+  attachmentUrl String?
+  status      ProjectStatus @default(NEW)
+  adminNote   String?
+  quotedPrice Float?
+  user        User?         @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum ProjectCategory {
+  WEB_APP
+  MOBILE_APP
+  SYSTEM_INTEGRATION
+  UI_UX_DESIGN
+  CONSULTING
+  OTHER
+}
+
+enum ProjectStatus {
+  NEW
+  IN_REVIEW
+  QUOTED
+  ACCEPTED
+  IN_PROGRESS
+  DELIVERED
+  CANCELLED
+}
+
+// ─── E-COMMERCE ─────────────────────────────────────────────────
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  description String      @db.Text
+  price       Float
+  comparePrice Float?
+  images      String[]
+  stock       Int         @default(0)
+  sku         String?     @unique
+  isActive    Boolean     @default(true)
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?
+  email           String
+  name            String
+  phone           String?
+  shippingAddress Json
+  total           Float
+  status          OrderStatus @default(PENDING)
+  paymentMethod   PaymentMethod
+  paymentRef      String?
+  mpesaRef        String?
+  stripeRef       String?
+  items           OrderItem[]
+  user            User?       @relation(fields: [userId], references: [id])
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PAYMENT_PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  MPESA
+  STRIPE
+  CASH_ON_DELIVERY
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+// ─── CONTACT ────────────────────────────────────────────────────
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  userId    String?
+  name      String
+  email     String
+  subject   String
+  message   String        @db.Text
+  status    MessageStatus @default(UNREAD)
+  user      User?         @relation(fields: [userId], references: [id])
+  createdAt DateTime      @default(now())
+}
+
+enum MessageStatus {
+  UNREAD
+  READ
+  REPLIED
+  ARCHIVED
+}

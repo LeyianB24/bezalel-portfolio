@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiSend, FiMail, FiMapPin, FiMessageCircle, FiTerminal, FiActivity, FiArrowRight } from "react-icons/fi";
+import Link from "next/link";
 
 // =====================
 // DATA & TYPES
@@ -117,6 +118,25 @@ export default function ContactTerminal() {
                   action={() => {}}
                 />
               </div>
+
+              {/* CTA Banner — Project Pipeline */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="mt-8 p-4 border border-macos-green/20 bg-macos-green/5 rounded-lg"
+              >
+                <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
+                  Have a detailed brief, wireframes, or technical specs? Submit directly to our engineering pipeline for a formal quote.
+                </p>
+                <Link
+                  href="/projects/request"
+                  className="inline-flex items-center gap-2 text-xs font-bold font-mono uppercase tracking-wider text-macos-green hover:underline group"
+                >
+                  Initiate Project Brief <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
             </motion.div>
           </div>
 

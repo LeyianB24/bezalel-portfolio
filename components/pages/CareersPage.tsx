@@ -7,223 +7,220 @@ import {
   MessageCircle, Terminal, Cpu, 
   Globe, ChevronRight, X 
 } from "lucide-react";
+import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 
 // =====================
-// ENHANCED DATA STRUCTURE
+// TYPE DEFINITION
 // =====================
 
 type Job = {
   id: string;
   title: string;
-  department: "Engineering" | "Design" | "Product";
+  department: string;
   location: string;
   type: string;
-  salaryRange?: string; // Future-proofing
+  salaryRange?: string;
   description: string;
-  stack: string[]; // Visual tags
+  stack?: string[];
   requirements: string[];
 };
 
-const openPositions: Job[] = [
-  {
-    id: "fe-01",
-    title: "Senior Frontend Architect",
-    department: "Engineering",
-    location: "Remote (EMEA)",
-    type: "Full-time",
-    salaryRange: "$60k - $90k",
-    description: "Own the client-side architecture. We need someone who understands the React reconciliation process deeper than the documentation.",
-    stack: ["React", "Next.js 14", "TypeScript", "Zustand", "Tailwind"],
-    requirements: [
-      "5+ years exp. with React ecosystem",
-      "Deep understanding of browser rendering & performance",
-      "Ability to architect scalable design systems"
-    ]
-  },
-  {
-    id: "be-01",
-    title: "Backend Systems Engineer",
-    department: "Engineering",
-    location: "Nairobi HQ / Hybrid",
-    type: "Full-time",
-    description: "Build the engine room. Design scalable microservices and ensure our APIs are robust enough for bank-grade integrations.",
-    stack: ["Python", "FastAPI", "PostgreSQL", "Docker", "Redis"],
-    requirements: [
-      "Proficiency in Python or Node.js",
-      "Experience designing RESTful & GraphQL APIs",
-      "Understanding of distributed systems (RabbitMQ/Kafka)"
-    ]
-  },
-  {
-    id: "ui-01",
-    title: "Technical UI/UX Designer",
-    department: "Design",
-    location: "Remote",
-    type: "Contract",
-    description: "Bridge the gap between aesthetic beauty and technical feasibility. Create design systems that engineers love to implement.",
-    stack: ["Figma", "Auto-Layout", "Design Tokens", "CSS/HTML"],
-    requirements: [
-      "Portfolio showcasing complex web apps",
-      "Mastery of Figma variables & component props",
-      "Basic understanding of frontend constraints"
-    ]
+interface CareersPageProps {
+  positions: Job[];
+}
+
+function formatJobType(type: string) {
+  switch (type) {
+    case "FULL_TIME":
+      return "Full-time";
+    case "PART_TIME":
+      return "Part-time";
+    case "CONTRACT":
+      return "Contract";
+    case "REMOTE":
+      return "Remote";
+    case "INTERNSHIP":
+      return "Internship";
+    default:
+      return type.replace("_", "-").toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
   }
-];
+}
+
+function getJobStack(job: Job) {
+  if (job.stack && Array.isArray(job.stack) && job.stack.length > 0) {
+    return job.stack;
+  }
+  
+  const title = job.title.toLowerCase();
+  const dept = job.department.toLowerCase();
+  
+  if (title.includes("frontend") || title.includes("react") || title.includes("ui")) {
+    return ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion"];
+  }
+  if (title.includes("backend") || title.includes("node") || title.includes("systems") || title.includes("api")) {
+    return ["Node.js", "PostgreSQL", "Prisma", "TypeScript", "Docker"];
+  }
+  if (dept.includes("design") || title.includes("designer") || title.includes("ux")) {
+    return ["Figma", "Auto-Layout", "Design Tokens", "CSS/HTML"];
+  }
+  if (dept.includes("product") || title.includes("manager") || title.includes("owner")) {
+    return ["Agile", "Product Strategy", "Roadmapping", "Metrics"];
+  }
+  
+  return ["TypeScript", "Next.js", "PostgreSQL", "TailwindCSS"];
+}
 
 // =====================
 // MAIN COMPONENT
 // =====================
 
-export default function CareersPage() {
+export default function CareersPage({ positions = [] }: CareersPageProps) {
   const [filter, setFilter] = useState<string>("All");
   const [showProcess, setShowProcess] = useState(false);
 
+  // Extract unique departments dynamically for the tabs
+  const departments = ["All", ...Array.from(new Set(positions.map(job => job.department)))];
+
   const filteredJobs = filter === "All" 
-    ? openPositions 
-    : openPositions.filter(job => job.department === filter);
+    ? positions 
+    : positions.filter(job => job.department === filter);
 
   return (
     <PageLayout variant="subtle">
-    <main className="min-h-screen pt-32 pb-20 relative overflow-hidden font-sans selection:bg-purple-500/30">
-      
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/20 blur-[120px] rounded-full pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <main className="min-h-screen pt-32 pb-20 relative overflow-hidden font-sans selection:bg-purple-500/30">
         
-        {/* --- HEADER SECTION --- */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 border-b border-white/10 pb-12">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <div className="flex items-center gap-2 text-purple-400 mb-4 font-mono text-xs tracking-widest uppercase">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-              </span>
-              System Status: Hiring
-            </div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white mb-2">
-              JOIN THE <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">VANGUARD.</span>
-            </h1>
-            <p className="text-slate-400 max-w-lg text-lg">
-              We don&apos;t hide behind middle management. We build software that matters.
-            </p>
-          </motion.div>
+        {/* Dynamic Background */}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/20 blur-[120px] rounded-full pointer-events-none" />
 
-          {/* Header Stats / Filters */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-col items-start md:items-end gap-4"
-          >
-            <button 
-              onClick={() => setShowProcess(true)}
-              className="text-sm font-bold text-white underline underline-offset-4 decoration-purple-500 hover:text-purple-400 transition-colors"
-            >
-              View Hiring Protocol
-            </button>
-            <div className="flex p-1 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm">
-              {["All", "Engineering", "Design"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setFilter(tab)}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                    filter === tab 
-                      ? "bg-purple-600 text-white shadow-lg" 
-                      : "text-slate-400 hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* --- HIRING PROCESS MODAL (VISUALIZATION) --- */}
-        <AnimatePresence>
-          {showProcess && (
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          
+          {/* --- HEADER SECTION --- */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 border-b border-white/10 pb-12">
             <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-              onClick={() => setShowProcess(false)}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
             >
-              <motion.div 
-                initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                className="bg-neutral-900 border border-white/10 p-8 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-2xl font-bold text-white">The Protocol</h3>
-                  <button onClick={() => setShowProcess(false)} title="Close Modal"><X className="text-slate-500 hover:text-white" /></button>
-                </div>
-                
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-slate-400 mb-6">
-                    Our process is designed to respect your time while ensuring technical excellence. We skip the generic HR screening and go straight to engineering discussions.
-                  </p>
-                  
-                  {/* DIAGRAM TRIGGER */}
-                  <div className="my-8 p-4 bg-black/30 rounded-lg border border-dashed border-white/20 flex flex-col items-center justify-center text-center">
-                     
-                     <p className="text-xs text-slate-500 mt-2 font-mono">Figure 1.1: Standard Execution Pipeline</p>
-                  </div>
+              <div className="flex items-center gap-2 text-purple-400 mb-4 font-mono text-xs tracking-widest uppercase">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                </span>
+                System Status: Hiring
+              </div>
+              <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white mb-2">
+                JOIN THE <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">VANGUARD.</span>
+              </h1>
+              <p className="text-slate-400 max-w-lg text-lg">
+                We don&apos;t hide behind middle management. We build software that matters.
+              </p>
+            </motion.div>
 
-                  <div className="grid md:grid-cols-3 gap-4 mt-8">
-                     <div className="p-4 bg-white/5 rounded border border-white/10">
-                        <div className="text-purple-400 font-bold mb-1">01. Async Code</div>
-                        <p className="text-xs text-slate-400">Show us your code, not just your CV. We review GitHub/Portfolios first.</p>
-                     </div>
-                     <div className="p-4 bg-white/5 rounded border border-white/10">
-                        <div className="text-blue-400 font-bold mb-1">02. System Design</div>
-                        <p className="text-xs text-slate-400">Whiteboarding session. No &quot;reverse a linked list&quot; tricks. Real problems.</p>
-                     </div>
-                     <div className="p-4 bg-white/5 rounded border border-white/10">
-                        <div className="text-green-400 font-bold mb-1">03. The Offer</div>
-                        <p className="text-xs text-slate-400">We move fast. Decisions made within 24 hours of final interview.</p>
-                     </div>
+            {/* Header Stats / Filters */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex flex-col items-start md:items-end gap-4"
+            >
+              <button 
+                onClick={() => setShowProcess(true)}
+                className="text-sm font-bold text-white underline underline-offset-4 decoration-purple-500 hover:text-purple-400 transition-colors"
+              >
+                View Hiring Protocol
+              </button>
+              <div className="flex flex-wrap p-1 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm gap-1">
+                {departments.map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setFilter(tab)}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                      filter === tab 
+                        ? "bg-purple-600 text-white shadow-lg" 
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* --- HIRING PROCESS MODAL --- */}
+          <AnimatePresence>
+            {showProcess && (
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
+                onClick={() => setShowProcess(false)}
+              >
+                <motion.div 
+                  initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                  className="bg-neutral-950 border border-white/10 p-8 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-2xl font-bold text-white">The Protocol</h3>
+                    <button onClick={() => setShowProcess(false)} title="Close Modal"><X className="text-slate-500 hover:text-white" /></button>
                   </div>
-                </div>
+                  
+                  <div className="prose prose-invert max-w-none">
+                    <p className="text-slate-400 mb-6 font-sans">
+                      Our process is designed to respect your time while ensuring technical excellence. We skip the generic HR screening and go straight to engineering discussions.
+                    </p>
+                    
+                    <div className="grid md:grid-cols-3 gap-4 mt-8">
+                       <div className="p-4 bg-white/5 rounded border border-white/10">
+                          <div className="text-purple-400 font-bold mb-1 font-mono">01. Async Code</div>
+                          <p className="text-xs text-slate-400">Show us your code, not just your CV. We review GitHub/Portfolios first.</p>
+                       </div>
+                       <div className="p-4 bg-white/5 rounded border border-white/10">
+                          <div className="text-blue-400 font-bold mb-1 font-mono">02. System Design</div>
+                          <p className="text-xs text-slate-400">Whiteboarding session. No &quot;reverse a linked list&quot; tricks. Real architectural problems.</p>
+                       </div>
+                       <div className="p-4 bg-white/5 rounded border border-white/10">
+                          <div className="text-green-400 font-bold mb-1 font-mono">03. The Offer</div>
+                          <p className="text-xs text-slate-400">We move fast. Decisions made within 24 hours of the final interview.</p>
+                       </div>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* --- JOB GRID --- */}
+          <div className="grid gap-6">
+            <AnimatePresence mode="popLayout">
+              {filteredJobs.map((job, index) => (
+                <JobCard key={job.id} job={job} index={index} />
+              ))}
+            </AnimatePresence>
+          </div>
+
+          {/* --- TALENT POOL CALLOUT --- */}
+          {filteredJobs.length === 0 && (
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              className="py-20 text-center border border-dashed border-white/10 rounded-2xl bg-white/5"
+            >
+              <p className="text-slate-400">No open positions in this department right now.</p>
             </motion.div>
           )}
-        </AnimatePresence>
 
-        {/* --- JOB GRID --- */}
-        <div className="grid gap-6">
-          <AnimatePresence mode="popLayout">
-            {filteredJobs.map((job, index) => (
-              <JobCard key={job.id} job={job} index={index} />
-            ))}
-          </AnimatePresence>
+          <div className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+             <div>
+               <h4 className="text-white font-bold mb-1">Don&apos;t see your role?</h4>
+               <p className="text-slate-500 text-sm">We are always scanning for outliers.</p>
+             </div>
+             <a href="mailto:careers@bezalelstudio.com" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors border-b border-transparent hover:border-purple-500 pb-0.5 font-mono text-sm">
+                Initiate Cold Contact <ArrowUpRight className="w-4 h-4" />
+             </a>
+          </div>
+
         </div>
-
-        {/* --- TALENT POOL CALLOUT --- */}
-        {filteredJobs.length === 0 && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            className="py-20 text-center border border-dashed border-white/10 rounded-2xl bg-white/5"
-          >
-            <p className="text-slate-400">No open positions in this department right now.</p>
-          </motion.div>
-        )}
-
-        <div className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
-           <div>
-             <h4 className="text-white font-bold mb-1">Don&apos;t see your role?</h4>
-             <p className="text-slate-500 text-sm">We are always scanning for outliers.</p>
-           </div>
-           <a href="mailto:careers@bezalel.com" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors border-b border-transparent hover:border-purple-500 pb-0.5">
-              Initiate Cold Contact <ArrowUpRight className="w-4 h-4" />
-           </a>
-        </div>
-
-      </div>
-    </main>
+      </main>
     </PageLayout>
   );
 }
@@ -234,6 +231,7 @@ export default function CareersPage() {
 
 function JobCard({ job, index }: { job: Job, index: number }) {
   const [isOpen, setIsOpen] = useState(false);
+  const stack = getJobStack(job);
 
   return (
     <motion.div
@@ -254,20 +252,16 @@ function JobCard({ job, index }: { job: Job, index: number }) {
         className="p-6 md:p-8 cursor-pointer flex flex-col md:flex-row gap-6 md:items-center justify-between"
       >
         <div className="space-y-2">
-          <div className="flex items-center gap-3 text-xs font-mono font-medium tracking-wide">
-            <span className={`px-2 py-0.5 rounded ${
-              job.department === 'Engineering' ? 'bg-blue-500/10 text-blue-400' : 'bg-pink-500/10 text-pink-400'
-            }`}>
+          <div className="flex flex-wrap items-center gap-3 text-xs font-mono font-medium tracking-wide">
+            <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">
               {job.department}
             </span>
-            <span className="text-slate-500 flex items-center gap-1">
-               <Globe className="w-3 h-3" /> {job.location}
+            <span className="text-slate-400 flex items-center gap-1">
+               <Globe className="w-3 h-3 text-slate-500" /> {job.location}
             </span>
-            {job.salaryRange && (
-               <span className="text-emerald-400 hidden sm:inline-block">
-                 {job.salaryRange}
-               </span>
-            )}
+            <span className="text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded bg-blue-500/5">
+              {formatJobType(job.type)}
+            </span>
           </div>
           <h3 className="text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
             {job.title}
@@ -276,12 +270,12 @@ function JobCard({ job, index }: { job: Job, index: number }) {
 
         {/* TECH STACK PREVIEW (Desktop) */}
         <div className="hidden md:flex items-center gap-2">
-           {job.stack.slice(0, 3).map((tech) => (
+           {stack.slice(0, 3).map((tech) => (
              <span key={tech} className="px-2 py-1 rounded bg-black border border-white/10 text-xs text-slate-400 font-mono">
                 {tech}
              </span>
            ))}
-           {job.stack.length > 3 && <span className="text-xs text-slate-600">+{job.stack.length - 3}</span>}
+           {stack.length > 3 && <span className="text-xs text-slate-600 font-mono">+{stack.length - 3}</span>}
            <div className={`ml-4 p-2 rounded-full transition-all duration-300 ${isOpen ? 'rotate-90 bg-white text-black' : 'bg-white/5 text-white'}`}>
              <ChevronRight className="w-5 h-5" />
            </div>
@@ -302,35 +296,37 @@ function JobCard({ job, index }: { job: Job, index: number }) {
               {/* Left: Description & Req */}
               <div className="md:col-span-2 space-y-8">
                 <div>
-                   <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                   <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
                       <Terminal className="w-4 h-4 text-purple-500" /> Mission Brief
                    </h4>
-                   <p className="text-slate-400 leading-relaxed text-lg">
+                   <p className="text-slate-300 leading-relaxed text-lg whitespace-pre-wrap">
                       {job.description}
                    </p>
                 </div>
-                <div>
-                   <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <Cpu className="w-4 h-4 text-purple-500" /> Core Requirements
-                   </h4>
-                   <ul className="space-y-2">
-                      {job.requirements.map((req, i) => (
-                        <li key={i} className="flex items-start gap-3 text-slate-400">
-                          <span className="mt-2 w-1 h-1 bg-purple-500 rounded-full" />
-                          {req}
-                        </li>
-                      ))}
-                   </ul>
-                </div>
+                {job.requirements && job.requirements.length > 0 && (
+                  <div>
+                     <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
+                        <Cpu className="w-4 h-4 text-purple-500" /> Core Requirements
+                     </h4>
+                     <ul className="space-y-2">
+                        {job.requirements.map((req, i) => (
+                          <li key={i} className="flex items-start gap-3 text-slate-400 leading-relaxed">
+                            <span className="mt-2.5 w-1.5 h-1.5 bg-purple-500 rounded-full flex-shrink-0" />
+                            {req}
+                          </li>
+                        ))}
+                     </ul>
+                  </div>
+                )}
               </div>
 
               {/* Right: Stack & Apply */}
               <div className="bg-white/5 rounded-xl p-6 border border-white/10 h-fit">
                 <div className="mb-6">
-                   <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Tech Stack</h4>
+                   <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-mono">Tech Stack</h4>
                    <div className="flex flex-wrap gap-2">
-                      {job.stack.map((t) => (
-                        <span key={t} className="px-2 py-1 bg-black rounded border border-white/10 text-xs text-slate-300">
+                      {stack.map((t) => (
+                        <span key={t} className="px-2 py-1 bg-black rounded border border-white/10 text-xs text-slate-300 font-mono">
                           {t}
                         </span>
                       ))}
@@ -338,9 +334,15 @@ function JobCard({ job, index }: { job: Job, index: number }) {
                 </div>
 
                 <div className="space-y-3">
+                   <Link 
+                     href={`/careers/${job.id}/apply`}
+                     className="w-full flex items-center justify-center gap-2 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-500 transition-colors shadow-lg shadow-purple-900/20"
+                   >
+                     <ArrowUpRight className="w-4 h-4" /> Apply Online
+                   </Link>
                    <a 
-                     href={`mailto:careers@bezalel.com?subject=Application: ${job.title}`}
-                     className="w-full flex items-center justify-center gap-2 py-3 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors"
+                     href={`mailto:careers@bezalelstudio.com?subject=Application: ${job.title}`}
+                     className="w-full flex items-center justify-center gap-2 py-3 bg-white/10 text-white border border-white/10 hover:bg-white/15 font-bold rounded-lg transition-colors"
                    >
                      <Mail className="w-4 h-4" /> Apply via Email
                    </a>
@@ -352,7 +354,7 @@ function JobCard({ job, index }: { job: Job, index: number }) {
                      <MessageCircle className="w-4 h-4" /> WhatsApp HR
                    </a>
                 </div>
-                <p className="text-[10px] text-slate-600 mt-4 text-center">
+                <p className="text-[10px] text-slate-600 mt-4 text-center font-mono">
                    Typical response time: &lt; 24 hours
                 </p>
               </div>

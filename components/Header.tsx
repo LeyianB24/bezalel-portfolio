@@ -12,10 +12,10 @@ import ThemeToggle from "./ThemeToggle";
 // =====================
 
 const NAV_LINKS = [
-  { name: "Services", href: "#services", label: "Capabilities" },
-  { name: "Methodology", href: "#about", label: "Logic Core" },
-  { name: "Arsenal", href: "#arsenal", label: "Tech Stack" },
-  { name: "Pricing", href: "#pricing", label: "Investment" },
+  { name: "Methodology", href: "/#about", label: "Logic Core" },
+  { name: "Arsenal", href: "/#arsenal", label: "Tech Stack" },
+  { name: "Careers", href: "/careers", label: "Join Us" },
+  { name: "Client Portal", href: "/projects/request", label: "Start Project" },
 ];
 
 // Character set for the decryption effect
@@ -82,20 +82,25 @@ export default function Header() {
       setIsScrolled(window.scrollY > 50);
 
       // 2. Detect Active Section
-      const sections = NAV_LINKS.map(link => link.href.substring(1));
+      const pathname = window.location.pathname;
+      if (pathname !== "/") {
+        setActiveSection(pathname);
+        return;
+      }
+
+      const sections = NAV_LINKS.filter(l => l.href.startsWith("/#")).map(link => link.href.substring(2));
       let current = "";
       
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // Active if it occupies the middle of the screen
           if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-            current = "#" + section;
+            current = "/#" + section;
           }
         }
       }
-      setActiveSection(current);
+      if (current) setActiveSection(current);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -108,15 +113,20 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   const handleScrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
     setIsMobileMenuOpen(false);
-    const targetId = href.replace("#", "");
-    const element = document.getElementById(targetId);
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 100; // Offset for floating header
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      setActiveSection(href);
+    
+    // If it's a hash link on the current page, smooth scroll
+    if (href.startsWith("/#") && window.location.pathname === "/") {
+      e.preventDefault();
+      const targetId = href.replace("/#", "");
+      const element = document.getElementById(targetId);
+      if (element) {
+        const y = element.getBoundingClientRect().top + window.scrollY - 100; // Offset for floating header
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        setActiveSection(href);
+      }
     }
+    // Otherwise, let normal Next.js routing take over
   };
 
   return (
@@ -142,7 +152,7 @@ export default function Header() {
           <Link 
             href="/" 
             className="flex items-center gap-3 group z-50 relative" 
-            onClick={(e) => handleScrollToSection(e, "#home")}
+            onClick={(e) => handleScrollToSection(e, "/#home")}
           >
             <div className="relative flex items-center justify-center">
               <Hexagon 
@@ -224,8 +234,8 @@ export default function Header() {
 
             {/* CTA Button */}
             <Link 
-              href="#contact" 
-              onClick={(e) => handleScrollToSection(e, "#contact")}
+              href="/#contact" 
+              onClick={(e) => handleScrollToSection(e, "/#contact")}
               className="group relative px-5 py-2.5 bg-macos-green text-white text-xs font-bold uppercase tracking-wider rounded-lg overflow-hidden shadow-lg shadow-macos-green/20 hover:shadow-macos-green/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
@@ -302,8 +312,8 @@ export default function Header() {
                     className="mt-8"
                 >
                     <Link 
-                        href="#contact"
-                        onClick={(e) => handleScrollToSection(e, "#contact")}
+                        href="/#contact"
+                        onClick={(e) => handleScrollToSection(e, "/#contact")}
                         className="flex items-center justify-center w-full py-5 bg-foreground text-background font-bold text-lg rounded-xl shadow-xl active:scale-95 transition-all"
                     >
                         Initialize Sequence <ArrowRight className="ml-2 w-5 h-5" />

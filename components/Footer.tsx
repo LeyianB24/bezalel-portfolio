@@ -48,19 +48,19 @@ export default function Footer() {
 
   const footerLinks = [
     { 
-      title: "Directory: /Studio", 
+      title: "Directory: /Platform", 
       links: [
-        { name: "The Logic", href: "/studio/logic" },
-        { name: "Process", href: "/studio/process" },
-        { name: "Careers", href: "/studio/careers" }
+        { name: "Careers Portal", href: "/careers" },
+        { name: "Client Portal", href: "/projects/request" },
+        { name: "Admin Terminal", href: "/login" }
       ] 
     },
     { 
       title: "Directory: /Services", 
       links: [
-        { name: "Web Systems", href: "/services/web-systems" },
-        { name: "Mobile Arch", href: "/services/mobile" },
-        { name: "API Infra", href: "/services/api" }
+        { name: "Web Systems", href: "/#services" },
+        { name: "Mobile Arch", href: "/#services" },
+        { name: "API Infra", href: "/#services" }
       ] 
     },
     { 

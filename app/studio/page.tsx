@@ -7,6 +7,7 @@ import {
   ArrowUpRight 
 } from "lucide-react"
 import Link from "next/link"
+import ActivityChart from "./ActivityChart"
 
 export const revalidate = 0 // Disable caching to fetch live data
 
@@ -50,6 +51,18 @@ export default async function StudioPage() {
     { label: "Unread Messages", count: unreadMessagesCount, sub: "Action required", icon: Mail, href: "/studio/messages" },
   ]
 
+  // Mock trailing 7 days data for the visual chart
+  const chartData = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date()
+    d.setDate(d.getDate() - (6 - i))
+    return {
+      name: d.toLocaleDateString("en-US", { weekday: 'short' }),
+      projects: Math.floor(Math.random() * 4) + 1,
+      messages: Math.floor(Math.random() * 8) + 2,
+      jobs: Math.floor(Math.random() * 5)
+    }
+  })
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -81,6 +94,12 @@ export default async function StudioPage() {
             </Link>
           )
         })}
+      </div>
+
+      {/* Analytics Chart */}
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/20 p-6">
+        <h2 className="text-lg font-semibold text-white mb-6">Platform Activity (7 Days)</h2>
+        <ActivityChart data={chartData} />
       </div>
 
       {/* Lists Section */}

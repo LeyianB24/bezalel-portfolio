@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { 
   ArrowLeft, Upload, FileText, CheckCircle2, 
@@ -28,7 +27,6 @@ const TIMELINES = [
 ];
 
 export default function RequestForm() {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");

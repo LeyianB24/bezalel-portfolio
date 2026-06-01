@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiSend, FiMail, FiMapPin, FiMessageCircle, FiTerminal, FiActivity, FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 // =====================
 // DATA & TYPES
@@ -29,6 +31,7 @@ export default function ContactTerminal() {
     service: SERVICES[0], 
     message: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -60,11 +63,40 @@ export default function ContactTerminal() {
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
-  const handleEmailDirect = (e: React.FormEvent) => {
+  const handleEmailDirect = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = `Project Inquiry: ${formState.service.label}`;
-    const body = `Name: ${formState.name}\nEmail: ${formState.email}\n\nInterest: ${formState.service.label}\n\n${formState.message}`;
-    window.location.href = `mailto:bezaleltech@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (!formState.name || !formState.email || !formState.message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          subject: `Project Inquiry: ${formState.service.label}`,
+          message: formState.message,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to send message");
+      
+      toast.success("Message sent successfully. We'll be in touch.");
+      setFormState({ ...formState, message: "" });
+    } catch (error) {
+      toast.error("Failed to send message. Please try WhatsApp or direct email.");
+      
+      // Fallback to mailto if API fails
+      const subject = `Project Inquiry: ${formState.service.label}`;
+      const body = `Name: ${formState.name}\nEmail: ${formState.email}\n\nInterest: ${formState.service.label}\n\n${formState.message}`;
+      window.location.href = `mailto:bezaleltech@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -245,10 +277,15 @@ export default function ContactTerminal() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                     <button 
                       type="submit"
-                      className="group relative flex items-center justify-center gap-3 py-4 bg-foreground text-background font-bold uppercase tracking-wider text-xs rounded hover:opacity-90 transition-all overflow-hidden"
+                      disabled={isSubmitting}
+                      className="group relative flex items-center justify-center gap-3 py-4 bg-foreground text-background font-bold uppercase tracking-wider text-xs rounded hover:opacity-90 transition-all overflow-hidden disabled:opacity-70"
                     >
                       <span className="relative z-10 flex items-center gap-2">
-                        Send Request <FiSend />
+                        {isSubmitting ? (
+                          <><Loader2 className="w-4 h-4 animate-spin" /> Transmitting...</>
+                        ) : (
+                          <>Send Request <FiSend /></>
+                        )}
                       </span>
                       <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
                     </button>

@@ -50,6 +50,8 @@ export default function Footer() {
     { 
       title: "Directory: /Platform", 
       links: [
+        { name: "Portfolio", href: "/portfolio" },
+        { name: "Store", href: "/store" },
         { name: "Careers Portal", href: "/careers" },
         { name: "Client Portal", href: "/projects/request" },
         { name: "Admin Terminal", href: "/login" }
@@ -58,9 +60,9 @@ export default function Footer() {
     { 
       title: "Directory: /Services", 
       links: [
-        { name: "Web Systems", href: "/#services" },
-        { name: "Mobile Arch", href: "/#services" },
-        { name: "API Infra", href: "/#services" }
+        { name: "Web Systems", href: "/#about" },
+        { name: "Mobile Arch", href: "/#about" },
+        { name: "API Infra", href: "/#about" }
       ] 
     },
     { 

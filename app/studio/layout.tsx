@@ -15,7 +15,7 @@ export default async function StudioLayout({
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-950 text-zinc-100 md:flex-row">
-      <Sidebar />
+      <Sidebar user={{ name: session.user?.name, email: session.user?.email, image: session.user?.image }} />
       <main className="flex-1 p-6 md:p-10 overflow-y-auto">
         <div className="mx-auto max-w-7xl">
           {children}

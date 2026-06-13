@@ -13,7 +13,8 @@ import ThemeToggle from "./ThemeToggle";
 
 const NAV_LINKS = [
   { name: "Methodology", href: "/#about", label: "Logic Core" },
-  { name: "Arsenal", href: "/#arsenal", label: "Tech Stack" },
+  { name: "Portfolio", href: "/portfolio", label: "Our Work" },
+  { name: "Store", href: "/store", label: "Buy Now" },
   { name: "Careers", href: "/careers", label: "Join Us" },
   { name: "Client Portal", href: "/projects/request", label: "Start Project" },
 ];

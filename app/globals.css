@@ -39,11 +39,6 @@
     --ring: 44 64% 55%;
 
     --radius: 0.9rem;
-
-    /* Legacy accent aliases remapped to brand gold tones */
-    --macos-green: 44 64% 55%;
-    --macos-yellow: 40 69% 75%;
-    --macos-red: 210 56% 5%;
   }
 
   .dark {
@@ -71,10 +66,6 @@
     --border: 210 18% 20%;
     --input: 210 18% 15%;
     --ring: 44 64% 55%;
-
-    --macos-green: 44 64% 55%;
-    --macos-yellow: 40 69% 75%;
-    --macos-red: 210 56% 5%;
   }
 }
 
@@ -447,8 +438,8 @@
 
   .section-arsenal-bg {
     background-image: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.28)),
-                      url('/BG_images/data.avif');
-    background-size: cover, cover;
+                      url('/BG_images/coporate.avif');
+    background-size: contain, contain;
     background-position: center;
     background-repeat: no-repeat;
   }

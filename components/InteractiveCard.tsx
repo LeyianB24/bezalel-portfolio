@@ -21,18 +21,18 @@ export default function InteractiveCard({ title, description, icon, delay = 0 }:
       transition={{ delay, duration: 0.5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative p-6 rounded-xl glass-card border border-border hover:border-macos-green/50 transition-all duration-300 cursor-pointer overflow-hidden"
+      className="group relative p-6 rounded-xl glass-card border border-border hover:border-accent/50 transition-all duration-300 cursor-pointer overflow-hidden"
     >
       {/* Animated Background Gradient */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-macos-green/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
         transition={{ duration: 0.3 }}
       />
 
       {/* Glow Effect */}
       <motion.div
-        className="absolute -inset-1 bg-macos-green/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+        className="absolute -inset-1 bg-accent/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
         animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
       />
 
@@ -40,7 +40,7 @@ export default function InteractiveCard({ title, description, icon, delay = 0 }:
       <div className="relative z-10">
         {/* Icon */}
         <motion.div
-          className="w-12 h-12 mb-4 text-macos-green flex items-center justify-center"
+          className="w-12 h-12 mb-4 text-accent flex items-center justify-center"
           animate={isHovered ? { scale: 1.1, rotate: 5 } : { scale: 1, rotate: 0 }}
           transition={{ duration: 0.3 }}
         >

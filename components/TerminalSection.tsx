@@ -66,9 +66,9 @@ export default function TerminalSection({
       <div className="flex items-center justify-between px-4 py-2 bg-muted/30 border-b border-border/50">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-macos-red" />
-            <div className="w-2.5 h-2.5 rounded-full bg-macos-yellow" />
-            <div className="w-2.5 h-2.5 rounded-full bg-macos-green" />
+            <div className="w-2.5 h-2.5 rounded-full bg-accent" />
+            <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+            <div className="w-2.5 h-2.5 rounded-full bg-accent-light" />
           </div>
           <span className="text-xs font-mono text-muted-foreground ml-2">
             {title}
@@ -83,8 +83,8 @@ export default function TerminalSection({
       <div className="p-4 font-mono text-sm bg-background/50">
         {/* Command Prompt */}
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-macos-green">➜</span>
-          <span className="text-macos-yellow">~</span>
+          <span className="text-accent">➜</span>
+          <span className="text-amber-500">~</span>
           <span className="text-foreground">{command}</span>
         </div>
 

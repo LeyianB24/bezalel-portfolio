@@ -126,7 +126,7 @@ export default function LiveCodeEditor() {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 bg-macos-green/5 pointer-events-none border-2 border-macos-green/20"
+            className="absolute inset-0 bg-accent/5 pointer-events-none border-2 border-accent/20"
           />
         )}
       </div>

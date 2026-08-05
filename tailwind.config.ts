@@ -65,6 +65,8 @@ const config: Config = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        "accent-light": "hsl(var(--accent-light))",
+        "accent-dark": "hsl(var(--accent-dark))",
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -74,10 +76,6 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         
-        // macOS Accent Colors
-        "macos-green": "hsl(var(--macos-green))",
-        "macos-yellow": "hsl(var(--macos-yellow))",
-        "macos-red": "hsl(var(--macos-red))",
       },
 
       // 4. Engineering Patterns (Grids & Dots)

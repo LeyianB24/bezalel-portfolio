@@ -75,7 +75,7 @@ export default function IDEWrapper({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-[11px] font-mono text-muted-foreground hover:text-macos-green uppercase tracking-wider transition-colors"
+                  className="text-[11px] font-mono text-muted-foreground hover:text-accent uppercase tracking-wider transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -89,7 +89,7 @@ export default function IDEWrapper({
           </div>
           
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none">
-            <div className="w-1.5 h-1.5 rounded-full bg-macos-green/50 animate-pulse" />
+            <div className="w-1.5 h-1.5 rounded-full bg-accent/50 animate-pulse" />
             <span className="text-[10px] font-mono text-muted-foreground/60 truncate max-w-[150px] md:max-w-none uppercase tracking-[0.2em]">
               {title}
             </span>
@@ -97,7 +97,7 @@ export default function IDEWrapper({
 
           <div className="flex items-center gap-4">
              <ThemeToggle />
-             <div className="hidden sm:flex px-2 py-0.5 rounded bg-macos-green/10 border border-macos-green/20 text-[9px] font-mono text-macos-green uppercase tracking-tighter">
+             <div className="hidden sm:flex px-2 py-0.5 rounded bg-accent/10 border border-accent/20 text-[9px] font-mono text-accent uppercase tracking-tighter">
                 v2.0L
              </div>
           </div>
@@ -116,21 +116,21 @@ export default function IDEWrapper({
         </div>
 
         {/* Status Bar */}
-        <footer className="h-6 bg-macos-green/10 border-t border-macos-green/20 flex items-center justify-between px-3 text-[10px] font-mono text-macos-green/80 z-20">
+        <footer className="h-6 bg-accent/10 border-t border-accent/20 flex items-center justify-between px-3 text-[10px] font-mono text-accent/80 z-20">
           <div className="flex items-center gap-4">
              <div className="flex items-center gap-1.5 cursor-pointer hover:bg-white/5 px-2 py-1 transition-colors">
                 <span className="text-sm">⑂</span> main*
              </div>
              <div className="flex items-center gap-2">
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full border border-macos-red/50" /> 0</span>
-                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full border border-macos-yellow/50" /> 0</span>
+                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full border border-rose-500/50" /> 0</span>
+                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full border border-amber-500/50" /> 0</span>
              </div>
           </div>
           <div className="flex items-center gap-4">
              <span className="hidden sm:inline">Spaces: 2</span>
              <span className="hidden sm:inline">UTF-8</span>
-             <div className="flex items-center gap-1.5 px-2 bg-macos-green/20 text-macos-green font-bold">
-                <div className="w-1.5 h-1.5 bg-macos-green rounded-full animate-pulse" />
+             <div className="flex items-center gap-1.5 px-2 bg-accent/20 text-accent font-bold">
+                <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
                 STABLE
              </div>
           </div>
@@ -141,7 +141,7 @@ export default function IDEWrapper({
       </motion.div>
 
       {/* Background Blobs for depth */}
-      <div className="absolute -z-10 w-[500px] h-[500px] bg-macos-green/5 blur-[150px] jelly-blob animate-pulse-slow" />
+      <div className="absolute -z-10 w-[500px] h-[500px] bg-accent/5 blur-[150px] jelly-blob animate-pulse-slow" />
     </div>
   );
 }
@@ -158,7 +158,7 @@ function NavDropdown({ item, pathname }: { item: typeof navigation[0], pathname:
     >
       <motion.button
         className={`text-[11px] font-mono flex items-center gap-1 transition-colors duration-200 uppercase tracking-wider ${
-          isActive ? 'text-macos-green' : 'text-muted-foreground hover:text-macos-green'
+          isActive ? 'text-accent' : 'text-muted-foreground hover:text-accent'
         }`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -188,8 +188,8 @@ function NavDropdown({ item, pathname }: { item: typeof navigation[0], pathname:
                   href={child.href}
                   className={`block px-3 py-1.5 text-[10px] font-mono transition-colors ${
                     pathname === child.href 
-                      ? 'text-macos-green bg-macos-green/10' 
-                      : 'text-muted-foreground hover:text-macos-green hover:bg-white/5'
+                      ? 'text-accent bg-accent/10' 
+                      : 'text-muted-foreground hover:text-accent hover:bg-white/5'
                   }`}
                 >
                   {child.label}

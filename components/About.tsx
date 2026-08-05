@@ -12,10 +12,7 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="relative overflow-hidden px-6 py-24 lg:py-32 section-about-bg">
-      <div className="absolute inset-0 pointer-events-none person-bg person-bg--dark rounded-2xl opacity-40 -z-10" />
-      <div className="absolute inset-0 z-0 opacity-[0.06] bg-[radial-gradient(circle_at_top_left,_hsl(var(--primary)/0.5),_transparent_30%),radial-gradient(circle_at_bottom_right,_hsl(var(--accent)/0.4),_transparent_28%)]" />
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.35)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.35)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,black,transparent)]" />
+    <section id="about" className="relative overflow-hidden px-6 py-24 lg:py-32">
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid items-start gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-24">
@@ -77,7 +74,7 @@ export default function About() {
               {
                 title: "Strategic from day one",
                 text: "We shape the roadmap, reduce friction, and make the technology feel effortless for your users.",
-                accent: "from-amber-500/20 to-orange-500/10",
+                accent: "from-accent-light/20 to-accent/10",
               },
             ].map((item, index) => (
               <div key={item.title} className="premium-card rounded-[24px] p-6 md:p-7">

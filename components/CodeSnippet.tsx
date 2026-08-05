@@ -41,9 +41,9 @@ export default function CodeSnippet({
       <div className="flex items-center justify-between px-4 py-2 bg-muted/30 border-b border-border/50">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-macos-red" />
-            <div className="w-2.5 h-2.5 rounded-full bg-macos-yellow" />
-            <div className="w-2.5 h-2.5 rounded-full bg-macos-green" />
+            <div className="w-2.5 h-2.5 rounded-full bg-destructive/70" />
+            <div className="w-2.5 h-2.5 rounded-full bg-accent-light" />
+            <div className="w-2.5 h-2.5 rounded-full bg-accent" />
           </div>
           <span className="text-xs font-mono text-muted-foreground ml-2">
             {title}
@@ -56,13 +56,13 @@ export default function CodeSnippet({
           whileTap={{ scale: 0.95 }}
           onClick={handleCopy}
           className="flex items-center gap-1.5 px-2 py-1 rounded text-xs font-mono
-                     text-muted-foreground hover:text-macos-green hover:bg-macos-green/10
+                     text-muted-foreground hover:text-accent hover:bg-accent/10
                      transition-colors duration-200"
         >
           {copied ? (
             <>
-              <FiCheck className="text-macos-green" />
-              <span className="text-macos-green">Copied!</span>
+              <FiCheck className="text-accent" />
+              <span className="text-accent">Copied!</span>
             </>
           ) : (
             <>

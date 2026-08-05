@@ -41,9 +41,9 @@ export default function CursorTrail() {
   }, []);
 
   const colors = [
-    "hsl(var(--macos-green))",
-    "hsl(var(--macos-yellow))",
-    "hsl(var(--macos-red))",
+    "hsl(var(--accent))",
+    "hsl(var(--accent-light))",
+    "hsla(var(--accent), 0.6)",
   ];
 
   return (

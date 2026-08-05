@@ -46,10 +46,10 @@ const PROJECT_TREE: FileItem[] = [
           { id: "utils", name: "utils.ts", type: "file", icon: <SiTypescript className="text-[#3178C6]" /> },
         ]
       },
-      { id: "globals", name: "globals.css", type: "file", icon: <FiHash className="text-macos-green" /> },
+      { id: "globals", name: "globals.css", type: "file", icon: <FiHash className="text-accent" /> },
     ]
   },
-  { id: "pkg", name: "package.json", type: "file", icon: <FiCode className="text-macos-yellow" /> },
+  { id: "pkg", name: "package.json", type: "file", icon: <FiCode className="text-accent-light" /> },
   { id: "config", name: "next.config.js", type: "file", icon: <FiSettings className="text-muted-foreground" /> },
 ];
 
@@ -120,13 +120,13 @@ function FileEntry({
         </div>
         
         <span className="text-sm transition-transform group-hover:scale-110">
-          {item.icon ? item.icon : isFolder ? <FiFolder className="text-macos-yellow fill-macos-yellow/20" /> : <FiFile className="text-muted-foreground/60" />}
+          {item.icon ? item.icon : isFolder ? <FiFolder className="text-accent-light fill-accent-light/20" /> : <FiFile className="text-muted-foreground/60" />}
         </span>
 
         <span className="text-[11px] truncate tracking-tight">{item.name}</span>
         
         {!isFolder && (
-           <div className="ml-auto w-1.5 h-1.5 rounded-full bg-macos-green opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_5px_rgba(40,200,64,0.5)]" />
+           <div className="ml-auto w-1.5 h-1.5 rounded-full bg-accent opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_5px_rgba(215,172,78,0.5)]" />
         )}
       </motion.div>
 

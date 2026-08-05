@@ -67,9 +67,7 @@ export default function PageLayout({
       {/* --- SCROLL PROGRESS BAR --- */}
       {showScrollProgress && (
         <motion.div
-          className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[110] shadow-[0_0_15px_hsl(var(--macos-green)/0.7)]"
-          style={{ scaleX }}
-        />
+            className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[110] shadow-[0_0_15px_rgba(215,172,78,0.7)]"
       )}
 
       {/* --- UNIFIED BACKGROUND SYSTEM --- */}
@@ -108,7 +106,7 @@ export default function PageLayout({
               className="fixed bottom-8 right-8 z-50 p-4 rounded-full 
                          jelly-glass 
                          border border-primary/20 text-primary
-                         shadow-lg hover:shadow-[0_0_20px_hsl(var(--macos-green)/0.4)] 
+                         shadow-lg hover:shadow-[0_0_20px_rgba(215,172,78,0.4)] 
                          hover:border-primary hover:bg-primary hover:text-primary-foreground
                          transition-all duration-300 group"
               aria-label="Scroll to top"

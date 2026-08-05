@@ -41,7 +41,7 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative flex flex-col items-center justify-center text-center px-4 h-screen min-h-[800px] overflow-hidden section-hero-bg group selection:bg-[#C9A24B]/30"
+      className="relative flex flex-col items-center justify-center text-center px-4 h-screen min-h-[800px] overflow-hidden section-hero-bg group selection:bg-accent/30"
       onMouseMove={handleMouseMove}
     >
       
@@ -87,8 +87,8 @@ export default function Hero() {
               System Online // v2.0
             </span>
             <span className="relative flex h-1.5 w-1.5 ml-1">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-macos-green opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-macos-green"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent/50 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent"></span>
             </span>
           </div>
         </motion.div>
@@ -103,15 +103,22 @@ export default function Hero() {
                            bg-gradient-to-r from-accent-light via-accent to-accent-dark
                            animate-shimmer bg-[length:200%_100%]
                            drop-shadow-[0_0_40px_rgba(201,162,75,0.18)]">
-          variants={itemVariants} 
+            PERFECTION.
+          </span>
+        </motion.h1>
+
+        <motion.p
+          variants={itemVariants}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10 font-light"
         >
           We architect <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-accent-light to-accent">scalable digital ecosystems</span> using high-performance infrastructure and boutique-level precision.
-          
-          {/* Primary CTA with jelly-pulse */}
-          <motion.a 
+        </motion.p>
+
+        {/* Primary CTA with jelly-pulse */}
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full justify-center">
+          <motion.a
             href="#contact"
-            className="group relative px-8 py-4 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-ink font-bold text-lg rounded-[16px] overflow-hidden jelly-pulse shadow-[0_20px_60px_-18px_hsl(var(--accent)/0.45)]"
+            className="group relative px-8 py-4 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-foreground font-bold text-lg rounded-[16px] overflow-hidden jelly-pulse shadow-[0_20px_60px_-18px_hsl(var(--accent)/0.45)]"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scaleX: 1.1, scaleY: 0.88 }}
             transition={jellyPresets.bouncy}
@@ -122,18 +129,16 @@ export default function Hero() {
             </span>
           </motion.a>
 
-          {/* Secondary CTA with jelly hover */}
-          <motion.a 
+          <motion.a
             href="#arsenal"
             className="px-8 py-4 rounded-[16px] border border-accent/20 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl text-foreground font-medium text-lg flex items-center gap-3 group shadow-[0_12px_40px_-18px_rgba(15,23,42,0.2)]"
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.96 }}
             transition={jellyPresets.bubble}
           >
-             <FiCpu className="text-accent group-hover:text-accent-light transition-colors" /> 
-             View Arsenal
+            <FiCpu className="text-accent group-hover:text-accent-light transition-colors" />
+            View Arsenal
           </motion.a>
-
         </motion.div>
       </motion.div>
 

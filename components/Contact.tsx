@@ -116,15 +116,15 @@ export default function ContactTerminal() {
               viewport={{ once: true }}
             >
               <div className="flex items-center gap-3 mb-8">
-                <div className="h-px w-8 bg-macos-green" />
-                <span className="text-xs font-mono font-bold text-macos-green tracking-widest uppercase">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-xs font-mono font-bold text-accent tracking-widest uppercase">
                   Open for Business
                 </span>
               </div>
 
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-6">
                 READY TO <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green to-macos-yellow">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-light">
                   BUILD THIS?
                 </span>
               </h2>
@@ -157,14 +157,14 @@ export default function ContactTerminal() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="mt-8 p-4 border border-macos-green/20 bg-macos-green/5 rounded-lg"
+                className="mt-8 p-4 border border-accent/20 bg-accent/5 rounded-lg"
               >
                 <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
                   Have a detailed brief, wireframes, or technical specs? Submit directly to our engineering pipeline for a formal quote.
                 </p>
                 <Link
                   href="/projects/request"
-                  className="inline-flex items-center gap-2 text-xs font-bold font-mono uppercase tracking-wider text-macos-green hover:underline group"
+                  className="inline-flex items-center gap-2 text-xs font-bold font-mono uppercase tracking-wider text-accent hover:underline group"
                 >
                   Initiate Project Brief <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -182,7 +182,7 @@ export default function ContactTerminal() {
               className="relative"
             >
               {/* Decorative "Cable" */}
-              <div className="absolute -left-10 top-20 w-10 h-px bg-gradient-to-r from-transparent to-macos-green/50 hidden lg:block" />
+              <div className="absolute -left-10 top-20 w-10 h-px bg-gradient-to-r from-transparent to-accent/50 hidden lg:block" />
 
               {/* Terminal Container */}
               <form 
@@ -232,25 +232,25 @@ export default function ContactTerminal() {
                         <div 
                           key={s.id}
                           onClick={() => handleServiceSelect(s)}
-                          className={`relative cursor-pointer group p-3 rounded border transition-all duration-300
-                            ${formState.service.id === s.id 
-                              ? "bg-macos-green/5 border-macos-green/50" 
+                      <div
+                          className={`relative cursor-pointer group p-3 rounded border transition-all duration-300 ${
+                            formState.service.id === s.id
+                              ? "bg-accent/5 border-accent/50"
                               : "bg-transparent border-stone-200 dark:border-white/10 hover:border-stone-400"
-                            }
-                          `}
+                          }`}
                         >
                           {formState.service.id === s.id && (
                             <motion.div 
                               layoutId="active-ring"
-                              className="absolute inset-0 border-2 border-macos-green rounded pointer-events-none"
+                              className="absolute inset-0 border-2 border-accent rounded pointer-events-none"
                             />
                           )}
                           
                           <div className="flex justify-between items-center relative z-10">
-                            <span className={`text-sm font-bold ${formState.service.id === s.id ? "text-macos-green" : "text-muted-foreground"}`}>
+                            <span className={`text-sm font-bold ${formState.service.id === s.id ? "text-accent" : "text-muted-foreground"}`}>
                               {s.label}
                             </span>
-                            {formState.service.id === s.id && <FiActivity className="text-macos-green animate-pulse" />}
+                              {formState.service.id === s.id && <FiActivity className="text-accent animate-pulse" />}
                           </div>
                           <div className="text-[10px] font-mono text-slate-400 mt-1">{s.price}</div>
                         </div>
@@ -268,7 +268,7 @@ export default function ContactTerminal() {
                       rows={5}
                       value={formState.message}
                       onChange={handleChange}
-                      className="w-full bg-slate-100 dark:bg-white/5 border-l-2 border-slate-300 dark:border-white/10 focus:border-macos-green p-4 text-sm text-foreground focus:outline-none transition-colors resize-none font-mono"
+                      className="w-full bg-slate-100 dark:bg-white/5 border-l-2 border-slate-300 dark:border-white/10 focus:border-accent p-4 text-sm text-foreground focus:outline-none transition-colors resize-none font-mono"
                       placeholder="> Tell us a bit about what you need..."
                     />
                   </div>
@@ -293,7 +293,7 @@ export default function ContactTerminal() {
                     <button 
                       type="button"
                       onClick={handleWhatsApp}
-                      className="flex items-center justify-center gap-3 py-4 border border-green-500/30 text-green-600 bg-green-500/5 font-bold uppercase tracking-wider text-xs rounded hover:bg-green-500 hover:text-white transition-all"
+                      className="flex items-center justify-center gap-3 py-4 border border-accent/30 text-accent bg-accent/5 font-bold uppercase tracking-wider text-xs rounded hover:bg-accent hover:text-white transition-all"
                     >
                       <FiMessageCircle className="text-lg" /> Chat on WhatsApp
                     </button>
@@ -324,16 +324,16 @@ function ContactNode({ icon, label, value, action }: { icon: React.ReactNode, la
   return (
     <div 
       onClick={action}
-      className="group flex items-center gap-4 p-4 border border-slate-200 dark:border-white/5 rounded-lg hover:border-macos-green/30 hover:bg-macos-green/5 transition-all cursor-pointer"
+      className="group flex items-center gap-4 p-4 border border-slate-200 dark:border-white/5 rounded-lg hover:border-accent/30 hover:bg-accent/5 transition-all cursor-pointer"
     >
-      <div className="w-10 h-10 rounded flex items-center justify-center bg-slate-100 dark:bg-white/5 text-slate-500 group-hover:text-macos-green transition-colors">
+      <div className="w-10 h-10 rounded flex items-center justify-center bg-slate-100 dark:bg-white/5 text-slate-500 group-hover:text-accent transition-colors">
         {icon}
       </div>
       <div>
         <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-0.5">{label}</div>
-        <div className="font-medium text-foreground group-hover:text-macos-green transition-colors">{value}</div>
+        <div className="font-medium text-foreground group-hover:text-accent transition-colors">{value}</div>
       </div>
-      <FiArrowRight className="ml-auto opacity-0 group-hover:opacity-100 text-macos-green transition-opacity" />
+      <FiArrowRight className="ml-auto opacity-0 group-hover:opacity-100 text-accent transition-opacity" />
     </div>
   );
 }
@@ -346,7 +346,7 @@ function TerminalInput({ label, name, type = "text", placeholder, value, onChang
     <div className="relative group">
       <label className="flex justify-between text-[10px] font-mono text-stone-400 uppercase tracking-wider mb-2">
         <span>{`// ${label}`}</span>
-        <span className={`w-1.5 h-1.5 rounded-full shadow-sm transition-colors duration-300 ${hasValue ? "bg-macos-green shadow-macos-green/50" : "bg-stone-600"}`} />
+        <span className={`w-1.5 h-1.5 rounded-full shadow-sm transition-colors duration-300 ${hasValue ? "bg-accent shadow-accent/50" : "bg-stone-600"}`} />
       </label>
       <div className="relative">
         <input 
@@ -360,7 +360,7 @@ function TerminalInput({ label, name, type = "text", placeholder, value, onChang
           className="w-full bg-slate-100 dark:bg-white/5 border-b-2 border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-foreground focus:outline-none transition-colors"
         />
         <div 
-          className={`absolute bottom-0 left-0 h-0.5 bg-macos-green transition-all duration-300 ease-out
+          className={`absolute bottom-0 left-0 h-0.5 bg-accent transition-all duration-300 ease-out
             ${focused ? "w-full" : "w-0"}
           `} 
         />

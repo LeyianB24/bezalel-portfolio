@@ -38,7 +38,7 @@ export default function SpotlightCard({ children, className = "" }: SpotlightCar
           opacity: isHovered ? 1 : 0,
           background: `radial-gradient(
             600px circle at ${mousePosition.x}px ${mousePosition.y}px,
-            rgba(40, 200, 64, 0.15),
+            rgba(215, 172, 78, 0.15),
             transparent 40%
           )`,
         }}
@@ -51,7 +51,7 @@ export default function SpotlightCard({ children, className = "" }: SpotlightCar
           opacity: isHovered ? 1 : 0,
           background: `radial-gradient(
             300px circle at ${mousePosition.x}px ${mousePosition.y}px,
-            rgba(40, 200, 64, 0.4),
+            rgba(215, 172, 78, 0.4),
             rgba(255, 189, 46, 0.2),
             transparent 40%
           )`,
@@ -66,7 +66,7 @@ export default function SpotlightCard({ children, className = "" }: SpotlightCar
       <div className="relative z-30">{children}</div>
       
       {/* Subtle bottom shine */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-macos-green/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </motion.div>
   );
 }

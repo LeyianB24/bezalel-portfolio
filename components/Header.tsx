@@ -231,7 +231,7 @@ export default function Header() {
             <Link 
               href="/#contact" 
               onClick={(e) => handleScrollToSection(e, "/#contact")}
-              className="group relative px-5 py-2.5 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-ink text-xs font-bold uppercase tracking-wider rounded-xl overflow-hidden shadow-[0_18px_45px_-16px_rgba(201,162,75,0.22)] hover:shadow-[0_20px_50px_-14px_rgba(201,162,75,0.18)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              className="group relative px-5 py-2.5 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-foreground text-xs font-bold uppercase tracking-wider rounded-xl overflow-hidden shadow-[0_18px_45px_-16px_rgba(201,162,75,0.22)] hover:shadow-[0_20px_50px_-14px_rgba(201,162,75,0.18)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
               <span className="relative z-10 flex items-center gap-2">

@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 // --- 3. METADATA: Premium SEO ---
 export const metadata: Metadata = {
   title: 'Bezalel Technologies | Premium Software Development',
-  description: 'Enterprise-grade software engineering with macOS-inspired design and high-performance architecture.',
+  description: 'Enterprise-grade software engineering with a premium navy and gold aesthetic.',
   openGraph: {
     images: ['/og-image.png'],
     title: 'Bezalel Technologies',
@@ -66,8 +66,8 @@ export default function RootLayout({
             antialiased 
             bg-background 
             text-foreground 
-            selection:bg-[#C9A24B]/30 
-            selection:text-[#0B2036]
+            selection:bg-accent/30 
+            selection:text-foreground
             scrollbar-hide
           `}
         >

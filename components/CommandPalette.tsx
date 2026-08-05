@@ -136,9 +136,9 @@ export default function CommandPalette() {
             transition={jellyPresets.bubble}
             className="fixed top-[20%] left-1/2 -translate-x-1/2 w-full max-w-2xl z-[101] px-4"
           >
-            <div className="jelly-glass border border-macos-green/30 shadow-2xl overflow-hidden glass-reflection">
+            <div className="jelly-glass border border-accent/30 shadow-2xl overflow-hidden glass-reflection">
               <div className="flex items-center gap-3 p-4 border-b border-white/10 group">
-                <FiSearch className="text-macos-green text-xl group-focus-within:scale-110 transition-transform" />
+                <FiSearch className="text-accent text-xl group-focus-within:scale-110 transition-transform" />
                 <input
                   ref={inputRef}
                   type="text"
@@ -167,21 +167,21 @@ export default function CommandPalette() {
                         onMouseEnter={() => setSelectedIndex(index)}
                         className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 group relative overflow-hidden ${
                           selectedIndex === index 
-                            ? "bg-macos-green/15 border border-macos-green/30 translate-x-1" 
+                            ? "bg-accent/15 border border-accent/30 translate-x-1" 
                             : "bg-transparent border border-transparent"
                         }`}
                       >
                         <div className="flex items-center gap-3 relative z-10">
                           <div className={`w-9 h-9 flex items-center justify-center rounded-lg transition-all duration-300 ${
                             selectedIndex === index 
-                              ? "bg-macos-green text-white rotate-3 scale-110 shadow-[0_0_15px_rgba(40,200,64,0.5)]" 
+                              ? "bg-accent text-white rotate-3 scale-110 shadow-[0_0_15px_hsl(var(--accent)/0.4)]" 
                               : "bg-white/5 text-muted-foreground"
                           }`}>
                             {cmd.icon}
                           </div>
                           <div className="flex flex-col items-start">
                              <span className={`text-sm font-medium transition-colors ${
-                               selectedIndex === index ? "text-macos-green" : "text-foreground"
+                               selectedIndex === index ? "text-accent" : "text-foreground"
                              }`}>
                                {cmd.name}
                              </span>
@@ -194,7 +194,7 @@ export default function CommandPalette() {
                         {selectedIndex === index && (
                           <motion.div 
                             layoutId="active-indicator"
-                            className="text-[10px] font-mono text-macos-green/80 flex items-center gap-1 relative z-10"
+                            className="text-[10px] font-mono text-accent/80 flex items-center gap-1 relative z-10"
                           >
                              <span>Enter</span>
                              <span className="text-sm">↩</span>
@@ -225,7 +225,7 @@ export default function CommandPalette() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-macos-green rounded-full animate-pulse" />
+                  <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
                   <span>Bezalel OS 2.0.4</span>
                 </div>
               </div>

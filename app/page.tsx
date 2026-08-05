@@ -76,7 +76,7 @@ export default function Home() {
             className="fixed bottom-8 right-8 z-50 p-4 rounded-full 
                        jelly-glass 
                        border border-primary/20 text-primary
-                       shadow-lg hover:shadow-[0_0_20px_hsl(var(--macos-green)/0.4)] 
+                       shadow-lg hover:shadow-[0_0_20px_hsl(var(--accent)/0.4)] 
                        hover:border-primary hover:bg-primary hover:text-primary-foreground
                        transition-all duration-300 group"
             aria-label="Scroll to top"

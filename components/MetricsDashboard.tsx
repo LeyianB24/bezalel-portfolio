@@ -61,7 +61,7 @@ export default function MetricsDashboard() {
             delay: index * 0.1, 
             ...jellyPresets.bouncy 
           }}
-          className="jelly-glass p-6 border border-white/10 hover:border-macos-green/40 transition-colors group relative overflow-hidden"
+          className="jelly-glass p-6 border border-white/10 hover:border-accent/40 transition-colors group relative overflow-hidden"
         >
           {/* Subtle background glow */}
           <div 

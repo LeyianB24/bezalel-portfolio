@@ -17,7 +17,7 @@ export default function FloatingTechIcons() {
       {icons.map((icon) => (
         <motion.div
           key={icon.id}
-          className="absolute text-4xl font-mono text-macos-green opacity-10"
+          className="absolute text-4xl font-mono text-accent opacity-10"
           style={{ left: icon.x, top: icon.y }}
           initial={{ y: 0, opacity: 0 }}
           animate={{

@@ -98,21 +98,21 @@ export default function Footer() {
               viewport={{ once: true }}
               className="flex items-center gap-3 mb-6"
             >
-               <span className="px-3 py-1 rounded bg-macos-green/10 text-macos-green border border-macos-green/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
+               <span className="px-3 py-1 rounded bg-accent/10 text-accent border border-accent/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
                  <span className="relative flex h-2 w-2">
-                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-macos-green opacity-75"></span>
-                   <span className="relative inline-flex rounded-full h-2 w-2 bg-macos-green"></span>
+                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                   <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                  </span>
                  System Online
                </span>
-               <span className="px-3 py-1 rounded bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
+               <span className="px-3 py-1 rounded bg-accent-light/10 text-accent-light border border-accent-light/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
                  <FiCpu /> Kernel v2.4.0
                </span>
             </motion.div>
 
             <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-foreground leading-[0.9]">
               READY TO <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green to-macos-yellow">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-light">
                 DEPLOY?
               </span>
             </h2>
@@ -123,7 +123,7 @@ export default function Footer() {
             target="_blank"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative px-8 py-6 bg-foreground text-background rounded-lg font-bold text-xl overflow-hidden shadow-2xl shadow-cyan-500/10 w-full md:w-auto text-center"
+            className="group relative px-8 py-6 bg-foreground text-background rounded-lg font-bold text-xl overflow-hidden shadow-2xl shadow-accent/10 w-full md:w-auto text-center"
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"></div>
             <span className="relative flex items-center justify-center gap-3">
@@ -139,7 +139,7 @@ export default function Footer() {
           <div className="lg:col-span-5 space-y-8">
             <div>
               <h3 className="text-2xl font-black tracking-tight flex items-center gap-2 mb-4">
-                <FiCommand className="text-macos-green" /> BEZALEL
+                <FiCommand className="text-accent" /> BEZALEL
               </h3>
               <p className="text-muted-foreground max-w-sm leading-relaxed text-sm">
                 Architecting high-performance digital infrastructure. We treat code as a raw material for building assets.
@@ -155,8 +155,8 @@ export default function Footer() {
                 </div>
                 <div className="text-slate-400 text-xs mb-2"># Stay updated on system patches</div>
                 <form onSubmit={handleSubscribe} className="flex items-center gap-2">
-                    <span className="text-macos-green">➜</span>
-                    <span className="text-accent">~</span>
+                    <span className="text-accent">➜</span>
+                    <span className="text-accent-light">~</span>
                     <input 
                         type="email" 
                         value={email}
@@ -181,9 +181,9 @@ export default function Footer() {
                     <li key={linkIdx}>
                       <Link 
                         href={link.href} 
-                        className="text-muted-foreground hover:text-macos-green transition-colors flex items-center gap-2 group w-fit text-sm"
+                        className="text-muted-foreground hover:text-accent transition-colors flex items-center gap-2 group w-fit text-sm"
                       >
-                        <span className="opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-macos-green">/</span>
+                        <span className="opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-accent">/</span>
                         {link.name}
                       </Link>
                     </li>
@@ -203,7 +203,7 @@ export default function Footer() {
             <div className="p-4 rounded border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/5 backdrop-blur-sm">
                <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">
                  <span>HQ Time (NBO)</span>
-                 <FiGlobe className="text-macos-green" />
+                 <FiGlobe className="text-accent" />
                </div>
                <div className="text-2xl font-mono font-bold text-foreground tabular-nums tracking-tight">
                  {time}
@@ -221,7 +221,7 @@ export default function Footer() {
                  </div>
                </div>
                <div className="w-full bg-stone-200 dark:bg-white/10 h-1 rounded-full overflow-hidden">
-                   <div className="bg-macos-green h-full w-[42%] animate-pulse" />
+                   <div className="bg-accent h-full w-[42%] animate-pulse" />
                </div>
                <div className="flex justify-between mt-2 text-[10px] font-mono text-slate-500">
                    <span>CPU: 42%</span>
@@ -253,7 +253,7 @@ export default function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-400 hover:text-macos-green hover:scale-110 transition-all duration-300"
+                className="text-stone-400 hover:text-accent hover:scale-110 transition-all duration-300"
               >
                 {social.icon}
               </a>
@@ -262,10 +262,10 @@ export default function Footer() {
 
           <button 
             onClick={scrollToTop} 
-            className="group flex items-center gap-2 text-[10px] font-mono font-bold text-foreground uppercase tracking-widest hover:text-macos-green transition-colors"
+            className="group flex items-center gap-2 text-[10px] font-mono font-bold text-foreground uppercase tracking-widest hover:text-accent transition-colors"
           >
             Return to Top 
-            <span className="p-1 bg-stone-100 dark:bg-white/10 rounded group-hover:bg-macos-green group-hover:text-white transition-colors">
+            <span className="p-1 bg-stone-100 dark:bg-white/10 rounded group-hover:bg-accent group-hover:text-white transition-colors">
                 <FiArrowUp />
             </span>
           </button>

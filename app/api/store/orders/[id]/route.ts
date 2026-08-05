@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     if (!session || session.user.role !== "ADMIN") {
@@ -10,7 +10,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     }
 
     const json = await request.json();
-    const { id } = params;
+    const { id } = await params;
 
     const order = await prisma.order.update({
       where: { id },

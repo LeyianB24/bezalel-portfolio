@@ -63,9 +63,42 @@ export default function UnifiedBackground({
 
   const config = variants[variant];
 
+  const imageLayers = [
+    {
+      src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80',
+      className: 'left-[-6%] top-[8%] h-[28vh] w-[22vw] min-w-[220px] rotate-[-8deg] hidden lg:block',
+      delay: '0s',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1000&q=80',
+      className: 'right-[4%] top-[18%] h-[24vh] w-[18vw] min-w-[200px] rotate-[10deg] hidden md:block',
+      delay: '1.2s',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80',
+      className: 'bottom-[8%] left-[10%] h-[22vh] w-[20vw] min-w-[210px] rotate-[6deg] hidden sm:block',
+      delay: '2s',
+    },
+  ];
+
   return (
     <>
       <ParticleField />
+      <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
+        {imageLayers.map((layer, index) => (
+          <motion.div
+            key={layer.src}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: [0.22, 0.38, 0.22], y: [0, -18, 0], rotate: [layer.className.includes('rotate-[-8deg]') ? -8 : layer.className.includes('rotate-[10deg]') ? 10 : 6, layer.className.includes('rotate-[-8deg]') ? -5 : layer.className.includes('rotate-[10deg]') ? 12 : 8, layer.className.includes('rotate-[-8deg]') ? -8 : layer.className.includes('rotate-[10deg]') ? 10 : 6] }}
+            transition={{ duration: 16 + index * 2, repeat: Infinity, ease: 'easeInOut', delay: index * 0.8 }}
+            className={`ambient-image-card absolute rounded-[32px] border border-white/15 ${layer.className}`}
+            style={{ backgroundImage: `url(${layer.src})` }}
+          />
+        ))}
+        <div className="ambient-orb absolute left-[10%] top-[24%] h-56 w-56 rounded-full bg-sky-500/20 blur-[120px]" />
+        <div className="ambient-orb absolute bottom-[10%] right-[8%] h-64 w-64 rounded-full bg-amber-400/20 blur-[120px]" />
+        <div className="ambient-orb absolute right-[25%] top-[8%] h-44 w-44 rounded-full bg-white/10 blur-[110px]" />
+      </div>
       {/* --- 1. ENGINEERING GRID --- */}
       {showGrid && (
         <div className={`fixed inset-0 z-0 pointer-events-none ${config.gridOpacity} bg-grid-pattern bg-grid-md mask-radial-faded`}></div>

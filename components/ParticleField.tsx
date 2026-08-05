@@ -34,9 +34,10 @@ export default function ParticleField() {
     
     // macOS Colors
     const colors = [
-      '#28C840', // Green
-      '#FFBD2E', // Yellow
-      '#FF5F57', // Red
+      '#38bdf8', // blue
+      '#fbbf24', // gold
+      '#ffffff', // white
+      '#020617', // black
     ];
 
     const resize = () => {
@@ -62,7 +63,7 @@ export default function ParticleField() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       const isDark = theme === 'dark';
-      ctx.globalAlpha = isDark ? 0.4 : 0.2;
+      ctx.globalAlpha = isDark ? 0.45 : 0.25;
 
       particles.forEach((p, i) => {
         p.x += p.vx;

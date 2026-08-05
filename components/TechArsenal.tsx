@@ -186,48 +186,37 @@ const itemVariants: Variants = {
 
 export default function TechArsenal() {
   return (
-    <section id="arsenal" className="relative overflow-hidden pt-32 pb-32 px-4 bg-background transition-colors duration-500 min-h-screen">
-      
-      {/* 1. BACKGROUND LAYER (3D Tech Globe + Noise) */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-30 dark:opacity-20 pointer-events-none">
+    <section id="arsenal" className="relative min-h-screen overflow-hidden bg-background px-4 pb-32 pt-32 transition-colors duration-500">
+      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-25 pointer-events-none dark:opacity-20">
         <TechGlobe />
       </div>
-      
-      <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay pointer-events-none"></div>
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_left,_hsl(var(--primary)/0.16),_transparent_28%),radial-gradient(circle_at_bottom_right,_hsl(var(--accent)/0.16),_transparent_24%)]" />
+      <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay contrast-150 brightness-100 pointer-events-none" />
 
-      {/* 2. MAIN CONTENT */}
       <div className="relative z-10 mx-auto max-w-7xl">
-        
-        {/* Header */}
-        <header className="mb-24">
+        <header className="mb-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="flex flex-col gap-6"
           >
-            {/* Tag */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-macos-green/20 bg-macos-green/5 w-fit">
-              <BsTerminal className="text-macos-green text-xs" />
-              <span className="text-macos-green font-mono text-xs tracking-widest uppercase font-bold">
-                System_Capabilities
-              </span>
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-primary backdrop-blur-xl dark:bg-zinc-900/70">
+              <BsTerminal className="text-xs" />
+              <span>System_Capabilities</span>
             </div>
-            
-            {/* Title */}
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground leading-[0.9]">
-              THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green via-macos-green to-macos-yellow">ARSENAL</span>
+
+            <h2 className="text-5xl font-black leading-[0.9] tracking-tighter text-foreground md:text-7xl">
+              THE <span className="bg-gradient-to-r from-primary via-cyan-500 to-accent bg-clip-text text-transparent">ARSENAL</span>
             </h2>
-            
-            {/* Subtitle */}
-            <p className="max-w-2xl text-lg text-muted-foreground leading-relaxed font-light">
-              We don't just write code; we deploy <span className="text-foreground font-medium">mission-critical infrastructure</span>. From real-time payment rails to high-frequency trading algorithms, our stack is battle-tested.
+
+            <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
+              We build with modern infrastructure, high-trust product systems, and the kind of precision that makes ambitious ideas feel effortless.
             </p>
           </motion.div>
         </header>
 
-        {/* Tech Groups */}
-        <div className="flex flex-col gap-24">
+        <div className="flex flex-col gap-20">
           {techGroups.map((group) => (
             <motion.div 
               key={group.id}
@@ -237,21 +226,19 @@ export default function TechArsenal() {
               viewport={{ once: true, margin: "-100px" }}
               className="relative"
             >
-              {/* Group Header (Terminal Style) */}
-              <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 border-b border-border pb-4 gap-2">
-                 <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-macos-green shadow-[0_0_10px_hsl(var(--macos-green))]"></div>
-                    <code className="text-base md:text-lg font-mono text-foreground font-medium tracking-tight">
-                       {group.command}
-                    </code>
-                 </div>
-                 <div className="text-xs font-mono text-muted-foreground uppercase tracking-widest">
-                    // {group.description}
-                 </div>
+              <div className="mb-8 flex flex-col justify-between gap-3 rounded-[24px] border border-white/60 bg-white/70 p-5 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/70 md:flex-row md:items-end">
+                <div className="flex items-center gap-3">
+                  <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_12px_hsl(var(--primary))]" />
+                  <code className="text-base font-mono font-medium tracking-tight text-foreground md:text-lg">
+                    {group.command}
+                  </code>
+                </div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                  // {group.description}
+                </div>
               </div>
 
-              {/* Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+              <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {group.stack.map((tech) => (
                   <TechItem key={tech.name} tech={tech} />
                 ))}
@@ -262,21 +249,21 @@ export default function TechArsenal() {
       </div>
 
       {/* 4. FOOTER STATUS BAR */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-background border-t border-border flex items-center justify-between px-4 text-[10px] md:text-xs font-mono text-muted-foreground z-50">
-         <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1 hover:text-macos-green transition-colors cursor-pointer"><span className="text-lg">⑂</span> main*</div>
-            <div className="hidden sm:flex items-center gap-2">
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-transparent border border-red-500"></span> 0 ERR</span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-transparent border border-yellow-500"></span> 0 WARN</span>
-            </div>
-         </div>
-         <div className="flex items-center gap-6">
-            <span className="hidden sm:inline">Ln 842, Col 12</span>
-            <span className="hidden sm:inline">UTF-8</span>
-            <span className="flex items-center gap-1 font-bold text-macos-green">
-               <span className="w-1.5 h-1.5 bg-macos-green rounded-full animate-pulse"></span> ONLINE
-            </span>
-         </div>
+      <div className="absolute bottom-0 left-0 right-0 z-50 flex h-8 items-center justify-between border-t border-border bg-background/80 px-4 text-[10px] font-mono text-muted-foreground backdrop-blur md:text-xs">
+        <div className="flex items-center gap-4">
+          <div className="flex cursor-pointer items-center gap-1 transition-colors hover:text-primary"><span className="text-lg">⑂</span> main*</div>
+          <div className="hidden items-center gap-2 sm:flex">
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full border border-red-500 bg-transparent" /> 0 ERR</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full border border-yellow-500 bg-transparent" /> 0 WARN</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-6">
+          <span className="hidden sm:inline">Ln 842, Col 12</span>
+          <span className="hidden sm:inline">UTF-8</span>
+          <span className="flex items-center gap-1 font-bold text-primary">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> ONLINE
+          </span>
+        </div>
       </div>
     </section>
   );
@@ -292,11 +279,7 @@ const TechItem = memo(function TechItem({ tech }: { tech: Tech }) {
       variants={itemVariants}
       // Inject color variable
       style={{ "--tech-color": tech.color } as React.CSSProperties}
-      className="group relative flex flex-col items-center justify-center h-32 rounded-xl 
-                 glass-card border border-border/60
-                 hover:border-[var(--tech-color)] hover:bg-[var(--tech-color)]/5
-                 hover:shadow-[0_0_20px_-5px_var(--tech-color)]
-                 transition-all duration-300 cursor-crosshair overflow-hidden"
+      className="group relative flex h-32 cursor-crosshair flex-col items-center justify-center overflow-hidden rounded-[20px] border border-border/60 bg-white/70 backdrop-blur-xl transition-all duration-300 hover:border-[var(--tech-color)] hover:bg-[var(--tech-color)]/8 hover:shadow-[0_0_30px_-8px_var(--tech-color)] dark:bg-zinc-900/70"
     >
       
       {/* Hover Gradient */}

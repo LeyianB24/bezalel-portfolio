@@ -4,87 +4,75 @@
 
 @layer base {
   :root {
-    /* --- LIGHT MODE: "macOS Inspired" --- */
-    /* Soft white background with macOS accent colors */
-    
-    --background: 0 0% 96%;         /* #F5F5F5 - Soft White */
-    --foreground: 0 0% 17%;         /* #2C2C2C - Dark Text */
+    /* --- PREMIUM LIGHT PALETTE --- */
+    --background: 214 40% 97%;
+    --foreground: 224 71% 12%;
 
-    --card: 0 0% 100%;              /* Pure White */
-    --card-foreground: 0 0% 17%;
- 
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 12%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 17%;
- 
-    /* Primary: macOS Green */
-    --primary: 134 65% 47%;         /* #28C840 - macOS Green */
-    --primary-foreground: 0 0% 100%; 
- 
-    /* Secondary: Subtle Gray */
-    --secondary: 0 0% 90%;
-    --secondary-foreground: 0 0% 17%;
- 
-    --muted: 0 0% 94%;
-    --muted-foreground: 0 0% 45%;
- 
-    /* Accent: macOS Yellow */
-    --accent: 44 100% 59%;          /* #FFBD2E - macOS Yellow */
-    --accent-foreground: 0 0% 17%;
- 
-    /* Destructive: macOS Red */
-    --destructive: 4 100% 67%;      /* #FF5F57 - macOS Red */
+    --popover-foreground: 224 71% 12%;
+
+    --primary: 188 92% 44%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 18% 92%;
+    --secondary-foreground: 224 71% 12%;
+
+    --muted: 214 20% 90%;
+    --muted-foreground: 220 20% 42%;
+
+    --accent: 279 78% 62%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 85% 66%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 134 65% 47%;            /* Focus ring matches Primary */
- 
-    --radius: 0.75rem;
-    
-    /* macOS Accent Colors */
-    --macos-green: 134 65% 47%;     /* #28C840 */
-    --macos-yellow: 44 100% 59%;    /* #FFBD2E */
-    --macos-red: 4 100% 67%;        /* #FF5F57 */
+    --border: 214 24% 88%;
+    --input: 214 24% 88%;
+    --ring: 188 92% 44%;
+
+    --radius: 0.9rem;
+
+    --macos-green: 168 76% 46%;
+    --macos-yellow: 38 100% 62%;
+    --macos-red: 0 85% 66%;
   }
- 
+
   .dark {
-    /* --- DARK MODE: "macOS Dark" --- */
-    /* Deep charcoal background with macOS accent colors */
+    /* --- PREMIUM DARK PALETTE --- */
+    --background: 222 47% 9%;
+    --foreground: 214 32% 91%;
 
-    --background: 0 0% 12%;         /* #1E1E1E - Deep Charcoal */
-    --foreground: 0 0% 91%;         /* #E8E8E8 - Light Text */
+    --card: 222 47% 12%;
+    --card-foreground: 214 32% 91%;
 
-    --card: 0 0% 15%;
-    --card-foreground: 0 0% 91%;
- 
-    --popover: 0 0% 15%;
-    --popover-foreground: 0 0% 91%;
- 
-    /* Primary: macOS Green (brighter in dark mode) */
-    --primary: 134 65% 52%;         /* Slightly brighter #28C840 */
-    --primary-foreground: 0 0% 12%;
- 
-    /* Secondary: Dark Gray */
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 91%;
- 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 64%;
- 
-    --accent: 44 100% 59%;          /* macOS Yellow */
-    --accent-foreground: 0 0% 12%;
- 
-    --destructive: 4 100% 67%;      /* macOS Red */
-    --destructive-foreground: 0 0% 91%;
- 
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 134 65% 52%;
-    
-    /* macOS Accent Colors (same in both modes) */
-    --macos-green: 134 65% 52%;
-    --macos-yellow: 44 100% 59%;
-    --macos-red: 4 100% 67%;
+    --popover: 222 47% 12%;
+    --popover-foreground: 214 32% 91%;
+
+    --primary: 188 92% 55%;
+    --primary-foreground: 222 47% 9%;
+
+    --secondary: 222 28% 18%;
+    --secondary-foreground: 214 32% 91%;
+
+    --muted: 222 24% 20%;
+    --muted-foreground: 214 16% 70%;
+
+    --accent: 279 78% 68%;
+    --accent-foreground: 222 47% 9%;
+
+    --destructive: 0 85% 66%;
+    --destructive-foreground: 214 32% 91%;
+
+    --border: 222 24% 24%;
+    --input: 222 24% 24%;
+    --ring: 188 92% 55%;
+
+    --macos-green: 168 76% 54%;
+    --macos-yellow: 38 100% 68%;
+    --macos-red: 0 85% 72%;
   }
 }
 
@@ -96,8 +84,12 @@
   
   body {
     @apply bg-background text-foreground antialiased;
-    /* Optical sizing for precise engineering text */
-    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "zero" 1; /* "zero" gives slashed zeros for code */
+    background-image:
+      radial-gradient(circle at top left, hsl(var(--primary) / 0.12), transparent 28%),
+      radial-gradient(circle at top right, hsl(var(--accent) / 0.16), transparent 30%),
+      linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
+    background-attachment: fixed;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "zero" 1;
   }
 
   /* --- BRANDED TEXT SELECTION --- */
@@ -116,6 +108,49 @@
 }
 
 @layer utilities {
+  /* --- PREMIUM SURFACE SYSTEM --- */
+  .premium-card {
+    @apply rounded-[28px] border border-white/60 bg-white/70 backdrop-blur-2xl shadow-[0_20px_80px_-24px_rgba(15,23,42,0.28)];
+  }
+
+  .dark .premium-card {
+    @apply border-white/10 bg-zinc-900/70;
+    box-shadow: 0 20px 80px -24px rgba(0, 0, 0, 0.55);
+  }
+
+  .premium-pill {
+    @apply rounded-full border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_10px_40px_-18px_rgba(15,23,42,0.22)];
+  }
+
+  .dark .premium-pill {
+    @apply border-white/10 bg-zinc-900/70;
+  }
+
+  .premium-glow {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.16), 0 25px 70px -24px hsl(var(--primary) / 0.35);
+  }
+
+  .ambient-image-card {
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.45);
+    animation: drift-slow 16s ease-in-out infinite alternate;
+  }
+
+  .ambient-image-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(2, 6, 23, 0.7) 0%, rgba(8, 47, 73, 0.3) 45%, rgba(251, 191, 36, 0.2) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .ambient-orb {
+    animation: pulse-glow 8s ease-in-out infinite;
+  }
+
   /* --- 1. HD GLASSMORPHISM SUITE --- */
   
   /* HD Glass - Premium blur effect */
@@ -359,6 +394,36 @@
   .jelly-drop    { animation: jelly-drop 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
   .jelly-click   { animation: jelly-click 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
   .jelly-breathe { animation: jelly-breathe 4s ease-in-out infinite; }
+
+  @keyframes drift-slow {
+    0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate3d(18px, -22px, 0) scale(1.04) rotate(2deg); }
+    100% { transform: translate3d(-16px, 16px, 0) scale(1.02) rotate(-1.5deg); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+
+  @keyframes sweep-line {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(120%); }
+  }
+
+  .sweep-line {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sweep-line::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.24), transparent);
+    transform: translateX(-100%);
+    animation: sweep-line 7s linear infinite;
+  }
 
   /* --- 7. JELLY GLASS MATERIALS --- */
   

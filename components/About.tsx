@@ -12,83 +12,103 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="py-24 lg:py-32 px-6 bg-background relative overflow-hidden">
+    <section id="about" className="relative overflow-hidden px-6 py-24 lg:py-32 bg-background">
+      <div className="absolute inset-0 z-0 opacity-[0.06] bg-[radial-gradient(circle_at_top_left,_hsl(var(--primary)/0.5),_transparent_30%),radial-gradient(circle_at_bottom_right,_hsl(var(--accent)/0.4),_transparent_28%)]" />
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.35)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.35)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,black,transparent)]" />
 
-      {/* --- LAYER 1: ENGINEERING GRID --- */}
-      <div className="absolute inset-0 z-0 bg-grid-pattern bg-grid-md mask-radial-faded opacity-[0.05] pointer-events-none"></div>
-
-      {/* --- LAYER 2: AMBIENT FUSION GLOW --- */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 right-0 lg:-right-20 w-[800px] h-[800px] bg-macos-green/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen"
-      />
-
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start relative z-10">
-
-        {/* --- LEFT COLUMN: MISSION BRIEF --- */}
-        <div className="lg:sticky lg:top-32 self-start">
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="grid items-start gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-24">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={{
-              visible: { transition: { staggerChildren: 0.1 } }
-            }}
+            variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+            className="lg:sticky lg:top-24"
           >
-            {/* Tag: Methodology */}
-            <motion.div variants={textVariants} className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-sm bg-macos-green/10 border border-macos-green/20 text-macos-green font-mono text-xs tracking-widest uppercase">
+            <motion.div variants={textVariants} className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-primary backdrop-blur-xl dark:bg-zinc-900/70">
               <TbCpu className="text-sm" />
               <span>Operational Protocol</span>
             </motion.div>
 
-            {/* Headline */}
-            <motion.h2 variants={textVariants} className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-8 tracking-tight leading-[1.05]">
-              Not an Agency.<br />
-              A <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green to-macos-yellow animate-shimmer bg-[length:200%_100%]">Technical Partner.</span>
+            <motion.h2 variants={textVariants} className="mb-8 text-4xl font-black leading-[0.95] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              Not an agency.
+              <br />
+              <span className="bg-gradient-to-r from-primary via-cyan-500 to-accent bg-clip-text text-transparent">
+                A technical partner.
+              </span>
             </motion.h2>
 
-            {/* Copy */}
-            <motion.p variants={textVariants} className="text-muted-foreground text-lg leading-relaxed mb-10 max-w-xl font-light">
-              Generic agencies ship code and disappear. <strong className="text-foreground font-semibold">Bezalel</strong> operates as a specialized engineering task force. We integrate with your team to build systems that handle real-world scale, financial precision, and high-volume data.
+            <motion.p variants={textVariants} className="mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              We join your team as builders, operators, and strategists. From product experiences to infrastructure and payments, we deliver systems that feel effortless, secure, and built to last.
             </motion.p>
 
-            {/* Metrics HUD */}
-            <motion.div variants={textVariants} className="flex gap-12 border-t border-dashed border-border pt-8">
-              {/* This section was removed as per the instruction, but the parent div remains */}
+            <motion.div variants={textVariants} className="grid gap-4 sm:grid-cols-3">
+              {[
+                { value: "24/7", label: "delivery focus" },
+                { value: "100%", label: "hands-on execution" },
+                { value: "∞", label: "scalable thinking" },
+              ].map((item) => (
+                <div key={item.label} className="premium-card rounded-[22px] p-4 text-center">
+                  <div className="text-2xl font-black text-foreground">{item.value}</div>
+                  <div className="mt-1 text-[11px] uppercase tracking-[0.24em] text-muted-foreground">{item.label}</div>
+                </div>
+              ))}
             </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="flex flex-col gap-4"
+          >
+            {[
+              {
+                title: "Systems that feel premium",
+                text: "Every interface and workflow is designed with clarity, motion, and confidence.",
+                accent: "from-primary/20 to-cyan-500/10",
+              },
+              {
+                title: "Built for scale",
+                text: "We combine product design, backend architecture, and operational discipline into one execution layer.",
+                accent: "from-accent/20 to-fuchsia-500/10",
+              },
+              {
+                title: "Strategic from day one",
+                text: "We shape the roadmap, reduce friction, and make the technology feel effortless for your users.",
+                accent: "from-amber-500/20 to-orange-500/10",
+              },
+            ].map((item, index) => (
+              <div key={item.title} className="premium-card rounded-[24px] p-6 md:p-7">
+                <div className={`mb-4 h-1.5 w-24 rounded-full bg-gradient-to-r ${item.accent}`} />
+                <div className="text-xl font-semibold text-foreground">{item.title}</div>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.text}</p>
+                <div className="mt-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
+                  Phase {index + 1}
+                </div>
+              </div>
+            ))}
           </motion.div>
         </div>
 
-        {/* --- RIGHT COLUMN: EXECUTION PIPELINE --- */}
-        <div className="relative flex flex-col gap-6">
-          {/* This entire section was removed as per the instruction */}
+        <div className="relative z-10 mt-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-12 text-center"
+          >
+            <h3 className="mb-4 text-3xl font-bold text-foreground">
+              By the <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">numbers</span>
+            </h3>
+            <p className="mx-auto max-w-2xl text-muted-foreground">
+              Real metrics from real projects. Our track record speaks for itself.
+            </p>
+          </motion.div>
+          <MetricsDashboard />
         </div>
-
       </div>
-
-      {/* --- METRICS DASHBOARD --- */}
-      <div className="max-w-7xl mx-auto mt-24 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 text-center"
-        >
-          <h3 className="text-3xl font-bold text-foreground mb-4">
-            By The <span className="text-macos-green">Numbers</span>
-          </h3>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Real metrics from real projects. Our track record speaks for itself.
-          </p>
-        </motion.div>
-        <MetricsDashboard />
-      </div>
-
     </section>
   );
 }

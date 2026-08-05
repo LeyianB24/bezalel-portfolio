@@ -144,7 +144,7 @@ export default function Header() {
         <div 
             className={`relative w-full transition-all duration-500 flex justify-between items-center ${
             isScrolled 
-                ? "max-w-5xl mx-4 glass-hd border border-border/50 rounded-2xl shadow-2xl shadow-black/5 px-6 py-3" 
+                ? "max-w-5xl mx-4 premium-card premium-glow rounded-[24px] px-6 py-3" 
                 : "max-w-7xl px-6 bg-transparent border-transparent py-2"
             }`}
         >
@@ -158,25 +158,25 @@ export default function Header() {
             <div className="relative flex items-center justify-center">
               <Hexagon 
                 strokeWidth={1.5} 
-                className={`transition-all duration-700 ease-in-out text-foreground group-hover:rotate-180 group-hover:text-macos-green ${isScrolled ? "w-8 h-8" : "w-10 h-10"}`} 
+                className={`transition-all duration-700 ease-in-out text-foreground group-hover:rotate-180 bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent ${isScrolled ? "w-8 h-8" : "w-10 h-10"}`} 
               />
               <div className="absolute w-1.5 h-1.5 bg-foreground rounded-full group-hover:scale-0 transition-transform duration-500" />
-              <Terminal className="absolute w-4 h-4 text-macos-green scale-0 group-hover:scale-100 transition-transform duration-500" />
+              <Terminal className="absolute w-4 h-4 text-primary scale-0 group-hover:scale-100 transition-transform duration-500" />
             </div>
             
             <div className="flex flex-col">
-                <span className={`font-black tracking-tighter text-foreground transition-all duration-300 ${isScrolled ? "text-lg" : "text-xl"}`}>
+                <span className={`font-black tracking-tighter bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent transition-all duration-300 ${isScrolled ? "text-lg" : "text-xl"}`}>
                     BEZALEL
                 </span>
                  <span className={`text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground flex items-center gap-1 ${isScrolled ? "hidden" : "block"}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     Online
                 </span>
             </div>
           </Link>
 
           {/* --- CENTER: DECRYPTING NAV (Desktop) --- */}
-          <div className="hidden md:flex items-center gap-1 bg-secondary/30 rounded-full p-1.5 border border-border/40 backdrop-blur-sm">
+          <div className="hidden md:flex items-center gap-1 premium-pill rounded-full p-1.5">
             {NAV_LINKS.map((item) => {
               const isActive = activeSection === item.href;
               const isHovered = hoveredPath === item.href;
@@ -189,14 +189,14 @@ export default function Header() {
                   onMouseEnter={() => setHoveredPath(item.href)}
                   onMouseLeave={() => setHoveredPath(null)}
                   className={`relative px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all rounded-full z-10 ${
-                    isActive ? "text-background" : "text-muted-foreground hover:text-foreground"
+                    isActive ? "text-white" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {/* Active Background Pill */}
                   {isActive && (
                     <motion.div
                       layoutId="nav-bg"
-                      className="absolute inset-0 bg-foreground rounded-full -z-10"
+                      className="absolute inset-0 bg-gradient-to-r from-primary via-cyan-500 to-accent rounded-full -z-10"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
@@ -205,7 +205,7 @@ export default function Header() {
                   {isHovered && !isActive && (
                     <motion.div
                       layoutId="nav-ghost"
-                      className="absolute inset-0 bg-secondary rounded-full -z-10"
+                      className="absolute inset-0 bg-secondary/80 rounded-full -z-10"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
@@ -237,7 +237,7 @@ export default function Header() {
             <Link 
               href="/#contact" 
               onClick={(e) => handleScrollToSection(e, "/#contact")}
-              className="group relative px-5 py-2.5 bg-macos-green text-white text-xs font-bold uppercase tracking-wider rounded-lg overflow-hidden shadow-lg shadow-macos-green/20 hover:shadow-macos-green/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              className="group relative px-5 py-2.5 bg-gradient-to-r from-primary via-cyan-500 to-accent text-white text-xs font-bold uppercase tracking-wider rounded-xl overflow-hidden shadow-[0_18px_45px_-16px_hsl(var(--primary)/0.45)] hover:shadow-[0_20px_50px_-14px_hsl(var(--accent)/0.35)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
               <span className="relative z-10 flex items-center gap-2">

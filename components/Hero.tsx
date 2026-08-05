@@ -89,9 +89,9 @@ export default function Hero() {
         
         {/* 1. Terminal Badge */}
         <motion.div variants={itemVariants} className="mb-6">
-          <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-macos-green/30 bg-macos-green/5 backdrop-blur-md shadow-[0_0_15px_hsl(var(--macos-green)/0.1)]">
-            <FiTerminal className="text-macos-green text-xs" />
-            <span className="text-macos-green text-[10px] font-mono tracking-[0.2em] uppercase">
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-primary/30 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl shadow-[0_0_25px_hsl(var(--primary)/0.12)]">
+            <FiTerminal className="text-primary text-xs" />
+            <span className="text-primary text-[10px] font-mono tracking-[0.2em] uppercase">
               System Online // v2.0
             </span>
             <span className="relative flex h-1.5 w-1.5 ml-1">
@@ -108,10 +108,10 @@ export default function Hero() {
         >
           ENGINEERING <br />
           <span className="relative inline-block text-transparent bg-clip-text 
-                           bg-gradient-to-r from-foreground via-muted-foreground to-foreground 
-                           dark:from-white dark:via-zinc-500 dark:to-zinc-200
+                           bg-gradient-to-r from-primary via-cyan-500 to-accent
+                           dark:from-cyan-300 dark:via-primary dark:to-fuchsia-400
                            animate-shimmer bg-[length:200%_100%]
-                           drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+                           drop-shadow-[0_0_40px_rgba(34,211,238,0.2)]">
             PERFECTION.
           </span>
         </motion.h1>
@@ -121,7 +121,7 @@ export default function Hero() {
           variants={itemVariants} 
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10 font-light"
         >
-          We architect <span className="text-macos-green font-medium text-glow-subtle">scalable digital ecosystems</span> using high-performance infrastructure and military-grade precision.
+          We architect <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">scalable digital ecosystems</span> using high-performance infrastructure and boutique-level precision.
         </motion.p>
 
         {/* 4. Action Array */}
@@ -130,7 +130,7 @@ export default function Hero() {
           {/* Primary CTA with jelly-pulse */}
           <motion.a 
             href="#contact"
-            className="group relative px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-[14px] overflow-hidden jelly-pulse"
+            className="group relative px-8 py-4 bg-gradient-to-r from-primary via-cyan-500 to-accent text-white font-bold text-lg rounded-[16px] overflow-hidden jelly-pulse shadow-[0_20px_60px_-18px_hsl(var(--primary)/0.45)]"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scaleX: 1.1, scaleY: 0.88 }}
             transition={jellyPresets.bouncy}
@@ -144,7 +144,7 @@ export default function Hero() {
           {/* Secondary CTA with jelly hover */}
           <motion.a 
             href="#arsenal"
-            className="px-8 py-4 rounded-[14px] border border-input jelly-glass text-foreground font-medium text-lg flex items-center gap-3 group"
+            className="px-8 py-4 rounded-[16px] border border-primary/20 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl text-foreground font-medium text-lg flex items-center gap-3 group shadow-[0_12px_40px_-18px_rgba(15,23,42,0.2)]"
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.96 }}
             transition={jellyPresets.bubble}

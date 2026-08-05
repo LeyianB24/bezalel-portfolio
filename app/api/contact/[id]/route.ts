@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -15,8 +15,10 @@ export async function PATCH(
     const body = await request.json();
     const { status } = body;
 
+    const { id } = await params;
+
     const updatedMessage = await prisma.contactMessage.update({
-      where: { id: params.id },
+      where: { id },
       data: { status },
     });
 
@@ -29,7 +31,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -37,8 +39,10 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
+
     await prisma.contactMessage.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return new NextResponse(null, { status: 204 });

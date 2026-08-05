@@ -383,8 +383,8 @@ export default function CareersDashboard({
                         <span className={`px-2 py-0.5 rounded text-xs font-mono font-medium ${
                           app.status === "PENDING" ? "bg-amber-500/10 text-amber-500 border border-amber-500/20" :
                           app.status === "REVIEWED" ? "bg-blue-500/10 text-blue-400 border border-blue-500/20" :
-                          app.status === "SHORTLISTED" ? "bg-purple-500/10 text-purple-400 border border-purple-500/20" :
-                          app.status === "INTERVIEWED" ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" :
+                          app.status === "SHORTLISTED" ? "bg-accent/10 text-accent border border-accent/20" :
+                          app.status === "INTERVIEWED" ? "bg-slate-800/10 text-slate-300 border border-slate-700/20" :
                           app.status === "OFFERED" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
                           "bg-zinc-800 text-zinc-500 border border-zinc-700"
                         }`}>

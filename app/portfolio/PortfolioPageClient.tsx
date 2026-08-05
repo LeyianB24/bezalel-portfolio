@@ -42,7 +42,7 @@ const projects = [
     result: "99.97% uptime over 12 months",
     year: "2023",
     icon: Database,
-    color: "purple",
+    color: "navy",
   },
   {
     id: 4,
@@ -64,7 +64,7 @@ const projects = [
     result: "12x faster incident response time",
     year: "2023",
     icon: Cpu,
-    color: "cyan",
+    color: "navy",
   },
   {
     id: 6,
@@ -75,17 +75,17 @@ const projects = [
     result: "Reduced design-to-dev handoff time by 60%",
     year: "2024",
     icon: Braces,
-    color: "pink",
+    color: "navy",
   },
 ];
 
 const colorMap: Record<string, { bg: string; border: string; text: string; iconBg: string }> = {
   emerald: { bg: "bg-emerald-500/5", border: "border-emerald-500/20", text: "text-emerald-500", iconBg: "bg-emerald-500/10" },
   blue: { bg: "bg-blue-500/5", border: "border-blue-500/20", text: "text-blue-400", iconBg: "bg-blue-500/10" },
-  purple: { bg: "bg-purple-500/5", border: "border-purple-500/20", text: "text-purple-400", iconBg: "bg-purple-500/10" },
+  navy: { bg: "bg-slate-800/6", border: "border-slate-700/20", text: "text-slate-300", iconBg: "bg-slate-800/10" },
   amber: { bg: "bg-amber-500/5", border: "border-amber-500/20", text: "text-amber-400", iconBg: "bg-amber-500/10" },
-  cyan: { bg: "bg-cyan-500/5", border: "border-cyan-500/20", text: "text-cyan-400", iconBg: "bg-cyan-500/10" },
-  pink: { bg: "bg-pink-500/5", border: "border-pink-500/20", text: "text-pink-400", iconBg: "bg-pink-500/10" },
+  // legacy bright tones replaced by brand-safe navy variant
+  // cyan and pink mapped to `navy` to avoid non-brand colors
 };
 
 const stats = [
@@ -109,7 +109,8 @@ export default function PortfolioPageClient() {
         <Header />
 
         {/* Hero */}
-        <section className="pt-40 pb-20 px-6 max-w-6xl mx-auto">
+        <section className="pt-40 pb-20 px-6 max-w-6xl mx-auto relative">
+          <div className="absolute inset-0 pointer-events-none person-bg person-bg--dark rounded-2xl -z-10" />
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-mono uppercase tracking-widest mb-6">
               <Code2 size={12} />

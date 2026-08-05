@@ -4,75 +4,77 @@
 
 @layer base {
   :root {
-    /* --- PREMIUM LIGHT PALETTE --- */
-    --background: 214 40% 97%;
-    --foreground: 224 71% 12%;
+    /* Brand palette (light mode) - premium navy, gold, cream */
+    --background: 39 88% 95%;      /* Cream */
+    --foreground: 211 29% 18%;     /* Ink */
 
     --card: 0 0% 100%;
-    --card-foreground: 224 71% 12%;
+    --card-foreground: 211 29% 18%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 12%;
-
-    --primary: 188 92% 44%;
+    --primary: 210 62% 12%;        /* Deep Navy */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 18% 92%;
-    --secondary-foreground: 224 71% 12%;
+    --accent: 44 64% 55%;          /* Gold */
+    --accent-foreground: 0 0% 10%;
+    --accent-light: 40 69% 75%;    /* Gold Light */
+    --accent-dark: 38 53% 40%;     /* Gold Dark */
 
-    --muted: 214 20% 90%;
-    --muted-foreground: 220 20% 42%;
+    --secondary: 214 18% 69%;      /* Muted Steel */
+    --secondary-foreground: 211 29% 18%;
 
-    --accent: 279 78% 62%;
-    --accent-foreground: 0 0% 100%;
+    --muted: 214 18% 74%;          /* Dusty Steel */
+    --muted-foreground: 211 29% 18%;
 
-    --destructive: 0 85% 66%;
+    --navy: 11 81% 21%;            /* Navy */
+    --navy-deep: 210 56% 5%;       /* Navy Deep */
+    --cream: 39 88% 95%;
+    --ink: 211 29% 18%;
+    --muted-steel: 214 18% 69%;    /* Muted Steel */
+
+    --destructive: 4 85% 58%;      /* Accent red stays for destructive actions */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 24% 88%;
-    --input: 214 24% 88%;
-    --ring: 188 92% 44%;
+    --border: 210 18% 82%;
+    --input: 39 100% 97%;
+    --ring: 44 64% 55%;
 
     --radius: 0.9rem;
 
-    --macos-green: 168 76% 46%;
-    --macos-yellow: 38 100% 62%;
-    --macos-red: 0 85% 66%;
+    /* Legacy accent aliases remapped to brand gold tones */
+    --macos-green: 44 64% 55%;
+    --macos-yellow: 40 69% 75%;
+    --macos-red: 210 56% 5%;
   }
 
   .dark {
-    /* --- PREMIUM DARK PALETTE --- */
-    --background: 222 47% 9%;
-    --foreground: 214 32% 91%;
+    /* Brand palette (dark mode) - cinematic navy + gold highlights */
+    --background: 210 56% 6%;      /* Navy Deep */
+    --foreground: 39 88% 95%;      /* Cream / Soft White */
 
-    --card: 222 47% 12%;
-    --card-foreground: 214 32% 91%;
+    --card: 210 20% 10%;
+    --card-foreground: 39 88% 95%;
 
-    --popover: 222 47% 12%;
-    --popover-foreground: 214 32% 91%;
+    --primary: 11 81% 12%;         /* Deep Navy */
+    --primary-foreground: 39 88% 95%;
 
-    --primary: 188 92% 55%;
-    --primary-foreground: 222 47% 9%;
+    --accent: 44 64% 55%;          /* Gold */
+    --accent-foreground: 39 88% 95%;
+    --accent-light: 40 69% 75%;    /* Gold Light */
+    --accent-dark: 38 53% 40%;     /* Gold Dark */
 
-    --secondary: 222 28% 18%;
-    --secondary-foreground: 214 32% 91%;
+    --secondary: 210 20% 12%;      /* Charcoal */
+    --secondary-foreground: 39 88% 95%;
 
-    --muted: 222 24% 20%;
-    --muted-foreground: 214 16% 70%;
+    --muted: 214 18% 34%;
+    --muted-foreground: 39 88% 95%;
 
-    --accent: 279 78% 68%;
-    --accent-foreground: 222 47% 9%;
+    --border: 210 18% 20%;
+    --input: 210 18% 15%;
+    --ring: 44 64% 55%;
 
-    --destructive: 0 85% 66%;
-    --destructive-foreground: 214 32% 91%;
-
-    --border: 222 24% 24%;
-    --input: 222 24% 24%;
-    --ring: 188 92% 55%;
-
-    --macos-green: 168 76% 54%;
-    --macos-yellow: 38 100% 68%;
-    --macos-red: 0 85% 72%;
+    --macos-green: 44 64% 55%;
+    --macos-yellow: 40 69% 75%;
+    --macos-red: 210 56% 5%;
   }
 }
 
@@ -93,10 +95,9 @@
   }
 
   /* --- BRANDED TEXT SELECTION --- */
-  /* macOS Green highlight */
   ::selection {
-    background-color: hsl(var(--macos-green) / 0.3);
-    color: hsl(var(--macos-green));
+    background-color: hsl(var(--accent) / 0.3);
+    color: hsl(var(--foreground));
   }
   
   /* --- VIEW TRANSITIONS API --- */
@@ -267,32 +268,32 @@
       inset -10px -10px 30px #2d2d2d;
   }
 
-  /* Holographic Glass (Reflective Edges with macOS green) */
+  /* Holographic Glass (Reflective Edges with gold highlights) */
   .glass-holographic {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(40, 200, 64, 0.2);
-    border-left: 1px solid rgba(40, 200, 64, 0.2);
+    border-top: 1px solid rgba(201, 162, 75, 0.2);
+    border-left: 1px solid rgba(201, 162, 75, 0.2);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
   }
   
   .dark .glass-holographic {
-    background: linear-gradient(135deg, rgba(40, 200, 64, 0.05), rgba(0, 0, 0, 0.2));
-    border-top: 1px solid rgba(40, 200, 64, 0.3);
-    border-left: 1px solid rgba(40, 200, 64, 0.3);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(40, 200, 64, 0.1);
+    background: linear-gradient(135deg, rgba(201, 162, 75, 0.05), rgba(0, 0, 0, 0.2));
+    border-top: 1px solid rgba(201, 162, 75, 0.3);
+    border-left: 1px solid rgba(201, 162, 75, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(201, 162, 75, 0.1);
   }
 
-  /* --- 2. TEXT GLOW (macOS Green) --- */
+  /* --- 2. TEXT GLOW (Gold) --- */
   .text-glow {
-    text-shadow: 0 0 20px hsl(var(--macos-green) / 0.6); 
+    text-shadow: 0 0 20px hsl(var(--accent) / 0.6); 
   }
   
   .text-glow-subtle {
-    text-shadow: 0 0 10px hsl(var(--macos-green) / 0.3);
+    text-shadow: 0 0 10px hsl(var(--accent) / 0.28);
   }
   
   .text-glow-white {
@@ -300,11 +301,11 @@
   }
   
   .text-glow-yellow {
-    text-shadow: 0 0 20px hsl(var(--macos-yellow) / 0.6);
+    text-shadow: 0 0 20px hsl(var(--accent-light) / 0.6);
   }
   
   .text-glow-red {
-    text-shadow: 0 0 20px hsl(var(--macos-red) / 0.6);
+    text-shadow: 0 0 20px hsl(var(--accent-dark) / 0.6);
   }
 
   /* --- 3. SCANLINE TEXTURE (HUD Effect) --- */
@@ -425,6 +426,67 @@
     animation: sweep-line 7s linear infinite;
   }
 
+  /* Section background presets (full-bleed cinematic backgrounds) */
+  .section-hero-bg {
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.62)),
+                      url('/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif');
+    background-size: cover, cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-about-bg {
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.24), rgba(0,0,0,0.70)),
+                      url('/BG_images/team-collaborates-digitally-stockcake.jpg');
+    background-size: cover, cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .section-arsenal-bg {
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.28)),
+                      url('/BG_images/data.avif');
+    background-size: cover, cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Background overlays */
+  .section-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.18));
+    mix-blend-mode: overlay;
+  }
+
+  /* Person background utility: coding-focused photos with a dark scrim */
+  .person-bg {
+    background-image: url('/BG_images/AdobeStock_292953404-scaled.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    inset: 0;
+    filter: saturate(0.75) contrast(0.94) brightness(0.9);
+    opacity: 0.24;
+  }
+
+  .person-bg--dark {
+    background-image: url('/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg');
+    mix-blend-mode: multiply;
+    opacity: 0.22;
+  }
+
+  /* Make `.text-white` and `.text-black` follow the theme foreground for consistent typography
+     - In light mode `--foreground` is deep charcoal (black)
+     - In dark mode `--foreground` is soft white
+  */
+  .text-white, .text-black {
+    color: hsl(var(--foreground)) !important;
+  }
   /* --- 7. JELLY GLASS MATERIALS --- */
   
   /* JELLY GLASS — Dark Mode (default) */
@@ -465,37 +527,37 @@
       inset 0 -1px 0 rgba(0, 0, 0, 0.04);
   }
 
-  /* JELLY GLASS — Green variant */
+  /* JELLY GLASS — Gold variant */
   .jelly-glass-green {
     background: linear-gradient(135deg,
-      rgba(40, 200, 64, 0.12) 0%,
-      rgba(40, 200, 64, 0.04) 100%
+      rgba(201, 162, 75, 0.12) 0%,
+      rgba(201, 162, 75, 0.04) 100%
     );
-    border: 1px solid rgba(40, 200, 64, 0.25);
-    box-shadow: 0 8px 32px rgba(40, 200, 64, 0.12),
-                inset 0 1px 0 rgba(40, 200, 64, 0.2);
+    border: 1px solid rgba(201, 162, 75, 0.25);
+    box-shadow: 0 8px 32px rgba(201, 162, 75, 0.12),
+                inset 0 1px 0 rgba(201, 162, 75, 0.2);
   }
 
-  /* JELLY GLASS — Yellow variant */
+  /* JELLY GLASS — Gold Light variant */
   .jelly-glass-yellow {
     background: linear-gradient(135deg,
-      rgba(255, 189, 46, 0.12) 0%,
-      rgba(255, 189, 46, 0.04) 100%
+      rgba(232, 205, 132, 0.12) 0%,
+      rgba(232, 205, 132, 0.04) 100%
     );
-    border: 1px solid rgba(255, 189, 46, 0.25);
-    box-shadow: 0 8px 32px rgba(255, 189, 46, 0.12),
-                inset 0 1px 0 rgba(255, 189, 46, 0.2);
+    border: 1px solid rgba(232, 205, 132, 0.25);
+    box-shadow: 0 8px 32px rgba(232, 205, 132, 0.12),
+                inset 0 1px 0 rgba(232, 205, 132, 0.2);
   }
 
-  /* JELLY GLASS — Red variant */
+  /* JELLY GLASS — Deep Navy variant */
   .jelly-glass-red {
     background: linear-gradient(135deg,
-      rgba(255, 95, 87, 0.12) 0%,
-      rgba(255, 95, 87, 0.04) 100%
+      rgba(11, 32, 54, 0.16) 0%,
+      rgba(5, 13, 23, 0.08) 100%
     );
-    border: 1px solid rgba(255, 95, 87, 0.25);
-    box-shadow: 0 8px 32px rgba(255, 95, 87, 0.12),
-                inset 0 1px 0 rgba(255, 95, 87, 0.2);
+    border: 1px solid rgba(11, 32, 54, 0.22);
+    box-shadow: 0 8px 32px rgba(5, 13, 23, 0.16),
+                inset 0 1px 0 rgba(11, 32, 54, 0.08);
   }
 
   /* JELLY BLOB — organic rounded shape with no hard corners */
@@ -506,7 +568,7 @@
 
   /* Jelly focus ring */
   :focus-visible {
-    outline: 2px solid hsl(var(--macos-green));
+    outline: 2px solid hsl(var(--accent));
     outline-offset: 3px;
     animation: jelly-pulse 1.5s ease-in-out;
   }
@@ -530,7 +592,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--macos-green)); /* macOS Green on hover */
+  background: hsl(var(--accent));
 }
 
 /* --- 7. LENIS SMOOTH SCROLL CONFIG --- */

@@ -150,28 +150,22 @@ export default function Header() {
         >
           
           {/* --- LEFT: BRAND --- */}
-          <Link 
-            href="/" 
-            className="flex items-center gap-3 group z-50 relative" 
+          <Link
+            href="/"
+            className="flex items-center gap-3 group z-50 relative"
             onClick={(e) => handleScrollToSection(e, "/#home")}
           >
-            <div className="relative flex items-center justify-center">
-              <Hexagon 
-                strokeWidth={1.5} 
-                className={`transition-all duration-700 ease-in-out text-foreground group-hover:rotate-180 bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent ${isScrolled ? "w-8 h-8" : "w-10 h-10"}`} 
+            <div className="flex items-center">
+              <img
+                src="/logos/bezalel-logo-horizontal-dark.png"
+                alt="BezaleL logo"
+                className={`${isScrolled ? 'h-8' : 'h-10'} block dark:hidden`}
               />
-              <div className="absolute w-1.5 h-1.5 bg-foreground rounded-full group-hover:scale-0 transition-transform duration-500" />
-              <Terminal className="absolute w-4 h-4 text-primary scale-0 group-hover:scale-100 transition-transform duration-500" />
-            </div>
-            
-            <div className="flex flex-col">
-                <span className={`font-black tracking-tighter bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent transition-all duration-300 ${isScrolled ? "text-lg" : "text-xl"}`}>
-                    BEZALEL
-                </span>
-                 <span className={`text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground flex items-center gap-1 ${isScrolled ? "hidden" : "block"}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                    Online
-                </span>
+              <img
+                src="/logos/bezalel-logo-horizontal-light.png"
+                alt="BezaleL logo (light)"
+                className={`${isScrolled ? 'h-8' : 'h-10'} hidden dark:block`}
+              />
             </div>
           </Link>
 
@@ -196,7 +190,7 @@ export default function Header() {
                   {isActive && (
                     <motion.div
                       layoutId="nav-bg"
-                      className="absolute inset-0 bg-gradient-to-r from-primary via-cyan-500 to-accent rounded-full -z-10"
+                      className="absolute inset-0 bg-gradient-to-r from-primary via-accent-light to-accent rounded-full -z-10"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
@@ -237,7 +231,7 @@ export default function Header() {
             <Link 
               href="/#contact" 
               onClick={(e) => handleScrollToSection(e, "/#contact")}
-              className="group relative px-5 py-2.5 bg-gradient-to-r from-primary via-cyan-500 to-accent text-white text-xs font-bold uppercase tracking-wider rounded-xl overflow-hidden shadow-[0_18px_45px_-16px_hsl(var(--primary)/0.45)] hover:shadow-[0_20px_50px_-14px_hsl(var(--accent)/0.35)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              className="group relative px-5 py-2.5 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-ink text-xs font-bold uppercase tracking-wider rounded-xl overflow-hidden shadow-[0_18px_45px_-16px_rgba(201,162,75,0.22)] hover:shadow-[0_20px_50px_-14px_rgba(201,162,75,0.18)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
               <span className="relative z-10 flex items-center gap-2">
@@ -259,7 +253,7 @@ export default function Header() {
 
           {/* --- PROGRESS LINE (Attached to bottom of floating nav) --- */}
           <motion.div 
-            className="absolute bottom-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-macos-green to-transparent opacity-50"
+            className="absolute bottom-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-accent/60 to-transparent opacity-50"
             style={{ scaleX }}
           />
         </div>
@@ -282,7 +276,7 @@ export default function Header() {
             
             <div className="flex-1 flex flex-col justify-between relative z-10">
                 <nav className="flex flex-col gap-6">
-                    <div className="text-xs font-mono text-macos-green mb-4 flex items-center gap-2">
+                    <div className="text-xs font-mono text-accent mb-4 flex items-center gap-2">
                         <ShieldCheck className="w-3 h-3" /> SYSTEM_NAVIGATION
                     </div>
                     {NAV_LINKS.map((item, i) => (
@@ -299,8 +293,8 @@ export default function Header() {
                                     activeSection === item.href ? "text-foreground" : "text-muted-foreground"
                                 }`}
                             >
-                                <span className="group-hover:text-macos-green transition-colors">{item.name}</span>
-                                <span className="text-xs font-mono font-normal text-muted-foreground group-hover:text-macos-green">0{i+1}</span>
+                                <span className="group-hover:text-accent transition-colors">{item.name}</span>
+                                <span className="text-xs font-mono font-normal text-muted-foreground group-hover:text-accent">0{i+1}</span>
                             </Link>
                         </motion.div>
                     ))}
@@ -323,17 +317,17 @@ export default function Header() {
                     <div className="mt-8 grid grid-cols-2 gap-4">
                          <div className="p-4 rounded-lg bg-secondary/30 border border-border/50">
                             <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">Status</div>
-                            <div className="text-green-500 font-bold flex items-center gap-2">
+                            <div className="text-accent font-bold flex items-center gap-2">
                                 <span className="relative flex h-2 w-2">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent/50 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                                 </span>
                                 Operational
                             </div>
                          </div>
                          <div className="p-4 rounded-lg bg-secondary/30 border border-border/50">
                             <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">Latency</div>
-                            <div className="text-cyan-500 font-bold">24ms</div>
+                            <div className="text-accent font-bold">24ms</div>
                          </div>
                     </div>
                 </motion.div>

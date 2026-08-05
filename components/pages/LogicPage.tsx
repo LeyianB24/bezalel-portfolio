@@ -30,9 +30,9 @@ const LOGIC_GATES: Gate[] = [
   {
     id: "01",
     icon: <BrainCircuit className="w-6 h-6" />,
-    color: "text-purple-500",
-    bg: "bg-purple-500/10",
-    border: "border-purple-500/20",
+    color: "text-accent",
+    bg: "bg-accent/10",
+    border: "border-accent/20",
     title: "First Principles",
     subtitle: "DECONSTRUCTION_MODE",
     desc: "We ignore templates. We strip your business problem down to its fundamental mathematical truths and rebuild it from the ground up. It&apos;s not about what competitors do; it&apos;s about what physics allows.",
@@ -94,15 +94,15 @@ export default function LogicPage() {
                 transition={jellyPresets.soft}
               >
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-purple-500 uppercase">
+                  <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+                  <span className="font-mono text-[10px] tracking-[0.2em] text-accent uppercase">
                     System Architecture
                   </span>
                 </div>
 
                 <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-foreground mb-8 leading-[0.85]">
                   THE <br/> 
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-indigo-500 to-purple-600 animate-gradient-x">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-indigo-500 to-accent animate-gradient-x">
                     LOGIC
                   </span>.
                 </h1>
@@ -136,7 +136,7 @@ export default function LogicPage() {
             <div className="absolute left-0 lg:left-12 top-4 bottom-0 w-px bg-border/50 hidden lg:block">
                <motion.div 
                  style={{ height: lineHeight }}
-                 className="w-full bg-purple-500 origin-top shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+                 className="w-full bg-accent origin-top shadow-[0_0_10px_rgba(0,0,0,0.2)]"
                />
             </div>
 
@@ -175,11 +175,11 @@ export default function LogicPage() {
           transition={{ duration: 1 }}
           className="mt-40 text-center max-w-3xl mx-auto"
         >
-          <GitCommit className="w-8 h-8 mx-auto text-purple-500 mb-6" />
+          <GitCommit className="w-8 h-8 mx-auto text-accent mb-6" />
           <blockquote className="text-3xl md:text-5xl font-serif italic text-foreground leading-tight">
             &quot;Simplicity is the ultimate sophistication.&quot;
           </blockquote>
-          <cite className="block mt-8 text-xs font-mono text-purple-500 uppercase tracking-widest">
+          <cite className="block mt-8 text-xs font-mono text-accent uppercase tracking-widest">
             — Leonardo da Vinci
           </cite>
         </motion.div>

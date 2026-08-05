@@ -88,11 +88,11 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
 
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-32 pb-20 relative overflow-hidden font-sans selection:bg-purple-500/30">
+      <main className="min-h-screen pt-32 pb-20 relative overflow-hidden font-sans selection:bg-accent/30">
         
         {/* Dynamic Background */}
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/20 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/20 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           
@@ -102,15 +102,15 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <div className="flex items-center gap-2 text-purple-400 mb-4 font-mono text-xs tracking-widest uppercase">
+              <div className="flex items-center gap-2 text-accent mb-4 font-mono text-xs tracking-widest uppercase">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
                 </span>
                 System Status: Hiring
               </div>
               <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white mb-2">
-                JOIN THE <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">VANGUARD.</span>
+                JOIN THE <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">VANGUARD.</span>
               </h1>
               <p className="text-slate-400 max-w-lg text-lg">
                 We don&apos;t hide behind middle management. We build software that matters.
@@ -125,7 +125,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
             >
               <button 
                 onClick={() => setShowProcess(true)}
-                className="text-sm font-bold text-white underline underline-offset-4 decoration-purple-500 hover:text-purple-400 transition-colors"
+                className="text-sm font-bold text-white underline underline-offset-4 decoration-accent hover:text-accent transition-colors"
               >
                 View Hiring Protocol
               </button>
@@ -136,7 +136,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
                     onClick={() => setFilter(tab)}
                     className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
                       filter === tab 
-                        ? "bg-purple-600 text-white shadow-lg" 
+                        ? "bg-accent text-white shadow-lg"
                         : "text-slate-400 hover:text-white hover:bg-white/5"
                     }`}
                   >
@@ -172,7 +172,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
                     
                     <div className="grid md:grid-cols-3 gap-4 mt-8">
                        <div className="p-4 bg-white/5 rounded border border-white/10">
-                          <div className="text-purple-400 font-bold mb-1 font-mono">01. Async Code</div>
+                          <div className="text-accent font-bold mb-1 font-mono">01. Async Code</div>
                           <p className="text-xs text-slate-400">Show us your code, not just your CV. We review GitHub/Portfolios first.</p>
                        </div>
                        <div className="p-4 bg-white/5 rounded border border-white/10">
@@ -253,7 +253,7 @@ function JobCard({ job, index }: { job: Job, index: number }) {
       >
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-3 text-xs font-mono font-medium tracking-wide">
-            <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <span className="px-2 py-0.5 rounded bg-accent/10 text-accent border border-accent/20">
               {job.department}
             </span>
             <span className="text-slate-400 flex items-center gap-1">
@@ -263,7 +263,7 @@ function JobCard({ job, index }: { job: Job, index: number }) {
               {formatJobType(job.type)}
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
+          <h3 className="text-2xl font-bold text-white group-hover:text-accent transition-colors">
             {job.title}
           </h3>
         </div>
@@ -297,7 +297,7 @@ function JobCard({ job, index }: { job: Job, index: number }) {
               <div className="md:col-span-2 space-y-8">
                 <div>
                    <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
-                      <Terminal className="w-4 h-4 text-purple-500" /> Mission Brief
+                      <Terminal className="w-4 h-4 text-accent" /> Mission Brief
                    </h4>
                    <p className="text-slate-300 leading-relaxed text-lg whitespace-pre-wrap">
                       {job.description}
@@ -306,12 +306,12 @@ function JobCard({ job, index }: { job: Job, index: number }) {
                 {job.requirements && job.requirements.length > 0 && (
                   <div>
                      <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
-                        <Cpu className="w-4 h-4 text-purple-500" /> Core Requirements
+                        <Cpu className="w-4 h-4 text-accent" /> Core Requirements
                      </h4>
                      <ul className="space-y-2">
                         {job.requirements.map((req, i) => (
                           <li key={i} className="flex items-start gap-3 text-slate-400 leading-relaxed">
-                            <span className="mt-2.5 w-1.5 h-1.5 bg-purple-500 rounded-full flex-shrink-0" />
+                            <span className="mt-2.5 w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
                             {req}
                           </li>
                         ))}
@@ -336,7 +336,7 @@ function JobCard({ job, index }: { job: Job, index: number }) {
                 <div className="space-y-3">
                    <Link 
                      href={`/careers/${job.id}/apply`}
-                     className="w-full flex items-center justify-center gap-2 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-500 transition-colors shadow-lg shadow-purple-900/20"
+                     className="w-full flex items-center justify-center gap-2 py-3 bg-accent text-white font-bold rounded-lg hover:bg-accent/90 transition-colors shadow-lg shadow-accent/10"
                    >
                      <ArrowUpRight className="w-4 h-4" /> Apply Online
                    </Link>

@@ -20,7 +20,7 @@ export default function WebSystemsPage() {
 
   return (
     <PageLayout variant="vibrant">
-      <main ref={containerRef} className="min-h-screen pt-32 pb-20 overflow-x-hidden selection:bg-purple-500/30 font-sans">
+      <main ref={containerRef} className="min-h-screen pt-32 pb-20 overflow-x-hidden selection:bg-accent/30 font-sans">
         
         {/* --- BACKGROUND AMBIENCE --- */}
         <div className="fixed inset-0 z-0 pointer-events-none">
@@ -36,7 +36,7 @@ export default function WebSystemsPage() {
           <motion.div 
             animate={{ opacity: [0.3, 0.5, 0.3], scale: [1.1, 1, 1.1] }}
             transition={{ duration: 10, repeat: Infinity }}
-            className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 blur-[120px] rounded-full mix-blend-screen" 
+            className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/10 blur-[120px] rounded-full mix-blend-screen" 
           />
         </div>
 
@@ -61,7 +61,7 @@ export default function WebSystemsPage() {
               
               <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-[1.1]">
                 SCALABLE <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 animate-gradient-x">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-accent to-indigo-400 animate-gradient-x">
                   ECOSYSTEMS.
                 </span>
               </h1>
@@ -115,7 +115,7 @@ export default function WebSystemsPage() {
                 <h2 className="text-3xl font-bold text-white mb-2">The Tech Stack</h2>
                 <p className="text-slate-400">Our preferred architecture for high-scale applications.</p>
               </div>
-              <div className="hidden md:block text-xs font-mono text-purple-400">
+              <div className="hidden md:block text-xs font-mono text-accent">
                 // HOVER TO INSPECT
               </div>
             </div>
@@ -207,7 +207,7 @@ function TechCard({ icon, title, subtitle, features, delay }: any) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay }}
       whileHover={{ y: -5 }}
-      className="p-8 rounded-2xl bg-[#0d1117] border border-slate-800 hover:border-purple-500/30 transition-colors group relative overflow-hidden"
+      className="p-8 rounded-2xl bg-[#0d1117] border border-slate-800 hover:border-accent/30 transition-colors group relative overflow-hidden"
     >
       <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/5 to-transparent rounded-bl-[4rem] pointer-events-none" />
       
@@ -216,7 +216,7 @@ function TechCard({ icon, title, subtitle, features, delay }: any) {
       </div>
       
       <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
-      <p className="text-purple-400 font-mono text-xs mb-6 uppercase tracking-wider">{subtitle}</p>
+      <p className="text-accent font-mono text-xs mb-6 uppercase tracking-wider">{subtitle}</p>
       
       <ul className="space-y-3 relative z-10">
         {features.map((f: string, i: number) => (

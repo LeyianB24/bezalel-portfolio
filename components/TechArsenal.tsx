@@ -186,7 +186,7 @@ const itemVariants: Variants = {
 
 export default function TechArsenal() {
   return (
-    <section id="arsenal" className="relative min-h-screen overflow-hidden bg-background px-4 pb-32 pt-32 transition-colors duration-500">
+    <section id="arsenal" className="relative min-h-screen overflow-hidden section-arsenal-bg px-4 pb-32 pt-32 transition-colors duration-500">
       <div className="absolute inset-0 z-0 flex items-center justify-center opacity-25 pointer-events-none dark:opacity-20">
         <TechGlobe />
       </div>
@@ -207,7 +207,7 @@ export default function TechArsenal() {
             </div>
 
             <h2 className="text-5xl font-black leading-[0.9] tracking-tighter text-foreground md:text-7xl">
-              THE <span className="bg-gradient-to-r from-primary via-cyan-500 to-accent bg-clip-text text-transparent">ARSENAL</span>
+              THE <span className="bg-gradient-to-r from-[#C9A24B] via-[#E8CD84] to-[#8B6F2E] bg-clip-text text-transparent">ARSENAL</span>
             </h2>
 
             <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">

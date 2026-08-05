@@ -66,8 +66,8 @@ export default function RootLayout({
             antialiased 
             bg-background 
             text-foreground 
-            selection:bg-macos-green/30 
-            selection:text-macos-green
+            selection:bg-[#C9A24B]/30 
+            selection:text-[#0B2036]
             scrollbar-hide
           `}
         >

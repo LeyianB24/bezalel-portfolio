@@ -30,9 +30,9 @@ export default function ThemeToggle() {
       aria-label="Toggle Theme"
     >
       {/* --- BACKGROUND GLOW --- */}
-      {/* macOS Green glow for Moon, Yellow glow for Sun */}
+      {/* Brand glow: gold for dark, navy for light */}
       <div className={`absolute inset-0 transition-opacity duration-500 blur-xl opacity-0 group-hover:opacity-40 ${
-        isDark ? "bg-macos-green" : "bg-macos-yellow"
+        isDark ? "bg-[rgba(201,162,75,0.18)]" : "bg-[rgba(11,32,54,0.10)]"
       }`} />
 
       {/* --- ICONS --- */}
@@ -48,7 +48,7 @@ export default function ThemeToggle() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <Moon size={20} className="text-macos-green fill-macos-green/20" strokeWidth={2} />
+              <Moon size={20} className="text-[#C9A24B] fill-[rgba(201,162,75,0.16)]" strokeWidth={2} />
             </motion.div>
           ) : (
             <motion.div
@@ -59,7 +59,7 @@ export default function ThemeToggle() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <Sun size={20} className="text-macos-yellow fill-macos-yellow/20" strokeWidth={2} />
+              <Sun size={20} className="text-[#0B2036] fill-[rgba(11,32,54,0.08)]" strokeWidth={2} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -68,7 +68,7 @@ export default function ThemeToggle() {
       {/* --- BORDER HIGHLIGHT --- */}
       {/* A subtle ring that shines when the theme is active */}
       <div className={`absolute inset-0 rounded-full border opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-        isDark ? "border-macos-green/30" : "border-macos-yellow/30"
+        isDark ? "border-[rgba(201,162,75,0.26)]" : "border-[rgba(11,32,54,0.12)]"
       }`} />
 
     </motion.button>

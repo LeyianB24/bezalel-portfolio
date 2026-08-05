@@ -45,10 +45,10 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <PageLayout variant="subtle" title={`Apply: ${job.title}`}>
-      <main className="min-h-screen pt-32 pb-20 relative overflow-hidden font-sans selection:bg-purple-500/30">
+      <main className="min-h-screen pt-32 pb-20 relative overflow-hidden font-sans selection:bg-accent/30">
         {/* Background Accents */}
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/20 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[rgba(3,41,78,0.12)] blur-[120px] rounded-full pointer-events-none" />
         
         <ApplyForm job={jobInfo} />
       </main>

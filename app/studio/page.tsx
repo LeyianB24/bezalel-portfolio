@@ -81,7 +81,7 @@ export default async function StudioPage() {
       sub: `${pendingOrdersCount} pending order${pendingOrdersCount !== 1 ? "s" : ""}`, 
       icon: ShoppingBag, 
       href: "/studio/store",
-      accent: "purple"
+      accent: "navy"
     },
     { 
       label: "Unread Messages", 
@@ -96,7 +96,7 @@ export default async function StudioPage() {
   const accentColors: Record<string, string> = {
     emerald: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
     blue: "text-blue-400 bg-blue-500/10 border-blue-500/20",
-    purple: "text-purple-400 bg-purple-500/10 border-purple-500/20",
+    navy: "text-slate-300 bg-slate-800/10 border-slate-700/20",
     amber: "text-amber-400 bg-amber-500/10 border-amber-500/20",
   }
 
@@ -222,7 +222,7 @@ export default async function StudioPage() {
           <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-500">
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500" />Projects</span>
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-400" />Messages</span>
-            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-400" />Applications</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-accent" />Applications</span>
           </div>
         </div>
         <ActivityChart data={chartData} />

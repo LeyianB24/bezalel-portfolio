@@ -31,25 +31,25 @@ export default function UnifiedBackground({
     default: {
       gridOpacity: 'opacity-[0.04] dark:opacity-[0.08]',
       orbs: [
-        { color: 'bg-macos-green/10 dark:bg-macos-green/10', blur: 'blur-[120px]', position: 'top-[-20%] left-1/2 -translate-x-1/2', size: 'w-[80vw] h-[60vh]' },
-        { color: 'bg-amber-600/5 dark:bg-amber-800/10', blur: 'blur-[100px]', position: 'bottom-[-10%] right-[-10%]', size: 'w-[60vw] h-[60vh]', delay: 'delay-700' },
-        { color: 'bg-zinc-400/10 dark:bg-zinc-800/20', blur: 'blur-[90px]', position: 'top-[40%] left-[-10%]', size: 'w-[40vw] h-[40vh]', opacity: 'opacity-50' },
+        { color: 'bg-[rgba(3,41,78,0.14)]', blur: 'blur-[120px]', position: 'top-[-20%] left-1/2 -translate-x-1/2', size: 'w-[80vw] h-[60vh]' },
+        { color: 'bg-[rgba(212,175,55,0.06)]', blur: 'blur-[100px]', position: 'bottom-[-10%] right-[-10%]', size: 'w-[60vw] h-[60vh]', delay: 'delay-700' },
+        { color: 'bg-[rgba(255,255,255,0.04)]', blur: 'blur-[90px]', position: 'top-[40%] left-[-10%]', size: 'w-[40vw] h-[40vh]', opacity: 'opacity-50' },
       ] as OrbConfig[]
     },
     vibrant: {
       gridOpacity: 'opacity-[0.06] dark:opacity-[0.12]',
       orbs: [
-        { color: 'bg-emerald-500/20', blur: 'blur-[150px]', position: 'top-[-20%] left-[10%]', size: 'w-[600px] h-[600px]' },
-        { color: 'bg-blue-500/15', blur: 'blur-[120px]', position: 'bottom-[-10%] right-[10%]', size: 'w-[500px] h-[500px]', delay: 'delay-1000' },
-        { color: 'bg-cyan-400/10', blur: 'blur-[100px]', position: 'top-[20%] right-[15%]', size: 'w-[300px] h-[300px]', delay: 'delay-2000' },
+        { color: 'bg-[rgba(3,41,78,0.16)]', blur: 'blur-[150px]', position: 'top-[-20%] left-[10%]', size: 'w-[600px] h-[600px]' },
+        { color: 'bg-[rgba(212,175,55,0.08)]', blur: 'blur-[120px]', position: 'bottom-[-10%] right-[10%]', size: 'w-[500px] h-[500px]', delay: 'delay-1000' },
+        { color: 'bg-[rgba(255,255,255,0.06)]', blur: 'blur-[100px]', position: 'top-[20%] right-[15%]', size: 'w-[300px] h-[300px]', delay: 'delay-2000' },
       ] as OrbConfig[]
     },
     cyber: {
       gridOpacity: 'opacity-[0.05] dark:opacity-[0.10]',
       orbs: [
-        { color: 'bg-purple-500/15', blur: 'blur-[140px]', position: 'top-[-15%] left-[15%]', size: 'w-[550px] h-[550px]' },
-        { color: 'bg-indigo-500/12', blur: 'blur-[110px]', position: 'bottom-[-5%] right-[20%]', size: 'w-[450px] h-[450px]', delay: 'delay-1500' },
-        { color: 'bg-violet-400/8', blur: 'blur-[95px]', position: 'top-[35%] left-[-5%]', size: 'w-[350px] h-[350px]', delay: 'delay-2500' },
+        { color: 'bg-[rgba(3,41,78,0.14)]', blur: 'blur-[140px]', position: 'top-[-15%] left-[15%]', size: 'w-[550px] h-[550px]' },
+        { color: 'bg-[rgba(212,175,55,0.06)]', blur: 'blur-[110px]', position: 'bottom-[-5%] right-[20%]', size: 'w-[450px] h-[450px]', delay: 'delay-1500' },
+        { color: 'bg-[rgba(255,255,255,0.06)]', blur: 'blur-[95px]', position: 'top-[35%] left-[-5%]', size: 'w-[350px] h-[350px]', delay: 'delay-2500' },
       ] as OrbConfig[]
     },
     subtle: {
@@ -63,41 +63,28 @@ export default function UnifiedBackground({
 
   const config = variants[variant];
 
-  const imageLayers = [
-    {
-      src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80',
-      className: 'left-[-6%] top-[8%] h-[28vh] w-[22vw] min-w-[220px] rotate-[-8deg] hidden lg:block',
-      delay: '0s',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1000&q=80',
-      className: 'right-[4%] top-[18%] h-[24vh] w-[18vw] min-w-[200px] rotate-[10deg] hidden md:block',
-      delay: '1.2s',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80',
-      className: 'bottom-[8%] left-[10%] h-[22vh] w-[20vw] min-w-[210px] rotate-[6deg] hidden sm:block',
-      delay: '2s',
-    },
-  ];
-
   return (
     <>
       <ParticleField />
       <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
-        {imageLayers.map((layer, index) => (
-          <motion.div
-            key={layer.src}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: [0.22, 0.38, 0.22], y: [0, -18, 0], rotate: [layer.className.includes('rotate-[-8deg]') ? -8 : layer.className.includes('rotate-[10deg]') ? 10 : 6, layer.className.includes('rotate-[-8deg]') ? -5 : layer.className.includes('rotate-[10deg]') ? 12 : 8, layer.className.includes('rotate-[-8deg]') ? -8 : layer.className.includes('rotate-[10deg]') ? 10 : 6] }}
-            transition={{ duration: 16 + index * 2, repeat: Infinity, ease: 'easeInOut', delay: index * 0.8 }}
-            className={`ambient-image-card absolute rounded-[32px] border border-white/15 ${layer.className}`}
-            style={{ backgroundImage: `url(${layer.src})` }}
-          />
-        ))}
-        <div className="ambient-orb absolute left-[10%] top-[24%] h-56 w-56 rounded-full bg-sky-500/20 blur-[120px]" />
-        <div className="ambient-orb absolute bottom-[10%] right-[8%] h-64 w-64 rounded-full bg-amber-400/20 blur-[120px]" />
-        <div className="ambient-orb absolute right-[25%] top-[8%] h-44 w-44 rounded-full bg-white/10 blur-[110px]" />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.18, 0.36, 0.18] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute inset-0 bg-gradient-to-br from-[rgba(2,6,23,0.9)] via-[rgba(3,41,78,0.55)] to-[rgba(212,175,55,0.06)]"
+        />
+
+        {/* Center watermark - shows if /bezalel-mark.png exists in /public */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+          <div className="relative w-[46vmin] max-w-[720px] h-[46vmin] max-h-[720px] rounded-full">
+            <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(212,175,55,0.08),transparent 45%)] blur-[6px]" />
+            <img src="/bezalel-mark.png" alt="BezaleL watermark" className="absolute inset-0 w-full h-full object-contain opacity-0 sm:opacity-30 mix-blend-screen" />
+          </div>
+        </div>
+
+        <div className="ambient-orb absolute left-[8%] top-[18%] h-[360px] w-[360px] rounded-full bg-[rgba(0,141,255,0.14)] blur-[140px]" />
+        <div className="ambient-orb absolute right-[6%] bottom-[10%] h-[420px] w-[420px] rounded-full bg-[rgba(212,175,55,0.14)] blur-[160px]" />
+        <div className="ambient-orb absolute right-[25%] top-[8%] h-[220px] w-[220px] rounded-full bg-[rgba(255,255,255,0.06)] blur-[110px]" />
       </div>
       {/* --- 1. ENGINEERING GRID --- */}
       {showGrid && (

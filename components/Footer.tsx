@@ -156,7 +156,7 @@ export default function Footer() {
                 <div className="text-slate-400 text-xs mb-2"># Stay updated on system patches</div>
                 <form onSubmit={handleSubscribe} className="flex items-center gap-2">
                     <span className="text-macos-green">➜</span>
-                    <span className="text-purple-400">~</span>
+                    <span className="text-accent">~</span>
                     <input 
                         type="email" 
                         value={email}

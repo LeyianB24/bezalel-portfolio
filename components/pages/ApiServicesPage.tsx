@@ -204,7 +204,7 @@ function InteractiveArchitecture() {
          transition={{ duration: 5, repeat: Infinity }}
          className="absolute top-10 right-[10%] md:right-[20%] p-4 bg-slate-900 border border-slate-700 rounded-xl flex flex-col items-center gap-2"
        >
-          <Globe className="text-purple-400 w-6 h-6" />
+          <Globe className="text-accent w-6 h-6" />
           <span className="text-[10px] text-slate-400 font-mono">CDN EDGE</span>
        </motion.div>
 
@@ -319,18 +319,18 @@ function IDEWindow() {
        </div>
        <div className="p-6 overflow-x-auto">
           <pre className="font-mono text-sm leading-relaxed text-slate-300">
-            <div className="flex"><span className="w-6 text-slate-700 select-none">1</span><span className="text-purple-400">import</span> {'{'} <span className="text-yellow-200">NextRequest</span>, <span className="text-yellow-200">NextResponse</span> {'}'} <span className="text-purple-400">from</span> <span className="text-green-300">'next/server'</span>;</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">1</span><span className="text-accent">import</span> {'{'} <span className="text-yellow-200">NextRequest</span>, <span className="text-yellow-200">NextResponse</span> {'}'} <span className="text-accent">from</span> <span className="text-green-300">'next/server'</span>;</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">2</span></div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">3</span><span className="text-purple-400">export async function</span> <span className="text-blue-400">middleware</span>(req: <span className="text-yellow-200">NextRequest</span>) {'{'}</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">3</span><span className="text-accent">export async function</span> <span className="text-blue-400">middleware</span>(req: <span className="text-yellow-200">NextRequest</span>) {'{'}</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">4</span>  <span className="text-slate-500">// 1. Edge Authentication</span></div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">5</span>  <span className="text-purple-400">const</span> token = req.headers.<span className="text-blue-400">get</span>(<span className="text-green-300">'Authorization'</span>);</div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">6</span>  <span className="text-purple-400">if</span> (!<span className="text-blue-400">verifyJWT</span>(token)) <span className="text-purple-400">return</span> <span className="text-yellow-200">NextResponse</span>.<span className="text-blue-400">json</span>({'{'} error: <span className="text-green-300">'401'</span> {'}'});</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">5</span>  <span className="text-accent">const</span> token = req.headers.<span className="text-blue-400">get</span>(<span className="text-green-300">'Authorization'</span>);</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">6</span>  <span className="text-accent">if</span> (!<span className="text-blue-400">verifyJWT</span>(token)) <span className="text-accent">return</span> <span className="text-yellow-200">NextResponse</span>.<span className="text-blue-400">json</span>({'{'} error: <span className="text-green-300">'401'</span> {'}'});</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">7</span></div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">8</span>  <span className="text-slate-500">// 2. Rate Limiting (Redis)</span></div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">9</span>  <span className="text-purple-400">const</span> ip = req.ip || <span className="text-green-300">'127.0.0.1'</span>;</div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">10</span> <span className="text-purple-400">const</span> rate = <span className="text-purple-400">await</span> redis.<span className="text-blue-400">incr</span>(<span className="text-green-300">`limit:$</span>{'{'}ip{'}'}<span className="text-green-300">`</span>);</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">9</span>  <span className="text-accent">const</span> ip = req.ip || <span className="text-green-300">'127.0.0.1'</span>;</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">10</span> <span className="text-accent">const</span> rate = <span className="text-accent">await</span> redis.<span className="text-blue-400">incr</span>(<span className="text-green-300">`limit:$</span>{'{'}ip{'}'}<span className="text-green-300">`</span>);</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">11</span></div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">12</span> <span className="text-purple-400">return</span> <span className="text-yellow-200">NextResponse</span>.<span className="text-blue-400">next</span>();</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">12</span> <span className="text-accent">return</span> <span className="text-yellow-200">NextResponse</span>.<span className="text-blue-400">next</span>();</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">13</span>{'}'}</div>
           </pre>
        </div>

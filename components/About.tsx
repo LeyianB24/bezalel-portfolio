@@ -12,7 +12,8 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="relative overflow-hidden px-6 py-24 lg:py-32 bg-background">
+    <section id="about" className="relative overflow-hidden px-6 py-24 lg:py-32 section-about-bg">
+      <div className="absolute inset-0 pointer-events-none person-bg person-bg--dark rounded-2xl opacity-40 -z-10" />
       <div className="absolute inset-0 z-0 opacity-[0.06] bg-[radial-gradient(circle_at_top_left,_hsl(var(--primary)/0.5),_transparent_30%),radial-gradient(circle_at_bottom_right,_hsl(var(--accent)/0.4),_transparent_28%)]" />
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.35)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.35)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,black,transparent)]" />
 
@@ -33,7 +34,7 @@ export default function About() {
             <motion.h2 variants={textVariants} className="mb-8 text-4xl font-black leading-[0.95] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Not an agency.
               <br />
-              <span className="bg-gradient-to-r from-primary via-cyan-500 to-accent bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-primary/60 to-accent bg-clip-text text-transparent">
                 A technical partner.
               </span>
             </motion.h2>
@@ -66,12 +67,12 @@ export default function About() {
               {
                 title: "Systems that feel premium",
                 text: "Every interface and workflow is designed with clarity, motion, and confidence.",
-                accent: "from-primary/20 to-cyan-500/10",
+                accent: "from-primary/20 to-accent/10",
               },
               {
                 title: "Built for scale",
                 text: "We combine product design, backend architecture, and operational discipline into one execution layer.",
-                accent: "from-accent/20 to-fuchsia-500/10",
+                accent: "from-accent/20 to-accent/10",
               },
               {
                 title: "Strategic from day one",

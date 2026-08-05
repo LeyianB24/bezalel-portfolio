@@ -23,10 +23,11 @@ export async function PATCH(
     });
 
     return NextResponse.json(updatedMessage);
-  } catch (error: any) {
-    console.error("Update message error:", error);
-    return NextResponse.json({ error: "Failed to update message" }, { status: 500 });
+  } catch (error) {
+    console.error("Delete message error:", error);
+    return NextResponse.json({ error: "Failed to delete message" }, { status: 500 });
   }
+}
 }
 
 export async function DELETE(
@@ -46,7 +47,7 @@ export async function DELETE(
     });
 
     return new NextResponse(null, { status: 204 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Delete message error:", error);
     return NextResponse.json({ error: "Failed to delete message" }, { status: 500 });
   }

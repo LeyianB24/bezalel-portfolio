@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { 
   ArrowLeft, Upload, FileText, CheckCircle2, 
@@ -18,7 +17,6 @@ interface JobInfo {
 }
 
 export default function ApplyForm({ job }: { job: JobInfo }) {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -70,9 +68,10 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
 
       toast.success("Application submitted successfully!");
       setIsSuccess(true);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      toast.error(error.message || "An unexpected error occurred. Please try again.");
+      const message = error instanceof Error ? error.message : "An unexpected error occurred. Please try again.";
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

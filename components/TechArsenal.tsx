@@ -152,7 +152,7 @@ const itemVariants: Variants = {
 
 export default function TechArsenal() {
   return (
-    <section id="arsenal" className="relative min-h-screen overflow-hidden section-arsenal-bg px-4 pb-32 pt-32 transition-colors duration-500">
+    <section id="arsenal" className="relative min-h-screen overflow-hidden px-4 pb-32 pt-32 transition-colors duration-500">
       <div className="absolute inset-0 z-0 flex items-center justify-center opacity-25 pointer-events-none dark:opacity-20">
         <TechGlobe />
       </div>

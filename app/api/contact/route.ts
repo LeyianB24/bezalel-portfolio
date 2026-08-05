@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     console.log(`[CONTACT EMAIL MOCK] New message from ${name} (${email}): ${subject}`);
 
     return NextResponse.json(contactMessage, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Contact message error:", error);
     return NextResponse.json({ error: "Failed to send message" }, { status: 500 });
   }
@@ -45,7 +45,7 @@ export async function GET() {
     });
 
     return NextResponse.json(messages);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Fetch messages error:", error);
     return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
   }

@@ -85,9 +85,10 @@ export default function RequestForm() {
 
       toast.success("Project brief submitted successfully!");
       setIsSuccess(true);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      toast.error(error.message || "An unexpected error occurred. Please try again.");
+      const message = error instanceof Error ? error.message : "An unexpected error occurred. Please try again.";
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

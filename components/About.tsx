@@ -52,6 +52,21 @@ export default function About() {
                 </div>
               ))}
             </motion.div>
+
+            {/* Small Side Feature Image */}
+            <motion.div variants={textVariants} className="mt-8 relative aspect-[16/9] w-full max-w-lg rounded-2xl overflow-hidden border border-border/40 bg-zinc-900/60 shadow-xl">
+              <img 
+                src="/images/hero_banner.png" 
+                alt="Bezalel Engineering Studio" 
+                className="w-full h-full object-cover opacity-85 hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent flex items-end p-4">
+                <div className="text-xs font-mono text-primary font-bold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  Engineering Studio HQ // System Architecture
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
 
           <motion.div

@@ -128,36 +128,6 @@ const techGroups: TechGroup[] = [
 // =====================
 // BACKGROUND DECORATION (FIXED)
 // =====================
-
-const CodeDecoration = () => (
-  <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
-    <div 
-      className="transform -rotate-[15deg] scale-[1.7] opacity-[0.03] dark:opacity-[0.04] blur-[1px]"
-    >
-      <pre className="font-mono text-3xl md:text-5xl font-black leading-tight text-foreground">
-        <span className="text-macos-green">class</span> <span className="text-macos-yellow">SystemCore</span> <span className="text-macos-green">extends</span> <span className="text-macos-green">Bezalelv2</span> {"{"}
-        {"\n"}
-        {"  "}<span className="text-macos-green">@HighFrequency</span>
-        {"\n"}
-        {"  "}<span className="text-macos-green">async</span> <span className="text-macos-yellow">executeOrder</span>(payload: <span className="text-orange-400">Transaction</span>) {"{"}
-        {"\n"}
-        {"    "}<span className="text-macos-green">const</span> secureChannel = <span className="text-macos-green">await</span> <span className="text-macos-green">Encrypt</span>.init();
-        {"\n"}
-        {"    "}<span className="text-macos-green">await</span> secureChannel.transmit(payload);
-        {"\n"}
-        {"    "}<span className="text-macos-yellow">// Optimized for &lt; 50ms latency</span>
-        {"\n"}
-        {"    "}<span className="text-macos-green">return</span> <span className="text-macos-yellow">true</span>;
-        {"\n"}
-        {"  "}{"}"}
-        {"\n"}
-        {"}"}
-      </pre>
-    </div>
-  </div>
-);
-
-// =====================
 // ANIMATIONS
 // =====================
 
@@ -180,10 +150,6 @@ const itemVariants: Variants = {
   }
 };
 
-// =====================
-// MAIN COMPONENT
-// =====================
-
 export default function TechArsenal() {
   return (
     <section id="arsenal" className="relative min-h-screen overflow-hidden section-arsenal-bg px-4 pb-32 pt-32 transition-colors duration-500">
@@ -191,7 +157,6 @@ export default function TechArsenal() {
         <TechGlobe />
       </div>
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_left,_hsl(var(--primary)/0.16),_transparent_28%),radial-gradient(circle_at_bottom_right,_hsl(var(--accent)/0.16),_transparent_24%)]" />
-      <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay contrast-150 brightness-100 pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <header className="mb-20">

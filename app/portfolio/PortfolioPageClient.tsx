@@ -21,6 +21,7 @@ const projects = [
     year: "2024",
     icon: Globe,
     color: "emerald",
+    image: "/images/web_system.png",
   },
   {
     id: 2,
@@ -32,6 +33,7 @@ const projects = [
     year: "2024",
     icon: Smartphone,
     color: "blue",
+    image: "/images/mobile_app.png",
   },
   {
     id: 3,
@@ -42,7 +44,8 @@ const projects = [
     result: "99.97% uptime over 12 months",
     year: "2023",
     icon: Database,
-    color: "navy",
+    color: "purple",
+    image: "/images/hero_banner.png",
   },
   {
     id: 4,
@@ -54,6 +57,7 @@ const projects = [
     year: "2024",
     icon: Layers,
     color: "amber",
+    image: "/images/web_system.png",
   },
   {
     id: 5,
@@ -64,7 +68,8 @@ const projects = [
     result: "12x faster incident response time",
     year: "2023",
     icon: Cpu,
-    color: "navy",
+    color: "cyan",
+    image: "/images/saas_kit.png",
   },
   {
     id: 6,
@@ -75,17 +80,19 @@ const projects = [
     result: "Reduced design-to-dev handoff time by 60%",
     year: "2024",
     icon: Braces,
-    color: "navy",
+    color: "pink",
+    image: "/images/hero_banner.png",
   },
 ];
 
 const colorMap: Record<string, { bg: string; border: string; text: string; iconBg: string }> = {
   emerald: { bg: "bg-emerald-500/5", border: "border-emerald-500/20", text: "text-emerald-500", iconBg: "bg-emerald-500/10" },
   blue: { bg: "bg-blue-500/5", border: "border-blue-500/20", text: "text-blue-400", iconBg: "bg-blue-500/10" },
-  navy: { bg: "bg-slate-800/6", border: "border-slate-700/20", text: "text-slate-300", iconBg: "bg-slate-800/10" },
+  purple: { bg: "bg-purple-500/5", border: "border-purple-500/20", text: "text-purple-400", iconBg: "bg-purple-500/10" },
   amber: { bg: "bg-amber-500/5", border: "border-amber-500/20", text: "text-amber-400", iconBg: "bg-amber-500/10" },
-  // legacy bright tones replaced by brand-safe navy variant
-  // cyan and pink mapped to `navy` to avoid non-brand colors
+  cyan: { bg: "bg-cyan-500/5", border: "border-cyan-500/20", text: "text-cyan-400", iconBg: "bg-cyan-500/10" },
+  pink: { bg: "bg-pink-500/5", border: "border-pink-500/20", text: "text-pink-400", iconBg: "bg-pink-500/10" },
+  navy: { bg: "bg-slate-800/6", border: "border-slate-700/20", text: "text-slate-300", iconBg: "bg-slate-800/10" },
 };
 
 const stats = [
@@ -168,7 +175,7 @@ export default function PortfolioPageClient() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence mode="popLayout">
               {filtered.map((project, i) => {
-                const colors = colorMap[project.color];
+                const colors = colorMap[project.color] || colorMap.emerald;
                 const Icon = project.icon;
                 return (
                   <motion.div
@@ -191,6 +198,15 @@ export default function PortfolioPageClient() {
                         </span>
                         <div className="text-[10px] font-mono text-muted-foreground mt-1">{project.year}</div>
                       </div>
+                    </div>
+
+                    {/* Project Image Preview */}
+                    <div className="w-full aspect-video rounded-xl overflow-hidden mb-4 border border-border/40 bg-zinc-900/50">
+                      <img 
+                        src={project.image || "/images/web_system.png"} 
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
 
                     {/* Title */}

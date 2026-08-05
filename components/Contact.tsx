@@ -232,7 +232,6 @@ export default function ContactTerminal() {
                         <div 
                           key={s.id}
                           onClick={() => handleServiceSelect(s)}
-                      <div
                           className={`relative cursor-pointer group p-3 rounded border transition-all duration-300 ${
                             formState.service.id === s.id
                               ? "bg-accent/5 border-accent/50"

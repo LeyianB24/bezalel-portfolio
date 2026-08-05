@@ -59,7 +59,7 @@ async function main() {
       stock: 999,
       sku: 'BZL-TPL-001',
       categoryId: createdCategories['saas-starter-kits'],
-      images: [],
+      images: ['/images/saas_kit.png'],
     },
     {
       name: 'M-Pesa Integration Library',
@@ -70,7 +70,7 @@ async function main() {
       stock: 999,
       sku: 'BZL-LIB-001',
       categoryId: createdCategories['software-templates'],
-      images: [],
+      images: ['/images/web_system.png'],
     },
     {
       name: 'BezaUI — React Component Library',
@@ -81,7 +81,7 @@ async function main() {
       stock: 999,
       sku: 'BZL-UI-001',
       categoryId: createdCategories['ui-components'],
-      images: [],
+      images: ['/images/hero_banner.png'],
     },
     {
       name: 'Tech Audit — 1-Hour Consulting Session',
@@ -92,7 +92,7 @@ async function main() {
       stock: 10,
       sku: 'BZL-CON-001',
       categoryId: createdCategories['consulting-packages'],
-      images: [],
+      images: ['/images/mobile_app.png'],
     },
     {
       name: 'AI SaaS Boilerplate',
@@ -103,7 +103,7 @@ async function main() {
       stock: 999,
       sku: 'BZL-AI-001',
       categoryId: createdCategories['saas-starter-kits'],
-      images: [],
+      images: ['/images/saas_kit.png'],
     },
   ]
 

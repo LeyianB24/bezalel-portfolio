@@ -68,6 +68,8 @@ export default function PageLayout({
       {showScrollProgress && (
         <motion.div
             className="fixed top-0 left-0 right-0 h-[3px] bg-primary origin-left z-[110] shadow-[0_0_15px_rgba(215,172,78,0.7)]"
+            style={{ scaleX }}
+        />
       )}
 
       {/* --- UNIFIED BACKGROUND SYSTEM --- */}

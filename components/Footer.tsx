@@ -80,12 +80,7 @@ export default function Footer() {
       {/* --- BACKGROUND FX --- */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
       
-      {/* --- GIANT GHOST TYPOGRAPHY --- */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full select-none pointer-events-none overflow-hidden">
-        <h1 className="text-[15vw] font-black text-foreground opacity-[0.03] leading-none text-center tracking-tighter whitespace-nowrap">
-          SYSTEM ROOT
-        </h1>
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         

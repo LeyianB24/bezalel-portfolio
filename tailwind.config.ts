@@ -34,6 +34,8 @@ const config: Config = {
           "Fira Code",
           ...defaultTheme.fontFamily.mono
         ],
+        // Unify serif to the same brand sans family for system-wide consistency.
+        serif: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
       },
 
       // 3. The Color Palette (HSL Linked)

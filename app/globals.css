@@ -4,68 +4,68 @@
 
 @layer base {
   :root {
-    /* Brand palette (light mode) - premium navy, gold, cream */
-    --background: 39 88% 95%;      /* Cream */
-    --foreground: 211 29% 18%;     /* Ink */
+    /* Brand palette (light mode) - rich ivory cream, deep navy ink, opulent gold */
+    --background: 40 60% 97%;       /* Warm Ivory */
+    --foreground: 222 32% 14%;      /* Deep Ink */
 
     --card: 0 0% 100%;
-    --card-foreground: 211 29% 18%;
+    --card-foreground: 222 32% 14%;
 
-    --primary: 210 62% 12%;        /* Deep Navy */
-    --primary-foreground: 0 0% 100%;
+    --primary: 222 38% 16%;        /* Deep Navy */
+    --primary-foreground: 40 60% 97%;
 
-    --accent: 44 64% 55%;          /* Gold */
-    --accent-foreground: 0 0% 10%;
-    --accent-light: 40 69% 75%;    /* Gold Light */
-    --accent-dark: 38 53% 40%;     /* Gold Dark */
+    --accent: 42 70% 50%;          /* Royal Gold */
+    --accent-foreground: 222 32% 14%;
+    --accent-light: 44 78% 70%;    /* Champagne */
+    --accent-dark: 38 56% 38%;     /* Antique Gold */
 
-    --secondary: 214 18% 69%;      /* Muted Steel */
-    --secondary-foreground: 211 29% 18%;
+    --secondary: 222 16% 65%;      /* Muted Steel */
+    --secondary-foreground: 222 32% 14%;
 
-    --muted: 214 18% 74%;          /* Dusty Steel */
-    --muted-foreground: 211 29% 18%;
+    --muted: 222 18% 80%;          /* Pearl */
+    --muted-foreground: 222 18% 32%;
 
-    --navy: 11 81% 21%;            /* Navy */
-    --navy-deep: 210 56% 5%;       /* Navy Deep */
-    --cream: 39 88% 95%;
-    --ink: 211 29% 18%;
-    --muted-steel: 214 18% 69%;    /* Muted Steel */
+    --navy: 222 38% 16%;            /* Navy */
+    --navy-deep: 220 50% 5%;        /* Navy Deep */
+    --cream: 40 60% 97%;
+    --ink: 222 32% 14%;
+    --muted-steel: 222 16% 65%;     /* Muted Steel */
 
     --destructive: 4 85% 58%;      /* Accent red stays for destructive actions */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 18% 82%;
-    --input: 39 100% 97%;
-    --ring: 44 64% 55%;
+    --border: 222 14% 86%;
+    --input: 40 100% 97%;
+    --ring: 42 70% 50%;
 
     --radius: 0.9rem;
   }
 
   .dark {
     /* Brand palette (dark mode) - cinematic navy + gold highlights */
-    --background: 210 56% 6%;      /* Navy Deep */
-    --foreground: 39 88% 95%;      /* Cream / Soft White */
+    --background: 220 50% 5%;      /* Navy Deep */
+    --foreground: 40 60% 95%;      /* Cream / Soft White */
 
-    --card: 210 20% 10%;
-    --card-foreground: 39 88% 95%;
+    --card: 220 28% 9%;
+    --card-foreground: 40 60% 95%;
 
-    --primary: 11 81% 12%;         /* Deep Navy */
-    --primary-foreground: 39 88% 95%;
+    --primary: 222 38% 14%;         /* Deep Navy */
+    --primary-foreground: 40 60% 95%;
 
-    --accent: 44 64% 55%;          /* Gold */
-    --accent-foreground: 39 88% 95%;
-    --accent-light: 40 69% 75%;    /* Gold Light */
+    --accent: 42 70% 58%;          /* Gold */
+    --accent-foreground: 40 60% 95%;
+    --accent-light: 44 78% 75%;    /* Gold Light */
     --accent-dark: 38 53% 40%;     /* Gold Dark */
 
-    --secondary: 210 20% 12%;      /* Charcoal */
-    --secondary-foreground: 39 88% 95%;
+    --secondary: 220 20% 14%;      /* Charcoal */
+    --secondary-foreground: 40 60% 95%;
 
-    --muted: 214 18% 34%;
-    --muted-foreground: 39 88% 95%;
+    --muted: 214 18% 32%;
+    --muted-foreground: 40 50% 88%;
 
-    --border: 210 18% 20%;
-    --input: 210 18% 15%;
-    --ring: 44 64% 55%;
+    --border: 220 18% 20%;
+    --input: 220 18% 14%;
+    --ring: 42 70% 58%;
   }
 }
 
@@ -76,11 +76,11 @@
   }
   
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased font-sans;
     background-image:
-      radial-gradient(circle at top left, hsl(var(--primary) / 0.12), transparent 28%),
-      radial-gradient(circle at top right, hsl(var(--accent) / 0.16), transparent 30%),
-      linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
+      radial-gradient(circle at top left, hsl(var(--primary) / 0.10), transparent 32%),
+      radial-gradient(circle at top right, hsl(var(--accent) / 0.12), transparent 32%),
+      linear-gradient(160deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
     background-attachment: fixed;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "zero" 1;
   }

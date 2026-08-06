@@ -1,24 +1,35 @@
 "use client"
 
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
   Area,
   AreaChart
 } from "recharts"
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface ChartPoint {
+  name: string;
+  projects?: number;
+  messages?: number;
+  applications?: number;
+  [key: string]: string | number | undefined;
+}
+
+interface TooltipPayloadEntry {
+  dataKey: string;
+  value: number;
+  color: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipPayloadEntry[]; label?: string }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-xs font-mono shadow-xl">
         <p className="text-zinc-400 mb-2 uppercase tracking-widest text-[10px]">{label}</p>
-        {payload.map((entry: any) => (
+        {payload.map((entry) => (
           <div key={entry.dataKey} className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
             <span className="text-zinc-300 capitalize">{entry.dataKey}:</span>
@@ -31,7 +42,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null
 }
 
-export default function ActivityChart({ data }: { data: any[] }) {
+export default function ActivityChart({ data }: { data: ChartPoint[] }) {
   if (!data || data.length === 0) {
     return (
       <div className="h-52 flex items-center justify-center text-zinc-600 text-xs font-mono">

@@ -3,12 +3,11 @@
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FiArrowUp } from "react-icons/fi";
-import IDEWrapper from "./IDEWrapper";
+import Header from "./Header";
 import UnifiedBackground from "./UnifiedBackground";
 import Footer from "./Footer";
 import CommandPalette from "./CommandPalette";
 import CursorTrail from "./CursorTrail";
-import { jellyPresets } from "@/lib/jelly-springs";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -18,20 +17,21 @@ interface PageLayoutProps {
   showFooter?: boolean;
   showCommandPalette?: boolean;
   showCursorTrail?: boolean;
+  showHeader?: boolean;
   className?: string;
   title?: string;
 }
 
 export default function PageLayout({
   children,
-  variant = 'default',
+  variant = 'subtle',
   showScrollProgress = true,
   showScrollToTop = true,
   showFooter = true,
   showCommandPalette = true,
   showCursorTrail = true,
+  showHeader = true,
   className = '',
-  title,
 }: PageLayoutProps) {
   
   // --- Scroll Progress Bar Logic ---
@@ -47,11 +47,7 @@ export default function PageLayout({
   
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > window.innerHeight) {
-        setShowTopBtn(true);
-      } else {
-        setShowTopBtn(false);
-      }
+      setShowTopBtn(window.scrollY > window.innerHeight);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -75,19 +71,18 @@ export default function PageLayout({
       {/* --- UNIFIED BACKGROUND SYSTEM --- */}
       <UnifiedBackground variant={variant} />
 
-      {/* --- PREMIUM IDE WRAPPER --- */}
-      <IDEWrapper title={title}>
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative flex flex-col min-h-full"
-        >
-          {children}
-
-          {showFooter && <div className="mt-auto"><Footer /></div>}
-        </motion.div>
-      </IDEWrapper>
+      {/* --- PREMIUM OPEN LAYOUT --- */}
+      {showHeader && <Header />}
+      
+      <motion.main 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 pt-20 min-h-screen"
+      >
+        {children}
+        {showFooter && <Footer />}
+      </motion.main>
 
       {/* --- INTERACTIVE FEATURES --- */}
       {showCommandPalette && <CommandPalette />}
@@ -101,16 +96,15 @@ export default function PageLayout({
               initial={{ opacity: 0, scale: 0.5, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.5, y: 20 }}
-              whileHover={{ scale: 1.15, y: -2 }}
-              whileTap={{ scaleX: 1.2, scaleY: 0.8 }}
-              transition={jellyPresets.bouncy}
+              whileHover={{ scale: 1.1, y: -2 }}
+              whileTap={{ scale: 0.95 }}
               onClick={scrollToTop}
               className="fixed bottom-8 right-8 z-50 p-4 rounded-full 
-                         jelly-glass 
-                         border border-primary/20 text-primary
-                         shadow-lg hover:shadow-[0_0_20px_rgba(215,172,78,0.4)] 
-                         hover:border-primary hover:bg-primary hover:text-primary-foreground
-                         transition-all duration-300 group"
+                       premium-card 
+                       border border-accent/30 text-primary
+                       shadow-lg hover:shadow-[0_0_24px_rgba(201,162,75,0.4)] 
+                       hover:border-accent hover:bg-accent hover:text-accent-foreground
+                       transition-all duration-300 group"
               aria-label="Scroll to top"
             >
               <FiArrowUp className="text-xl group-hover:-translate-y-1 transition-transform duration-300" />

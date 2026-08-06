@@ -29,34 +29,31 @@ export default function UnifiedBackground({
   // Background variant configurations
   const variants = {
     default: {
-      gridOpacity: 'opacity-[0.04] dark:opacity-[0.08]',
+      gridOpacity: 'opacity-[0.03] dark:opacity-[0.05]',
       orbs: [
-        { color: 'bg-[rgba(3,41,78,0.14)]', blur: 'blur-[120px]', position: 'top-[-20%] left-1/2 -translate-x-1/2', size: 'w-[80vw] h-[60vh]' },
-        { color: 'bg-[rgba(212,175,55,0.06)]', blur: 'blur-[100px]', position: 'bottom-[-10%] right-[-10%]', size: 'w-[60vw] h-[60vh]', delay: 'delay-700' },
-        { color: 'bg-[rgba(255,255,255,0.04)]', blur: 'blur-[90px]', position: 'top-[40%] left-[-10%]', size: 'w-[40vw] h-[40vh]', opacity: 'opacity-50' },
+        { color: 'bg-[rgba(3,41,78,0.10)]', blur: 'blur-[140px]', position: 'top-[-15%] left-1/2 -translate-x-1/2', size: 'w-[70vw] h-[50vh]' },
+        { color: 'bg-[rgba(212,175,55,0.05)]', blur: 'blur-[120px]', position: 'bottom-[-10%] right-[-10%]', size: 'w-[50vw] h-[50vh]', delay: 'delay-700' },
       ] as OrbConfig[]
     },
     vibrant: {
-      gridOpacity: 'opacity-[0.06] dark:opacity-[0.12]',
+      gridOpacity: 'opacity-[0.04] dark:opacity-[0.08]',
       orbs: [
-        { color: 'bg-[rgba(3,41,78,0.16)]', blur: 'blur-[150px]', position: 'top-[-20%] left-[10%]', size: 'w-[600px] h-[600px]' },
-        { color: 'bg-[rgba(212,175,55,0.08)]', blur: 'blur-[120px]', position: 'bottom-[-10%] right-[10%]', size: 'w-[500px] h-[500px]', delay: 'delay-1000' },
-        { color: 'bg-[rgba(255,255,255,0.06)]', blur: 'blur-[100px]', position: 'top-[20%] right-[15%]', size: 'w-[300px] h-[300px]', delay: 'delay-2000' },
+        { color: 'bg-[rgba(3,41,78,0.12)]', blur: 'blur-[150px]', position: 'top-[-15%] left-[10%]', size: 'w-[500px] h-[500px]' },
+        { color: 'bg-[rgba(212,175,55,0.06)]', blur: 'blur-[130px]', position: 'bottom-[-10%] right-[10%]', size: 'w-[400px] h-[400px]', delay: 'delay-1000' },
       ] as OrbConfig[]
     },
     cyber: {
-      gridOpacity: 'opacity-[0.05] dark:opacity-[0.10]',
+      gridOpacity: 'opacity-[0.04] dark:opacity-[0.08]',
       orbs: [
-        { color: 'bg-[rgba(3,41,78,0.14)]', blur: 'blur-[140px]', position: 'top-[-15%] left-[15%]', size: 'w-[550px] h-[550px]' },
-        { color: 'bg-[rgba(212,175,55,0.06)]', blur: 'blur-[110px]', position: 'bottom-[-5%] right-[20%]', size: 'w-[450px] h-[450px]', delay: 'delay-1500' },
-        { color: 'bg-[rgba(255,255,255,0.06)]', blur: 'blur-[95px]', position: 'top-[35%] left-[-5%]', size: 'w-[350px] h-[350px]', delay: 'delay-2500' },
+        { color: 'bg-[rgba(3,41,78,0.12)]', blur: 'blur-[140px]', position: 'top-[-15%] left-[15%]', size: 'w-[500px] h-[500px]' },
+        { color: 'bg-[rgba(212,175,55,0.05)]', blur: 'blur-[120px]', position: 'bottom-[-5%] right-[20%]', size: 'w-[400px] h-[400px]', delay: 'delay-1500' },
       ] as OrbConfig[]
     },
     subtle: {
-      gridOpacity: 'opacity-[0.02] dark:opacity-[0.04]',
+      gridOpacity: 'opacity-[0.02] dark:opacity-[0.03]',
       orbs: [
-        { color: 'bg-slate-400/5', blur: 'blur-[100px]', position: 'top-[-10%] left-1/2 -translate-x-1/2', size: 'w-[60vw] h-[40vh]' },
-        { color: 'bg-zinc-400/3', blur: 'blur-[80px]', position: 'bottom-[-5%] right-[-5%]', size: 'w-[40vw] h-[30vh]', delay: 'delay-1000' },
+        { color: 'bg-slate-400/5', blur: 'blur-[120px]', position: 'top-[-10%] left-1/2 -translate-x-1/2', size: 'w-[55vw] h-[35vh]' },
+        { color: 'bg-zinc-400/3', blur: 'blur-[100px]', position: 'bottom-[-5%] right-[-5%]', size: 'w-[35vw] h-[28vh]', delay: 'delay-1000' },
       ] as OrbConfig[]
     }
   };
@@ -67,24 +64,8 @@ export default function UnifiedBackground({
     <>
       <ParticleField />
       <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0.18, 0.36, 0.18] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute inset-0 bg-gradient-to-br from-[rgba(2,6,23,0.9)] via-[rgba(3,41,78,0.55)] to-[rgba(212,175,55,0.06)]"
-        />
-
-        {/* Center watermark - shows if /bezalel-mark.png exists in /public */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
-          <div className="relative w-[46vmin] max-w-[720px] h-[46vmin] max-h-[720px] rounded-full">
-            <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(212,175,55,0.08),transparent 45%)] blur-[6px]" />
-            <img src="/bezalel-mark.png" alt="BezaleL watermark" className="absolute inset-0 w-full h-full object-contain opacity-0 sm:opacity-30 mix-blend-screen" />
-          </div>
-        </div>
-
-        <div className="ambient-orb absolute left-[8%] top-[18%] h-[360px] w-[360px] rounded-full bg-[rgba(0,141,255,0.14)] blur-[140px]" />
-        <div className="ambient-orb absolute right-[6%] bottom-[10%] h-[420px] w-[420px] rounded-full bg-[rgba(212,175,55,0.14)] blur-[160px]" />
-        <div className="ambient-orb absolute right-[25%] top-[8%] h-[220px] w-[220px] rounded-full bg-[rgba(255,255,255,0.06)] blur-[110px]" />
+        {/* Theme-aware atmospheric base (dark mode keeps the cinematic depth) */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-accent/5 dark:bg-gradient-to-br dark:from-[rgba(2,6,23,0.7)] dark:via-[rgba(3,41,78,0.4)] dark:to-[rgba(212,175,55,0.04)]" />
       </div>
       {/* --- 1. ENGINEERING GRID --- */}
       {showGrid && (

@@ -9,7 +9,7 @@ export default function ThemeToggle() {
   const { setTheme, theme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => { setMounted(true); }, []);
 
   if (!mounted) {
     // Exact size placeholder to prevent layout shift (CLS)

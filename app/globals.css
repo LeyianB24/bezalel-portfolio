@@ -102,7 +102,11 @@
 @layer utilities {
   /* --- PREMIUM SURFACE SYSTEM --- */
   .premium-card {
-    @apply rounded-[28px] border border-white/60 bg-white/70 backdrop-blur-2xl shadow-[0_20px_80px_-24px_rgba(15,23,42,0.28)];
+    @apply rounded-[24px] border border-primary/10 bg-white/80 backdrop-blur-2xl;
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.7) inset,
+      0 0 0 1px hsl(var(--accent) / 0.06),
+      0 24px 60px -28px hsl(var(--primary) / 0.22);
   }
 
   .dark .premium-card {
@@ -111,7 +115,8 @@
   }
 
   .premium-pill {
-    @apply rounded-full border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_10px_40px_-18px_rgba(15,23,42,0.22)];
+    @apply rounded-full border border-primary/10 bg-white/80 backdrop-blur-xl;
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.7) inset, 0 10px 40px -18px hsl(var(--primary) / 0.18);
   }
 
   .dark .premium-pill {
@@ -119,7 +124,7 @@
   }
 
   .premium-glow {
-    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.16), 0 25px 70px -24px hsl(var(--primary) / 0.35);
+    box-shadow: 0 0 0 1px hsl(var(--accent) / 0.20), 0 25px 60px -22px hsl(var(--accent) / 0.35);
   }
 
   .ambient-image-card {

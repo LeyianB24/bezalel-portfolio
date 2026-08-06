@@ -57,12 +57,17 @@ export default function CommandPalette() {
     },
   ];
 
+  const closePalette = useCallback(() => {
+    setIsOpen(false);
+    setSearch("");
+    setSelectedIndex(0);
+  }, []);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      setIsOpen(false);
-      setSearch("");
+      closePalette();
     }
   };
 
@@ -71,9 +76,10 @@ export default function CommandPalette() {
     cmd.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
     setSelectedIndex(0);
-  }, [search]);
+  };
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -84,8 +90,7 @@ export default function CommandPalette() {
     if (!isOpen) return;
 
     if (e.key === "Escape") {
-      setIsOpen(false);
-      setSearch("");
+      closePalette();
     }
 
     if (e.key === "ArrowDown") {
@@ -104,7 +109,7 @@ export default function CommandPalette() {
         filteredCommands[selectedIndex].action();
       }
     }
-  }, [isOpen, filteredCommands, selectedIndex]);
+  }, [isOpen, filteredCommands, selectedIndex, closePalette]);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -143,7 +148,7 @@ export default function CommandPalette() {
                   ref={inputRef}
                   type="text"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={handleSearchChange}
                   placeholder="Type a command or search..."
                   className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground/50 font-mono text-lg"
                 />

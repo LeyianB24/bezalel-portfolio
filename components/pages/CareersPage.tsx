@@ -88,16 +88,16 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
 
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-32 pb-20 relative overflow-hidden font-sans selection:bg-accent/30">
+      <main className="min-h-screen pt-28 sm:pt-32 pb-20 relative overflow-hidden font-sans selection:bg-accent/30">
         
         {/* Dynamic Background */}
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/20 blur-[120px] rounded-full pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
           
           {/* --- HEADER SECTION --- */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 border-b border-white/10 pb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 sm:mb-20 gap-8 border-b border-white/10 pb-12">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -109,11 +109,11 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
                 </span>
                 System Status: Hiring
               </div>
-              <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white mb-2">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mb-2">
                 JOIN THE <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">VANGUARD.</span>
               </h1>
-              <p className="text-slate-400 max-w-lg text-lg">
-                We don&apos;t hide behind middle management. We build software that matters.
+              <p className="text-slate-400 max-w-lg text-base sm:text-lg">
+                We don't hide behind middle management. We build software that matters.
               </p>
             </motion.div>
 
@@ -129,12 +129,12 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
               >
                 View Hiring Protocol
               </button>
-              <div className="flex flex-wrap p-1 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm gap-1">
+              <div className="flex flex-wrap p-1 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm gap-1 max-w-full overflow-x-auto scrollbar-hide">
                 {departments.map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setFilter(tab)}
-                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                    className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-md transition-all whitespace-nowrap ${
                       filter === tab 
                         ? "bg-accent text-white shadow-lg"
                         : "text-slate-400 hover:text-white hover:bg-white/5"
@@ -157,7 +157,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
               >
                 <motion.div 
                   initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                  className="bg-neutral-950 border border-white/10 p-8 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                  className="bg-neutral-950 border border-white/10 p-6 sm:p-8 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex justify-between items-center mb-6">
@@ -191,7 +191,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
           </AnimatePresence>
 
           {/* --- JOB GRID --- */}
-          <div className="grid gap-6">
+          <div className="grid gap-4 sm:gap-6">
             <AnimatePresence mode="popLayout">
               {filteredJobs.map((job, index) => (
                 <JobCard key={job.id} job={job} index={index} />

@@ -116,21 +116,21 @@ export default function PortfolioPageClient() {
         <Header />
 
         {/* Hero */}
-        <section className="pt-40 pb-20 px-6 max-w-6xl mx-auto relative">
+        <section className="pt-32 sm:pt-40 pb-16 sm:pb-20 px-4 sm:px-6 max-w-6xl mx-auto relative">
           <div className="absolute inset-0 pointer-events-none person-bg person-bg--dark rounded-2xl -z-10" />
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-mono uppercase tracking-widest mb-6">
               <Code2 size={12} />
               Engineering Portfolio // Bezalel Technologies
             </div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-none mb-6">
               SYSTEMS WE
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/70 to-accent">
                 HAVE SHIPPED
               </span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
+            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl leading-relaxed">
               A curated selection of high-impact engineering work. Every project is a system built to outlast its launch — optimized for performance, maintainability, and scale.
             </p>
           </motion.div>
@@ -140,25 +140,25 @@ export default function PortfolioPageClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-12 sm:mt-16"
           >
             {stats.map((stat, i) => (
-              <div key={i} className="text-center p-6 rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm">
-                <div className="text-3xl md:text-4xl font-black text-foreground tracking-tight">{stat.value}</div>
-                <div className="text-xs text-muted-foreground font-mono uppercase tracking-widest mt-1">{stat.label}</div>
+              <div key={i} className="text-center p-4 sm:p-6 rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight">{stat.value}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground font-mono uppercase tracking-widest mt-1">{stat.label}</div>
               </div>
             ))}
           </motion.div>
         </section>
 
         {/* Category Filter */}
-        <section className="sticky top-20 z-30 bg-background/80 backdrop-blur-xl border-y border-border/30 py-4 px-6">
-          <div className="max-w-7xl mx-auto flex items-center gap-3 overflow-x-auto scrollbar-hide">
+        <section className="sticky top-16 sm:top-20 z-30 bg-background/80 backdrop-blur-xl border-y border-border/30 py-3 sm:py-4 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-200 ${
+                className={`px-4 sm:px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-200 shrink-0 ${
                   activeCategory === cat
                     ? "bg-primary text-white shadow-lg shadow-primary/20"
                     : "border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30"
@@ -171,8 +171,8 @@ export default function PortfolioPageClient() {
         </section>
 
         {/* Projects Grid */}
-        <section className="max-w-7xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <AnimatePresence mode="popLayout">
               {filtered.map((project, i) => {
                 const colors = colorMap[project.color] || colorMap.emerald;
@@ -185,11 +185,11 @@ export default function PortfolioPageClient() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.35, delay: i * 0.07 }}
-                    className={`group relative flex flex-col p-6 rounded-2xl border ${colors.border} ${colors.bg} hover:shadow-2xl transition-all duration-500 hover:-translate-y-1`}
+                    className={`group relative flex flex-col p-5 sm:p-6 rounded-2xl border ${colors.border} ${colors.bg} hover:shadow-2xl transition-all duration-500 hover:-translate-y-1`}
                   >
                     {/* Header */}
                     <div className="flex items-start justify-between mb-4">
-                      <div className={`w-12 h-12 rounded-xl ${colors.iconBg} border ${colors.border} flex items-center justify-center`}>
+                      <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl ${colors.iconBg} border ${colors.border} flex items-center justify-center`}>
                         <Icon size={22} className={colors.text} />
                       </div>
                       <div className="text-right">
@@ -210,7 +210,7 @@ export default function PortfolioPageClient() {
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-lg font-black tracking-tight mb-3 group-hover:text-primary transition-colors duration-300">
+                    <h2 className="text-base sm:text-lg font-black tracking-tight mb-3 group-hover:text-primary transition-colors duration-300">
                       {project.title}
                     </h2>
 
@@ -244,7 +244,7 @@ export default function PortfolioPageClient() {
         </section>
 
         {/* CTA */}
-        <section className="border-t border-border/30 bg-card/30 py-24 px-6 text-center">
+        <section className="border-t border-border/30 bg-card/30 py-16 sm:py-24 px-4 sm:px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -253,23 +253,23 @@ export default function PortfolioPageClient() {
               transition={{ duration: 0.6 }}
             >
               <div className="text-[10px] font-mono uppercase tracking-widest text-primary mb-4">Ready to Build?</div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter mb-6">
                 YOUR PROJECT,<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">OUR OBSESSION</span>
               </h2>
-              <p className="text-muted-foreground text-lg mb-10">
+              <p className="text-muted-foreground text-base sm:text-lg mb-8 sm:mb-10">
                 Join 48+ companies who trusted Bezalel to architect their most critical systems. Let's build something remarkable together.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link
                   href="/projects/request"
-                  className="group inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 rounded-xl font-bold text-sm hover:scale-105 transition-transform duration-300"
+                  className="group inline-flex items-center gap-3 bg-foreground text-background px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm hover:scale-105 transition-transform duration-300"
                 >
                   Start a Project <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Link>
                 <Link
                   href="/#contact"
-                  className="inline-flex items-center gap-3 border border-border/60 text-foreground px-8 py-4 rounded-xl font-bold text-sm hover:border-primary/40 transition-all"
+                  className="inline-flex items-center gap-3 border border-border/60 text-foreground px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm hover:border-primary/40 transition-all"
                 >
                   Contact Team
                 </Link>

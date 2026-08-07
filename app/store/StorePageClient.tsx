@@ -63,7 +63,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-5">
+      <div className="flex flex-col flex-1 p-4 sm:p-5">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-[10px] font-mono uppercase tracking-widest text-primary/70 bg-primary/5 border border-primary/10 px-2 py-0.5 rounded">
             {product.category.name}
@@ -78,10 +78,10 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           {product.description}
         </p>
 
-        <div className="mt-4 pt-4 border-t border-border/40 flex items-center justify-between">
-          <div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-black text-foreground font-mono">
+        <div className="mt-4 pt-4 border-t border-border/40 flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <span className="text-lg sm:text-xl font-black text-foreground font-mono">
                 {CURRENCY} {product.price.toLocaleString()}
               </span>
               {product.comparePrice && (
@@ -94,7 +94,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
           <Link
             href={`/store/${product.slug}`}
-            className="group/btn flex items-center gap-2 bg-primary/10 hover:bg-primary text-primary hover:text-white text-xs font-bold px-4 py-2 rounded-lg transition-all duration-300 border border-primary/20 hover:border-primary"
+            className="group/btn flex items-center gap-2 bg-primary/10 hover:bg-primary text-primary hover:text-white text-xs font-bold px-3 sm:px-4 py-2 rounded-lg transition-all duration-300 border border-primary/20 hover:border-primary shrink-0"
           >
             View <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
           </Link>
@@ -138,7 +138,7 @@ export default function StorePageClient({
         <Header />
 
         {/* Hero Section */}
-        <section className="pt-40 pb-20 px-6 text-center max-w-5xl mx-auto">
+        <section className="pt-32 sm:pt-40 pb-16 sm:pb-20 px-4 sm:px-6 text-center max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -148,14 +148,14 @@ export default function StorePageClient({
               <Tag size={12} />
               Digital Store // Bezalel Technologies
             </div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-none">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-none">
               CRAFT YOUR
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-accent">
                 DIGITAL EDGE
               </span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
               Premium SaaS tools, templates, and consulting packages engineered by Bezalel Technologies. 
               Built to deploy fast and scale infinitely.
             </p>
@@ -166,16 +166,16 @@ export default function StorePageClient({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-6 mt-12"
+            className="flex flex-wrap justify-center gap-3 sm:gap-6 mt-10 sm:mt-12"
           >
             {features.map((f, i) => (
-              <div key={i} className="flex items-center gap-3 px-5 py-3 rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <div key={i} className="flex items-center gap-3 px-4 sm:px-5 py-3 rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                   <f.icon size={16} className="text-primary" />
                 </div>
                 <div className="text-left">
                   <div className="text-sm font-bold text-foreground">{f.label}</div>
-                  <div className="text-xs text-muted-foreground max-w-[180px]">{f.desc}</div>
+                  <div className="text-xs text-muted-foreground max-w-[140px] sm:max-w-[180px]">{f.desc}</div>
                 </div>
               </div>
             ))}
@@ -183,8 +183,8 @@ export default function StorePageClient({
         </section>
 
         {/* Filter & Search Bar */}
-        <section className="sticky top-20 z-30 bg-background/80 backdrop-blur-xl border-y border-border/30 py-4 px-6">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row gap-4 items-center">
+        <section className="sticky top-16 sm:top-20 z-30 bg-background/80 backdrop-blur-xl border-y border-border/30 py-3 sm:py-4 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
             {/* Search */}
             <div className="relative flex-1 w-full">
               <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -196,7 +196,7 @@ export default function StorePageClient({
                 className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border/60 bg-card/60 text-foreground placeholder:text-muted-foreground text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground" aria-label="Clear search">
                   <X size={14} />
                 </button>
               )}
@@ -209,7 +209,7 @@ export default function StorePageClient({
                 <button
                   key={cat.slug}
                   onClick={() => setSelectedCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-200 shrink-0 ${
                     selectedCategory === cat.slug
                       ? "bg-primary text-white shadow-lg shadow-primary/20"
                       : "border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30"
@@ -223,12 +223,12 @@ export default function StorePageClient({
         </section>
 
         {/* Products Grid */}
-        <section className="max-w-7xl mx-auto px-6 py-16">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
           {filteredProducts.length === 0 ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-32"
+              className="text-center py-20 sm:py-32"
             >
               <Package size={64} className="mx-auto text-muted-foreground/20 mb-4" strokeWidth={1} />
               <h2 className="text-xl font-bold text-muted-foreground mb-2">No products found</h2>
@@ -246,12 +246,12 @@ export default function StorePageClient({
             </motion.div>
           ) : (
             <>
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center justify-between mb-6 sm:mb-8">
                 <p className="text-sm text-muted-foreground font-mono">
                   <span className="text-foreground font-bold">{filteredProducts.length}</span> product{filteredProducts.length !== 1 ? "s" : ""} found
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 <AnimatePresence mode="popLayout">
                   {filteredProducts.map((product, i) => (
                     <ProductCard key={product.id} product={product} index={i} />
@@ -263,20 +263,20 @@ export default function StorePageClient({
         </section>
 
         {/* CTA Section */}
-        <section className="border-t border-border/30 bg-card/30 py-20 px-6 text-center">
+        <section className="border-t border-border/30 bg-card/30 py-16 sm:py-20 px-4 sm:px-6 text-center">
           <div className="max-w-2xl mx-auto">
             <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6">
               <ShoppingCart size={28} className="text-primary" />
             </div>
-            <h2 className="text-3xl font-black tracking-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-4">
               Need a Custom Solution?
             </h2>
-            <p className="text-muted-foreground mb-8">
+            <p className="text-muted-foreground mb-8 text-sm sm:text-base">
               Can't find exactly what you need? Tell us about your project and we'll engineer a custom solution.
             </p>
             <Link
               href="/projects/request"
-              className="inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 rounded-xl font-bold text-sm hover:scale-105 transition-transform duration-300"
+              className="inline-flex items-center gap-3 bg-foreground text-background px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm hover:scale-105 transition-transform duration-300"
             >
               Request Custom Build <ArrowRight size={16} />
             </Link>

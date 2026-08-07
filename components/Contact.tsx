@@ -100,13 +100,13 @@ export default function ContactTerminal() {
   };
 
   return (
-    <section id="contact" className="relative py-24 md:py-32 px-4 bg-background min-h-screen overflow-hidden flex items-center justify-center">
+    <section id="contact" className="relative py-20 sm:py-24 md:py-32 px-4 bg-background min-h-screen overflow-hidden flex items-center justify-center">
       
       {/* Background Grid - Kept for the aesthetic */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20 items-center">
           
           {/* --- LEFT COLUMN: HUMAN INVITATION --- */}
           <div className="lg:col-span-5 flex flex-col justify-center">
@@ -115,22 +115,22 @@ export default function ContactTerminal() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center gap-3 mb-8">
+              <div className="flex items-center gap-3 mb-6 sm:mb-8">
                 <div className="h-px w-8 bg-accent" />
                 <span className="text-xs font-mono font-bold text-accent tracking-widest uppercase">
                   Open for Business
                 </span>
               </div>
 
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-6">
                 READY TO <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-light">
                   BUILD THIS?
                 </span>
               </h2>
 
-              <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
-                We bridge the gap between complex engineering and simple user experiences. Tell us about your idea, and we&apos;ll tell you how we can engineer it.
+              <p className="text-base sm:text-lg text-muted-foreground mb-8 sm:mb-10 leading-relaxed">
+                We bridge the gap between complex engineering and simple user experiences. Tell us about your idea, and we'll tell you how we can engineer it.
               </p>
 
               
@@ -201,10 +201,10 @@ export default function ContactTerminal() {
                   </div>
                 </div>
 
-                <div className="p-6 md:p-8 space-y-8">
+                <div className="p-5 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
                   
                   {/* Identity Section */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <TerminalInput 
                       label="Your Name" 
                       name="name" 
@@ -277,7 +277,7 @@ export default function ContactTerminal() {
                     <button 
                       type="submit"
                       disabled={isSubmitting}
-                      className="group relative flex items-center justify-center gap-3 py-4 bg-foreground text-background font-bold uppercase tracking-wider text-xs rounded hover:opacity-90 transition-all overflow-hidden disabled:opacity-70"
+                      className="group relative flex items-center justify-center gap-3 py-3.5 sm:py-4 bg-foreground text-background font-bold uppercase tracking-wider text-xs rounded hover:opacity-90 transition-all overflow-hidden disabled:opacity-70"
                     >
                       <span className="relative z-10 flex items-center gap-2">
                         {isSubmitting ? (
@@ -292,7 +292,7 @@ export default function ContactTerminal() {
                     <button 
                       type="button"
                       onClick={handleWhatsApp}
-                      className="flex items-center justify-center gap-3 py-4 border border-accent/30 text-accent bg-accent/5 font-bold uppercase tracking-wider text-xs rounded hover:bg-accent hover:text-white transition-all"
+                      className="flex items-center justify-center gap-3 py-3.5 sm:py-4 border border-accent/30 text-accent bg-accent/5 font-bold uppercase tracking-wider text-xs rounded hover:bg-accent hover:text-white transition-all"
                     >
                       <FiMessageCircle className="text-lg" /> Chat on WhatsApp
                     </button>

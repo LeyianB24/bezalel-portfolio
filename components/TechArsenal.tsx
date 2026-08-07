@@ -152,14 +152,14 @@ const itemVariants: Variants = {
 
 export default function TechArsenal() {
   return (
-    <section id="arsenal" className="relative min-h-screen overflow-hidden px-4 pb-32 pt-32 transition-colors duration-500">
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-25 pointer-events-none dark:opacity-20">
+    <section id="arsenal" className="relative min-h-screen overflow-hidden px-4 pb-32 pt-24 sm:pt-32 transition-colors duration-500">
+      <div className="hidden md:flex absolute inset-0 z-0 items-center justify-center opacity-25 pointer-events-none dark:opacity-20">
         <TechGlobe />
       </div>
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_left,_hsl(var(--primary)/0.16),_transparent_28%),radial-gradient(circle_at_bottom_right,_hsl(var(--accent)/0.16),_transparent_24%)]" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        <header className="mb-20">
+        <header className="mb-16 sm:mb-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -171,17 +171,17 @@ export default function TechArsenal() {
               <span>System_Capabilities</span>
             </div>
 
-            <h2 className="text-5xl font-black leading-[0.9] tracking-tighter text-foreground md:text-7xl">
+            <h2 className="text-4xl sm:text-5xl font-black leading-[0.9] tracking-tighter text-foreground md:text-7xl">
               THE <span className="bg-gradient-to-r from-[#C9A24B] via-[#E8CD84] to-[#8B6F2E] bg-clip-text text-transparent">ARSENAL</span>
             </h2>
 
-            <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
+            <p className="max-w-3xl text-base sm:text-lg leading-relaxed text-muted-foreground">
               We build with modern infrastructure, high-trust product systems, and the kind of precision that makes ambitious ideas feel effortless.
             </p>
           </motion.div>
         </header>
 
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-12 sm:gap-20">
           {techGroups.map((group) => (
             <motion.div 
               key={group.id}
@@ -191,10 +191,10 @@ export default function TechArsenal() {
               viewport={{ once: true, margin: "-100px" }}
               className="relative"
             >
-              <div className="mb-8 flex flex-col justify-between gap-3 rounded-[24px] border border-white/60 bg-white/70 p-5 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/70 md:flex-row md:items-end">
+              <div className="mb-6 sm:mb-8 flex flex-col justify-between gap-3 rounded-[18px] sm:rounded-[24px] border border-white/60 bg-white/70 p-4 sm:p-5 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/70 md:flex-row md:items-end">
                 <div className="flex items-center gap-3">
                   <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_12px_hsl(var(--primary))]" />
-                  <code className="text-base font-mono font-medium tracking-tight text-foreground md:text-lg">
+                  <code className="text-sm sm:text-base font-mono font-medium tracking-tight text-foreground md:text-lg break-all">
                     {group.command}
                   </code>
                 </div>
@@ -203,7 +203,7 @@ export default function TechArsenal() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {group.stack.map((tech) => (
                   <TechItem key={tech.name} tech={tech} />
                 ))}
@@ -214,15 +214,15 @@ export default function TechArsenal() {
       </div>
 
       {/* 4. FOOTER STATUS BAR */}
-      <div className="absolute bottom-0 left-0 right-0 z-50 flex h-8 items-center justify-between border-t border-border bg-background/80 px-4 text-[10px] font-mono text-muted-foreground backdrop-blur md:text-xs">
-        <div className="flex items-center gap-4">
-          <div className="flex cursor-pointer items-center gap-1 transition-colors hover:text-primary"><span className="text-lg">⑂</span> main*</div>
+      <div className="absolute bottom-0 left-0 right-0 z-50 flex h-8 items-center justify-between border-t border-border bg-background/80 px-3 sm:px-4 text-[9px] sm:text-[10px] font-mono text-muted-foreground backdrop-blur md:text-xs">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex cursor-pointer items-center gap-1 transition-colors hover:text-primary"><span className="text-sm sm:text-lg">⑂</span> main*</div>
           <div className="hidden items-center gap-2 sm:flex">
             <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full border border-red-500 bg-transparent" /> 0 ERR</span>
             <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full border border-yellow-500 bg-transparent" /> 0 WARN</span>
           </div>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <span className="hidden sm:inline">Ln 842, Col 12</span>
           <span className="hidden sm:inline">UTF-8</span>
           <span className="flex items-center gap-1 font-bold text-primary">
@@ -244,7 +244,7 @@ const TechItem = memo(function TechItem({ tech }: { tech: Tech }) {
       variants={itemVariants}
       // Inject color variable
       style={{ "--tech-color": tech.color } as React.CSSProperties}
-      className="group relative flex h-32 cursor-crosshair flex-col items-center justify-center overflow-hidden rounded-[20px] border border-border/60 bg-white/70 backdrop-blur-xl transition-all duration-300 hover:border-[var(--tech-color)] hover:bg-[var(--tech-color)]/8 hover:shadow-[0_0_30px_-8px_var(--tech-color)] dark:bg-zinc-900/70"
+      className="group relative flex h-28 sm:h-32 cursor-crosshair flex-col items-center justify-center overflow-hidden rounded-[16px] sm:rounded-[20px] border border-border/60 bg-white/70 backdrop-blur-xl transition-all duration-300 hover:border-[var(--tech-color)] hover:bg-[var(--tech-color)]/8 hover:shadow-[0_0_30px_-8px_var(--tech-color)] dark:bg-zinc-900/70"
     >
       
       {/* Hover Gradient */}
@@ -254,7 +254,7 @@ const TechItem = memo(function TechItem({ tech }: { tech: Tech }) {
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--tech-color)] to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
 
       {/* Icon */}
-      <div className="relative z-10 text-4xl mb-3 text-muted-foreground grayscale group-hover:grayscale-0 group-hover:text-[var(--tech-color)] group-hover:scale-110 transition-all duration-300">
+      <div className="relative z-10 text-3xl sm:text-4xl mb-2 sm:mb-3 text-muted-foreground grayscale group-hover:grayscale-0 group-hover:text-[var(--tech-color)] group-hover:scale-110 transition-all duration-300">
         {tech.icon}
       </div>
       

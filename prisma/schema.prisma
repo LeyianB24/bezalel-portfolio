@@ -14,7 +14,7 @@ model User {
   email           String    @unique
   name            String?
   image           String?
-  password        String?   // Added for credentials-based login
+  password        String?
   role            Role      @default(CUSTOMER)
   emailVerified   DateTime?
   accounts        Account[]
@@ -29,8 +29,8 @@ model User {
 
 enum Role {
   ADMIN
+  CLIENT
   CUSTOMER
-  APPLICANT
 }
 
 model Account {
@@ -70,6 +70,8 @@ model Job {
   description  String           @db.Text
   requirements String[]
   isOpen       Boolean          @default(true)
+  deadline     DateTime?
+  closedAt     DateTime?
   applications JobApplication[]
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
@@ -84,20 +86,20 @@ enum JobType {
 }
 
 model JobApplication {
-  id        String        @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String?
   jobId     String
   name      String
   email     String
   phone     String?
   cvUrl     String
-  coverNote String?       @db.Text
-  status    AppStatus     @default(PENDING)
+  coverNote String?   @db.Text
+  status    AppStatus @default(PENDING)
   adminNote String?
-  user      User?         @relation(fields: [userId], references: [id])
-  job       Job           @relation(fields: [jobId], references: [id])
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  user      User?     @relation(fields: [userId], references: [id])
+  job       Job       @relation(fields: [jobId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 enum AppStatus {
@@ -112,27 +114,30 @@ enum AppStatus {
 // ─── CLIENT PROJECT PIPELINE ────────────────────────────────────
 
 model ProjectRequest {
-  id          String        @id @default(cuid())
-  userId      String?
-  name        String
-  email       String
-  company     String?
-  title       String
-  description String        @db.Text
-  category    ProjectCategory
-  budget      Float?
-  timeline    String?
+  id            String          @id @default(cuid())
+  userId        String?
+  name          String
+  email         String
+  phone         String?
+  company       String?
+  title         String
+  description   String          @db.Text
+  category      ProjectCategory
+  budget        Float?
+  timeline      String?
   attachmentUrl String?
-  status      ProjectStatus @default(NEW)
-  adminNote   String?
-  quotedPrice Float?
-  user        User?         @relation(fields: [userId], references: [id])
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  status        ProjectStatus   @default(NEW)
+  adminNote     String?
+  quotedPrice   Float?
+  quotation     Quotation?
+  user          User?           @relation(fields: [userId], references: [id])
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 }
 
 enum ProjectCategory {
   WEB_APP
+  WEBSITE
   MOBILE_APP
   SYSTEM_INTEGRATION
   UI_UX_DESIGN
@@ -150,6 +155,33 @@ enum ProjectStatus {
   CANCELLED
 }
 
+// ─── QUOTATIONS ──────────────────────────────────────────────────
+
+model Quotation {
+  id               String          @id @default(cuid())
+  projectRequestId String          @unique
+  projectRequest   ProjectRequest  @relation(fields: [projectRequestId], references: [id])
+  lineItems        Json            // [{description, qty, unitPrice, amount}]
+  subtotal         Float
+  tax              Float           @default(0)
+  total            Float
+  validUntil       DateTime
+  notes            String?         @db.Text
+  pdfUrl           String?
+  sentAt           DateTime?
+  status           QuotationStatus @default(DRAFT)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+enum QuotationStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
 // ─── E-COMMERCE ─────────────────────────────────────────────────
 
 model Category {
@@ -160,40 +192,42 @@ model Category {
 }
 
 model Product {
-  id          String      @id @default(cuid())
-  name        String
-  slug        String      @unique
-  description String      @db.Text
-  price       Float
+  id           String      @id @default(cuid())
+  name         String
+  slug         String      @unique
+  description  String      @db.Text
+  price        Float
   comparePrice Float?
-  images      String[]
-  stock       Int         @default(0)
-  sku         String?     @unique
-  isActive    Boolean     @default(true)
-  categoryId  String
-  category    Category    @relation(fields: [categoryId], references: [id])
-  orderItems  OrderItem[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  images       String[]
+  stock        Int         @default(0)
+  sku          String?     @unique
+  isActive     Boolean     @default(true)
+  isDigital    Boolean     @default(false)
+  downloadUrl  String?
+  categoryId   String
+  category     Category    @relation(fields: [categoryId], references: [id])
+  orderItems   OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Order {
-  id              String      @id @default(cuid())
+  id              String        @id @default(cuid())
   userId          String?
   email           String
   name            String
   phone           String?
   shippingAddress Json
   total           Float
-  status          OrderStatus @default(PENDING)
+  status          OrderStatus   @default(PENDING)
   paymentMethod   PaymentMethod
   paymentRef      String?
   mpesaRef        String?
   stripeRef       String?
   items           OrderItem[]
-  user            User?       @relation(fields: [userId], references: [id])
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  user            User?         @relation(fields: [userId], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 enum OrderStatus {
@@ -221,6 +255,23 @@ model OrderItem {
   price     Float
   order     Order   @relation(fields: [orderId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
+}
+
+// ─── PORTFOLIO ──────────────────────────────────────────────────
+
+model PortfolioItem {
+  id            String   @id @default(cuid())
+  name          String
+  clientName    String
+  clientLogoUrl String?
+  description   String   @db.Text
+  techTags      String[]
+  liveUrl       String?
+  images        String[]
+  featured      Boolean  @default(false)
+  displayOrder  Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 // ─── CONTACT ────────────────────────────────────────────────────

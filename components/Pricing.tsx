@@ -60,11 +60,11 @@ export default function PricingArsenal() {
   const [isFullScale, setIsFullScale] = useState(false);
 
   return (
-    <section className="relative py-32 px-4 bg-background overflow-hidden font-sans min-h-screen">
+    <section className="relative py-20 sm:py-32 px-4 bg-background overflow-hidden font-sans min-h-screen">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
       
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-20">
+        <div className="flex flex-col items-center text-center mb-16 sm:mb-20">
           <motion.div 
              initial={{ opacity: 0, scale: 0.9 }}
              whileInView={{ opacity: 1, scale: 1 }}
@@ -79,11 +79,11 @@ export default function PricingArsenal() {
             </span>
           </motion.div>
 
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground mb-6">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter text-foreground mb-6">
             CHOOSE YOUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-macos-green via-macos-green to-macos-yellow">ENGINE</span>
           </h2>
 
-          <p className="text-muted-foreground max-w-2xl text-lg mb-12 leading-relaxed">
+          <p className="text-muted-foreground max-w-2xl text-base sm:text-lg mb-10 sm:mb-12 leading-relaxed px-4">
             From rapid MVPs to scalable ecosystems. We engineer solutions that grow with your capital.
           </p>
           
@@ -101,7 +101,7 @@ export default function PricingArsenal() {
           ))}
         </div>
 
-        <div className="mt-16 text-center border-t border-border pt-8">
+        <div className="mt-12 sm:mt-16 text-center border-t border-border pt-8">
           <p className="text-xs text-muted-foreground font-mono">
             {`// Prices are estimates in KES based on typical complexity. Final technical assessment required.`}
           </p>
@@ -113,20 +113,20 @@ export default function PricingArsenal() {
 
 function ToggleSwitch({ isFullScale, onToggle }: { isFullScale: boolean, onToggle: (val: boolean) => void }) {
   return (
-    <div className="relative p-1.5 bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-white/10 rounded-full flex items-center cursor-pointer w-[300px] shadow-inner">
+    <div className="relative p-1.5 bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-white/10 rounded-full flex items-center cursor-pointer w-[280px] sm:w-[300px] shadow-inner">
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className={`absolute top-1.5 bottom-1.5 w-[142px] rounded-full shadow-lg z-0
+        className={`absolute top-1.5 bottom-1.5 rounded-full shadow-lg z-0
           ${isFullScale 
-            ? 'left-[150px] bg-gradient-to-r from-macos-green to-macos-green' 
-            : 'left-1.5 bg-white dark:bg-stone-800'
+            ? 'left-[calc(50%+3px)] w-[calc(50%-6px)] bg-gradient-to-r from-macos-green to-macos-green' 
+            : 'left-1.5 w-[calc(50%-6px)] bg-white dark:bg-stone-800'
           }`}
       />
       
       <button
         onClick={() => onToggle(false)}
-        className={`relative z-10 flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors duration-300 flex items-center justify-center gap-2
+        className={`relative z-10 flex-1 py-2.5 sm:py-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors duration-300 flex items-center justify-center gap-2
           ${!isFullScale ? 'text-stone-900 dark:text-white' : 'text-stone-500'}`}
       >
         <FiDatabase className="mb-0.5" /> Core
@@ -134,7 +134,7 @@ function ToggleSwitch({ isFullScale, onToggle }: { isFullScale: boolean, onToggl
       
       <button
         onClick={() => onToggle(true)}
-        className={`relative z-10 flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors duration-300 flex items-center justify-center gap-2
+        className={`relative z-10 flex-1 py-2.5 sm:py-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors duration-300 flex items-center justify-center gap-2
           ${isFullScale ? 'text-white' : 'text-stone-500'}`}
       >
         <FiLayers className="mb-0.5" /> Full Scale
@@ -180,7 +180,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
         }}
       />
       
-      <div className="relative z-10 p-8 flex flex-col h-full">
+      <div className="relative z-10 p-6 sm:p-8 flex flex-col h-full">
         <div className="flex justify-between items-start mb-6">
           <div className={`p-3 rounded-xl ${plan.highlight ? "bg-macos-yellow text-stone-950" : "bg-macos-green/10 text-macos-green"}`}>
             {plan.icon}
@@ -188,15 +188,15 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
           <span className="text-[10px] font-mono text-stone-400">ID: {plan.id}</span>
         </div>
 
-        <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-        <p className="text-sm text-muted-foreground mb-8 line-clamp-2">{plan.description}</p>
+        <h3 className="text-xl sm:text-2xl font-bold mb-2">{plan.name}</h3>
+        <p className="text-sm text-muted-foreground mb-6 sm:mb-8 line-clamp-2">{plan.description}</p>
 
-        <div className="mb-8 p-4 rounded-xl bg-stone-500/5 border border-stone-500/10">
+        <div className="mb-6 sm:mb-8 p-4 rounded-xl bg-stone-500/5 border border-stone-500/10">
           <div className="flex justify-between items-end mb-1">
             <span className="text-[10px] font-mono text-stone-400 uppercase tracking-tighter">Current Build</span>
             <span className="text-xs font-bold text-macos-green">{isFullScale ? "Scale-Ready" : "Core Engine"}</span>
           </div>
-          <div className="text-3xl font-black tracking-tighter">
+          <div className="text-2xl sm:text-3xl font-black tracking-tighter">
             {isFullScale ? plan.rates.scale : plan.rates.core}
           </div>
           <div className="mt-4 space-y-2">
@@ -214,7 +214,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
           </div>
         </div>
 
-        <ul className="space-y-4 mb-8 flex-1">
+        <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-1">
           {plan.features.map((feature, i) => (
             <li key={i} className="flex items-center gap-3 text-sm text-muted-foreground">
               <FiCheck className="text-macos-green shrink-0" />
@@ -225,7 +225,7 @@ function SpotlightCard({ plan, isFullScale, index }: { plan: PricingTier, isFull
 
         <a 
           href={`?plan=${encodeURIComponent(plan.name)}#contact`}
-          className={`w-full py-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 group/btn
+          className={`w-full py-3.5 sm:py-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 group/btn
             ${plan.highlight 
               ? "bg-amber-500 text-stone-950 hover:bg-amber-400 shadow-lg shadow-amber-500/25" 
               : "border border-stone-200 dark:border-stone-700 hover:border-macos-green/50 hover:bg-macos-green/5"

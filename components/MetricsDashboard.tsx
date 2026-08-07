@@ -50,7 +50,7 @@ export default function MetricsDashboard() {
   ];
 
   return (
-    <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+    <div ref={ref} className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-2 sm:px-4">
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
@@ -61,7 +61,7 @@ export default function MetricsDashboard() {
             delay: index * 0.1, 
             ...jellyPresets.bouncy 
           }}
-          className="jelly-glass p-6 border border-white/10 hover:border-accent/40 transition-colors group relative overflow-hidden"
+          className="jelly-glass p-4 sm:p-6 border border-white/10 hover:border-accent/40 transition-colors group relative overflow-hidden"
         >
           {/* Subtle background glow */}
           <div 
@@ -72,7 +72,7 @@ export default function MetricsDashboard() {
           <div className="relative z-10">
             {/* Icon */}
             <div
-              className="w-10 h-10 mb-6 rounded-xl flex items-center justify-center transition-all duration-500 bg-white/5 border border-white/10 group-hover:rotate-6 group-hover:scale-110 shadow-lg"
+              className="w-9 h-9 sm:w-10 sm:h-10 mb-4 sm:mb-6 rounded-xl flex items-center justify-center transition-all duration-500 bg-white/5 border border-white/10 group-hover:rotate-6 group-hover:scale-110 shadow-lg"
               style={{ color: metric.color }}
             >
               {metric.icon}
@@ -80,7 +80,7 @@ export default function MetricsDashboard() {
 
             {/* Value */}
             <div className="mb-1 flex items-baseline gap-1">
-              <span className="text-4xl font-bold text-foreground font-mono tracking-tighter">
+              <span className="text-3xl sm:text-4xl font-bold text-foreground font-mono tracking-tighter">
                 {isInView ? (
                   <CountUp 
                     end={metric.value} 
@@ -90,16 +90,16 @@ export default function MetricsDashboard() {
                   />
                 ) : "0"}
               </span>
-              <span className="text-xl font-bold text-muted-foreground/50">{metric.suffix}</span>
+              <span className="text-lg sm:text-xl font-bold text-muted-foreground/50">{metric.suffix}</span>
             </div>
 
             {/* Label */}
-            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground/60 group-hover:text-foreground transition-colors">
+            <p className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-muted-foreground/60 group-hover:text-foreground transition-colors">
               {metric.label}
             </p>
 
             {/* Premium Progress Bar */}
-            <div className="mt-6 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+            <div className="mt-4 sm:mt-6 h-1 w-full bg-white/5 rounded-full overflow-hidden">
               <motion.div
                 className="h-full rounded-full"
                 style={{ 

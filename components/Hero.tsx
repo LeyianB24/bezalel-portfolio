@@ -41,7 +41,7 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative flex flex-col items-center justify-center text-center px-4 h-screen min-h-[800px] overflow-hidden section-hero-bg group selection:bg-accent/30"
+      className="relative flex flex-col items-center justify-center text-center px-4 py-20 md:py-0 min-h-[100svh] md:min-h-[800px] overflow-hidden section-hero-bg group selection:bg-accent/30"
       onMouseMove={handleMouseMove}
     >
       
@@ -59,7 +59,7 @@ export default function Hero() {
 
       {/* --- LAYER 2: GOLD SPOTLIGHT --- */}
       <motion.div
-        className="absolute inset-0 z-10 bg-[linear-gradient(to_right,hsl(var(--accent)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--accent)/0.2)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute inset-0 z-10 hidden md:block bg-[linear-gradient(to_right,hsl(var(--accent)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--accent)/0.2)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
           maskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`,
           WebkitMaskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`,
@@ -67,9 +67,16 @@ export default function Hero() {
       />
 
       {/* --- LAYER 3: JELLY BLOB ORBS (Breathing) --- */}
-      <div className="absolute top-[-20%] left-[10%] w-[600px] h-[600px] bg-[rgba(11,32,54,0.2)] blur-[150px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe"></div>
-      <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-[rgba(201,162,75,0.15)] blur-[120px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute top-[20%] right-[15%] w-[300px] h-[300px] bg-[rgba(255,255,255,0.06)] blur-[100px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe" style={{ animationDelay: '2s' }}></div>
+      {/* Mobile: hidden on small screens for perf. Desktop: visible. */}
+      <div className="hidden md:block absolute top-[-20%] left-[10%] w-[600px] h-[600px] bg-[rgba(11,32,54,0.2)] blur-[150px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe"></div>
+      <div className="hidden md:block absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-[rgba(201,162,75,0.15)] blur-[120px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe" style={{ animationDelay: '1s' }}></div>
+      <div className="hidden md:block absolute top-[20%] right-[15%] w-[300px] h-[300px] bg-[rgba(255,255,255,0.06)] blur-[100px] jelly-blob pointer-events-none mix-blend-screen z-0 jelly-breathe" style={{ animationDelay: '2s' }}></div>
+
+      {/* Mobile-only: smaller, simplified opacity gradient orbs */}
+      <div className="md:hidden absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-5 left-5 w-[240px] h-[240px] bg-[rgba(11,32,54,0.18)] blur-[80px] opacity-60"></div>
+        <div className="absolute bottom-5 right-5 w-[200px] h-[200px] bg-[rgba(201,162,75,0.14)] blur-[80px] opacity-50"></div>
+      </div>
 
       {/* --- HERO CONTENT --- */}
       <motion.div 
@@ -96,7 +103,7 @@ export default function Hero() {
         {/* 2. Main Title (Metallic Shimmer) */}
         <motion.h1 
           variants={itemVariants} 
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight text-foreground mb-6 leading-[0.9] text-balance"
+          className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight text-foreground mb-4 sm:mb-6 leading-[0.95] sm:leading-[0.9] text-balance"
         >
           ENGINEERING <br />
           <span className="relative inline-block text-transparent bg-clip-text 
@@ -109,16 +116,16 @@ export default function Hero() {
 
         <motion.p
           variants={itemVariants}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10 font-light"
+          className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10 font-light px-2"
         >
           We architect <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-accent-light to-accent">scalable digital ecosystems</span> using high-performance infrastructure and boutique-level precision.
         </motion.p>
 
         {/* Primary CTA with jelly-pulse */}
-        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full justify-center">
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full justify-center px-2 sm:px-0">
           <motion.a
             href="#contact"
-            className="group relative px-8 py-4 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-foreground font-bold text-lg rounded-[16px] overflow-hidden jelly-pulse shadow-[0_20px_60px_-18px_hsl(var(--accent)/0.45)]"
+            className="group relative px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-foreground font-bold text-base sm:text-lg rounded-[16px] overflow-hidden jelly-pulse shadow-[0_20px_60px_-18px_hsl(var(--accent)/0.45)]"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scaleX: 1.1, scaleY: 0.88 }}
             transition={jellyPresets.bouncy}
@@ -131,7 +138,7 @@ export default function Hero() {
 
           <motion.a
             href="#arsenal"
-            className="px-8 py-4 rounded-[16px] border border-accent/20 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl text-foreground font-medium text-lg flex items-center gap-3 group shadow-[0_12px_40px_-18px_rgba(15,23,42,0.2)]"
+            className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-[16px] border border-accent/20 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl text-foreground font-medium text-base sm:text-lg flex items-center gap-3 group shadow-[0_12px_40px_-18px_rgba(15,23,42,0.2)]"
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.96 }}
             transition={jellyPresets.bubble}

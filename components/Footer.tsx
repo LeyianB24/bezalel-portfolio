@@ -75,23 +75,23 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-background pt-32 overflow-hidden border-t border-slate-200 dark:border-white/10">
+    <footer className="relative bg-background pt-20 sm:pt-32 overflow-hidden border-t border-slate-200 dark:border-white/10">
       
       {/* --- BACKGROUND FX --- */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
       
 
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* --- TOP: CALL TO ACTION --- */}
-        <div className="flex flex-col lg:flex-row justify-between items-end gap-12 mb-24 border-b border-slate-200 dark:border-white/10 pb-12">
+        <div className="flex flex-col lg:flex-row justify-between items-end gap-8 lg:gap-12 mb-16 sm:mb-24 border-b border-slate-200 dark:border-white/10 pb-12">
           <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="flex items-center gap-3 mb-6"
+              className="flex items-center gap-3 mb-6 flex-wrap"
             >
                <span className="px-3 py-1 rounded bg-accent/10 text-accent border border-accent/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
                  <span className="relative flex h-2 w-2">
@@ -105,7 +105,7 @@ export default function Footer() {
                </span>
             </motion.div>
 
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-foreground leading-[0.9]">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-foreground leading-[0.9]">
               READY TO <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-light">
                 DEPLOY?
@@ -118,7 +118,7 @@ export default function Footer() {
             target="_blank"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative px-8 py-6 bg-foreground text-background rounded-lg font-bold text-xl overflow-hidden shadow-2xl shadow-accent/10 w-full md:w-auto text-center"
+            className="group relative px-6 sm:px-8 py-4 sm:py-6 bg-foreground text-background rounded-lg font-bold text-lg sm:text-xl overflow-hidden shadow-2xl shadow-accent/10 w-full md:w-auto text-center"
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"></div>
             <span className="relative flex items-center justify-center gap-3">
@@ -128,7 +128,7 @@ export default function Footer() {
         </div>
 
         {/* --- MIDDLE: GRID SYSTEM --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-16 sm:mb-20">
           
           {/* Column 1: Brand & Terminal */}
           <div className="lg:col-span-5 space-y-8">
@@ -165,10 +165,10 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Directory Links */}
-          <div className="lg:col-span-4 grid grid-cols-2 gap-8">
+          <div className="lg:col-span-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-6 sm:gap-8">
             {footerLinks.map((column, idx) => (
               <div key={idx}>
-                <h4 className="font-mono font-bold text-foreground mb-6 text-[10px] uppercase tracking-widest opacity-60">
+                <h4 className="font-mono font-bold text-foreground mb-4 sm:mb-6 text-[10px] uppercase tracking-widest opacity-60">
                     {column.title}
                 </h4>
                 <ul className="space-y-3">
@@ -190,7 +190,7 @@ export default function Footer() {
 
           {/* Column 3: Live Telemetry */}
           <div className="lg:col-span-3 space-y-4">
-             <h4 className="font-mono font-bold text-foreground mb-6 text-[10px] uppercase tracking-widest opacity-60">
+             <h4 className="font-mono font-bold text-foreground mb-4 sm:mb-6 text-[10px] uppercase tracking-widest opacity-60">
                 System Telemetry
             </h4>
             
@@ -230,11 +230,11 @@ export default function Footer() {
         {/* --- BOTTOM: UTILITY BAR --- */}
         <div className="pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20 pb-10">
           
-          <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">
+          <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest text-center md:text-left">
             © {currentYear} Bezalel Technologies. // All Rights Reserved.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap justify-center">
              {/* Social Array */}
             {[
                 { icon: <FaInstagram />, href: "https://instagram.com/leyian_.b" },

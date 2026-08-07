@@ -12,10 +12,10 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="relative overflow-hidden px-6 py-24 lg:py-32">
+    <section id="about" className="relative overflow-hidden px-4 sm:px-6 py-16 sm:py-24 lg:py-32">
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="grid items-start gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-24">
+        <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-24">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -28,7 +28,7 @@ export default function About() {
               <span>Operational Protocol</span>
             </motion.div>
 
-            <motion.h2 variants={textVariants} className="mb-8 text-4xl font-black leading-[0.95] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <motion.h2 variants={textVariants} className="mb-6 sm:mb-8 text-3xl sm:text-4xl font-black leading-[0.95] tracking-tight text-foreground lg:text-6xl">
               Not an agency.
               <br />
               <span className="bg-gradient-to-r from-primary via-primary/60 to-accent bg-clip-text text-transparent">
@@ -36,19 +36,19 @@ export default function About() {
               </span>
             </motion.h2>
 
-            <motion.p variants={textVariants} className="mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            <motion.p variants={textVariants} className="mb-8 sm:mb-10 max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
               We join your team as builders, operators, and strategists. From product experiences to infrastructure and payments, we deliver systems that feel effortless, secure, and built to last.
             </motion.p>
 
-            <motion.div variants={textVariants} className="grid gap-4 sm:grid-cols-3">
+            <motion.div variants={textVariants} className="grid grid-cols-3 gap-3 sm:gap-4">
               {[
                 { value: "24/7", label: "delivery focus" },
                 { value: "100%", label: "hands-on execution" },
                 { value: "∞", label: "scalable thinking" },
               ].map((item) => (
-                <div key={item.label} className="premium-card rounded-[22px] p-4 text-center">
-                  <div className="text-2xl font-black text-foreground">{item.value}</div>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.24em] text-muted-foreground">{item.label}</div>
+                <div key={item.label} className="premium-card rounded-[16px] sm:rounded-[22px] p-3 sm:p-4 text-center">
+                  <div className="text-xl sm:text-2xl font-black text-foreground">{item.value}</div>
+                  <div className="mt-1 text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-muted-foreground">{item.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -92,9 +92,9 @@ export default function About() {
                 accent: "from-accent-light/20 to-accent/10",
               },
             ].map((item, index) => (
-              <div key={item.title} className="premium-card rounded-[24px] p-6 md:p-7">
+              <div key={item.title} className="premium-card rounded-[20px] sm:rounded-[24px] p-5 sm:p-6 md:p-7">
                 <div className={`mb-4 h-1.5 w-24 rounded-full bg-gradient-to-r ${item.accent}`} />
-                <div className="text-xl font-semibold text-foreground">{item.title}</div>
+                <div className="text-lg sm:text-xl font-semibold text-foreground">{item.title}</div>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.text}</p>
                 <div className="mt-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
                   Phase {index + 1}
@@ -104,18 +104,18 @@ export default function About() {
           </motion.div>
         </div>
 
-        <div className="relative z-10 mt-24">
+        <div className="relative z-10 mt-16 sm:mt-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-12 text-center"
+            className="mb-10 sm:mb-12 text-center"
           >
-            <h3 className="mb-4 text-3xl font-bold text-foreground">
+            <h3 className="mb-4 text-2xl sm:text-3xl font-bold text-foreground">
               By the <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">numbers</span>
             </h3>
-            <p className="mx-auto max-w-2xl text-muted-foreground">
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground px-4">
               Real metrics from real projects. Our track record speaks for itself.
             </p>
           </motion.div>

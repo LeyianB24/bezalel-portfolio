@@ -83,6 +83,26 @@
       linear-gradient(160deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
     background-attachment: fixed;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "zero" 1;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+
+  /* --- MOBILE-FIRST TYPOGRAPHY SAFETY --- */
+  /* Prevent iOS auto-zoom on input focus by keeping inputs >= 16px */
+  @media (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
   }
 
   /* --- BRANDED TEXT SELECTION --- */
@@ -470,6 +490,135 @@
     background-image: url('/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg');
     mix-blend-mode: multiply;
     opacity: 0.22;
+  }
+
+  /* --- SECTION BACKGROUND PRESETS (BG_IMAGES) --- */
+
+  /* Hero / corporate meeting backdrop with cinematic scrim */
+  .bg-preset-meeting {
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.62)),
+                      url('/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Team digital collaboration backdrop */
+  .bg-preset-collab {
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.24), rgba(0,0,0,0.70)),
+                      url('/BG_images/team-collaborates-digitally-stockcake.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Georgia digitalisation / change management */
+  .bg-preset-change {
+    background-image: linear-gradient(180deg, rgba(2,6,23,0.42), rgba(2,6,23,0.78)),
+                      url('/BG_images/1st-section-image-lecturio-de-lingoda-digitalisation-and-change-management.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Codes people — coding/developer backdrop */
+  .bg-preset-codes {
+    background-image: linear-gradient(180deg, rgba(2,6,23,0.36), rgba(2,6,23,0.72)),
+                      url('/BG_images/codes people.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Corporate (generic) subtle backdrop */
+  .bg-preset-corporate {
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.62)),
+                      url('/BG_images/coporate.avif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Data / analytics backdrop */
+  .bg-preset-data {
+    background-image: linear-gradient(180deg, rgba(2,6,23,0.34), rgba(2,6,23,0.70)),
+                      url('/BG_images/data.avif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Adobe stock developer backdrop */
+  .bg-preset-dev {
+    background-image: linear-gradient(180deg, rgba(2,6,23,0.32), rgba(2,6,23,0.68)),
+                      url('/BG_images/AdobeStock_292953404-scaled.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Group African American business people working in office */
+  .bg-preset-team {
+    background-image: linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.62)),
+                      url('/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* --- MOBILE PERFORMANCE: REDUCE HEAVY BACKDROP-FX ON SMALL SCREENS --- */
+  @media (max-width: 768px) {
+    .ambient-image-card,
+    .jelly-blob,
+    .glass-ultra {
+      animation: none !important;
+    }
+    /* Reduce blur intensity for perf on mobile */
+    .glass-ultra {
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      backdrop-filter: blur(12px) saturate(150%);
+    }
+    .glass-hd,
+    .glass-card,
+    .glass-panel {
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+  }
+
+  /* --- MOBILE SECTION SPACING --- */
+  @media (max-width: 768px) {
+    .section-hero-bg {
+      background-attachment: scroll;
+    }
+    .bg-preset-meeting,
+    .bg-preset-collab,
+    .bg-preset-change,
+    .bg-preset-codes,
+    .bg-preset-corporate,
+    .bg-preset-data,
+    .bg-preset-dev,
+    .bg-preset-team {
+      background-attachment: scroll;
+    }
+  }
+
+  /* --- REDUCED MOTION RESPECT --- */
+  @media (prefers-reduced-motion: reduce) {
+    .jelly-wobble,
+    .jelly-pulse,
+    .jelly-drop,
+    .jelly-click,
+    .jelly-breathe,
+    .jelly-blob,
+    .ambient-image-card,
+    .ambient-orb,
+    .animate-shimmer,
+    .animate-pulse-slow,
+    .animate-scroll,
+    .sweep-line::before {
+      animation: none !important;
+    }
   }
 
   /* Make `.text-white` and `.text-black` follow the theme foreground for consistent typography

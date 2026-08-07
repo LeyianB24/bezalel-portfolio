@@ -138,33 +138,33 @@ export default function Header() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500 ${
-          isScrolled ? "py-4" : "py-6"
+          isScrolled ? "py-3 md:py-4" : "py-4 md:py-6"
         }`}
       >
         <div 
             className={`relative w-full transition-all duration-500 flex justify-between items-center ${
             isScrolled 
-                ? "max-w-5xl mx-4 premium-card premium-glow rounded-[24px] px-6 py-3" 
-                : "max-w-7xl px-6 bg-transparent border-transparent py-2"
+                ? "max-w-5xl mx-3 md:mx-4 premium-card premium-glow rounded-[20px] md:rounded-[24px] px-4 md:px-6 py-2.5 md:py-3" 
+                : "max-w-7xl px-4 md:px-6 bg-transparent border-transparent py-2"
             }`}
         >
           
           {/* --- LEFT: BRAND --- */}
           <Link
             href="/"
-            className="flex items-center gap-3 group z-50 relative"
+            className="flex items-center gap-3 group z-50 relative shrink-0"
             onClick={(e) => handleScrollToSection(e, "/#home")}
           >
             <div className="flex items-center">
               <img
                 src="/logos/bezalel-logo-horizontal-dark.png"
                 alt="BezaleL logo"
-                className={`${isScrolled ? 'h-8' : 'h-10'} block dark:hidden`}
+                className={`${isScrolled ? 'h-7 md:h-8' : 'h-9 md:h-10'} block dark:hidden w-auto`}
               />
               <img
                 src="/logos/bezalel-logo-horizontal-light.png"
                 alt="BezaleL logo (light)"
-                className={`${isScrolled ? 'h-8' : 'h-10'} hidden dark:block`}
+                className={`${isScrolled ? 'h-7 md:h-8' : 'h-9 md:h-10'} hidden dark:block w-auto`}
               />
             </div>
           </Link>
@@ -241,11 +241,13 @@ export default function Header() {
           </div>
 
           {/* --- MOBILE TOGGLE --- */}
-          <div className="flex items-center gap-4 md:hidden">
+          <div className="flex items-center gap-3 md:hidden">
             <ThemeToggle />
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-full hover:bg-secondary transition-colors relative z-50 text-foreground"
+              className="p-2.5 rounded-full hover:bg-secondary transition-colors relative z-50 text-foreground active:scale-95 transition-transform"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
             >
                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -269,13 +271,13 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-3xl flex flex-col pt-32 pb-10 px-6 md:hidden overflow-y-auto"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-3xl flex flex-col pt-28 sm:pt-32 pb-10 px-6 md:hidden overflow-y-auto"
           >
             {/* Cyber Grid Background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
             
             <div className="flex-1 flex flex-col justify-between relative z-10">
-                <nav className="flex flex-col gap-6">
+                <nav className="flex flex-col gap-4">
                     <div className="text-xs font-mono text-accent mb-4 flex items-center gap-2">
                         <ShieldCheck className="w-3 h-3" /> SYSTEM_NAVIGATION
                     </div>
@@ -289,7 +291,7 @@ export default function Header() {
                             <Link
                                 href={item.href}
                                 onClick={(e) => handleScrollToSection(e, item.href)}
-                                className={`group flex items-center justify-between text-4xl font-black tracking-tighter py-4 border-b border-border/30 ${
+                                className={`group flex items-center justify-between text-3xl sm:text-4xl font-black tracking-tighter py-4 border-b border-border/30 ${
                                     activeSection === item.href ? "text-foreground" : "text-muted-foreground"
                                 }`}
                             >
@@ -309,12 +311,12 @@ export default function Header() {
                     <Link 
                         href="/#contact"
                         onClick={(e) => handleScrollToSection(e, "/#contact")}
-                        className="flex items-center justify-center w-full py-5 bg-foreground text-background font-bold text-lg rounded-xl shadow-xl active:scale-95 transition-all"
+                        className="flex items-center justify-center w-full py-4 bg-foreground text-background font-bold text-base sm:text-lg rounded-xl shadow-xl active:scale-95 transition-all"
                     >
                         Initialize Sequence <ArrowRight className="ml-2 w-5 h-5" />
                     </Link>
                     
-                    <div className="mt-8 grid grid-cols-2 gap-4">
+                    <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4">
                          <div className="p-4 rounded-lg bg-secondary/30 border border-border/50">
                             <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">Status</div>
                             <div className="text-accent font-bold flex items-center gap-2">

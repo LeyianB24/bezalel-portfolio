@@ -6,8 +6,6 @@ import { FiArrowUp } from "react-icons/fi";
 import Header from "./Header";
 import UnifiedBackground from "./UnifiedBackground";
 import Footer from "./Footer";
-import CommandPalette from "./CommandPalette";
-import CursorTrail from "./CursorTrail";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -15,8 +13,6 @@ interface PageLayoutProps {
   showScrollProgress?: boolean;
   showScrollToTop?: boolean;
   showFooter?: boolean;
-  showCommandPalette?: boolean;
-  showCursorTrail?: boolean;
   showHeader?: boolean;
   className?: string;
   title?: string;
@@ -28,8 +24,6 @@ export default function PageLayout({
   showScrollProgress = true,
   showScrollToTop = true,
   showFooter = true,
-  showCommandPalette = true,
-  showCursorTrail = true,
   showHeader = true,
   className = '',
 }: PageLayoutProps) {
@@ -83,10 +77,6 @@ export default function PageLayout({
         {children}
         {showFooter && <Footer />}
       </motion.main>
-
-      {/* --- INTERACTIVE FEATURES --- */}
-      {showCommandPalette && <CommandPalette />}
-      {showCursorTrail && <CursorTrail />}
 
       {/* --- SCROLL-TO-TOP BUTTON --- */}
       {showScrollToTop && (

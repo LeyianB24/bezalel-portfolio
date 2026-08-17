@@ -4,68 +4,66 @@
 
 @layer base {
   :root {
-    /* Brand palette (light mode) - rich ivory cream, deep navy ink, opulent gold */
-    --background: 40 60% 97%;       /* Warm Ivory */
-    --foreground: 222 32% 14%;      /* Deep Ink */
+    --background: 40 67% 95%;
+    --foreground: 216 28% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 32% 14%;
+    --card-foreground: 216 28% 15%;
 
-    --primary: 222 38% 16%;        /* Deep Navy */
-    --primary-foreground: 40 60% 97%;
+    --primary: 210 60% 13%;
+    --primary-foreground: 43 44% 95%;
 
-    --accent: 42 70% 50%;          /* Royal Gold */
-    --accent-foreground: 222 32% 14%;
-    --accent-light: 44 78% 70%;    /* Champagne */
-    --accent-dark: 38 56% 38%;     /* Antique Gold */
+    --accent: 45 65% 54%;
+    --accent-foreground: 213 31% 14%;
+    --accent-light: 45 70% 71%;
+    --accent-dark: 44 49% 36%;
 
-    --secondary: 222 16% 65%;      /* Muted Steel */
-    --secondary-foreground: 222 32% 14%;
+    --secondary: 214 24% 90%;
+    --secondary-foreground: 216 28% 15%;
 
-    --muted: 222 18% 80%;          /* Pearl */
-    --muted-foreground: 222 18% 32%;
+    --muted: 215 24% 86%;
+    --muted-foreground: 214 16% 37%;
 
-    --navy: 222 38% 16%;            /* Navy */
-    --navy-deep: 220 50% 5%;        /* Navy Deep */
-    --cream: 40 60% 97%;
-    --ink: 222 32% 14%;
-    --muted-steel: 222 16% 65%;     /* Muted Steel */
+    --navy: 210 60% 13%;
+    --navy-deep: 212 65% 6%;
+    --cream: 43 44% 95%;
+    --ink: 213 31% 14%;
+    --muted-steel: 210 19% 63%;
 
     --destructive: 4 85% 58%;      /* Accent red stays for destructive actions */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 222 14% 86%;
-    --input: 40 100% 97%;
-    --ring: 42 70% 50%;
+    --border: 214 20% 82%;
+    --input: 40 67% 95%;
+    --ring: 45 65% 54%;
 
-    --radius: 0.9rem;
+    --radius: 0.5rem;
   }
 
   .dark {
-    /* Brand palette (dark mode) - cinematic navy + gold highlights */
-    --background: 220 50% 5%;      /* Navy Deep */
-    --foreground: 40 60% 95%;      /* Cream / Soft White */
+    --background: 213 64% 5%;
+    --foreground: 40 67% 95%;
 
-    --card: 220 28% 9%;
-    --card-foreground: 40 60% 95%;
+    --card: 211 47% 9%;
+    --card-foreground: 40 67% 95%;
 
-    --primary: 222 38% 14%;         /* Deep Navy */
-    --primary-foreground: 40 60% 95%;
+    --primary: 210 66% 13%;
+    --primary-foreground: 40 67% 95%;
 
-    --accent: 42 70% 58%;          /* Gold */
-    --accent-foreground: 40 60% 95%;
-    --accent-light: 44 78% 75%;    /* Gold Light */
-    --accent-dark: 38 53% 40%;     /* Gold Dark */
+    --accent: 42 53% 54%;
+    --accent-foreground: 213 64% 5%;
+    --accent-light: 43 64% 71%;
+    --accent-dark: 41 50% 36%;
 
-    --secondary: 220 20% 14%;      /* Charcoal */
-    --secondary-foreground: 40 60% 95%;
+    --secondary: 214 30% 14%;
+    --secondary-foreground: 40 67% 95%;
 
-    --muted: 214 18% 32%;
-    --muted-foreground: 40 50% 88%;
+    --muted: 214 20% 24%;
+    --muted-foreground: 213 18% 72%;
 
-    --border: 220 18% 20%;
-    --input: 220 18% 14%;
-    --ring: 42 70% 58%;
+    --border: 214 26% 20%;
+    --input: 214 30% 14%;
+    --ring: 42 53% 54%;
   }
 }
 
@@ -77,12 +75,8 @@
   
   body {
     @apply bg-background text-foreground antialiased font-sans;
-    background-image:
-      radial-gradient(circle at top left, hsl(var(--primary) / 0.10), transparent 32%),
-      radial-gradient(circle at top right, hsl(var(--accent) / 0.12), transparent 32%),
-      linear-gradient(160deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
-    background-attachment: fixed;
-    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "zero" 1;
+    background-image: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
+    font-feature-settings: "rlig" 1, "calt" 1, "zero" 1;
     -webkit-tap-highlight-color: transparent;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -122,7 +116,7 @@
 @layer utilities {
   /* --- PREMIUM SURFACE SYSTEM --- */
   .premium-card {
-    @apply rounded-[24px] border border-primary/10 bg-white/80 backdrop-blur-2xl;
+    @apply rounded-lg border border-primary/10 bg-white/85 backdrop-blur-xl;
     box-shadow:
       0 1px 0 0 rgba(255, 255, 255, 0.7) inset,
       0 0 0 1px hsl(var(--accent) / 0.06),
@@ -135,7 +129,7 @@
   }
 
   .premium-pill {
-    @apply rounded-full border border-primary/10 bg-white/80 backdrop-blur-xl;
+    @apply rounded-full border border-primary/10 bg-white/85 backdrop-blur-xl;
     box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.7) inset, 0 10px 40px -18px hsl(var(--primary) / 0.18);
   }
 
@@ -621,13 +615,6 @@
     }
   }
 
-  /* Make `.text-white` and `.text-black` follow the theme foreground for consistent typography
-     - In light mode `--foreground` is deep charcoal (black)
-     - In dark mode `--foreground` is soft white
-  */
-  .text-white, .text-black {
-    color: hsl(var(--foreground)) !important;
-  }
   /* --- 7. JELLY GLASS MATERIALS --- */
   
   /* JELLY GLASS — Dark Mode (default) */

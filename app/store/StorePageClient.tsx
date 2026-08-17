@@ -126,9 +126,9 @@ export default function StorePageClient({
   }, [products, searchQuery, selectedCategory]);
 
   const features = [
-    { icon: Zap, label: "Instant Delivery", desc: "All digital products delivered immediately after payment" },
-    { icon: Shield, label: "Secure Checkout", desc: "M-Pesa, Stripe & other payment methods supported" },
-    { icon: Star, label: "Premium Quality", desc: "Hand-crafted by Bezalel's engineering team" },
+    { icon: Zap, label: "Focused packages", desc: "Small products and services for clear, contained needs" },
+    { icon: Shield, label: "Simple checkout", desc: "Order support through WhatsApp, M-Pesa, or card where available" },
+    { icon: Star, label: "Useful defaults", desc: "Built for teams that want practical starting points" },
   ];
 
   return (
@@ -146,18 +146,17 @@ export default function StorePageClient({
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-mono uppercase tracking-widest mb-6">
               <Tag size={12} />
-              Digital Store // Bezalel Technologies
+              Digital store
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-none">
-              CRAFT YOUR
+              Small digital
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-accent">
-                DIGITAL EDGE
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                tools and packages
               </span>
             </h1>
             <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Premium SaaS tools, templates, and consulting packages engineered by Bezalel Technologies. 
-              Built to deploy fast and scale infinitely.
+              Browse focused products, templates, and support packages. For custom business systems, start with a project brief instead.
             </p>
           </motion.div>
 
@@ -233,7 +232,7 @@ export default function StorePageClient({
               <Package size={64} className="mx-auto text-muted-foreground/20 mb-4" strokeWidth={1} />
               <h2 className="text-xl font-bold text-muted-foreground mb-2">No products found</h2>
               <p className="text-sm text-muted-foreground/60">
-                {searchQuery ? `No results for "${searchQuery}"` : "Check back soon — new products coming."}
+                {searchQuery ? `No results for "${searchQuery}"` : "Check back soon - new products coming."}
               </p>
               {searchQuery && (
                 <button
@@ -272,7 +271,7 @@ export default function StorePageClient({
               Need a Custom Solution?
             </h2>
             <p className="text-muted-foreground mb-8 text-sm sm:text-base">
-              Can't find exactly what you need? Tell us about your project and we'll engineer a custom solution.
+              Cannot find exactly what you need? Tell us about the workflow and we will scope a custom solution.
             </p>
             <Link
               href="/projects/request"

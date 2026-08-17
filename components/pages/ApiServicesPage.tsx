@@ -21,7 +21,7 @@ export default function ApiServicesPage() {
 
   return (
     <PageLayout variant="vibrant">
-      <main ref={containerRef} className="min-h-screen pt-32 pb-20 overflow-x-hidden selection:bg-emerald-500/30">
+      <main ref={containerRef} className="min-h-screen pt-32 pb-20 overflow-x-hidden selection:bg-accent/30">
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           
@@ -32,10 +32,10 @@ export default function ApiServicesPage() {
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={jellyPresets.soft}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/30 dark:bg-emerald-950/30 border border-emerald-500/30 backdrop-blur-md mb-8 shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/30 border border-accent/30 backdrop-blur-md mb-8 shadow-[0_0_20px_rgba(201,162,75,0.2)]"
             >
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-              <span className="text-xs font-mono text-emerald-400 tracking-widest uppercase">System Status: Operational</span>
+              <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
+              <span className="text-xs font-mono text-accent-light tracking-widest uppercase">System Status: Operational</span>
             </motion.div>
             
             <motion.h1 
@@ -45,7 +45,7 @@ export default function ApiServicesPage() {
               className="text-6xl md:text-8xl font-black text-foreground mb-6 tracking-tighter leading-[0.9] relative z-20"
             >
               DIGITAL <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 animate-gradient-x">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-accent-light to-cream animate-gradient-x">
                  NERVOUS SYSTEM.
               </span>
             </motion.h1>
@@ -85,7 +85,6 @@ export default function ApiServicesPage() {
                 subtitle="Endpoint Architecture"
                 desc="Adaptive schemas designed for developer happiness and reduced bandwidth usage."
                 icon={<ArrowRightLeft />} 
-                accent="emerald"
                 delay={0}
               />
               <TechShard 
@@ -93,7 +92,6 @@ export default function ApiServicesPage() {
                 subtitle="Stripe / M-Pesa"
                 desc="We handle complex handshakes, IPN callbacks, and idempotent transactions securely."
                 icon={<Database />} 
-                accent="blue"
                 delay={0.1}
               />
               <TechShard 
@@ -101,7 +99,6 @@ export default function ApiServicesPage() {
                 subtitle="OAuth2 / JWT"
                 desc="Rate limiting, IP whitelisting, and rotating encryption keys to prevent abuse."
                 icon={<ShieldCheck />} 
-                accent="violet"
                 delay={0.2}
               />
               <TechShard 
@@ -109,7 +106,6 @@ export default function ApiServicesPage() {
                 subtitle="SOAP Wrapper"
                 desc="We wrap ancient XML systems in modern JSON shells to modernize without rewriting."
                 icon={<Server />} 
-                accent="amber"
                 delay={0.3}
               />
             </div>
@@ -123,10 +119,10 @@ export default function ApiServicesPage() {
 
              <div className="order-1 lg:order-2">
                 <div className="flex items-center gap-3 mb-6">
-                   <div className="p-2 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                     <Activity className="w-6 h-6 text-blue-400" />
+                   <div className="p-2 bg-primary/20 rounded-lg border border-accent/20">
+                     <Activity className="w-6 h-6 text-accent" />
                    </div>
-                   <span className="text-blue-400 font-mono text-sm font-bold">HIGH PERFORMANCE</span>
+                   <span className="text-accent font-mono text-sm font-bold">HIGH PERFORMANCE</span>
                 </div>
                 
                 <h3 className="text-4xl font-bold text-foreground mb-6">Built for Scale.</h3>
@@ -162,9 +158,9 @@ function InteractiveArchitecture() {
           <svg className="w-full h-full">
             <defs>
               <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0" />
+                <stop offset="50%" stopColor="hsl(var(--accent))" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0" />
               </linearGradient>
             </defs>
             {/* Connection Lines */}
@@ -184,9 +180,9 @@ function InteractiveArchitecture() {
        </div>
 
        {/* Nodes */}
-       <div className="relative z-10 w-24 h-24 bg-slate-950 border-2 border-emerald-500 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.3)]">
-          <Network className="text-emerald-400 w-10 h-10 animate-pulse" />
-          <div className="absolute -bottom-8 text-xs font-mono text-emerald-500 font-bold">API GATEWAY</div>
+       <div className="relative z-10 w-24 h-24 bg-navy-deep border-2 border-accent rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(201,162,75,0.3)]">
+          <Network className="text-accent-light w-10 h-10 animate-pulse" />
+          <div className="absolute -bottom-8 text-xs font-mono text-accent font-bold">API GATEWAY</div>
        </div>
 
        {/* Satellites */}
@@ -195,7 +191,7 @@ function InteractiveArchitecture() {
          transition={{ duration: 4, repeat: Infinity }}
          className="absolute top-10 left-[10%] md:left-[20%] p-4 bg-slate-900 border border-slate-700 rounded-xl flex flex-col items-center gap-2"
        >
-          <Lock className="text-blue-400 w-6 h-6" />
+          <Lock className="text-muted-steel w-6 h-6" />
           <span className="text-[10px] text-slate-400 font-mono">AUTH SERVICE</span>
        </motion.div>
 
@@ -213,7 +209,7 @@ function InteractiveArchitecture() {
          transition={{ duration: 3, repeat: Infinity }}
          className="absolute bottom-10 p-4 bg-slate-900 border border-slate-700 rounded-xl flex flex-col items-center gap-2"
        >
-          <Database className="text-amber-400 w-6 h-6" />
+          <Database className="text-accent-dark w-6 h-6" />
           <span className="text-[10px] text-slate-400 font-mono">PRIMARY DB</span>
        </motion.div>
     </div>
@@ -274,7 +270,7 @@ function LiveTrafficTerminal() {
                   >
                     <span className="text-slate-600">{">"}</span>
                     <span className={
-                       log.includes("200") || log.includes("201") ? "text-emerald-400" :
+                       log.includes("200") || log.includes("201") ? "text-accent-light" :
                        log.includes("429") ? "text-yellow-400" :
                        log.includes("500") ? "text-red-400" : "text-slate-300"
                     }>
@@ -306,7 +302,7 @@ function IDEWindow() {
     >
        <div className="flex items-center justify-between px-4 py-3 bg-[#161b22] border-b border-slate-800">
           <div className="flex items-center gap-3">
-             <Code2 className="w-4 h-4 text-blue-400" />
+             <Code2 className="w-4 h-4 text-accent" />
              <span className="text-xs text-slate-400 font-sans">middleware.ts</span>
           </div>
           <button 
@@ -319,18 +315,18 @@ function IDEWindow() {
        </div>
        <div className="p-6 overflow-x-auto">
           <pre className="font-mono text-sm leading-relaxed text-slate-300">
-            <div className="flex"><span className="w-6 text-slate-700 select-none">1</span><span className="text-accent">import</span> {'{'} <span className="text-yellow-200">NextRequest</span>, <span className="text-yellow-200">NextResponse</span> {'}'} <span className="text-accent">from</span> <span className="text-green-300">'next/server'</span>;</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">1</span><span className="text-accent">import</span> {'{'} <span className="text-accent-light">NextRequest</span>, <span className="text-accent-light">NextResponse</span> {'}'} <span className="text-accent">from</span> <span className="text-green-300">'next/server'</span>;</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">2</span></div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">3</span><span className="text-accent">export async function</span> <span className="text-blue-400">middleware</span>(req: <span className="text-yellow-200">NextRequest</span>) {'{'}</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">3</span><span className="text-accent">export async function</span> <span className="text-ink">middleware</span>(req: <span className="text-accent-light">NextRequest</span>) {'{'}</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">4</span>  <span className="text-slate-500">// 1. Edge Authentication</span></div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">5</span>  <span className="text-accent">const</span> token = req.headers.<span className="text-blue-400">get</span>(<span className="text-green-300">'Authorization'</span>);</div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">6</span>  <span className="text-accent">if</span> (!<span className="text-blue-400">verifyJWT</span>(token)) <span className="text-accent">return</span> <span className="text-yellow-200">NextResponse</span>.<span className="text-blue-400">json</span>({'{'} error: <span className="text-green-300">'401'</span> {'}'});</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">5</span>  <span className="text-accent">const</span> token = req.headers.<span className="text-ink">get</span>(<span className="text-green-300">'Authorization'</span>);</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">6</span>  <span className="text-accent">if</span> (!<span className="text-ink">verifyJWT</span>(token)) <span className="text-accent">return</span> <span className="text-accent-light">NextResponse</span>.<span className="text-ink">json</span>({'{'} error: <span className="text-green-300">'401'</span> {'}'});</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">7</span></div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">8</span>  <span className="text-slate-500">// 2. Rate Limiting (Redis)</span></div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">9</span>  <span className="text-accent">const</span> ip = req.ip || <span className="text-green-300">'127.0.0.1'</span>;</div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">10</span> <span className="text-accent">const</span> rate = <span className="text-accent">await</span> redis.<span className="text-blue-400">incr</span>(<span className="text-green-300">`limit:$</span>{'{'}ip{'}'}<span className="text-green-300">`</span>);</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">10</span> <span className="text-accent">const</span> rate = <span className="text-accent">await</span> redis.<span className="text-ink">incr</span>(<span className="text-green-300">`limit:$</span>{'{'}ip{'}'}<span className="text-green-300">`</span>);</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">11</span></div>
-            <div className="flex"><span className="w-6 text-slate-700 select-none">12</span> <span className="text-accent">return</span> <span className="text-yellow-200">NextResponse</span>.<span className="text-blue-400">next</span>();</div>
+            <div className="flex"><span className="w-6 text-slate-700 select-none">12</span> <span className="text-accent">return</span> <span className="text-accent-light">NextResponse</span>.<span className="text-ink">next</span>();</div>
             <div className="flex"><span className="w-6 text-slate-700 select-none">13</span>{'}'}</div>
           </pre>
        </div>
@@ -340,28 +336,19 @@ function IDEWindow() {
 
 /* --- 4. Background & Utilities --- */
 
-function TechShard({ title, subtitle, desc, icon, accent, delay }: any) {
-  const colors = {
-    emerald: "group-hover:border-emerald-500/50 text-emerald-500 shadow-emerald-500/20",
-    blue: "group-hover:border-blue-500/50 text-blue-500 shadow-blue-500/20",
-    violet: "group-hover:border-violet-500/50 text-violet-500 shadow-violet-500/20",
-    amber: "group-hover:border-amber-500/50 text-amber-500 shadow-amber-500/20",
-  };
-
-  const accentColor = colors[accent as keyof typeof colors];
-
+function TechShard({ title, subtitle, desc, icon, delay }: any) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className={`p-6 bg-slate-900/40 border border-slate-800 rounded-xl transition-all duration-300 group hover:bg-slate-900/80 hover:shadow-2xl hover:-translate-y-1 relative overflow-hidden`}
+      className={`p-6 bg-slate-900/40 border border-slate-800 rounded-xl transition-all duration-300 group hover:bg-slate-900/80 hover:shadow-2xl hover:shadow-accent/20 hover:-translate-y-1 relative overflow-hidden`}
     >
-      <div className={`absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-100 transition-opacity duration-500 ${accentColor.split(' ')[1]}`}>
+      <div className={`absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-100 transition-opacity duration-500 text-accent`}>
          <Zap className="w-12 h-12" />
       </div>
       
-      <div className={`mb-4 p-3 w-fit rounded-lg bg-slate-950 border border-slate-800 group-hover:scale-110 transition-transform duration-300 ${accentColor.split(' ')[1]}`}>
+      <div className={`mb-4 p-3 w-fit rounded-lg bg-slate-950 border border-slate-800 group-hover:scale-110 transition-transform duration-300 text-accent group-hover:border-accent/50`}>
          {icon}
       </div>
       
@@ -378,9 +365,9 @@ function FeatureItem({ text, delay }: { text: string, delay: number }) {
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ delay }}
-        className="flex items-center gap-3 text-slate-300 bg-slate-900/50 p-3 rounded-lg border border-slate-800/50 hover:border-emerald-500/30 transition-colors"
+        className="flex items-center gap-3 text-slate-300 bg-slate-900/50 p-3 rounded-lg border border-slate-800/50 hover:border-accent/30 transition-colors"
       >
-         <div className="p-1 rounded bg-emerald-500/10 text-emerald-400">
+         <div className="p-1 rounded bg-accent/10 text-accent">
             <Check className="w-4 h-4" />
          </div>
          {text}

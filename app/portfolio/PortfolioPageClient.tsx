@@ -1,12 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Layers, Smartphone, Globe, Cpu, Database, Zap, Code2, Braces } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import UnifiedBackground from "@/components/UnifiedBackground";
 
 const categories = ["All", "Web Systems", "Mobile Apps", "API & Infra", "UI/UX Design"];
 
@@ -16,270 +16,215 @@ const projects = [
     title: "BezaShop Commerce Platform",
     category: "Web Systems",
     tech: ["Next.js", "Prisma", "PostgreSQL", "Stripe"],
-    description: "A full-featured multi-vendor e-commerce platform with real-time inventory management, M-Pesa integration, and a custom admin dashboard — processing 10,000+ transactions monthly.",
-    result: "↑ 340% conversion rate vs. competitor platform",
+    description:
+      "A commerce platform concept covering product management, inventory, payments, and admin operations.",
+    result: "Built around checkout reliability, admin visibility, and repeatable product operations.",
     year: "2024",
-    icon: Globe,
-    color: "emerald",
     image: "/images/web_system.png",
+    liveUrl: "",
+    clientLogoUrl: "",
   },
   {
     id: 2,
     title: "NexoLogistics Mobile App",
     category: "Mobile Apps",
-    tech: ["React Native", "Node.js", "MongoDB", "Google Maps"],
-    description: "Real-time logistics tracking app for a Nairobi-based courier company. Features live GPS tracking, automated dispatch routing, and driver analytics.",
-    result: "↓ 28% operational costs in first quarter",
+    tech: ["React Native", "Node.js", "MongoDB", "Maps"],
+    description:
+      "A mobile logistics workflow for dispatch, driver coordination, delivery status, and operational reporting.",
+    result: "Focused on field visibility and faster coordination between dispatch and delivery teams.",
     year: "2024",
-    icon: Smartphone,
-    color: "blue",
     image: "/images/mobile_app.png",
+    liveUrl: "",
+    clientLogoUrl: "",
   },
   {
     id: 3,
     title: "DataBridge API Gateway",
     category: "API & Infra",
-    tech: ["Node.js", "Redis", "Docker", "AWS Lambda"],
-    description: "Enterprise API gateway handling 2M+ requests/day for a financial services client. Built with rate limiting, circuit breakers, and automated failover.",
-    result: "99.97% uptime over 12 months",
+    tech: ["Node.js", "Redis", "Docker", "Serverless"],
+    description:
+      "API infrastructure pattern for rate limits, integrations, monitoring, and service-to-service reliability.",
+    result: "Designed for safer integrations and clearer failure handling across business systems.",
     year: "2023",
-    icon: Database,
-    color: "purple",
     image: "/images/hero_banner.png",
+    liveUrl: "",
+    clientLogoUrl: "",
   },
   {
     id: 4,
     title: "PulseHR Management Suite",
     category: "Web Systems",
-    tech: ["Next.js", "TypeScript", "PostgreSQL", "SendGrid"],
-    description: "Comprehensive HR platform covering recruitment pipelines, payroll management, leave tracking, and employee performance reviews for a 500-person organization.",
-    result: "Eliminated 40+ hours/week of manual HR work",
+    tech: ["Next.js", "TypeScript", "PostgreSQL", "Email"],
+    description:
+      "HR operations suite concept covering recruitment, leave, staff records, review cycles, and reporting.",
+    result: "Reduced manual handoffs by centralising common HR administration workflows.",
     year: "2024",
-    icon: Layers,
-    color: "amber",
     image: "/images/web_system.png",
+    liveUrl: "",
+    clientLogoUrl: "",
   },
   {
     id: 5,
     title: "StreamSync Realtime Dashboard",
     category: "API & Infra",
-    tech: ["WebSockets", "Redis Pub/Sub", "React", "ClickHouse"],
-    description: "Live analytics streaming dashboard processing IoT sensor data from 500+ devices. Sub-100ms latency data visualization with 30-day historical querying.",
-    result: "12x faster incident response time",
+    tech: ["WebSockets", "Redis", "React", "Analytics"],
+    description:
+      "Realtime dashboard pattern for operations teams that need live status, alerts, and historical context.",
+    result: "Built to make incidents easier to spot, triage, and explain to non-technical stakeholders.",
     year: "2023",
-    icon: Cpu,
-    color: "cyan",
     image: "/images/saas_kit.png",
+    liveUrl: "",
+    clientLogoUrl: "",
   },
   {
     id: 6,
     title: "KipaVault Design System",
     category: "UI/UX Design",
-    tech: ["Figma", "React", "Storybook", "Tailwind CSS"],
-    description: "End-to-end design system and component library for a FinTech startup. 120+ documented components, dark/light mode, WCAG AA compliant, and an interactive Storybook.",
-    result: "Reduced design-to-dev handoff time by 60%",
+    tech: ["Figma", "React", "Design Tokens", "Tailwind CSS"],
+    description:
+      "Component and interface standards for product teams that need consistent screens and faster handoff.",
+    result: "Created reusable interface patterns for forms, dashboards, states, and responsive layouts.",
     year: "2024",
-    icon: Braces,
-    color: "pink",
     image: "/images/hero_banner.png",
+    liveUrl: "",
+    clientLogoUrl: "",
   },
-];
-
-const colorMap: Record<string, { bg: string; border: string; text: string; iconBg: string }> = {
-  emerald: { bg: "bg-emerald-500/5", border: "border-emerald-500/20", text: "text-emerald-500", iconBg: "bg-emerald-500/10" },
-  blue: { bg: "bg-blue-500/5", border: "border-blue-500/20", text: "text-blue-400", iconBg: "bg-blue-500/10" },
-  purple: { bg: "bg-purple-500/5", border: "border-purple-500/20", text: "text-purple-400", iconBg: "bg-purple-500/10" },
-  amber: { bg: "bg-amber-500/5", border: "border-amber-500/20", text: "text-amber-400", iconBg: "bg-amber-500/10" },
-  cyan: { bg: "bg-cyan-500/5", border: "border-cyan-500/20", text: "text-cyan-400", iconBg: "bg-cyan-500/10" },
-  pink: { bg: "bg-pink-500/5", border: "border-pink-500/20", text: "text-pink-400", iconBg: "bg-pink-500/10" },
-  navy: { bg: "bg-slate-800/6", border: "border-slate-700/20", text: "text-slate-300", iconBg: "bg-slate-800/10" },
-};
-
-const stats = [
-  { label: "Projects Delivered", value: "48+" },
-  { label: "Client Retention", value: "94%" },
-  { label: "Avg Response Time", value: "< 2h" },
-  { label: "Lines Shipped", value: "2M+" },
 ];
 
 export default function PortfolioPageClient() {
   const [activeCategory, setActiveCategory] = useState("All");
-
-  const filtered = projects.filter(
-    (p) => activeCategory === "All" || p.category === activeCategory
+  const filteredProjects = projects.filter(
+    (project) => activeCategory === "All" || project.category === activeCategory
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <UnifiedBackground variant="subtle" />
-      <div className="relative z-10">
-        <Header />
+    <div className="min-h-screen bg-background text-foreground">
+      <Header />
 
-        {/* Hero */}
-        <section className="pt-32 sm:pt-40 pb-16 sm:pb-20 px-4 sm:px-6 max-w-6xl mx-auto relative">
-          <div className="absolute inset-0 pointer-events-none person-bg person-bg--dark rounded-2xl -z-10" />
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-mono uppercase tracking-widest mb-6">
-              <Code2 size={12} />
-              Engineering Portfolio // Bezalel Technologies
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-none mb-6">
-              SYSTEMS WE
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/70 to-accent">
-                HAVE SHIPPED
-              </span>
-            </h1>
-            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl leading-relaxed">
-              A curated selection of high-impact engineering work. Every project is a system built to outlast its launch — optimized for performance, maintainability, and scale.
+      <main>
+        <section className="border-b border-border px-4 pb-14 pt-32 sm:px-6 sm:pb-18 sm:pt-40">
+          <div className="mx-auto max-w-7xl">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+              Portfolio
             </p>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-12 sm:mt-16"
-          >
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center p-4 sm:p-6 rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight">{stat.value}</div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground font-mono uppercase tracking-widest mt-1">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </section>
-
-        {/* Category Filter */}
-        <section className="sticky top-16 sm:top-20 z-30 bg-background/80 backdrop-blur-xl border-y border-border/30 py-3 sm:py-4 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-200 shrink-0 ${
-                  activeCategory === cat
-                    ? "bg-primary text-white shadow-lg shadow-primary/20"
-                    : "border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+              <h1 className="font-display text-5xl font-black leading-tight tracking-tight sm:text-6xl">
+                Work shaped around reliability, operations, and handover.
+              </h1>
+              <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
+                Selected project patterns across software, mobile workflows, API infrastructure, and interface systems. Client logos and live-site links should be added only where publication permission exists.
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* Projects Grid */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {categories.length > 3 && (
+          <section className="sticky top-20 z-30 border-b border-border bg-background/92 px-4 py-3 backdrop-blur-xl sm:px-6">
+            <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setActiveCategory(category)}
+                  className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] transition-colors ${
+                    activeCategory === category
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-border text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="px-4 py-12 sm:px-6 sm:py-16">
+          <div className="mx-auto grid max-w-7xl gap-6">
             <AnimatePresence mode="popLayout">
-              {filtered.map((project, i) => {
-                const colors = colorMap[project.color] || colorMap.emerald;
-                const Icon = project.icon;
-                return (
-                  <motion.div
-                    key={project.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.35, delay: i * 0.07 }}
-                    className={`group relative flex flex-col p-5 sm:p-6 rounded-2xl border ${colors.border} ${colors.bg} hover:shadow-2xl transition-all duration-500 hover:-translate-y-1`}
-                  >
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl ${colors.iconBg} border ${colors.border} flex items-center justify-center`}>
-                        <Icon size={22} className={colors.text} />
-                      </div>
-                      <div className="text-right">
-                        <span className={`text-[10px] font-mono uppercase tracking-widest ${colors.text} px-2 py-0.5 rounded border ${colors.border} ${colors.bg}`}>
-                          {project.category}
-                        </span>
-                        <div className="text-[10px] font-mono text-muted-foreground mt-1">{project.year}</div>
+              {filteredProjects.map((project, index) => (
+                <motion.article
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 18 }}
+                  transition={{ duration: 0.35, delay: index * 0.03 }}
+                  className="overflow-hidden rounded-lg border border-border bg-card shadow-sm"
+                >
+                  <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
+                    <div className="relative min-h-[260px] overflow-hidden lg:min-h-[360px]">
+                      <img src={project.image} alt="" className="h-full w-full object-cover" />
+                      <div className="absolute left-4 top-4 rounded-md bg-background/90 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-primary backdrop-blur">
+                        {project.category}
                       </div>
                     </div>
 
-                    {/* Project Image Preview */}
-                    <div className="w-full aspect-video rounded-xl overflow-hidden mb-4 border border-border/40 bg-zinc-900/50">
-                      <img 
-                        src={project.image || "/images/web_system.png"} 
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                    <div className="flex flex-col justify-between p-6 sm:p-8">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                          <span className="font-bold uppercase tracking-[0.18em]">{project.year}</span>
+                          {project.liveUrl && project.clientLogoUrl ? (
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 font-bold text-primary hover:text-accent-dark dark:hover:text-accent-light"
+                            >
+                              Client site
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          ) : (
+                            <span>Client publication details pending</span>
+                          )}
+                        </div>
+                        <h2 className="mt-4 font-display text-3xl font-black leading-tight tracking-tight">
+                          {project.title}
+                        </h2>
+                        <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
+                          {project.description}
+                        </p>
+                        <p className="mt-5 rounded-md border border-border bg-background p-4 text-sm font-semibold leading-6">
+                          {project.result}
+                        </p>
+                      </div>
+
+                      <div className="mt-8 flex flex-wrap gap-2">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-full border border-border px-3 py-1 text-xs font-semibold text-muted-foreground"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-
-                    {/* Title */}
-                    <h2 className="text-base sm:text-lg font-black tracking-tight mb-3 group-hover:text-primary transition-colors duration-300">
-                      {project.title}
-                    </h2>
-
-                    {/* Description */}
-                    <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-5">
-                      {project.description}
-                    </p>
-
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-1.5 mb-5">
-                      {project.tech.map((tech) => (
-                        <span
-                          key={tech}
-                          className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-border/50 text-muted-foreground"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Result */}
-                    <div className={`flex items-center gap-2 p-3 rounded-lg ${colors.bg} border ${colors.border}`}>
-                      <Zap size={12} className={colors.text} />
-                      <span className={`text-xs font-bold ${colors.text}`}>{project.result}</span>
-                    </div>
-                  </motion.div>
-                );
-              })}
+                  </div>
+                </motion.article>
+              ))}
             </AnimatePresence>
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="border-t border-border/30 bg-card/30 py-16 sm:py-24 px-4 sm:px-6 text-center">
-          <div className="max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+        <section className="border-t border-border bg-card px-4 py-14 text-center sm:px-6 sm:py-18">
+          <div className="mx-auto max-w-3xl">
+            <h2 className="font-display text-4xl font-black tracking-tight">Have a similar problem?</h2>
+            <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
+              Send a short brief and we will help translate the operational problem into a scoped build.
+            </p>
+            <Link
+              href="/projects/request"
+              className="mt-7 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              <div className="text-[10px] font-mono uppercase tracking-widest text-primary mb-4">Ready to Build?</div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter mb-6">
-                YOUR PROJECT,<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">OUR OBSESSION</span>
-              </h2>
-              <p className="text-muted-foreground text-base sm:text-lg mb-8 sm:mb-10">
-                Join 48+ companies who trusted Bezalel to architect their most critical systems. Let's build something remarkable together.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link
-                  href="/projects/request"
-                  className="group inline-flex items-center gap-3 bg-foreground text-background px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm hover:scale-105 transition-transform duration-300"
-                >
-                  Start a Project <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </Link>
-                <Link
-                  href="/#contact"
-                  className="inline-flex items-center gap-3 border border-border/60 text-foreground px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm hover:border-primary/40 transition-all"
-                >
-                  Contact Team
-                </Link>
-              </div>
-            </motion.div>
+              Start a project
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </section>
+      </main>
 
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

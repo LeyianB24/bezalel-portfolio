@@ -1,285 +1,158 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaGithub, FaWhatsapp, FaInstagram, FaTiktok } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6"; 
-import { FiArrowUpRight, FiCommand, FiCpu, FiGlobe, FiTerminal, FiArrowUp } from "react-icons/fi";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { FaGithub, FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
+const serviceLinks = [
+  { name: "Software and web systems", href: "/#services" },
+  { name: "IT infrastructure and AV", href: "/#services" },
+  { name: "Systems support", href: "/#services" },
+  { name: "Payments and workflows", href: "/#services" },
+];
+
+const companyLinks = [
+  { name: "Portfolio", href: "/portfolio" },
+  { name: "Store", href: "/store" },
+  { name: "Careers", href: "/careers" },
+  { name: "Admin login", href: "/login" },
+];
+
+const legalLinks = [
+  { name: "Privacy", href: "/legal/privacy" },
+  { name: "Terms", href: "/legal/terms" },
+];
+
+const socials = [
+  { icon: FaInstagram, href: "https://instagram.com/leyian_.b", label: "Instagram" },
+  { icon: FaXTwitter, href: "https://twitter.com/LeyianB", label: "X" },
+  { icon: FaTiktok, href: "https://www.tiktok.com/@leyian_.b", label: "TikTok" },
+  { icon: FaGithub, href: "https://github.com/LeyianB24", label: "GitHub" },
+  { icon: FaWhatsapp, href: "https://wa.me/254796157265", label: "WhatsApp" },
+];
 
 export default function Footer() {
-  const [time, setTime] = useState("");
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  // Real-time Nairobi Clock
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString('en-US', { 
-        timeZone: 'Africa/Nairobi', 
-        hour: '2-digit', 
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false 
-      }));
-    };
-    updateTime(); 
-    const timer = setInterval(updateTime, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    setTimeout(() => {
-        setEmail("");
-        setSubscribed(false);
-    }, 3000);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = [
-    { 
-      title: "Directory: /Platform", 
-      links: [
-        { name: "Portfolio", href: "/portfolio" },
-        { name: "Store", href: "/store" },
-        { name: "Careers Portal", href: "/careers" },
-        { name: "Client Portal", href: "/projects/request" },
-        { name: "Admin Terminal", href: "/login" }
-      ] 
-    },
-    { 
-      title: "Directory: /Services", 
-      links: [
-        { name: "Web Systems", href: "/#about" },
-        { name: "Mobile Arch", href: "/#about" },
-        { name: "API Infra", href: "/#about" }
-      ] 
-    },
-    { 
-      title: "Directory: /Legal", 
-      links: [
-        { name: "Privacy.md", href: "/legal/privacy" },
-        { name: "Terms.md", href: "/legal/terms" }
-      ] 
-    },
-  ];
-
   return (
-    <footer className="relative bg-background pt-20 sm:pt-32 overflow-hidden border-t border-slate-200 dark:border-white/10">
-      
-      {/* --- BACKGROUND FX --- */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
-      
-
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        
-        {/* --- TOP: CALL TO ACTION --- */}
-        <div className="flex flex-col lg:flex-row justify-between items-end gap-8 lg:gap-12 mb-16 sm:mb-24 border-b border-slate-200 dark:border-white/10 pb-12">
-          <div className="max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-3 mb-6 flex-wrap"
-            >
-               <span className="px-3 py-1 rounded bg-accent/10 text-accent border border-accent/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
-                 <span className="relative flex h-2 w-2">
-                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                   <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                 </span>
-                 System Online
-               </span>
-               <span className="px-3 py-1 rounded bg-accent-light/10 text-accent-light border border-accent-light/20 text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2">
-                 <FiCpu /> Kernel v2.4.0
-               </span>
-            </motion.div>
-
-            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-foreground leading-[0.9]">
-              READY TO <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-light">
-                DEPLOY?
-              </span>
+    <footer className="relative border-t border-border bg-primary text-primary-foreground">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:py-20">
+        <div className="grid gap-10 border-b border-white/10 pb-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div>
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-light">
+              Bezalel Technologies
+            </p>
+            <h2 className="max-w-3xl font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+              Need software or infrastructure delivered properly?
             </h2>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-primary-foreground/75 sm:text-base">
+              Share the problem, timeline, and budget range. We will review the brief and respond with the next practical step.
+            </p>
           </div>
-
-          <motion.a 
-            href="https://wa.me/254796157265" 
-            target="_blank"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="group relative px-6 sm:px-8 py-4 sm:py-6 bg-foreground text-background rounded-lg font-bold text-lg sm:text-xl overflow-hidden shadow-2xl shadow-accent/10 w-full md:w-auto text-center"
-          >
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"></div>
-            <span className="relative flex items-center justify-center gap-3">
-              Start Project <FiArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </span>
-          </motion.a>
+          <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+            <Link
+              href="/projects/request"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
+            >
+              Start a project
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <a
+              href="https://wa.me/254796157265"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-5 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-white/10"
+            >
+              WhatsApp
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </div>
         </div>
 
-        {/* --- MIDDLE: GRID SYSTEM --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-16 sm:mb-20">
-          
-          {/* Column 1: Brand & Terminal */}
-          <div className="lg:col-span-5 space-y-8">
-            <div>
-              <h3 className="text-2xl font-black tracking-tight flex items-center gap-2 mb-4">
-                <FiCommand className="text-accent" /> BEZALEL
-              </h3>
-              <p className="text-muted-foreground max-w-sm leading-relaxed text-sm">
-                Architecting high-performance digital infrastructure. We treat code as a raw material for building assets.
-              </p>
-            </div>
-
-            {/* Terminal Newsletter Input */}
-            <div className="bg-slate-900 rounded-lg p-4 font-mono text-sm border border-slate-800 shadow-xl max-w-sm">
-                <div className="flex gap-1.5 mb-3">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
-                </div>
-                <div className="text-slate-400 text-xs mb-2"># Stay updated on system patches</div>
-                <form onSubmit={handleSubscribe} className="flex items-center gap-2">
-                    <span className="text-accent">➜</span>
-                    <span className="text-accent-light">~</span>
-                    <input 
-                        type="email" 
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder={subscribed ? "Subscription initialized..." : "enter_email.exe"}
-                        disabled={subscribed}
-                        className="bg-transparent border-none focus:ring-0 text-slate-200 placeholder:text-slate-600 w-full px-0 py-0"
-                    />
-                </form>
-            </div>
+        <div className="grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <h3 className="font-display text-2xl font-black">Bezalel</h3>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-primary-foreground/70">
+              Software development, IT infrastructure, AV, and support for Kenyan businesses and institutions.
+            </p>
           </div>
 
-          {/* Column 2: Directory Links */}
-          <div className="lg:col-span-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-6 sm:gap-8">
-            {footerLinks.map((column, idx) => (
-              <div key={idx}>
-                <h4 className="font-mono font-bold text-foreground mb-4 sm:mb-6 text-[10px] uppercase tracking-widest opacity-60">
-                    {column.title}
-                </h4>
-                <ul className="space-y-3">
-                  {column.links.map((link, linkIdx) => (
-                    <li key={linkIdx}>
-                      <Link 
-                        href={link.href} 
-                        className="text-muted-foreground hover:text-accent transition-colors flex items-center gap-2 group w-fit text-sm"
-                      >
-                        <span className="opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-accent">/</span>
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <FooterColumn title="Services" links={serviceLinks} />
+          <FooterColumn title="Company" links={companyLinks} />
+
+          <div>
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-accent-light">Contact</h4>
+            <ul className="space-y-3 text-sm text-primary-foreground/75">
+              <li className="flex items-center gap-3">
+                <Mail className="h-4 w-4 text-accent-light" />
+                <a href="mailto:bezaleltech@gmail.com" className="hover:text-primary-foreground">
+                  bezaleltech@gmail.com
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="h-4 w-4 text-accent-light" />
+                <a href="tel:+254796157265" className="hover:text-primary-foreground">
+                  +254 796 157 265
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 text-accent-light" />
+                Nairobi, Kenya
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-5 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-primary-foreground/60">
+            <span>&copy; {currentYear} Bezalel Technologies. All rights reserved.</span>
+            {legalLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-primary-foreground">
+                {link.name}
+              </Link>
             ))}
           </div>
 
-          {/* Column 3: Live Telemetry */}
-          <div className="lg:col-span-3 space-y-4">
-             <h4 className="font-mono font-bold text-foreground mb-4 sm:mb-6 text-[10px] uppercase tracking-widest opacity-60">
-                System Telemetry
-            </h4>
-            
-            {/* Clock Widget */}
-            <div className="p-4 rounded border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/5 backdrop-blur-sm">
-               <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">
-                 <span>HQ Time (NBO)</span>
-                 <FiGlobe className="text-accent" />
-               </div>
-               <div className="text-2xl font-mono font-bold text-foreground tabular-nums tracking-tight">
-                 {time}
-               </div>
-            </div>
-
-             {/* Server Status Widget */}
-            <div className="p-4 rounded border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/5 backdrop-blur-sm">
-               <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-2">
-                 <span>Server Load</span>
-                 <div className="flex gap-0.5">
-                    <span className="w-0.5 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="w-0.5 h-2 bg-green-500 rounded-full animate-pulse delay-75" />
-                    <span className="w-0.5 h-2 bg-green-500 rounded-full animate-pulse delay-100" />
-                 </div>
-               </div>
-               <div className="w-full bg-stone-200 dark:bg-white/10 h-1 rounded-full overflow-hidden">
-                   <div className="bg-accent h-full w-[42%] animate-pulse" />
-               </div>
-               <div className="flex justify-between mt-2 text-[10px] font-mono text-slate-500">
-                   <span>CPU: 42%</span>
-                   <span>RAM: 12GB</span>
-               </div>
-            </div>
-
-          </div>
-        </div>
-
-        {/* --- BOTTOM: UTILITY BAR --- */}
-        <div className="pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20 pb-10">
-          
-          <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest text-center md:text-left">
-            © {currentYear} Bezalel Technologies. // All Rights Reserved.
-          </p>
-
-          <div className="flex items-center gap-4 flex-wrap justify-center">
-             {/* Social Array */}
-            {[
-                { icon: <FaInstagram />, href: "https://instagram.com/leyian_.b" },
-                { icon: <FaXTwitter />, href: "https://twitter.com/LeyianB" },
-                { icon: <FaTiktok />, href: "https://www.tiktok.com/@leyian_.b" },
-                { icon: <FaGithub />, href: "https://github.com/LeyianB24" },
-                { icon: <FaWhatsapp />, href: "https://wa.me/254796157265" },
-            ].map((social, idx) => (
+          <div className="flex items-center gap-3">
+            {socials.map(({ icon: Icon, href, label }) => (
               <a
-                key={idx}
-                href={social.href}
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-400 hover:text-accent hover:scale-110 transition-all duration-300"
+                aria-label={label}
+                className="rounded-md border border-white/10 p-2 text-primary-foreground/70 transition-colors hover:border-accent-light hover:text-accent-light"
               >
-                {social.icon}
+                <Icon className="h-4 w-4" />
               </a>
             ))}
           </div>
-
-          <button 
-            onClick={scrollToTop} 
-            className="group flex items-center gap-2 text-[10px] font-mono font-bold text-foreground uppercase tracking-widest hover:text-accent transition-colors"
-          >
-            Return to Top 
-            <span className="p-1 bg-stone-100 dark:bg-white/10 rounded group-hover:bg-accent group-hover:text-white transition-colors">
-                <FiArrowUp />
-            </span>
-          </button>
         </div>
       </div>
-
-      {/* --- INFINITE TICKER --- */}
-      <div className="border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] py-2 overflow-hidden">
-         <motion.div 
-            className="flex whitespace-nowrap gap-8 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]"
-            animate={{ x: [0, -1000] }}
-            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-         >
-            {/* Repeated text for marquee effect */}
-            {Array(10).fill(" // Architecting the Future // Logic First // Scale Infinite").map((item, i) => (
-                <span key={i}>{item}</span>
-            ))}
-         </motion.div>
-      </div>
     </footer>
+  );
+}
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { name: string; href: string }[];
+}) {
+  return (
+    <div>
+      <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-accent-light">{title}</h4>
+      <ul className="space-y-3">
+        {links.map((link) => (
+          <li key={link.href + link.name}>
+            <Link href={link.href} className="text-sm text-primary-foreground/70 hover:text-primary-foreground">
+              {link.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

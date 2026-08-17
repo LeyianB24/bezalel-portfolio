@@ -1,28 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
 import { ViewTransitions } from 'next-view-transitions';
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
-// --- 1. FONTS: High-Performance Loading ---
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
   adjustFontFallback: true,
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fraunces = Fraunces({
+  variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
 });
 
-// --- 2. VIEWPORT: Matching the Premium Theme ---
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F5F5F5" },
-    { media: "(prefers-color-scheme: dark)", color: "#1E1E1E" },
+    { media: "(prefers-color-scheme: light)", color: "#FAF6EC" },
+    { media: "(prefers-color-scheme: dark)", color: "#050D17" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -30,14 +28,13 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
-// --- 3. METADATA: Premium SEO ---
 export const metadata: Metadata = {
-  title: 'Bezalel Technologies | Premium Software Development',
-  description: 'Enterprise-grade software engineering with a premium navy and gold aesthetic.',
+  title: 'Bezalel Technologies | Software and IT Infrastructure in Kenya',
+  description: 'Software development, IT infrastructure, AV, systems support, and project delivery for Kenyan businesses and institutions.',
   openGraph: {
     images: ['/og-image.png'],
     title: 'Bezalel Technologies',
-    description: 'Enterprise-grade software engineering.',
+    description: 'Software and IT infrastructure for Kenyan businesses and institutions.',
     url: 'https://bezalel.tech',
     siteName: 'Bezalel Technologies',
     locale: 'en_US',
@@ -46,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Bezalel Technologies',
-    description: 'Enterprise-grade software engineering.',
+    description: 'Software and IT infrastructure for Kenyan businesses and institutions.',
     images: ['/og-image.png'],
   },
 };
@@ -61,8 +58,8 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body
           className={`
-            ${geistSans.variable} 
-            ${geistMono.variable} 
+            ${manrope.variable} 
+            ${fraunces.variable} 
             antialiased 
             bg-background 
             text-foreground 

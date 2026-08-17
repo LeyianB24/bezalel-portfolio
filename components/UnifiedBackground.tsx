@@ -1,8 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-import ParticleField from "./ParticleField";
-
 interface UnifiedBackgroundProps {
   variant?: 'default' | 'subtle' | 'vibrant' | 'cyber';
   showGrid?: boolean;
@@ -23,7 +20,7 @@ export default function UnifiedBackground({
   variant = 'default',
   showGrid = true,
   showNoise = true,
-  showOrbs = true,
+  showOrbs = false,
 }: UnifiedBackgroundProps) {
   
   // Background variant configurations
@@ -43,10 +40,10 @@ export default function UnifiedBackground({
       ] as OrbConfig[]
     },
     cyber: {
-      gridOpacity: 'opacity-[0.04] dark:opacity-[0.08]',
+      gridOpacity: 'opacity-[0.02] dark:opacity-[0.03]',
       orbs: [
-        { color: 'bg-[rgba(3,41,78,0.12)]', blur: 'blur-[140px]', position: 'top-[-15%] left-[15%]', size: 'w-[500px] h-[500px]' },
-        { color: 'bg-[rgba(212,175,55,0.05)]', blur: 'blur-[120px]', position: 'bottom-[-5%] right-[20%]', size: 'w-[400px] h-[400px]', delay: 'delay-1500' },
+        { color: 'bg-[rgba(11,32,54,0.08)]', blur: 'blur-[140px]', position: 'top-[-15%] left-[15%]', size: 'w-[500px] h-[500px]' },
+        { color: 'bg-[rgba(201,162,75,0.04)]', blur: 'blur-[120px]', position: 'bottom-[-5%] right-[20%]', size: 'w-[400px] h-[400px]', delay: 'delay-1500' },
       ] as OrbConfig[]
     },
     subtle: {
@@ -62,17 +59,13 @@ export default function UnifiedBackground({
 
   return (
     <>
-      <ParticleField />
       <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
-        {/* Theme-aware atmospheric base (dark mode keeps the cinematic depth) */}
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-accent/5 dark:bg-gradient-to-br dark:from-[rgba(2,6,23,0.7)] dark:via-[rgba(3,41,78,0.4)] dark:to-[rgba(212,175,55,0.04)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--background))_55%,hsl(var(--card)))]" />
       </div>
-      {/* --- 1. ENGINEERING GRID --- */}
       {showGrid && (
         <div className={`fixed inset-0 z-0 pointer-events-none ${config.gridOpacity} bg-grid-pattern bg-grid-md mask-radial-faded`}></div>
       )}
 
-      {/* --- 2. NOISE TEXTURE --- */}
       {showNoise && (
         <div 
           className="fixed inset-0 z-[1] pointer-events-none opacity-[0.02] mix-blend-overlay"
@@ -80,24 +73,12 @@ export default function UnifiedBackground({
         ></div>
       )}
 
-      {/* --- 3. JELLY-BLOB AMBIENT ORBS --- */}
       {showOrbs && (
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
           {config.orbs.map((orb, index) => (
-            <motion.div
+            <div
               key={index}
-              animate={{ 
-                opacity: [0.1, 0.3, 0.1], 
-                scale: [1, 1.2, 1] 
-              }}
-              transition={{ 
-                duration: 8 + index * 2, 
-                repeat: Infinity,
-                delay: index * 0.5,
-                ease: "easeInOut",
-                type: "tween"
-              }}
-              className={`absolute ${orb.position} ${orb.size} ${orb.color} ${orb.blur} jelly-blob mix-blend-multiply dark:mix-blend-screen animate-pulse-slow ${orb.delay || ''} ${orb.opacity !== undefined ? orb.opacity : ''}`}
+              className={`absolute rounded-full ${orb.position} ${orb.size} ${orb.color} ${orb.blur} ${orb.opacity !== undefined ? orb.opacity : ''}`}
             />
           ))}
         </div>

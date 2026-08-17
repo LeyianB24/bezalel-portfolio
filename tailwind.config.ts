@@ -26,16 +26,15 @@ const config: Config = {
     extend: {
       // 2. High-Performance Font Stack
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
+        display: ["var(--font-display)", ...defaultTheme.fontFamily.serif],
         mono: [
-          "var(--font-geist-mono)",
           "SF Mono",
           "JetBrains Mono",
           "Fira Code",
           ...defaultTheme.fontFamily.mono
         ],
-        // Unify serif to the same brand sans family for system-wide consistency.
-        serif: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        serif: ["var(--font-display)", ...defaultTheme.fontFamily.serif],
       },
 
       // 3. The Color Palette (HSL Linked)

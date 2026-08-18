@@ -14,7 +14,6 @@ export async function PATCH(
 
     const body = await request.json();
     const { status } = body;
-
     const { id } = await params;
 
     const updatedMessage = await prisma.contactMessage.update({
@@ -24,10 +23,9 @@ export async function PATCH(
 
     return NextResponse.json(updatedMessage);
   } catch (error) {
-    console.error("Delete message error:", error);
-    return NextResponse.json({ error: "Failed to delete message" }, { status: 500 });
+    console.error("Update message error:", error);
+    return NextResponse.json({ error: "Failed to update message" }, { status: 500 });
   }
-}
 }
 
 export async function DELETE(
@@ -52,3 +50,5 @@ export async function DELETE(
     return NextResponse.json({ error: "Failed to delete message" }, { status: 500 });
   }
 }
+
+export const dynamic = "force-dynamic";

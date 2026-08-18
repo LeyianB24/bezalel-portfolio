@@ -1,77 +1,42 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 interface InteractiveCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
   delay?: number;
+  className?: string;
 }
 
-export default function InteractiveCard({ title, description, icon, delay = 0 }: InteractiveCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
+export default function InteractiveCard({
+  title,
+  description,
+  icon,
+  delay = 0,
+  className = "",
+}: InteractiveCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay, duration: 0.5 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative p-6 rounded-xl glass-card border border-border hover:border-accent/50 transition-all duration-300 cursor-pointer overflow-hidden"
+      transition={{ delay, duration: 0.4 }}
+      className={`group rounded-lg border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-md ${className}`}
     >
-      {/* Animated Background Gradient */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-
-      {/* Glow Effect */}
-      <motion.div
-        className="absolute -inset-1 bg-accent/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
-        animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
-      />
-
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Icon */}
-        <motion.div
-          className="w-12 h-12 mb-4 text-accent flex items-center justify-center"
-          animate={isHovered ? { scale: 1.1, rotate: 5 } : { scale: 1, rotate: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {icon}
-        </motion.div>
-
-        {/* Title */}
-        <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-macos-green transition-colors">
-          {title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors">
-          {description}
-        </p>
-
-        {/* Animated Corner Accent */}
-        <motion.div
-          className="absolute top-0 right-0 w-20 h-20 bg-macos-green/10 blur-2xl rounded-full"
-          animate={isHovered ? { scale: 1.5, opacity: 0.3 } : { scale: 1, opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        />
+      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground transition-colors group-hover:bg-primary/90">
+        {icon}
       </div>
 
-      {/* Bottom Border Animation */}
-      <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-macos-green to-macos-yellow"
-        initial={{ width: 0 }}
-        animate={isHovered ? { width: "100%" } : { width: 0 }}
-        transition={{ duration: 0.3 }}
-      />
+      <h3 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-accent-dark dark:group-hover:text-accent-light">
+        {title}
+      </h3>
+
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
     </motion.div>
   );
 }
+

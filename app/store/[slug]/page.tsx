@@ -3,47 +3,111 @@ import { notFound } from "next/navigation";
 import ProductDetailClient from "./ProductDetailClient";
 import { Metadata } from "next";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
+const fallbackProducts = [
+  {
+    id: "prod-1",
+    name: "Enterprise Managed Gigabit Switch (24-Port PoE+)",
+    slug: "enterprise-managed-gigabit-switch",
+    description: "Layer 2+ managed PoE switch with 24 Gigabit Ethernet ports and 4 SFP uplink slots for office and server room deployment.",
+    price: 48500,
+    comparePrice: 54000,
+    stock: 12,
+    images: ["/images/web_system.png"],
+    category: { id: "cat-1", name: "Networking", slug: "networking" },
+  },
+  {
+    id: "prod-2",
+    name: "High-Density Dual-Band WiFi 6 Access Point",
+    slug: "high-density-wifi6-ap",
+    description: "Ceiling-mounted enterprise AP supporting up to 500 concurrent connections with seamless roaming and PoE power.",
+    price: 26000,
+    comparePrice: 29500,
+    stock: 25,
+    images: ["/images/hero_banner.png"],
+    category: { id: "cat-1", name: "Networking", slug: "networking" },
+  },
+  {
+    id: "prod-3",
+    name: "Rackmount 1U Server Chassis & Rail Kit",
+    slug: "rackmount-1u-server-chassis",
+    description: "Standard 19-inch 1U chassis with redundant hot-swap power bays and 4x 3.5-inch drive trays.",
+    price: 38000,
+    comparePrice: 42000,
+    stock: 8,
+    images: ["/images/mobile_app.png"],
+    category: { id: "cat-2", name: "Servers & Compute", slug: "servers" },
+  },
+];
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = await prisma.product.findUnique({
-    where: { slug: params.slug },
-    include: { category: true },
-  });
+  try {
+    const { slug } = await params;
+    const product = await prisma.product.findUnique({
+      where: { slug },
+      include: { category: true },
+    });
 
-  if (!product) return { title: "Product Not Found | Bezalel Technologies" };
+    if (!product) {
+      const fallback = fallbackProducts.find((p) => p.slug === slug);
+      if (fallback) {
+        return {
+          title: `${fallback.name} | Bezalel Store`,
+          description: fallback.description.slice(0, 160),
+        };
+      }
+      return { title: "Product | Bezalel Store" };
+    }
 
-  return {
-    title: `${product.name} | Bezalel Store`,
-    description: product.description.slice(0, 160),
-  };
+    return {
+      title: `${product.name} | Bezalel Store`,
+      description: product.description.slice(0, 160),
+    };
+  } catch {
+    return { title: "Store Item | Bezalel Store" };
+  }
 }
 
 export default async function ProductPage({ params }: Props) {
-  const product = await prisma.product.findUnique({
-    where: { slug: params.slug, isActive: true },
-    include: { category: true },
-  });
+  const { slug } = await params;
 
-  if (!product) notFound();
+  try {
+    const product = await prisma.product.findUnique({
+      where: { slug, isActive: true },
+      include: { category: true },
+    });
 
-  // Find related products in the same category
-  const related = await prisma.product.findMany({
-    where: {
-      categoryId: product.categoryId,
-      isActive: true,
-      id: { not: product.id },
-    },
-    include: { category: true },
-    take: 4,
-  });
+    if (!product) {
+      const fallback = fallbackProducts.find((p) => p.slug === slug);
+      if (!fallback) notFound();
+      const related = fallbackProducts.filter((p) => p.slug !== slug);
+      return <ProductDetailClient product={fallback} related={related} />;
+    }
 
-  const cleanProduct = JSON.parse(JSON.stringify(product));
-  const cleanRelated = JSON.parse(JSON.stringify(related));
+    // Find related products in the same category
+    const related = await prisma.product.findMany({
+      where: {
+        categoryId: product.categoryId,
+        isActive: true,
+        id: { not: product.id },
+      },
+      include: { category: true },
+      take: 4,
+    });
 
-  return <ProductDetailClient product={cleanProduct} related={cleanRelated} />;
+    const cleanProduct = JSON.parse(JSON.stringify(product));
+    const cleanRelated = JSON.parse(JSON.stringify(related));
+
+    return <ProductDetailClient product={cleanProduct} related={cleanRelated} />;
+  } catch (error) {
+    console.error("ProductPage DB error:", error);
+    const fallback = fallbackProducts.find((p) => p.slug === slug) || fallbackProducts[0];
+    const related = fallbackProducts.filter((p) => p.slug !== fallback.slug);
+    return <ProductDetailClient product={fallback} related={related} />;
+  }
 }

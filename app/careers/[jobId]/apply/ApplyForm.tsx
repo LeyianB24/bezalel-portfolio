@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { 
   ArrowLeft, Upload, FileText, CheckCircle2, 
-  Loader2, Briefcase, MapPin, Clock 
+  Loader2, Briefcase, MapPin, Clock, ArrowRight 
 } from "lucide-react";
 import Link from "next/link";
 
@@ -66,7 +66,7 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
         throw new Error(errorData.error || "Failed to submit application");
       }
 
-      toast.success("Application submitted successfully!");
+      toast.success("Application submitted successfully.");
       setIsSuccess(true);
     } catch (error) {
       console.error(error);
@@ -79,33 +79,34 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
 
   if (isSuccess) {
     return (
-      <div className="max-w-2xl mx-auto py-12 px-4">
-        <div className="bg-neutral-900 border border-white/10 rounded-2xl p-8 md:p-12 text-center flex flex-col items-center space-y-6 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
-            <CheckCircle2 className="w-20 h-20 text-accent animate-bounce" />
+      <div className="mx-auto max-w-2xl px-4 py-16">
+        <div className="rounded-lg border border-border bg-card p-8 text-center shadow-sm sm:p-12">
+          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-accent-dark dark:text-accent-light">
+            <CheckCircle2 className="h-8 w-8" />
+          </div>
           
-          <h2 className="text-3xl font-black text-white tracking-tight">
-            TRANSMISSION SECURED.
-          </h2>
-          <p className="text-slate-400 max-w-md leading-relaxed">
-            Thank you, <strong className="text-white">{name}</strong>. Your application for <strong className="text-white">{job.title}</strong> has been logged into our systems.
+          <h1 className="font-display text-3xl font-black text-foreground">
+            Application Received
+          </h1>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Thank you, <strong className="text-foreground">{name}</strong>. Your application for the position of <strong className="text-foreground">{job.title}</strong> has been logged.
           </p>
-          <p className="text-xs text-slate-500 font-mono">
-            A confirmation receipt has been dispatched to your email address: {email}
+          <p className="mt-2 text-xs text-muted-foreground">
+            A confirmation receipt has been sent to {email}. Our engineering leads review each submission carefully.
           </p>
 
-          <div className="pt-6 w-full flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Link 
               href="/careers" 
-              className="px-6 py-3 bg-accent text-black font-bold rounded-lg hover:opacity-95 transition-all font-mono text-sm"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-xs font-bold text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Return to Careers
+              Back to careers
             </Link>
             <Link 
               href="/" 
-              className="px-6 py-3 bg-white/5 border border-white/10 text-slate-300 hover:text-white rounded-lg transition-all font-mono text-sm"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-5 py-3 text-xs font-bold text-foreground transition-colors hover:border-accent"
             >
-              Go to Home Page
+              Go to homepage
             </Link>
           </div>
         </div>
@@ -114,52 +115,49 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 relative z-10">
-      {/* Back Button */}
+    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
       <Link 
         href="/careers" 
-        className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 font-mono text-sm"
+        className="mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
       >
-        <ArrowLeft className="w-4 h-4" /> Back to open roles
+        <ArrowLeft className="h-4 w-4" /> Back to open roles
       </Link>
 
-      {/* Title / Job Detail Summary */}
-      <div className="bg-neutral-950 border border-white/10 rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
-        <div className="flex items-center gap-3 text-xs font-mono font-medium text-accent uppercase tracking-widest mb-3">
-          <Briefcase className="w-3.5 h-3.5" />
-          <span>Apply Online</span>
+      {/* Role Summary */}
+      <div className="mb-8 rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8">
+        <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent-dark dark:text-accent-light">
+          <Briefcase className="h-3.5 w-3.5" />
+          <span>Job Application</span>
         </div>
         
-        <h1 className="text-3xl font-black text-white tracking-tight mb-4">
+        <h1 className="font-display text-3xl font-black tracking-tight text-foreground sm:text-4xl">
           {job.title}
         </h1>
         
-        <div className="flex flex-wrap gap-4 text-sm text-slate-400 font-mono">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-accent" />
+        <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 font-semibold text-foreground">
+            <span className="h-2 w-2 rounded-full bg-accent-dark dark:bg-accent-light" />
             {job.department}
           </div>
-          <div className="flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-slate-500" />
+          <div className="flex items-center gap-1">
+            <MapPin className="h-3.5 w-3.5" />
             {job.location}
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-slate-500" />
-            {job.type.replace("_", " ").toLowerCase()}
+          <div className="flex items-center gap-1">
+            <Clock className="h-3.5 w-3.5" />
+            {job.type.replace(/_/g, " ").toLowerCase()}
           </div>
         </div>
       </div>
 
-      {/* Form Card */}
-      <div className="bg-neutral-900 border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl">
+      {/* Application Form */}
+      <div className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
-          
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid gap-6 md:grid-cols-2">
             {/* Full Name */}
             <div className="space-y-2">
-              <label htmlFor="name" className="block text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-                Full Name <span className="text-accent">*</span>
+              <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-foreground">
+                Full Name <span className="text-accent-dark dark:text-accent-light">*</span>
               </label>
               <input 
                 id="name"
@@ -167,15 +165,15 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Jean Bezalel"
-                className="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-accent transition-colors font-sans"
+                placeholder="e.g. John Kamau"
+                className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
 
             {/* Email Address */}
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-                Email Address <span className="text-accent">*</span>
+              <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-foreground">
+                Email Address <span className="text-accent-dark dark:text-accent-light">*</span>
               </label>
               <input 
                 id="email"
@@ -183,15 +181,15 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="e.g. dev@bezalelstudio.com"
-                className="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-accent transition-colors font-sans"
+                placeholder="e.g. john@example.com"
+                className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
           </div>
 
           {/* Phone Number */}
           <div className="space-y-2">
-            <label htmlFor="phone" className="block text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
+            <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-foreground">
               Phone Number
             </label>
             <input 
@@ -200,35 +198,35 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. +254 796 157 265"
-                className="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-accent transition-colors font-sans"
+              className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
 
-          {/* CV File Upload */}
+          {/* CV Upload */}
           <div className="space-y-2">
-            <label className="block text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-              CV / Resume (PDF, DOC, DOCX) <span className="text-accent">*</span>
+            <label className="block text-xs font-bold uppercase tracking-wider text-foreground">
+              CV / Resume (PDF, DOC, DOCX) <span className="text-accent-dark dark:text-accent-light">*</span>
             </label>
             
-            <div className="relative border-2 border-dashed border-white/10 hover:border-accent/50 rounded-xl p-6 bg-black flex flex-col items-center justify-center text-center group cursor-pointer transition-all">
+            <div className="relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-background p-6 text-center transition-colors hover:border-accent">
               <input 
                 type="file" 
                 required
                 accept=".pdf,.doc,.docx"
                 onChange={handleFileChange}
-                className="absolute inset-0 opacity-0 cursor-pointer"
+                className="absolute inset-0 cursor-pointer opacity-0"
               />
               {cvFile ? (
-                <div className="flex flex-col items-center space-y-2 text-accent">
-                  <FileText className="w-12 h-12" />
-                  <span className="text-white font-mono text-sm max-w-xs truncate">{cvFile.name}</span>
-                  <span className="text-xs text-slate-500 font-mono">{(cvFile.size / 1024 / 1024).toFixed(2)} MB</span>
+                <div className="flex flex-col items-center space-y-2 text-accent-dark dark:text-accent-light">
+                  <FileText className="h-10 w-10" />
+                  <span className="text-sm font-bold text-foreground">{cvFile.name}</span>
+                  <span className="text-xs text-muted-foreground">{(cvFile.size / 1024 / 1024).toFixed(2)} MB</span>
                 </div>
               ) : (
-                <div className="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-white transition-colors">
-                  <Upload className="w-12 h-12 text-slate-600 group-hover:text-accent transition-colors" />
-                  <span className="font-mono text-sm">Drag and drop or click to upload</span>
-                  <span className="text-xs text-slate-600 font-mono">Max size: 5 MB</span>
+                <div className="flex flex-col items-center space-y-2 text-muted-foreground">
+                  <Upload className="h-10 w-10 text-muted-foreground/60" />
+                  <span className="text-sm font-medium text-foreground">Click to upload or drag and drop your CV</span>
+                  <span className="text-xs">PDF or DOCX up to 5 MB</span>
                 </div>
               )}
             </div>
@@ -236,16 +234,16 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
 
           {/* Cover Note */}
           <div className="space-y-2">
-            <label htmlFor="coverNote" className="block text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-              Cover Note / Details
+            <label htmlFor="coverNote" className="block text-xs font-bold uppercase tracking-wider text-foreground">
+              Brief Introduction / Relevant Project Links
             </label>
             <textarea 
               id="coverNote"
               rows={4}
               value={coverNote}
               onChange={(e) => setCoverNote(e.target.value)}
-              placeholder="Why are you a fit for Bezalel Studio? Share your project portfolio links, GitHub, or briefly introduce yourself."
-              className="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-accent transition-colors font-sans resize-y"
+              placeholder="Highlight any relevant engineering experience, GitHub profiles, or production systems you have worked on."
+              className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent resize-y"
             />
           </div>
 
@@ -253,15 +251,18 @@ export default function ApplyForm({ job }: { job: JobInfo }) {
           <button 
             type="submit" 
             disabled={isSubmitting}
-              className="w-full bg-accent hover:opacity-95 text-black font-bold py-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-mono uppercase tracking-wider shadow-lg shadow-black/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-accent px-6 py-4 text-sm font-bold text-accent-foreground shadow-sm transition-colors hover:bg-accent-light disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Processing Transmission...
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Submitting application...
               </>
             ) : (
-              "Submit Application"
+              <>
+                Submit application
+                <ArrowRight className="h-4 w-4" />
+              </>
             )}
           </button>
         </form>

@@ -1,250 +1,104 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { BrainCircuit, Zap, ShieldCheck, GitCommit, Terminal, Cpu } from "lucide-react";
+import { BrainCircuit, Zap, ShieldCheck, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
-import { jellyPresets } from "@/lib/jelly-springs";
 
-// ====================
-// DATA
-// ====================
-
-// ====================
-// DATA
-// ====================
-
-interface Gate {
-  id: string;
-  icon: JSX.Element;
-  color: string;
-  bg: string;
-  border: string;
-  title: string;
-  subtitle: string;
-  desc: string;
-  stat: string;
-}
-
-const LOGIC_GATES: Gate[] = [
+const principles = [
   {
     id: "01",
-    icon: <BrainCircuit className="w-6 h-6" />,
-    color: "text-accent",
-    bg: "bg-accent/10",
-    border: "border-accent/20",
-    title: "First Principles",
-    subtitle: "DECONSTRUCTION_MODE",
-    desc: "We ignore templates. We strip your business problem down to its fundamental mathematical truths and rebuild it from the ground up. It&apos;s not about what competitors do; it&apos;s about what physics allows.",
-    stat: "Depth: 100%"
+    title: "First Principles & Deconstruction",
+    description: "We avoid speculative frameworks and generic templates. Every system is broken down to its fundamental business logic, data models, and user constraints before building.",
+    icon: BrainCircuit,
+    stat: "Deterministic Architecture",
   },
   {
     id: "02",
-    icon: <Zap className="w-6 h-6" />,
-    color: "text-amber-500",
-    bg: "bg-amber-500/10",
-    border: "border-amber-500/20",
-    title: "Performance by Default",
-    subtitle: "LATENCY_ELIMINATION",
-    desc: "Speed is a feature. We engineer systems that load in milliseconds, creating a perception of instantaneity. We respect your user&apos;s dopamine receptors.",
-    stat: "Speed: <50ms"
+    title: "Performance & Low-Latency Defaults",
+    description: "Response speed directly impacts operational efficiency. We optimize database queries, network round-trips, and bundle payloads so workflows complete quickly.",
+    icon: Zap,
+    stat: "Sub-second response targets",
   },
   {
     id: "03",
-    icon: <ShieldCheck className="w-6 h-6" />,
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10",
-    border: "border-emerald-500/20",
-    title: "Anti-Fragile Robustness",
-    subtitle: "REDUNDANCY_CHECK",
-    desc: "We assume failure is inevitable. Our systems are designed to be self-healing and redundant. When the unexpected happens, the system doesn&apos;t crash—it adapts.",
-    stat: "Uptime: 99.99%"
-  }
+    title: "Resilience & Graceful Failure Handling",
+    description: "We assume third-party services and network links will occasionally fail. Systems are built with retries, idempotency, and audit trails so business records stay consistent.",
+    icon: ShieldCheck,
+    stat: "99.9% availability focus",
+  },
 ];
 
-// ====================
-// COMPONENT
-// ====================
-
 export default function LogicPage() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Track scroll for the connecting line
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
   return (
-    <PageLayout variant="cyber">
-      <main ref={containerRef} className="min-h-[200vh] relative overflow-hidden pt-32 pb-32">
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
-          {/* --- LEFT COLUMN: STICKY HEADER --- */}
-          <div className="lg:col-span-5 relative">
-            <div className="sticky top-32">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={jellyPresets.soft}
+    <PageLayout variant="subtle">
+      <main className="min-h-screen pt-28 pb-20 sm:pt-36">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          {/* Header */}
+          <div className="mb-16 border-b border-border pb-12 sm:mb-20">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+              Engineering Philosophy
+            </p>
+            <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-foreground sm:text-6xl">
+              How We Think About Systems
+            </h1>
+            <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Good software is the product of disciplined reasoning. We build systems that are easy to understand, straightforward to maintain, and resilient under real daily operational demands.
+            </p>
+          </div>
+
+          {/* Core Principles */}
+          <div className="mb-20 grid gap-8 lg:grid-cols-3">
+            {principles.map(({ id, title, description, icon: Icon, stat }) => (
+              <div
+                key={id}
+                className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 flex flex-col justify-between"
               >
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-accent uppercase">
-                    System Architecture
-                  </span>
+                <div>
+                  <div className="mb-6 flex items-center justify-between">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="font-mono text-xs font-bold text-accent-dark dark:text-accent-light">
+                      Rule {id}
+                    </span>
+                  </div>
+                  <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                    {title}
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {description}
+                  </p>
                 </div>
 
-                <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-foreground mb-8 leading-[0.85]">
-                  THE <br/> 
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-indigo-500 to-accent animate-gradient-x">
-                    LOGIC
-                  </span>.
-                </h1>
+                <div className="mt-6 border-t border-border pt-4 text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                  {stat}
+                </div>
+              </div>
+            ))}
+          </div>
 
-                <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-                  Software is not just code; it is <strong className="text-foreground">crystallized thought</strong>. 
-                  We believe that complexity is a tax on velocity, and bad code is a liability that compounds interest daily.
+          {/* CTA */}
+          <div className="rounded-lg border border-border bg-primary p-8 text-primary-foreground sm:p-12">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="font-display text-2xl font-black sm:text-3xl">
+                  Build with an engineering partner, not an agency.
+                </h2>
+                <p className="mt-2 text-sm text-primary-foreground/75 sm:text-base">
+                  Tell us about your organization&apos;s workflow needs and we will help scope the right technical path.
                 </p>
-
-                {/* Decorative Terminal Box */}
-                <div className="p-4 rounded-lg bg-secondary/30 border border-border/50 font-mono text-xs text-muted-foreground">
-                  <div className="flex justify-between border-b border-border/50 pb-2 mb-2">
-                    <span>KERNEL_LOG</span>
-                    <span>v2.0.4</span>
-                  </div>
-                  <div className="space-y-1 opacity-70">
-                    <p>&gt; Initiating logic sequence...</p>
-                    <p>&gt; Optimization protocols: ACTIVE</p>
-                    <p>&gt; Complexity reduction: ENABLED</p>
-                  </div>
-                </div>
-
-              </motion.div>
-            </div>
-          </div>
-
-          {/* --- RIGHT COLUMN: THE CIRCUIT --- */}
-          <div className="lg:col-span-7 relative pl-0 lg:pl-12">
-            
-            {/* The Connecting Line */}
-            <div className="absolute left-0 lg:left-12 top-4 bottom-0 w-px bg-border/50 hidden lg:block">
-               <motion.div 
-                 style={{ height: lineHeight }}
-                 className="w-full bg-accent origin-top shadow-[0_0_10px_rgba(0,0,0,0.2)]"
-               />
-            </div>
-
-            <div className="space-y-24 lg:space-y-32">
-              {LOGIC_GATES.map((gate, idx) => (
-                <LogicNode key={idx} gate={gate} />
-              ))}
-              
-              {/* Diagram Trigger: Placing it after the architecture points */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="relative lg:ml-12 p-8 border border-dashed border-border rounded-xl bg-secondary/10 flex flex-col items-center text-center"
+              </div>
+              <Link
+                href="/projects/request"
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
               >
-                  <Cpu className="w-10 h-10 text-muted-foreground mb-4 opacity-50" />
-                  <p className="text-sm text-muted-foreground font-mono mb-4">
-                      VISUALIZING THE ARCHITECTURE
-                  </p>
-                  
-                  
-
-                  <p className="mt-4 text-xs text-muted-foreground max-w-md mx-auto">
-                      Whether Microservices or Monolith, the pattern must match the problem.
-                  </p>
-              </motion.div>
+                Start a project
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
-
           </div>
         </div>
-
-        {/* --- FOOTER QUOTE --- */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="mt-40 text-center max-w-3xl mx-auto"
-        >
-          <GitCommit className="w-8 h-8 mx-auto text-accent mb-6" />
-          <blockquote className="text-3xl md:text-5xl font-serif italic text-foreground leading-tight">
-            &quot;Simplicity is the ultimate sophistication.&quot;
-          </blockquote>
-          <cite className="block mt-8 text-xs font-mono text-accent uppercase tracking-widest">
-            — Leonardo da Vinci
-          </cite>
-        </motion.div>
-
-        </div>
-
       </main>
     </PageLayout>
-  );
-}
-
-// ====================
-// SUB-COMPONENT
-// ====================
-
-function LogicNode({ gate }: { gate: Gate }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="relative lg:ml-12 group"
-    >
-      {/* Connector Dot (Desktop Only) */}
-      <div className="absolute -left-[53px] top-10 w-3 h-3 rounded-full border-2 border-background bg-border z-10 hidden lg:block group-hover:bg-purple-500 group-hover:scale-125 transition-all duration-300" />
-
-      <div className={`relative overflow-hidden rounded-3xl border bg-background/50 backdrop-blur-sm p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/10 ${gate.border}`}>
-        
-        {/* Hover Gradient Effect */}
-        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-transparent via-transparent to-${gate.color.split('-')[1]}-500/5`} />
-
-        {/* Header */}
-        <div className="flex justify-between items-start mb-6">
-          <div className={`p-3 rounded-2xl ${gate.bg} ${gate.color} ring-1 ring-inset ring-black/5`}>
-            {gate.icon}
-          </div>
-          <span className="font-mono text-4xl font-black text-secondary-foreground/20 group-hover:text-foreground/20 transition-colors">
-            {gate.id}
-          </span>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          <h3 className="text-2xl font-bold text-foreground mb-1">{gate.title}</h3>
-          <p className="text-[10px] font-mono text-purple-500 uppercase tracking-wider mb-4">
-            {'// '}{gate.subtitle}
-          </p>
-          <p className="text-muted-foreground leading-relaxed text-lg mb-6">
-            {gate.desc}
-          </p>
-        </div>
-
-        {/* Footer Meta */}
-        <div className="pt-6 border-t border-border/50 flex items-center justify-between text-xs font-mono">
-            <div className="flex items-center gap-2 text-muted-foreground">
-                <Terminal className="w-3 h-3" />
-                <span>Sys_Check</span>
-            </div>
-            <div className={`${gate.color} font-bold`}>
-                {gate.stat}
-            </div>
-        </div>
-
-      </div>
-    </motion.div>
   );
 }

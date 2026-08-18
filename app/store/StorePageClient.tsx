@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useMemo } from "react";
@@ -35,42 +36,46 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      className="group relative flex flex-col rounded-xl border border-border/40 bg-card overflow-hidden hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500"
+      transition={{ duration: 0.35, delay: index * 0.04 }}
+      className="group relative flex flex-col rounded-lg border border-border bg-card overflow-hidden hover:border-accent/40 shadow-sm transition-all"
     >
-      {/* Image Placeholder / Category Badge */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-secondary/60 to-secondary/20 flex items-center justify-center overflow-hidden">
+      {/* Image / Category Badge */}
+      <div className="relative aspect-[4/3] bg-secondary/20 flex items-center justify-center overflow-hidden">
         {product.images.length > 0 ? (
-          <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <img 
+            src={product.images[0]} 
+            alt={product.name} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+          />
         ) : (
-          <div className="flex flex-col items-center gap-3 text-muted-foreground/40">
-            <Package size={48} strokeWidth={1} />
-            <span className="text-xs font-mono uppercase tracking-widest">{product.category.name}</span>
+          <div className="flex flex-col items-center gap-2 text-muted-foreground/40">
+            <Package size={40} strokeWidth={1} />
+            <span className="text-[10px] font-bold uppercase tracking-wider">{product.category.name}</span>
           </div>
         )}
         
         {discount > 0 && (
-          <div className="absolute top-3 left-3 px-2 py-1 bg-destructive text-white text-[10px] font-bold uppercase tracking-widest rounded">
-            -{discount}%
+          <div className="absolute top-3 left-3 px-2 py-0.5 bg-accent text-accent-foreground text-[10px] font-bold uppercase tracking-wider rounded shadow">
+            Save {discount}%
           </div>
         )}
 
-        <div className="absolute top-3 right-3 px-2 py-1 bg-background/80 backdrop-blur-sm border border-border/50 text-[10px] font-mono text-muted-foreground rounded">
-          {product.stock > 0 ? `${product.stock} left` : "Out of stock"}
+        <div className="absolute top-3 right-3 px-2 py-0.5 bg-background/90 backdrop-blur-sm border border-border text-[10px] font-bold text-muted-foreground rounded">
+          {product.stock > 0 ? `${product.stock} available` : "Out of stock"}
         </div>
       </div>
 
       {/* Content */}
       <div className="flex flex-col flex-1 p-4 sm:p-5">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-primary/70 bg-primary/5 border border-primary/10 px-2 py-0.5 rounded">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light bg-accent/10 border border-accent/20 px-2 py-0.5 rounded">
             {product.category.name}
           </span>
         </div>
 
-        <h3 className="font-bold text-foreground text-base leading-snug mb-2 group-hover:text-primary transition-colors duration-300">
+        <h3 className="font-bold text-foreground text-base leading-snug mb-2 group-hover:text-accent-dark dark:group-hover:text-accent-light transition-colors">
           {product.name}
         </h3>
         
@@ -78,10 +83,10 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           {product.description}
         </p>
 
-        <div className="mt-4 pt-4 border-t border-border/40 flex items-center justify-between gap-2">
+        <div className="mt-4 pt-4 border-t border-border flex items-center justify-between gap-2">
           <div className="min-w-0">
             <div className="flex items-baseline gap-2 flex-wrap">
-              <span className="text-lg sm:text-xl font-black text-foreground font-mono">
+              <span className="text-lg sm:text-xl font-bold text-accent-dark dark:text-accent-light font-mono">
                 {CURRENCY} {product.price.toLocaleString()}
               </span>
               {product.comparePrice && (
@@ -94,9 +99,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
           <Link
             href={`/store/${product.slug}`}
-            className="group/btn flex items-center gap-2 bg-primary/10 hover:bg-primary text-primary hover:text-white text-xs font-bold px-3 sm:px-4 py-2 rounded-lg transition-all duration-300 border border-primary/20 hover:border-primary shrink-0"
+            className="flex items-center gap-1.5 bg-accent text-accent-foreground text-xs font-bold px-3 py-1.5 rounded-md hover:bg-accent-light transition-colors shrink-0 shadow-sm"
           >
-            View <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
+            Details <ArrowRight size={12} />
           </Link>
         </div>
       </div>
@@ -126,9 +131,9 @@ export default function StorePageClient({
   }, [products, searchQuery, selectedCategory]);
 
   const features = [
-    { icon: Zap, label: "Focused packages", desc: "Small products and services for clear, contained needs" },
-    { icon: Shield, label: "Simple checkout", desc: "Order support through WhatsApp, M-Pesa, or card where available" },
-    { icon: Star, label: "Useful defaults", desc: "Built for teams that want practical starting points" },
+    { icon: Zap, label: "Verified Hardware", desc: "Tested enterprise networking, servers, and components" },
+    { icon: Shield, label: "Direct Checkout", desc: "Instant M-Pesa, card, or Cash on Delivery with invoice dispatch" },
+    { icon: Star, label: "Nairobi Dispatch", desc: "Prompt same-day/next-day dispatch across Kenya" },
   ];
 
   return (
@@ -142,21 +147,17 @@ export default function StorePageClient({
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-mono uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/20 bg-accent/10 text-accent-dark dark:text-accent-light text-xs font-bold uppercase tracking-wider mb-6">
               <Tag size={12} />
-              Digital store
+              Hardware & IT Store
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-none">
-              Small digital
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                tools and packages
-              </span>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-6 leading-tight">
+              Hardware, Equipment & Technical Packages
             </h1>
             <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Browse focused products, templates, and support packages. For custom business systems, start with a project brief instead.
+              Browse enterprise networking hardware, server components, development kits, and operational packages. For custom software engineering, start a project brief.
             </p>
           </motion.div>
 
@@ -164,17 +165,17 @@ export default function StorePageClient({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-3 sm:gap-6 mt-10 sm:mt-12"
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-10"
           >
             {features.map((f, i) => (
-              <div key={i} className="flex items-center gap-3 px-4 sm:px-5 py-3 rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                  <f.icon size={16} className="text-primary" />
+              <div key={i} className="flex items-center gap-3 px-4 sm:px-5 py-3 rounded-lg border border-border bg-card shadow-sm">
+                <div className="w-8 h-8 rounded-md bg-primary text-primary-foreground flex items-center justify-center shrink-0">
+                  <f.icon size={15} />
                 </div>
                 <div className="text-left">
-                  <div className="text-sm font-bold text-foreground">{f.label}</div>
-                  <div className="text-xs text-muted-foreground max-w-[140px] sm:max-w-[180px]">{f.desc}</div>
+                  <div className="text-xs font-bold text-foreground">{f.label}</div>
+                  <div className="text-[11px] text-muted-foreground max-w-[160px]">{f.desc}</div>
                 </div>
               </div>
             ))}
@@ -182,7 +183,7 @@ export default function StorePageClient({
         </section>
 
         {/* Filter & Search Bar */}
-        <section className="sticky top-16 sm:top-20 z-30 bg-background/80 backdrop-blur-xl border-y border-border/30 py-3 sm:py-4 px-4 sm:px-6">
+        <section className="sticky top-16 sm:top-20 z-30 bg-background/90 backdrop-blur-xl border-y border-border py-3 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
             {/* Search */}
             <div className="relative flex-1 w-full">
@@ -191,8 +192,8 @@ export default function StorePageClient({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border/60 bg-card/60 text-foreground placeholder:text-muted-foreground text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all"
+                placeholder="Search products, hardware, models..."
+                className="w-full pl-10 pr-4 py-2.5 rounded-md border border-border bg-card text-foreground placeholder:text-muted-foreground text-sm focus:border-accent outline-none"
               />
               {searchQuery && (
                 <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground" aria-label="Clear search">
@@ -208,10 +209,10 @@ export default function StorePageClient({
                 <button
                   key={cat.slug}
                   onClick={() => setSelectedCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-200 shrink-0 ${
+                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors shrink-0 ${
                     selectedCategory === cat.slug
-                      ? "bg-primary text-white shadow-lg shadow-primary/20"
-                      : "border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30"
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-border text-muted-foreground hover:text-foreground hover:border-accent"
                   }`}
                 >
                   {cat.name}
@@ -227,17 +228,17 @@ export default function StorePageClient({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20 sm:py-32"
+              className="text-center py-20"
             >
-              <Package size={64} className="mx-auto text-muted-foreground/20 mb-4" strokeWidth={1} />
-              <h2 className="text-xl font-bold text-muted-foreground mb-2">No products found</h2>
-              <p className="text-sm text-muted-foreground/60">
-                {searchQuery ? `No results for "${searchQuery}"` : "Check back soon - new products coming."}
+              <Package size={56} className="mx-auto text-muted-foreground/30 mb-4" strokeWidth={1} />
+              <h2 className="text-xl font-bold text-foreground mb-2">No products found</h2>
+              <p className="text-sm text-muted-foreground">
+                {searchQuery ? `No matches found for "${searchQuery}"` : "New hardware inventory being indexed."}
               </p>
               {searchQuery && (
                 <button
                   onClick={() => { setSearchQuery(""); setSelectedCategory("all"); }}
-                  className="mt-4 text-primary text-sm hover:underline"
+                  className="mt-4 text-accent-dark dark:text-accent-light text-sm font-bold hover:underline"
                 >
                   Clear filters
                 </button>
@@ -245,12 +246,12 @@ export default function StorePageClient({
             </motion.div>
           ) : (
             <>
-              <div className="flex items-center justify-between mb-6 sm:mb-8">
-                <p className="text-sm text-muted-foreground font-mono">
-                  <span className="text-foreground font-bold">{filteredProducts.length}</span> product{filteredProducts.length !== 1 ? "s" : ""} found
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                  Showing <span className="text-foreground">{filteredProducts.length}</span> product{filteredProducts.length !== 1 ? "s" : ""}
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <AnimatePresence mode="popLayout">
                   {filteredProducts.map((product, i) => (
                     <ProductCard key={product.id} product={product} index={i} />
@@ -262,22 +263,22 @@ export default function StorePageClient({
         </section>
 
         {/* CTA Section */}
-        <section className="border-t border-border/30 bg-card/30 py-16 sm:py-20 px-4 sm:px-6 text-center">
+        <section className="border-t border-border bg-primary p-8 text-primary-foreground sm:p-14 text-center">
           <div className="max-w-2xl mx-auto">
-            <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6">
-              <ShoppingCart size={28} className="text-primary" />
+            <div className="w-14 h-14 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center mx-auto mb-6 text-accent-light">
+              <ShoppingCart size={24} />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-4">
-              Need a Custom Solution?
+            <h2 className="font-display text-3xl font-black tracking-tight mb-4">
+              Need a Custom Infrastructure Deployment?
             </h2>
-            <p className="text-muted-foreground mb-8 text-sm sm:text-base">
-              Cannot find exactly what you need? Tell us about the workflow and we will scope a custom solution.
+            <p className="text-primary-foreground/80 mb-8 text-sm leading-relaxed">
+              We design, supply, configure, and maintain end-to-end IT infrastructure for offices, SACCOs, estates, and enterprise facilities.
             </p>
             <Link
               href="/projects/request"
-              className="inline-flex items-center gap-3 bg-foreground text-background px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm hover:scale-105 transition-transform duration-300"
+              className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3.5 rounded-md font-bold text-xs uppercase tracking-wider hover:bg-accent-light transition-colors shadow-sm"
             >
-              Request Custom Build <ArrowRight size={16} />
+              Request Custom Build <ArrowRight size={14} />
             </Link>
           </div>
         </section>

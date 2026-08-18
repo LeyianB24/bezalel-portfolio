@@ -35,75 +35,81 @@ const proofItems = [
 
 const services = [
   {
-    title: "Software and web systems",
+    title: "Software and Web Systems",
     description:
-      "Custom websites, portals, dashboards, and workflow systems for teams that need more than a brochure site.",
-    proof: "Useful for member records, service requests, reporting, approvals, and customer self-service.",
+      "Custom portals, internal dashboards, and automated workflow systems built for teams that require reliable daily operations.",
+    proof: "Designed for member records, service requests, reporting, approvals, and customer self-service.",
     icon: MonitorUp,
   },
   {
-    title: "IT infrastructure and AV",
+    title: "IT Infrastructure & Boardroom AV",
     description:
-      "Network, boardroom, CCTV, access, and meeting-room technology planned around daily business use.",
-    proof: "Built for offices, estates, institutions, and teams that cannot afford unreliable setups.",
+      "Structured cabling, managed networks, high-definition boardroom AV, CCTV surveillance, and biometric access control.",
+    proof: "Engineered for corporate offices, estates, and institutions that cannot afford network interruptions.",
     icon: Network,
   },
   {
-    title: "Payments and data workflows",
+    title: "Payments & API Integration",
     description:
-      "M-Pesa, Stripe, notifications, forms, and database workflows connected into practical business systems.",
-    proof: "Designed to reduce manual follow-up and give management cleaner operating visibility.",
+      "M-Pesa Daraja, Stripe, bank transfer rails, and transactional databases integrated cleanly into existing business software.",
+    proof: "Eliminates manual payment matching with automated reconciliation and instant notifications.",
     icon: CreditCard,
   },
   {
-    title: "Support and systems improvement",
+    title: "Audits, Support & System Modernization",
     description:
-      "Audits, fixes, documentation, handover, and support for teams inheriting messy or incomplete systems.",
-    proof: "Useful when the real problem is reliability, not another flashy rebuild.",
+      "Independent technical code audits, performance fixes, architecture documentation, and ongoing maintenance SLAs.",
+    proof: "Ideal when you inherit legacy codebases or need reliable ongoing engineering support.",
     icon: Wrench,
   },
 ];
 
 const portfolioTeasers = [
   {
-    title: "Institutional operations systems",
-    category: "Software",
+    title: "BezaShop Commerce Platform",
+    clientName: "BezaShop Retail",
+    category: "Web Systems",
     description:
-      "Internal tools for requests, member records, transactions, reporting, and admin oversight.",
+      "Inventory synchronization, multi-channel payment reconciliation, and automated invoice dispatch with sub-80ms response times.",
     image: "/images/web_system.png",
+    liveUrl: "https://bezalel.website",
   },
   {
-    title: "Office and estate technology",
-    category: "Infrastructure",
+    title: "NexoLogistics Field Ops Suite",
+    clientName: "Nexo Freight EA",
+    category: "Mobile Apps",
     description:
-      "AV, CCTV, networking, documentation, and support built around accountable daily use.",
-    image: "/BG_images/coporate.avif",
-  },
-  {
-    title: "Customer-facing digital products",
-    category: "Web and mobile",
-    description:
-      "Responsive web experiences, storefronts, forms, dashboards, and mobile-ready workflows.",
+      "Offline-capable mobile dispatch and driver manifests with instant synchronization upon network reconnection.",
     image: "/images/mobile_app.png",
+    liveUrl: "https://bezalel.website",
+  },
+  {
+    title: "DataBridge Multi-Rail Gateway",
+    clientName: "Apex Financial Systems",
+    category: "API & Infra",
+    description:
+      "Unified payments middleware handling automated STK push retries, webhook signature verifications, and bank integrations.",
+    image: "/images/hero_banner.png",
+    liveUrl: "https://bezalel.website",
   },
 ];
 
 const processSteps = [
   {
     title: "Share the problem",
-    description: "You send the brief, budget range, timeline, and any existing documents or screenshots.",
+    description: "Submit a project brief with your workflow goals, timeline expectations, budget range, and current pain points.",
   },
   {
-    title: "Get a practical quote",
-    description: "We clarify scope, identify risks, and send a realistic estimate instead of vague promises.",
+    title: "Receive an itemized quote",
+    description: "We review the technical requirements and send an official PDF quotation with transparent milestone pricing.",
   },
   {
-    title: "Build with checkpoints",
-    description: "Delivery is split into visible milestones so you can review progress before launch day.",
+    title: "Build with regular checkpoints",
+    description: "Engineering is executed in staged milestones with staging previews so you test features before launch day.",
   },
   {
-    title: "Handover and support",
-    description: "You get documentation, admin access, and a support path for the people using the system.",
+    title: "Handover and operational support",
+    description: "You receive full source code access, admin documentation, staff onboarding, and ongoing technical support.",
   },
 ];
 
@@ -113,7 +119,7 @@ export default function Home() {
   useEffect(() => {
     const interval = window.setInterval(() => {
       setActiveImage((current) => (current + 1) % heroImages.length);
-    }, 6500);
+    }, 7000);
 
     return () => window.clearInterval(interval);
   }, []);
@@ -123,6 +129,7 @@ export default function Home() {
       <Header />
 
       <main>
+        {/* Section 2: Hero with Ken Burns Slideshow & Locked Scrim */}
         <section id="home" className="relative min-h-[92svh] overflow-hidden bg-primary text-white">
           <AnimatePresence initial={false}>
             <motion.img
@@ -130,15 +137,22 @@ export default function Home() {
               src={heroImages[activeImage]}
               alt=""
               aria-hidden="true"
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={{ opacity: 0, scale: 1.0 }}
               animate={{ opacity: 1, scale: 1.08 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
               className="absolute inset-0 h-full w-full object-cover"
             />
           </AnimatePresence>
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,13,23,0.90),rgba(5,13,23,0.68)_48%,rgba(5,13,23,0.34))]" />
-          <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent" />
+          
+          {/* Locked Navy-to-Black Gradient Scrim */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "linear-gradient(180deg, rgba(5,13,23,0.55) 0%, rgba(5,13,23,0.75) 60%, rgba(5,13,23,0.92) 100%)",
+            }}
+          />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
 
           <div className="relative z-10 mx-auto flex min-h-[92svh] max-w-7xl flex-col justify-end px-4 pb-16 pt-32 sm:px-6 lg:pb-24">
             <motion.div
@@ -147,21 +161,21 @@ export default function Home() {
               transition={{ duration: 0.55, ease: "easeOut" }}
               className="max-w-4xl"
             >
-              <p className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-accent-light backdrop-blur">
-                Software and IT infrastructure
+              <p className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.24em] text-accent-light backdrop-blur">
+                Software & IT Infrastructure Engineering
               </p>
               <h1 className="font-display text-5xl font-black leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl">
-                Software and infrastructure for Kenyan organisations that cannot afford downtime.
+                Software and infrastructure for organisations that cannot afford downtime.
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/78 sm:text-lg">
-                Bezalel Technologies builds practical systems for SMEs, estates, SACCOs, and institutions: web platforms, IT infrastructure, AV, payments, and support.
+              <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
+                Bezalel Technologies builds dependable systems for Kenyan SMEs, SACCOs, estates, and institutions: custom web systems, IT infrastructure, boardroom AV, and payment integrations.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/projects/request"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-4 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-4 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light shadow-sm"
                 >
-                  Start a project
+                  Start a project brief
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a
@@ -178,37 +192,41 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Section 3: Credibility Strip */}
         <section className="border-b border-border bg-background px-4 py-8 sm:px-6">
           <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 lg:grid-cols-4">
             {proofItems.map((item) => (
-              <div key={item} className="flex gap-3 rounded-lg border border-border bg-card p-4">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent-dark dark:text-accent" />
-                <p className="text-sm font-semibold leading-6 text-foreground">{item}</p>
+              <div key={item} className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-sm">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent-dark dark:text-accent-light" />
+                <p className="text-xs font-semibold leading-relaxed text-foreground">{item}</p>
               </div>
             ))}
           </div>
         </section>
 
+        {/* Section 4: Services */}
         <section id="services" className="px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
-                Services
+                Our Services
               </p>
               <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-                Practical technology work, scoped for the way your team actually operates.
+                Practical engineering scoped for the way your organization operates.
               </h2>
             </div>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
               {services.map(({ title, description, proof, icon: Icon }) => (
-                <article key={title} className="rounded-lg border border-border bg-card p-6 shadow-sm">
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                    <Icon className="h-5 w-5" />
+                <article key={title} className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 flex flex-col justify-between">
+                  <div>
+                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-xl font-bold tracking-tight text-foreground">{title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
                   </div>
-                  <h3 className="text-xl font-black tracking-tight">{title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{description}</p>
-                  <p className="mt-5 border-t border-border pt-4 text-sm font-semibold leading-6 text-foreground">
+                  <p className="mt-5 border-t border-border pt-4 text-xs font-semibold leading-relaxed text-foreground">
                     {proof}
                   </p>
                 </article>
@@ -217,36 +235,56 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Section 5: Portfolio Teaser with Clickable Live Client Links */}
         <section id="portfolio" className="bg-primary px-4 py-16 text-primary-foreground sm:px-6 sm:py-24">
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl">
                 <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-light">
-                  Work
+                  Selected Work
                 </p>
                 <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-                  Proof should feel concrete before it feels impressive.
+                  Engineering proof across web systems, mobile apps, and infrastructure.
                 </h2>
               </div>
               <Link
                 href="/portfolio"
-                className="inline-flex items-center gap-2 text-sm font-bold text-accent-light hover:text-accent"
+                className="inline-flex items-center gap-2 text-sm font-bold text-accent-light hover:text-white"
               >
-                See all work
+                See all portfolio work
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
 
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <div className="mt-10 grid gap-6 lg:grid-cols-3">
               {portfolioTeasers.map((project) => (
-                <article key={project.title} className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04]">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img src={project.image} alt="" className="h-full w-full object-cover opacity-85" />
+                <article key={project.title} className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] flex flex-col justify-between">
+                  <div>
+                    <div className="aspect-[16/10] overflow-hidden bg-black/20">
+                      <img src={project.image} alt={project.title} className="h-full w-full object-cover opacity-85" />
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent-light">{project.category}</span>
+                        <span className="text-xs text-white/60 font-medium">{project.clientName}</span>
+                      </div>
+                      <h3 className="text-xl font-black tracking-tight text-white">{project.title}</h3>
+                      <p className="mt-3 text-xs leading-relaxed text-primary-foreground/75">{project.description}</p>
+                    </div>
                   </div>
-                  <div className="p-5">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent-light">{project.category}</p>
-                    <h3 className="mt-3 text-xl font-black tracking-tight">{project.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-primary-foreground/72">{project.description}</p>
+
+                  <div className="p-6 pt-0 border-t border-white/5 mt-4">
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-accent-light hover:text-white mt-3"
+                      >
+                        <span>View live system</span>
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    )}
                   </div>
                 </article>
               ))}
@@ -254,29 +292,30 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Section 6: Process */}
         <section id="process" className="px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div>
                 <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
-                  Process
+                  Our Process
                 </p>
                 <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-                  A clear path from first brief to handover.
+                  A predictable path from first brief to technical handover.
                 </h2>
-                <p className="mt-5 text-sm leading-7 text-muted-foreground sm:text-base">
-                  The goal is not to make technology feel mysterious. It is to make decisions clear, costs visible, and delivery accountable.
+                <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  We structure projects around explicit milestones, transparent communications, and accountable engineering delivery.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {processSteps.map((step, index) => (
-                  <article key={step.title} className="rounded-lg border border-border bg-card p-5">
+                  <article key={step.title} className="rounded-lg border border-border bg-card p-5 shadow-sm">
                     <div className="mb-5 flex h-9 w-9 items-center justify-center rounded-md border border-accent/35 bg-accent/10 text-sm font-black text-accent-dark dark:text-accent-light">
                       {index + 1}
                     </div>
-                    <h3 className="font-bold">{step.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                    <h3 className="font-bold text-foreground">{step.title}</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{step.description}</p>
                   </article>
                 ))}
               </div>
@@ -284,6 +323,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Section 7: Store Mention */}
         <section id="store" className="border-y border-border bg-card px-4 py-10 sm:px-6">
           <div className="mx-auto flex max-w-7xl flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-4">
@@ -291,55 +331,59 @@ export default function Home() {
                 <ShoppingBag className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="text-xl font-black tracking-tight">Need something smaller first?</h2>
-                <p className="mt-2 max-w-2xl text-sm leading-7 text-muted-foreground">
-                  The store is for quick packages, templates, and focused support. Custom business systems should still start with a project brief.
+                <h2 className="text-xl font-bold tracking-tight text-foreground">Hardware, Equipment & Technical Packages</h2>
+                <p className="mt-1 max-w-2xl text-xs leading-relaxed text-muted-foreground">
+                  Browse tested server hardware, networking kits, and software components in our store. Custom systems start with a project brief.
                 </p>
               </div>
             </div>
-            <Link href="/store" className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-accent-dark dark:hover:text-accent-light">
+            <Link 
+              href="/store" 
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light hover:underline"
+            >
               Browse the store
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </section>
 
+        {/* Section 8: Final CTA */}
         <section id="contact" className="px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-border bg-card p-6 shadow-sm md:grid-cols-[1fr_0.8fr] md:p-10">
             <div>
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
-                Start here
+                Start a conversation
               </p>
               <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-                Tell us what is not working, what needs to be built, and when it matters.
+                Tell us what needs to be built, fixed, or modernized.
               </h2>
-              <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-                A useful first brief includes the users, the workflow, the current pain, any existing tools, the budget range, and the deadline.
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Share your workflows, pain points, budget expectations, and deadlines. We will assess requirements and respond with a formal quotation.
               </p>
             </div>
             <div className="flex flex-col justify-center gap-3">
               <Link
                 href="/projects/request"
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-4 text-xs font-bold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-primary/90 shadow-sm"
               >
                 Submit a project brief
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="mailto:bezaleltech@gmail.com"
-                className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-5 py-4 text-sm font-bold text-foreground transition-colors hover:border-accent"
+                className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-5 py-4 text-xs font-bold uppercase tracking-wider text-foreground transition-colors hover:border-accent"
               >
-                Email Bezalel
+                Email Bezalel directly
                 <ExternalLink className="h-4 w-4" />
               </a>
               <div className="mt-2 grid gap-2 text-xs text-muted-foreground">
                 <span className="flex items-center gap-2">
-                  <Building2 className="h-4 w-4 text-accent-dark dark:text-accent" />
-                  Based in Nairobi, serving Kenya and East Africa
+                  <Building2 className="h-4 w-4 text-accent-dark dark:text-accent-light" />
+                  Based in Nairobi, Kenya · Serving East African Enterprises
                 </span>
                 <span className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-accent-dark dark:text-accent" />
-                  Briefs and assets are treated confidentially
+                  <ShieldCheck className="h-4 w-4 text-accent-dark dark:text-accent-light" />
+                  All technical briefs and discussions are held in strict confidence
                 </span>
               </div>
             </div>

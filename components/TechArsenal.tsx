@@ -6,7 +6,7 @@ import {
   // Frontend
   SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiVuedotjs, SiGraphql,
   // Backend
-  SiPython, SiNodedotjs, SiGo, SiRust, SiNestjs,
+  SiPython, SiNodedotjs,
   // Database
   SiPostgresql, SiMongodb, SiRedis, SiMysql, SiSupabase,
   // DevOps & Cloud
@@ -15,7 +15,7 @@ import {
 
 import { FaAws } from "react-icons/fa"; 
 import { BsPhone } from "react-icons/bs";
-import { CreditCard, Cpu, Layers, Database, Network } from "lucide-react";
+import { CreditCard, Layers, Database, Network } from "lucide-react";
 
 type Tech = {
   name: string;

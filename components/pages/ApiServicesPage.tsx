@@ -1,10 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { 
-  Network, Lock, Database, ArrowRightLeft, 
-  Server, ShieldCheck, Zap, ArrowRight, CheckCircle2,
-  Cpu, Layers, Code2
+  Database, ArrowRightLeft, 
+  Server, ShieldCheck, ArrowRight, CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";

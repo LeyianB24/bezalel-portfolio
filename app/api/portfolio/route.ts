@@ -17,7 +17,7 @@ const portfolioSchema = z.object({
 
 export async function GET() {
   try {
-    const items = await prisma.portfolioItem.findMany({
+    const items = await (prisma as any).portfolioItem.findMany({
       orderBy: { displayOrder: "asc" },
     });
     return NextResponse.json(items);
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const parsed = portfolioSchema.parse(body);
 
-    const newItem = await prisma.portfolioItem.create({
+    const newItem = await (prisma as any).portfolioItem.create({
       data: parsed,
     });
 

@@ -1,11 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { 
-  ShieldCheck, Lock, Eye, Server, 
-  FileText, Globe, Fingerprint, Mail, 
-  CheckCircle2 
-} from "lucide-react";
+import { ShieldCheck, Lock, CheckCircle2 } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 
 const privacySections = [

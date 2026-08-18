@@ -76,38 +76,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
 
+  let cleanProduct: any = null;
+  let cleanRelated: any[] = [];
+
   try {
     const product = await prisma.product.findUnique({
       where: { slug, isActive: true },
       include: { category: true },
     });
 
-    if (!product) {
-      const fallback = fallbackProducts.find((p) => p.slug === slug);
-      if (!fallback) notFound();
-      const related = fallbackProducts.filter((p) => p.slug !== slug);
-      return <ProductDetailClient product={fallback} related={related} />;
+    if (product) {
+      cleanProduct = JSON.parse(JSON.stringify(product));
+
+      const related = await prisma.product.findMany({
+        where: {
+          categoryId: product.categoryId,
+          isActive: true,
+          id: { not: product.id },
+        },
+        include: { category: true },
+        take: 4,
+      });
+      cleanRelated = JSON.parse(JSON.stringify(related));
     }
-
-    // Find related products in the same category
-    const related = await prisma.product.findMany({
-      where: {
-        categoryId: product.categoryId,
-        isActive: true,
-        id: { not: product.id },
-      },
-      include: { category: true },
-      take: 4,
-    });
-
-    const cleanProduct = JSON.parse(JSON.stringify(product));
-    const cleanRelated = JSON.parse(JSON.stringify(related));
-
-    return <ProductDetailClient product={cleanProduct} related={cleanRelated} />;
   } catch (error) {
     console.error("ProductPage DB error:", error);
-    const fallback = fallbackProducts.find((p) => p.slug === slug) || fallbackProducts[0];
-    const related = fallbackProducts.filter((p) => p.slug !== fallback.slug);
-    return <ProductDetailClient product={fallback} related={related} />;
   }
+
+  if (!cleanProduct) {
+    const fallback = fallbackProducts.find((p) => p.slug === slug);
+    if (!fallback) notFound();
+    cleanProduct = fallback;
+    cleanRelated = fallbackProducts.filter((p) => p.slug !== slug);
+  }
+
+  return <ProductDetailClient product={cleanProduct} related={cleanRelated} />;
 }

@@ -1,9 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { 
   Smartphone, WifiOff, Zap, ShieldCheck, 
-  CheckCircle2, ArrowRight, Layers, Database, Bell
+  CheckCircle2, ArrowRight
 } from "lucide-react";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";

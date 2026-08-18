@@ -5,14 +5,23 @@ import { PackageSearch, DollarSign, Package } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
+interface StoreOrder {
+  id: string;
+  name: string;
+  email: string;
+  total: number;
+  status: string;
+  createdAt?: string | Date;
+}
+
 export default function StoreDashboard({ 
   initialOrders,
   productsCount
 }: { 
-  initialOrders: any[];
+  initialOrders: StoreOrder[];
   productsCount: number;
 }) {
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState<StoreOrder[]>(initialOrders);
 
   const updateOrderStatus = async (id: string, status: string) => {
     try {

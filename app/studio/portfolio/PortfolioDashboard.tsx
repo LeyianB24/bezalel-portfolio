@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { 
   Layers, Plus, Edit3, Trash2, ExternalLink, 
-  X, Loader2, Check, Globe, Image as ImageIcon, Star
+  X, Loader2, Star
 } from "lucide-react";
 import { toast } from "sonner";
 

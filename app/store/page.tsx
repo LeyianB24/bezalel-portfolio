@@ -52,6 +52,9 @@ const fallbackProducts = [
 ];
 
 export default async function StorePage() {
+  let cleanProducts = fallbackProducts;
+  let cleanCategories = fallbackCategories;
+
   try {
     const [products, categories] = await Promise.all([
       prisma.product.findMany({
@@ -64,12 +67,11 @@ export default async function StorePage() {
       }),
     ]);
 
-    const cleanProducts = products.length > 0 ? JSON.parse(JSON.stringify(products)) : fallbackProducts;
-    const cleanCategories = categories.length > 0 ? JSON.parse(JSON.stringify(categories)) : fallbackCategories;
-
-    return <StorePageClient products={cleanProducts} categories={cleanCategories} />;
+    if (products.length > 0) cleanProducts = JSON.parse(JSON.stringify(products));
+    if (categories.length > 0) cleanCategories = JSON.parse(JSON.stringify(categories));
   } catch (error) {
     console.error("StorePage database fetch error:", error);
-    return <StorePageClient products={fallbackProducts} categories={fallbackCategories} />;
   }
+
+  return <StorePageClient products={cleanProducts} categories={cleanCategories} />;
 }

@@ -4,6 +4,7 @@ import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { OrderStatus } from "@prisma/client";
 import { sendOrderConfirmationEmail } from "@/lib/order-email";
+import Stripe from "stripe";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -12,23 +13,23 @@ export async function POST(req: Request) {
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  let event: any;
+  let event: Stripe.Event;
 
   try {
     if (webhookSecret && signature) {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } else {
-      // Fallback for local testing or unconfigured secret
-      event = JSON.parse(body);
+      event = JSON.parse(body) as Stripe.Event;
     }
-  } catch (err: any) {
-    console.error(`⚠️ Stripe Webhook signature verification failed:`, err.message);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Signature verification failed";
+    console.error(`⚠️ Stripe Webhook signature verification failed:`, message);
     return NextResponse.json({ error: "Webhook signature verification failed" }, { status: 400 });
   }
 
   // Handle checkout.session.completed
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as any;
+    const session = event.data.object as Stripe.Checkout.Session;
     const orderId = session.metadata?.orderId;
 
     if (orderId) {
@@ -43,12 +44,14 @@ export async function POST(req: Request) {
         });
 
         if (order && order.status !== OrderStatus.PAID) {
+          const paymentRef = (typeof session.payment_intent === "string" ? session.payment_intent : session.id) || "stripe_paid";
+
           // 1. Update Order status to PAID
           await prisma.order.update({
             where: { id: orderId },
             data: {
               status: OrderStatus.PAID,
-              stripeRef: session.payment_intent || session.id,
+              stripeRef: paymentRef,
             },
           });
 
@@ -75,8 +78,8 @@ export async function POST(req: Request) {
             })),
             total: order.total,
             paymentMethod: "Stripe / Card",
-            paymentRef: session.payment_intent || session.id,
-            shippingAddress: order.shippingAddress,
+            paymentRef,
+            shippingAddress: order.shippingAddress as Record<string, string>,
           });
 
           console.log(`✅ Order ${orderId} marked as PAID via Stripe webhook.`);

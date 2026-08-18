@@ -14,6 +14,21 @@ import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
 
+interface ProjectItem {
+  id: string;
+  title: string;
+  email: string;
+  status: string;
+}
+
+interface MessageItem {
+  id: string;
+  subject: string;
+  name: string;
+  email: string;
+  status: string;
+}
+
 export default async function StudioPage() {
   const session = await auth();
 
@@ -23,11 +38,11 @@ export default async function StudioPage() {
   let productsCount = 0;
   let pendingOrdersCount = 0;
   let unreadMessagesCount = 0;
-  let latestProjects: any[] = [];
-  let latestMessages: any[] = [];
+  let latestProjects: ProjectItem[] = [];
+  let latestMessages: MessageItem[] = [];
   let recentApplications = 0;
   let recentOrders = 0;
-  let totalRevenue = { _sum: { total: 0 } };
+  let totalRevenue = 0;
 
   try {
     const results = await Promise.all([
@@ -65,11 +80,11 @@ export default async function StudioPage() {
     productsCount = results[3];
     pendingOrdersCount = results[4];
     unreadMessagesCount = results[5];
-    latestProjects = results[6];
-    latestMessages = results[7];
+    latestProjects = results[6].map((p) => ({ id: p.id, title: p.title, email: p.email, status: p.status }));
+    latestMessages = results[7].map((m) => ({ id: m.id, subject: m.subject, name: m.name, email: m.email, status: m.status }));
     recentApplications = results[8];
     recentOrders = results[9];
-    totalRevenue = results[10] as any;
+    totalRevenue = results[10]._sum?.total || 0;
   } catch (err) {
     console.error("StudioPage database error:", err);
   }
@@ -193,7 +208,7 @@ export default async function StudioPage() {
           <div>
             <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">Total Fulfilled Hardware & Project Revenue</div>
             <div className="text-3xl font-black tracking-tight text-foreground font-mono">
-              KES {((totalRevenue._sum?.total || 0)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              KES {totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
             <div className="text-xs text-muted-foreground mt-1">Across {recentOrders} verified order{recentOrders !== 1 ? "s" : ""} · {recentApplications} career applicant{recentApplications !== 1 ? "s" : ""}</div>
           </div>

@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { sendEmail } from "@/lib/resend";
-import { generateQuotationPdfBuffer, QuotationLineItem } from "@/lib/quotation-pdf";
+import { generateQuotationPdfBuffer } from "@/lib/quotation-pdf";
 
 const quoteRequestSchema = z.object({
   lineItems: z.array(
@@ -14,7 +14,7 @@ const quoteRequestSchema = z.object({
       amount: z.number().min(0),
     })
   ).min(1, "At least one line item is required"),
-  taxRate: z.number().min(0).max(1).default(0), // 0 or 0.16
+  taxRate: z.number().min(0).max(1).default(0),
   notes: z.string().optional().nullable(),
   validUntilDays: z.number().min(1).default(30),
 });
@@ -70,7 +70,7 @@ export async function POST(
       clientName: project.name,
       clientEmail: project.email,
       clientCompany: project.company,
-      clientPhone: project.phone,
+      clientPhone: project.phone || null,
       projectTitle: project.title,
       lineItems: parsedData.lineItems,
       subtotal,
@@ -80,11 +80,11 @@ export async function POST(
     });
 
     // Save quotation to DB
-    const quotation = await prisma.quotation.upsert({
+    const quotation = await (prisma as any).quotation.upsert({
       where: { projectRequestId: id },
       create: {
         projectRequestId: id,
-        lineItems: parsedData.lineItems as any,
+        lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
         subtotal,
         tax,
         total,
@@ -94,7 +94,7 @@ export async function POST(
         status: "SENT",
       },
       update: {
-        lineItems: parsedData.lineItems as any,
+        lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
         subtotal,
         tax,
         total,

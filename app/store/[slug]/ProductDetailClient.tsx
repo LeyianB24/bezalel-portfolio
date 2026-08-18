@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
-  ArrowLeft, Package, ShoppingCart, Zap, CheckCircle2, 
+  Package, ShoppingCart, CheckCircle2, 
   AlertCircle, ArrowRight, Tag, X, Loader2, CreditCard, Smartphone, Truck
 } from "lucide-react";
 import Link from "next/link";

@@ -9,9 +9,14 @@ export const metadata: Metadata = {
 };
 
 export default async function StudioPortfolioPage() {
-  const items = await prisma.portfolioItem.findMany({
-    orderBy: { displayOrder: "asc" },
-  });
+  let items: any[] = [];
+  try {
+    items = await (prisma as any).portfolioItem.findMany({
+      orderBy: { displayOrder: "asc" },
+    });
+  } catch (err) {
+    console.error("StudioPortfolioPage fetch error:", err);
+  }
 
   return <PortfolioDashboard initialItems={items} />;
 }

@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 export default async function PortfolioPage() {
   let portfolioItems: PortfolioData[] = [];
   try {
-    const rawItems = await prisma.portfolioItem.findMany({
+    const rawItems: any[] = await (prisma as any).portfolioItem.findMany({
       orderBy: { displayOrder: "asc" },
     });
-    portfolioItems = rawItems.map((item) => ({
+    portfolioItems = rawItems.map((item: any) => ({
       id: item.id,
       name: item.name,
       clientName: item.clientName,
@@ -24,7 +24,7 @@ export default async function PortfolioPage() {
       techTags: item.techTags,
       liveUrl: item.liveUrl,
       images: item.images,
-      createdAt: item.createdAt.toISOString(),
+      createdAt: typeof item.createdAt === "string" ? item.createdAt : item.createdAt.toISOString(),
     }));
   } catch (error) {
     console.error("Error fetching portfolio items:", error);

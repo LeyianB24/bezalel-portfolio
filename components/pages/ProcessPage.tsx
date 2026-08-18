@@ -1,10 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { 
-  Search, FileText, Code2, Rocket, RefreshCw, 
-  CheckCircle2, ArrowRight
-} from "lucide-react";
+import { CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 

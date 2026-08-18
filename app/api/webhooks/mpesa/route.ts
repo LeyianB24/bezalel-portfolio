@@ -18,12 +18,10 @@ export async function POST(req: Request) {
     if (ResultCode === 0 && CallbackMetadata) {
       // Payment Successful
       let mpesaReceiptNumber = "";
-      let amount = 0;
       let phoneNumber = "";
 
       for (const item of CallbackMetadata.Item || []) {
         if (item.Name === "MpesaReceiptNumber") mpesaReceiptNumber = String(item.Value);
-        if (item.Name === "Amount") amount = Number(item.Value);
         if (item.Name === "PhoneNumber") phoneNumber = String(item.Value);
       }
 
@@ -77,7 +75,7 @@ export async function POST(req: Request) {
           total: order.total,
           paymentMethod: "M-Pesa (STK Push)",
           paymentRef: mpesaReceiptNumber,
-          shippingAddress: order.shippingAddress,
+          shippingAddress: order.shippingAddress as Record<string, string>,
         });
 
         console.log(`✅ Order ${order.id} marked as PAID via M-Pesa webhook. Receipt: ${mpesaReceiptNumber}`);

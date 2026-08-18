@@ -13,7 +13,7 @@ export interface OrderEmailData {
   total: number;
   paymentMethod: string;
   paymentRef?: string | null;
-  shippingAddress: any;
+  shippingAddress: string | { street?: string; city?: string; country?: string };
 }
 
 export async function sendOrderConfirmationEmail(data: OrderEmailData) {

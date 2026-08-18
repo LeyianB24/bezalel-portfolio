@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { 
-  FolderKanban, Eye, X, Loader2, FileText, Check, 
-  Clock, Edit3, MessageSquare, Plus, Trash2, Send, Download, DollarSign, Calculator
+  FolderKanban, Eye, X, Loader2, FileText, 
+  Plus, Trash2, Send, Calculator
 } from "lucide-react";
 import { ProjectCategory, ProjectStatus } from "@prisma/client";
 import { toast } from "sonner";
@@ -24,7 +24,7 @@ interface ProjectWithUser {
   adminNote: string | null;
   quotedPrice: number | null;
   createdAt: Date;
-  quotation?: any | null;
+  quotation?: Record<string, unknown> | null;
   user?: {
     name: string | null;
     email: string;
@@ -58,11 +58,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
   // Quotation Builder Modal State
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [quoteProject, setQuoteProject] = useState<ProjectWithUser | null>(null);
-  const [lineItems, setLineItems] = useState<LineItemState[]>([
-    { description: "System Architecture & Database Design", qty: 1, unitPrice: 50000, amount: 50000 },
-    { description: "Full-Stack Development & API Integration", qty: 1, unitPrice: 150000, amount: 150000 },
-    { description: "Quality Assurance, Deployment & Technical Handover", qty: 1, unitPrice: 40000, amount: 40000 },
-  ]);
+  const [lineItems, setLineItems] = useState<LineItemState[]>([]);
   const [taxRate, setTaxRate] = useState<number>(0);
   const [quoteNotes, setQuoteNotes] = useState<string>("Includes 30 days post-launch warranty and complete source code repository handover.");
   const [isGeneratingQuote, setIsGeneratingQuote] = useState(false);
@@ -92,12 +88,12 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
     setIsQuoteModalOpen(true);
   };
 
-  const handleLineItemChange = (index: number, field: keyof LineItemState, value: any) => {
+  const handleLineItemChange = (index: number, field: keyof LineItemState, value: string | number) => {
     const updated = [...lineItems];
     const item = { ...updated[index] };
     
     if (field === "description") {
-      item.description = value;
+      item.description = String(value);
     } else if (field === "qty") {
       item.qty = Math.max(1, Number(value) || 1);
       item.amount = item.qty * item.unitPrice;

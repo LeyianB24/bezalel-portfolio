@@ -17,7 +17,6 @@ export interface SendEmailParams {
 
 export async function sendEmail({ to, subject, html, cc, replyTo, attachments }: SendEmailParams) {
   const recipient = Array.isArray(to) ? to.join(", ") : to;
-  const adminEmail = process.env.ADMIN_EMAIL || "bezaleltech@gmail.com";
 
   if (!resend) {
     console.log("\n==========================================");
@@ -33,23 +32,18 @@ export async function sendEmail({ to, subject, html, cc, replyTo, attachments }:
   }
 
   try {
-    const payload: any = {
+    const { data, error } = await resend.emails.send({
       from: process.env.EMAIL_FROM || "Bezalel Technologies <onboarding@resend.dev>",
       to,
       subject,
       html,
-    };
-
-    if (cc) payload.cc = cc;
-    if (replyTo) payload.reply_to = replyTo;
-    if (attachments && attachments.length > 0) {
-      payload.attachments = attachments.map((att) => ({
+      cc,
+      replyTo,
+      attachments: attachments?.map((att) => ({
         filename: att.filename,
         content: att.content,
-      }));
-    }
-
-    const { data, error } = await resend.emails.send(payload);
+      })),
+    });
 
     if (error) {
       console.error("❌ Resend Email Error:", error);

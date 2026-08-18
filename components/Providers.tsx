@@ -8,6 +8,19 @@ import NextTopLoader from "nextjs-toploader";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { SessionProvider } from "next-auth/react";
 
+const LenisWrapper = ReactLenis as unknown as React.FC<{
+  root?: boolean;
+  options?: {
+    lerp?: number;
+    duration?: number;
+    smoothWheel?: boolean;
+    wheelMultiplier?: number;
+    touchMultiplier?: number;
+    infinite?: boolean;
+  };
+  children: React.ReactNode;
+}>;
+
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
@@ -32,7 +45,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             zIndex={1600}
           />
 
-          <ReactLenis 
+          <LenisWrapper 
             root 
             options={{ 
               lerp: 0.07,
@@ -43,7 +56,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
               infinite: false,
             }}
           >
-            {children as any}
+            {children}
 
             <Toaster 
               position="bottom-right" 
@@ -72,7 +85,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 },
               }}
             />
-          </ReactLenis>
+          </LenisWrapper>
         </TooltipProvider>
       </ThemeProvider>
     </SessionProvider>

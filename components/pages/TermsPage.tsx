@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { 
   Scale, FileSignature, ShieldAlert, Gavel, 
-  Copyright, ScrollText, ArrowRight, Check, CheckCircle2 
+  Copyright, ScrollText 
 } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 
@@ -107,7 +107,7 @@ export default function TermsPage() {
 
             {/* Main Content */}
             <div className="space-y-10 lg:col-span-8">
-              {clauses.map(({ id, number, title, icon: Icon, legalText, humanText, isWarning }) => (
+              {clauses.map(({ id, number, title, icon: Icon, legalText, humanText }) => (
                 <section
                   key={id}
                   id={id}

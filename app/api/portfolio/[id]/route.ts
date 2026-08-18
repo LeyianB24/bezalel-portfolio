@@ -21,7 +21,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const item = await prisma.portfolioItem.findUnique({
+    const item = await (prisma as any).portfolioItem.findUnique({
       where: { id },
     });
 
@@ -50,7 +50,7 @@ export async function PATCH(
     const body = await req.json();
     const parsed = portfolioUpdateSchema.parse(body);
 
-    const updated = await prisma.portfolioItem.update({
+    const updated = await (prisma as any).portfolioItem.update({
       where: { id },
       data: parsed,
     });
@@ -76,7 +76,7 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    await prisma.portfolioItem.delete({
+    await (prisma as any).portfolioItem.delete({
       where: { id },
     });
 

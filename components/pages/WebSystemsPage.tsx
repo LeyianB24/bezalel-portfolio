@@ -1,9 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { 
   CheckCircle2, Globe, ArrowRight, Database, LayoutTemplate,
-  Code2, Lock, ShieldCheck, MonitorCheck, Layers, Server
+  Lock
 } from "lucide-react";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";

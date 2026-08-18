@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { sendEmail } from "@/lib/resend";
 import { generateQuotationPdfBuffer } from "@/lib/quotation-pdf";
+import { ProjectRequestModel } from "@/types/prisma-models";
 
 const quoteRequestSchema = z.object({
   lineItems: z.array(
@@ -33,13 +34,15 @@ export async function POST(
     const body = await req.json();
     const parsedData = quoteRequestSchema.parse(body);
 
-    const project = await prisma.projectRequest.findUnique({
+    const rawProject = await prisma.projectRequest.findUnique({
       where: { id },
     });
 
-    if (!project) {
+    if (!rawProject) {
       return NextResponse.json({ error: "Project request not found" }, { status: 404 });
     }
+
+    const project = rawProject as unknown as ProjectRequestModel;
 
     // Compute sums
     const subtotal = parsedData.lineItems.reduce((sum, item) => sum + item.amount, 0);
@@ -80,7 +83,7 @@ export async function POST(
     });
 
     // Save quotation to DB
-    const quotation = await (prisma as any).quotation.upsert({
+    const quotation = await prisma.quotation.upsert({
       where: { projectRequestId: id },
       create: {
         projectRequestId: id,

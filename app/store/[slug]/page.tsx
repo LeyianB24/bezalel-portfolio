@@ -9,7 +9,20 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const fallbackProducts = [
+interface ProductItem {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  comparePrice?: number | null;
+  stock: number;
+  images: string[];
+  sku?: string | null;
+  category: { id: string; name: string; slug: string };
+}
+
+const fallbackProducts: ProductItem[] = [
   {
     id: "prod-1",
     name: "Enterprise Managed Gigabit Switch (24-Port PoE+)",
@@ -76,8 +89,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
 
-  let cleanProduct: any = null;
-  let cleanRelated: any[] = [];
+  let cleanProduct: ProductItem | null = null;
+  let cleanRelated: ProductItem[] = [];
 
   try {
     const product = await prisma.product.findUnique({
@@ -86,7 +99,7 @@ export default async function ProductPage({ params }: Props) {
     });
 
     if (product) {
-      cleanProduct = JSON.parse(JSON.stringify(product));
+      cleanProduct = JSON.parse(JSON.stringify(product)) as ProductItem;
 
       const related = await prisma.product.findMany({
         where: {
@@ -97,7 +110,7 @@ export default async function ProductPage({ params }: Props) {
         include: { category: true },
         take: 4,
       });
-      cleanRelated = JSON.parse(JSON.stringify(related));
+      cleanRelated = JSON.parse(JSON.stringify(related)) as ProductItem[];
     }
   } catch (error) {
     console.error("ProductPage DB error:", error);
@@ -110,5 +123,5 @@ export default async function ProductPage({ params }: Props) {
     cleanRelated = fallbackProducts.filter((p) => p.slug !== slug);
   }
 
-  return <ProductDetailClient product={cleanProduct} related={cleanRelated} />;
+  return <ProductDetailClient product={cleanProduct as unknown as Parameters<typeof ProductDetailClient>[0]["product"]} related={cleanRelated as unknown as Parameters<typeof ProductDetailClient>[0]["related"]} />;
 }

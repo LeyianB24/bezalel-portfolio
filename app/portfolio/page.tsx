@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import prisma from "@/lib/prisma";
 import PortfolioPageClient, { PortfolioData } from "./PortfolioPageClient";
+import { PortfolioItemModel } from "@/types/prisma-models";
 
 export const dynamic = "force-dynamic";
 
@@ -12,10 +13,10 @@ export const metadata: Metadata = {
 export default async function PortfolioPage() {
   let portfolioItems: PortfolioData[] = [];
   try {
-    const rawItems: any[] = await (prisma as any).portfolioItem.findMany({
+    const rawItems: PortfolioItemModel[] = await prisma.portfolioItem.findMany({
       orderBy: { displayOrder: "asc" },
     });
-    portfolioItems = rawItems.map((item: any) => ({
+    portfolioItems = rawItems.map((item) => ({
       id: item.id,
       name: item.name,
       clientName: item.clientName,

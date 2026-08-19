@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -10,27 +9,50 @@ import {
   CheckCircle2,
   CreditCard,
   ExternalLink,
+  FileText,
   MonitorUp,
   Network,
+  Quote,
   ShieldCheck,
   ShoppingBag,
   Wrench,
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HeroProductMockup from "@/components/HeroProductMockup";
 
-const heroImages = [
-  "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
-  "/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg",
-  "/BG_images/AdobeStock_292953404-scaled.jpeg",
-  "/BG_images/team-collaborates-digitally-stockcake.jpg",
+const stats = [
+  {
+    value: "100%",
+    label: "Scope Delivery Rate",
+    description: "Every engagement completed to agreed technical milestones.",
+  },
+  {
+    value: "< 2 hrs",
+    label: "SLA Response Time",
+    description: "Rapid technical support for active operational deployments.",
+  },
+  {
+    value: "KES 0",
+    label: "Hidden Fees",
+    description: "Itemized, fixed-price PDF quotation before work begins.",
+  },
+  {
+    value: "4",
+    label: "Core Engineering Domains",
+    description: "Custom Software, Mobile Apps, IT Infra/AV, Payment Rails.",
+  },
 ];
 
-const proofItems = [
-  "Boardroom AV and collaboration systems for institutional teams",
-  "Member and payment workflows for SACCO-style operations",
-  "CCTV and technology governance support for managed estates",
-  "Web systems, admin dashboards, and business reporting tools",
+const industries = [
+  "Banking & Microfinance",
+  "SACCOs",
+  "Real Estate & Managed Estates",
+  "Logistics & Fleet Operations",
+  "Hospitality & Events",
+  "Public Sector & NGOs",
+  "Agribusiness",
+  "Kenyan SMEs",
 ];
 
 const services = [
@@ -56,7 +78,7 @@ const services = [
     icon: CreditCard,
   },
   {
-    title: "Audits, Support & System Modernization",
+    title: "Audits, Support & Modernization",
     description:
       "Independent technical code audits, performance fixes, architecture documentation, and ongoing maintenance SLAs.",
     proof: "Ideal when you inherit legacy codebases or need reliable ongoing engineering support.",
@@ -94,131 +116,175 @@ const portfolioTeasers = [
   },
 ];
 
-const processSteps = [
-  {
-    title: "Share the problem",
-    description: "Submit a project brief with your workflow goals, timeline expectations, budget range, and current pain points.",
-  },
-  {
-    title: "Receive an itemized quote",
-    description: "We review the technical requirements and send an official PDF quotation with transparent milestone pricing.",
-  },
-  {
-    title: "Build with regular checkpoints",
-    description: "Engineering is executed in staged milestones with staging previews so you test features before launch day.",
-  },
-  {
-    title: "Handover and operational support",
-    description: "You receive full source code access, admin documentation, staff onboarding, and ongoing technical support.",
-  },
-];
-
 export default function Home() {
-  const [activeImage, setActiveImage] = useState(0);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setActiveImage((current) => (current + 1) % heroImages.length);
-    }, 7000);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* 1. Header */}
       <Header />
 
       <main>
-        {/* Section 2: Hero with Ken Burns Slideshow & Locked Scrim */}
-        <section id="home" className="relative min-h-[92svh] overflow-hidden bg-primary text-white">
-          <AnimatePresence initial={false}>
-            <motion.img
-              key={heroImages[activeImage]}
-              src={heroImages[activeImage]}
-              alt=""
-              aria-hidden="true"
-              initial={{ opacity: 0, scale: 1.0 }}
-              animate={{ opacity: 1, scale: 1.08 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.4, ease: "easeOut" }}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </AnimatePresence>
-          
-          {/* Locked Navy-to-Black Gradient Scrim */}
-          <div 
-            className="absolute inset-0 pointer-events-none"
+        {/* 2. Hero — Split Layout with Product Proof */}
+        <section
+          id="home"
+          className="relative min-h-[90svh] overflow-hidden bg-primary text-white pt-28 pb-16 lg:pt-36 lg:pb-24"
+        >
+          {/* Subtle Technical Grid Background */}
+          <div
+            className="absolute inset-0 opacity-10 pointer-events-none"
             style={{
-              background: "linear-gradient(180deg, rgba(5,13,23,0.55) 0%, rgba(5,13,23,0.75) 60%, rgba(5,13,23,0.92) 100%)",
+              backgroundImage:
+                "linear-gradient(to right, #C9A24B 1px, transparent 1px), linear-gradient(to bottom, #C9A24B 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
             }}
           />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
 
-          <div className="relative z-10 mx-auto flex min-h-[92svh] max-w-7xl flex-col justify-end px-4 pb-16 pt-32 sm:px-6 lg:pb-24">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: "easeOut" }}
-              className="max-w-4xl"
-            >
-              <p className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.24em] text-accent-light backdrop-blur">
-                Software & IT Infrastructure Engineering
-              </p>
-              <h1 className="font-display text-5xl font-black leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl">
-                Software and infrastructure for organisations that cannot afford downtime.
-              </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
-                Bezalel Technologies builds dependable systems for Kenyan SMEs, SACCOs, estates, and institutions: custom web systems, IT infrastructure, boardroom AV, and payment integrations.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/projects/request"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-4 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light shadow-sm"
-                >
-                  Start a project brief
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <a
-                  href="https://wa.me/254796157265"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-md border border-white/25 px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-white/10"
-                >
-                  Talk on WhatsApp
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </div>
-            </motion.div>
+          {/* Deep Navy Scrim */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.08) 0%, rgba(5, 13, 23, 0.95) 75%)",
+            }}
+          />
+
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+              {/* Hero Left: Plain Language Headline + CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: "easeOut" }}
+              >
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/30 bg-[#C9A24B]/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-accent-light backdrop-blur">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B]" />
+                  Nairobi, Kenya · Senior Engineering Partner
+                </div>
+
+                <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl text-white">
+                  Software and infrastructure for organisations that cannot afford downtime.
+                </h1>
+
+                <p className="mt-6 max-w-xl text-base leading-8 text-white/80 sm:text-lg">
+                  Bezalel Technologies builds dependable systems for Kenyan SMEs, SACCOs, managed estates, and institutions: bespoke web portals, IT infrastructure, boardroom AV, and M-Pesa payment integrations.
+                </p>
+
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Link
+                    href="/projects/request"
+                    className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-4 text-sm font-bold text-accent-foreground shadow-md transition-colors hover:bg-accent-light"
+                  >
+                    Start a project
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+
+                  <a
+                    href="https://wa.me/254796157265"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/25 bg-white/[0.04] px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-white/10 hover:border-white/40"
+                  >
+                    Talk on WhatsApp
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
+
+                <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/10 pt-6 text-xs text-white/65">
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    Fixed-milestone quotations
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    Full source code ownership
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    Local SLA support in Nairobi
+                  </span>
+                </div>
+              </motion.div>
+
+              {/* Hero Right: Real Product Panel Proof */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.65, delay: 0.15, ease: "easeOut" }}
+                className="w-full"
+              >
+                <HeroProductMockup />
+              </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* Section 3: Credibility Strip */}
+        {/* 3. Stats Strip */}
+        <section className="border-b border-border bg-card px-4 py-10 sm:px-6">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-lg border border-border/80 bg-background/50 p-5 shadow-xs"
+                >
+                  <p className="font-display text-3xl font-black text-foreground sm:text-4xl">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-accent-dark dark:text-accent-light">
+                    {stat.label}
+                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                    {stat.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 4. Industries Served — Plain Tag Grid */}
         <section className="border-b border-border bg-background px-4 py-8 sm:px-6">
-          <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {proofItems.map((item) => (
-              <div key={item} className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-sm">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent-dark dark:text-accent-light" />
-                <p className="text-xs font-semibold leading-relaxed text-foreground">{item}</p>
+          <div className="mx-auto max-w-7xl">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <span className="shrink-0 text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                Sectors Served:
+              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                {industries.map((ind, idx) => (
+                  <span
+                    key={ind}
+                    className="inline-flex items-center text-xs font-medium text-foreground/85"
+                  >
+                    <span className="rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold">
+                      {ind}
+                    </span>
+                    {idx < industries.length - 1 && (
+                      <span className="mx-2 hidden text-muted-foreground/40 sm:inline">·</span>
+                    )}
+                  </span>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </section>
 
-        {/* Section 4: Services */}
+        {/* 5. Services (4 Focused Cards) */}
         <section id="services" className="px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
                 Our Services
               </p>
-              <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+              <h2 className="font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
                 Practical engineering scoped for the way your organization operates.
               </h2>
             </div>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               {services.map(({ title, description, proof, icon: Icon }) => (
-                <article key={title} className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 flex flex-col justify-between">
+                <article
+                  key={title}
+                  className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 flex flex-col justify-between"
+                >
                   <div>
                     <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
                       <Icon className="h-5 w-5" />
@@ -235,7 +301,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 5: Portfolio Teaser with Clickable Live Client Links */}
+        {/* 6. Portfolio Teaser with Clickable Live Client Links */}
         <section id="portfolio" className="bg-primary px-4 py-16 text-primary-foreground sm:px-6 sm:py-24">
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -243,7 +309,7 @@ export default function Home() {
                 <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-light">
                   Selected Work
                 </p>
-                <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+                <h2 className="font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
                   Engineering proof across web systems, mobile apps, and infrastructure.
                 </h2>
               </div>
@@ -258,18 +324,29 @@ export default function Home() {
 
             <div className="mt-10 grid gap-6 lg:grid-cols-3">
               {portfolioTeasers.map((project) => (
-                <article key={project.title} className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] flex flex-col justify-between">
+                <article
+                  key={project.title}
+                  className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] flex flex-col justify-between"
+                >
                   <div>
                     <div className="aspect-[16/10] overflow-hidden bg-black/20">
-                      <img src={project.image} alt={project.title} className="h-full w-full object-cover opacity-85" />
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="h-full w-full object-cover opacity-85 hover:opacity-100 transition-opacity duration-300"
+                      />
                     </div>
                     <div className="p-6">
                       <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent-light">{project.category}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent-light">
+                          {project.category}
+                        </span>
                         <span className="text-xs text-white/60 font-medium">{project.clientName}</span>
                       </div>
                       <h3 className="text-xl font-black tracking-tight text-white">{project.title}</h3>
-                      <p className="mt-3 text-xs leading-relaxed text-primary-foreground/75">{project.description}</p>
+                      <p className="mt-3 text-xs leading-relaxed text-primary-foreground/75">
+                        {project.description}
+                      </p>
                     </div>
                   </div>
 
@@ -292,54 +369,143 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 6: Process */}
-        <section id="process" className="px-4 py-16 sm:px-6 sm:py-24">
+        {/* 7. Approach — "We listen. We understand. We build." */}
+        <section id="approach" className="px-4 py-16 sm:px-6 sm:py-24 border-b border-border">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+              Engineering Approach
+            </p>
+            <h2 className="font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl text-foreground">
+              We listen. We understand. We build.
+            </h2>
+            <p className="mt-6 text-base leading-8 text-muted-foreground sm:text-lg">
+              We approach engineering as senior technical partners, not ticket-takers. Before writing a line of code or terminating fiber, we map your daily operations, identify points of failure, and agree on clear milestone deliverables. Every system is built to run reliably in production with full source code ownership and local engineering accountability in Nairobi.
+            </p>
+
+            <div className="mt-8 flex justify-center">
+              <Link
+                href="/projects/request"
+                className="inline-flex items-center gap-2 text-sm font-bold text-accent-dark dark:text-accent-light hover:underline"
+              >
+                Submit a brief for an objective assessment
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* 8. Pricing & Itemized Scoping (Transparent Bespoke Scoping) */}
+        <section className="bg-secondary/40 px-4 py-16 sm:px-6 sm:py-20 border-b border-border">
           <div className="mx-auto max-w-7xl">
-            <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <div className="grid gap-8 rounded-xl border border-border bg-card p-6 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
               <div>
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
-                  Our Process
+                <div className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-accent-dark dark:text-accent-light" />
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-accent-dark dark:text-accent-light">
+                    Transparent Scoping
+                  </span>
+                </div>
+                <h3 className="mt-3 font-display text-2xl font-black tracking-tight text-foreground sm:text-3xl">
+                  Bespoke software with itemized milestone pricing.
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  Because every enterprise workflow is different, we do not force your business into rigid subscription tiers. We evaluate your exact technical requirements and generate a binding, itemized quotation with clear deliverables and transparent milestones.
                 </p>
-                <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
-                  A predictable path from first brief to technical handover.
-                </h2>
-                <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  We structure projects around explicit milestones, transparent communications, and accountable engineering delivery.
-                </p>
+                <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 text-xs font-semibold text-foreground">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    <span>Itemized PDF quotation breakdown</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    <span>No recurring per-user software tax</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    <span>Clear phase-by-phase payment schedule</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    <span>Complete source code and admin rights</span>
+                  </div>
+                </div>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                {processSteps.map((step, index) => (
-                  <article key={step.title} className="rounded-lg border border-border bg-card p-5 shadow-sm">
-                    <div className="mb-5 flex h-9 w-9 items-center justify-center rounded-md border border-accent/35 bg-accent/10 text-sm font-black text-accent-dark dark:text-accent-light">
-                      {index + 1}
-                    </div>
-                    <h3 className="font-bold text-foreground">{step.title}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{step.description}</p>
-                  </article>
-                ))}
+              <div className="flex flex-col justify-center rounded-lg border border-border/80 bg-background/80 p-6 text-center shadow-xs">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Instant Project Scoping
+                </p>
+                <p className="mt-2 font-display text-2xl font-black text-foreground">
+                  Need a formal quotation?
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                  Answer a few structured technical questions to receive an official itemized PDF proposal.
+                </p>
+                <Link
+                  href="/projects/request"
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-primary-foreground shadow-sm hover:bg-primary/90"
+                >
+                  Generate quotation
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Section 7: Store Mention */}
-        <section id="store" className="border-y border-border bg-card px-4 py-10 sm:px-6">
+        {/* 9. Story Section — The Bezalel Craft & Standard */}
+        <section id="story" className="px-4 py-16 sm:px-6 sm:py-24 border-b border-border">
+          <div className="mx-auto max-w-4xl">
+            <div className="flex items-start gap-4">
+              <Quote className="h-8 w-8 text-accent-dark dark:text-accent-light shrink-0 mt-1 opacity-80" />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+                  Our Origin & Craft
+                </p>
+                <h2 className="mt-2 font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl text-foreground">
+                  Building with skill, wisdom, and craftsmanship in all workmanship.
+                </h2>
+                <div className="mt-6 space-y-4 text-base leading-8 text-muted-foreground">
+                  <p>
+                    Named after the artisan appointed in antiquity with intelligence, knowledge, and craft in all manner of workmanship (<span className="text-foreground font-semibold">Exodus 31</span>), Bezalel Technologies was founded in Nairobi on a foundational belief: African enterprises deserve digital and physical engineering built with genuine precision.
+                  </p>
+                  <p>
+                    We reject superficial solutions and fragile shortcuts. Whether designing a high-volume transactional web system, wiring an executive boardroom AV setup, or deploying CCTV security networks, we treat every system as mission-critical infrastructure.
+                  </p>
+                </div>
+
+                <div className="mt-8 rounded-lg border border-border bg-card p-5">
+                  <p className="text-sm italic text-foreground font-medium">
+                    &ldquo;True engineering craftsmanship is not about buzzwords—it is about building systems that stay up, settle payments accurately, and serve your team without fail.&rdquo;
+                  </p>
+                  <p className="mt-3 text-xs font-bold text-accent-dark dark:text-accent-light uppercase tracking-wider">
+                    Leyian B. — Lead Engineer & Founder, Bezalel Technologies
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 10. Store Mention (Modest Card) */}
+        <section id="store" className="border-b border-border bg-card px-4 py-10 sm:px-6">
           <div className="mx-auto flex max-w-7xl flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
                 <ShoppingBag className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight text-foreground">Hardware, Equipment & Technical Packages</h2>
+                <h3 className="text-xl font-bold tracking-tight text-foreground">
+                  Hardware, Equipment & Technical Packages
+                </h3>
                 <p className="mt-1 max-w-2xl text-xs leading-relaxed text-muted-foreground">
                   Browse tested server hardware, networking kits, and software components in our store. Custom systems start with a project brief.
                 </p>
               </div>
             </div>
-            <Link 
-              href="/store" 
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light hover:underline"
+            <Link
+              href="/store"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light hover:underline shrink-0"
             >
               Browse the store
               <ArrowRight className="h-4 w-4" />
@@ -347,14 +513,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 8: Final CTA */}
+        {/* 11. Final CTA */}
         <section id="contact" className="px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-border bg-card p-6 shadow-sm md:grid-cols-[1fr_0.8fr] md:p-10">
             <div>
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
                 Start a conversation
               </p>
-              <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+              <h2 className="font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
                 Tell us what needs to be built, fixed, or modernized.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">

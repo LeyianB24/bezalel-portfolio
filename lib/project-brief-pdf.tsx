@@ -4,10 +4,12 @@ import {
   Page,
   Text,
   View,
+  Image,
   StyleSheet,
   renderToBuffer,
   DocumentProps,
 } from "@react-pdf/renderer";
+import { getSiteLogoBase64 } from "./pdf-brand";
 
 export interface ProjectBriefData {
   requestId: string;
@@ -40,6 +42,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "#C9A24B",
     paddingBottom: 16,
     marginBottom: 20,
+  },
+  logoImage: {
+    width: 170,
+    height: 34,
+    objectFit: "contain",
+    marginBottom: 4,
   },
   brandTitle: {
     fontSize: 16,
@@ -214,13 +222,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProjectBriefDocument = ({ data }: { data: ProjectBriefData }) => (
+const ProjectBriefDocument = ({ data, logo }: { data: ProjectBriefData; logo?: string }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* HEADER */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.brandTitle}>BEZALEL TECHNOLOGIES</Text>
+          {logo ? (
+            <Image src={logo} style={styles.logoImage} />
+          ) : (
+            <Text style={styles.brandTitle}>BEZALEL TECHNOLOGIES</Text>
+          )}
           <Text style={styles.brandSubtitle}>Custom Software & Infrastructure Engineering</Text>
           <Text style={styles.brandMeta}>
             Nairobi, Kenya · +254 796 157 265 · bezaleltech@gmail.com · bezalel.website
@@ -314,7 +326,8 @@ const ProjectBriefDocument = ({ data }: { data: ProjectBriefData }) => (
 );
 
 export async function generateProjectBriefPdfBuffer(data: ProjectBriefData): Promise<Buffer> {
-  const element = React.createElement(ProjectBriefDocument, { data });
+  const logo = getSiteLogoBase64();
+  const element = React.createElement(ProjectBriefDocument, { data, logo });
   const buffer = await renderToBuffer(element as React.ReactElement<DocumentProps>);
   return buffer;
 }

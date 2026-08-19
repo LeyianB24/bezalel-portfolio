@@ -4,10 +4,12 @@ import {
   Page,
   Text,
   View,
+  Image,
   StyleSheet,
   renderToBuffer,
   DocumentProps,
 } from "@react-pdf/renderer";
+import { getSiteLogoBase64 } from "./pdf-brand";
 
 export interface QuotationLineItem {
   description: string;
@@ -48,6 +50,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "#C9A24B",
     paddingBottom: 16,
     marginBottom: 20,
+  },
+  logoImage: {
+    width: 170,
+    height: 34,
+    objectFit: "contain",
+    marginBottom: 4,
   },
   brandTitle: {
     fontSize: 16,
@@ -312,13 +320,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const QuotationDocument = ({ data }: { data: QuotationData }) => (
+const QuotationDocument = ({ data, logo }: { data: QuotationData; logo?: string }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* HEADER */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.brandTitle}>BEZALEL TECHNOLOGIES</Text>
+          {logo ? (
+            <Image src={logo} style={styles.logoImage} />
+          ) : (
+            <Text style={styles.brandTitle}>BEZALEL TECHNOLOGIES</Text>
+          )}
           <Text style={styles.brandSubtitle}>Software & Infrastructure Engineering</Text>
           <Text style={styles.brandMeta}>
             Nairobi, Kenya · +254 796 157 265 · bezaleltech@gmail.com · bezalel.website
@@ -429,7 +441,8 @@ const QuotationDocument = ({ data }: { data: QuotationData }) => (
 );
 
 export async function generateQuotationPdfBuffer(data: QuotationData): Promise<Buffer> {
-  const element = React.createElement(QuotationDocument, { data });
+  const logo = getSiteLogoBase64();
+  const element = React.createElement(QuotationDocument, { data, logo });
   const buffer = await renderToBuffer(element as React.ReactElement<DocumentProps>);
   return buffer;
 }

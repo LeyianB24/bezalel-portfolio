@@ -4,10 +4,12 @@ import {
   Page,
   Text,
   View,
+  Image,
   StyleSheet,
   renderToBuffer,
   DocumentProps,
 } from "@react-pdf/renderer";
+import { getSiteLogoBase64 } from "./pdf-brand";
 
 export interface InvoiceItem {
   name: string;
@@ -46,6 +48,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "#C9A24B",
     paddingBottom: 16,
     marginBottom: 20,
+  },
+  logoImage: {
+    width: 170,
+    height: 34,
+    objectFit: "contain",
+    marginBottom: 4,
   },
   brandTitle: {
     fontSize: 16,
@@ -313,13 +321,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const InvoiceDocument = ({ data }: { data: InvoiceData }) => (
+const InvoiceDocument = ({ data, logo }: { data: InvoiceData; logo?: string }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* HEADER */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.brandTitle}>BEZALEL TECHNOLOGIES</Text>
+          {logo ? (
+            <Image src={logo} style={styles.logoImage} />
+          ) : (
+            <Text style={styles.brandTitle}>BEZALEL TECHNOLOGIES</Text>
+          )}
           <Text style={styles.brandSubtitle}>Hardware Distribution & Software Products</Text>
           <Text style={styles.brandMeta}>
             Nairobi, Kenya · +254 796 157 265 · bezaleltech@gmail.com · bezalel.website
@@ -444,7 +456,8 @@ const InvoiceDocument = ({ data }: { data: InvoiceData }) => (
 );
 
 export async function generateOrderInvoicePdfBuffer(data: InvoiceData): Promise<Buffer> {
-  const element = React.createElement(InvoiceDocument, { data });
+  const logo = getSiteLogoBase64();
+  const element = React.createElement(InvoiceDocument, { data, logo });
   const buffer = await renderToBuffer(element as React.ReactElement<DocumentProps>);
   return buffer;
 }

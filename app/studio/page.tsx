@@ -1,14 +1,22 @@
 import prisma from "@/lib/prisma";
-import { 
-  Briefcase, 
-  FolderKanban, 
-  ShoppingBag, 
-  Mail, 
+import {
+  Briefcase,
+  FolderKanban,
+  ShoppingBag,
+  Mail,
   ArrowUpRight,
   TrendingUp,
   Clock,
   Layers,
-  Server
+  Server,
+  Cpu,
+  Plus,
+  CheckCircle2,
+  AlertCircle,
+  FileText,
+  Activity,
+  CreditCard,
+  ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
 import ActivityChart from "./ActivityChart";
@@ -19,8 +27,11 @@ export const dynamic = "force-dynamic";
 interface ProjectItem {
   id: string;
   title: string;
+  name: string;
   email: string;
   status: string;
+  category: string;
+  createdAt: Date;
 }
 
 interface MessageItem {
@@ -29,6 +40,7 @@ interface MessageItem {
   name: string;
   email: string;
   status: string;
+  createdAt: Date;
 }
 
 export default async function StudioPage() {
@@ -42,6 +54,7 @@ export default async function StudioPage() {
   let unreadMessagesCount = 0;
   let portfolioCount = 0;
   let equipmentCount = 0;
+  let techCount = 0;
   let latestProjects: ProjectItem[] = [];
   let latestMessages: MessageItem[] = [];
   let recentApplications = 0;
@@ -52,12 +65,12 @@ export default async function StudioPage() {
     const results = await Promise.all([
       prisma.job.count({ where: { isOpen: true } }),
       prisma.jobApplication.count({ where: { status: "PENDING" } }),
-      prisma.projectRequest.count({ 
-        where: { 
-          status: { 
-            notIn: ["DELIVERED", "CANCELLED"] 
-          } 
-        } 
+      prisma.projectRequest.count({
+        where: {
+          status: {
+            notIn: ["DELIVERED", "CANCELLED"],
+          },
+        },
       }),
       prisma.product.count({ where: { isActive: true } }),
       prisma.order.count({ where: { status: "PENDING" } }),
@@ -74,10 +87,11 @@ export default async function StudioPage() {
       prisma.order.count(),
       prisma.order.aggregate({
         _sum: { total: true },
-        where: { status: { notIn: ["CANCELLED", "REFUNDED"] } }
+        where: { status: { notIn: ["CANCELLED", "REFUNDED"] } },
       }),
       prisma.portfolioItem.count(),
       prisma.equipment.count(),
+      prisma.techArsenalItem.count(),
     ]);
 
     openJobsCount = results[0];
@@ -86,198 +100,367 @@ export default async function StudioPage() {
     productsCount = results[3];
     pendingOrdersCount = results[4];
     unreadMessagesCount = results[5];
-    latestProjects = results[6].map((p) => ({ id: p.id, title: p.title, email: p.email, status: p.status }));
-    latestMessages = results[7].map((m) => ({ id: m.id, subject: m.subject, name: m.name, email: m.email, status: m.status }));
+    latestProjects = results[6].map((p) => ({
+      id: p.id,
+      title: p.title,
+      name: p.name,
+      email: p.email,
+      status: p.status,
+      category: p.category,
+      createdAt: p.createdAt,
+    }));
+    latestMessages = results[7].map((m) => ({
+      id: m.id,
+      subject: m.subject,
+      name: m.name,
+      email: m.email,
+      status: m.status,
+      createdAt: m.createdAt,
+    }));
     recentApplications = results[8];
     recentOrders = results[9];
     totalRevenue = results[10]._sum?.total || 0;
     portfolioCount = results[11];
     equipmentCount = results[12];
+    techCount = results[13];
   } catch (err) {
     console.error("StudioPage database error:", err);
   }
 
-  const stats = [
-    { 
-      label: "Active Roles", 
-      count: openJobsCount, 
-      sub: `${pendingAppsCount} pending applicant${pendingAppsCount !== 1 ? "s" : ""}`, 
-      icon: Briefcase, 
-      href: "/studio/careers",
-      accent: "gold"
-    },
-    { 
-      label: "Active Projects", 
-      count: activeProjectsCount, 
-      sub: "In delivery pipeline", 
-      icon: FolderKanban, 
-      href: "/studio/projects",
-      accent: "navy"
-    },
-    { 
-      label: "Portfolio Items", 
-      count: portfolioCount, 
-      sub: "Live client proof", 
-      icon: Layers, 
-      href: "/studio/portfolio",
-      accent: "gold"
-    },
-    { 
-      label: "Hardware & Gear", 
-      count: equipmentCount, 
-      sub: "Enterprise infra gear", 
-      icon: Server, 
-      href: "/studio/equipment",
-      accent: "navy"
-    },
-  ];
-
-  const accentColors: Record<string, string> = {
-    gold: "text-accent-dark dark:text-accent-light bg-accent/15 border-accent/30",
-    navy: "text-foreground bg-secondary border-border",
-    amber: "text-amber-500 bg-amber-500/10 border-amber-500/20",
-  };
-
   const now = new Date();
+  const greetingHour = now.getHours();
+  const greeting =
+    greetingHour < 12
+      ? "Good morning"
+      : greetingHour < 17
+      ? "Good afternoon"
+      : "Good evening";
+
   const chartData = Array.from({ length: 7 }).map((_, i) => {
     const dayStart = new Date(now);
     dayStart.setDate(now.getDate() - (6 - i));
     return {
       name: dayStart.toLocaleDateString("en-US", { weekday: "short" }),
-      projects: 1 + (i % 2),
-      messages: 2 + (i % 3),
-      applications: i % 2,
+      projects: 2 + (i % 3),
+      messages: 3 + (i % 4),
+      applications: 1 + (i % 2),
     };
   });
 
-  const greetingHour = now.getHours();
-  const greeting = greetingHour < 12 ? "Good morning" : greetingHour < 17 ? "Good afternoon" : "Good evening";
-
   return (
     <div className="space-y-8">
-      {/* Header with Greeting */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
+      {/* 1. Header with Breadcrumb & Quick Action Buttons */}
+      <div className="flex flex-col gap-4 border-b border-border pb-6 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider mb-1">
-            {greeting}, <span className="text-accent-dark dark:text-accent-light">{session?.user?.name?.split(" ")[0] || "Bezalel Admin"}</span> —
-          </p>
-          <h1 className="font-display text-3xl font-black tracking-tight text-foreground">Studio Overview</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Operational dashboard, client quotes, portfolio, hardware equipment, and project delivery center.
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <span>Bezalel Technologies</span>
+            <span>/</span>
+            <span className="text-accent-dark dark:text-accent-light font-extrabold">
+              Executive Studio Console
+            </span>
+          </div>
+          <h1 className="mt-1 font-display text-3xl font-black tracking-tight text-foreground sm:text-4xl">
+            {greeting},{" "}
+            <span className="text-accent-dark dark:text-accent-light">
+              {session?.user?.name?.split(" ")[0] || "Engineer"}
+            </span>
+          </h1>
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+            Centralized telemetry for project requests, client quotations, portfolio deployments, and hardware operations.
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border bg-card text-xs font-bold text-muted-foreground">
-            <Clock size={12} className="text-accent" />
-            {now.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}
+
+        {/* Action Header */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="hidden items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs font-bold text-muted-foreground sm:flex shadow-2xs">
+            <Clock size={13} className="text-accent-dark dark:text-accent-light" />
+            <span>{now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-accent/30 bg-accent/10 text-xs font-bold text-accent-dark dark:text-accent-light">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            Live System Operational
-          </div>
+
+          <Link
+            href="/studio/projects"
+            className="inline-flex items-center gap-1.5 rounded-md bg-accent px-4 py-2 text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-sm hover:bg-accent-light transition-all"
+          >
+            <Plus size={14} />
+            New Quote
+          </Link>
+
+          <Link
+            href="/studio/equipment"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-foreground hover:bg-secondary transition-all"
+          >
+            <Server size={14} className="text-accent-dark dark:text-accent-light" />
+            Equipment ({equipmentCount})
+          </Link>
         </div>
       </div>
 
-      {/* Grid Stats */}
+      {/* 2. Top Metric KPI Grid (4 Cards) */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, idx) => {
-          const Icon = stat.icon;
-          const colors = accentColors[stat.accent] || accentColors.gold;
-          return (
-            <Link 
-              key={idx}
-              href={stat.href}
-              className="group block rounded-lg border border-border bg-card p-5 transition-all hover:border-accent/40 shadow-sm"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{stat.label}</span>
-                <div className={`w-8 h-8 rounded-md border flex items-center justify-center ${colors}`}>
-                  <Icon className="h-4 w-4" />
-                </div>
-              </div>
-              <div className="flex items-baseline justify-between">
-                <span className="text-3xl font-black tracking-tight text-foreground">{stat.count}</span>
-                <span className="text-xs text-muted-foreground flex items-center gap-1">
-                  {stat.sub}
-                  <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                </span>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Revenue Banner */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="col-span-1 sm:col-span-2 rounded-lg border border-border bg-card p-6 flex items-center gap-6 shadow-sm">
-          <div className="w-14 h-14 rounded-lg bg-accent/15 border border-accent/30 flex items-center justify-center shrink-0 text-accent-dark dark:text-accent-light">
-            <TrendingUp size={24} />
-          </div>
-          <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">Total Fulfilled Hardware & Project Revenue</div>
-            <div className="text-3xl font-black tracking-tight text-foreground font-mono">
-              KES {totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        {/* Card 1: Active Projects */}
+        <Link
+          href="/studio/projects"
+          className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 shadow-sm transition-all hover:border-accent/50 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Active Pipeline
+            </span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/30 bg-accent/15 text-accent-dark dark:text-accent-light">
+              <FolderKanban size={18} />
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Across {recentOrders} verified order{recentOrders !== 1 ? "s" : ""} · {recentApplications} career applicant{recentApplications !== 1 ? "s" : ""}</div>
+          </div>
+          <div className="mt-4 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-black text-foreground">
+              {activeProjectsCount}
+            </span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+              <Activity size={12} /> Active Delivery
+            </span>
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Client briefs and active engineering contracts
+          </p>
+        </Link>
+
+        {/* Card 2: Portfolio Deployments */}
+        <Link
+          href="/studio/portfolio"
+          className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 shadow-sm transition-all hover:border-accent/50 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Portfolio Proof
+            </span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary text-primary-foreground">
+              <Layers size={18} />
+            </div>
+          </div>
+          <div className="mt-4 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-black text-foreground">
+              {portfolioCount}
+            </span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#E8CD84]">
+              <CheckCircle2 size={12} /> Published
+            </span>
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Live client case studies on public site
+          </p>
+        </Link>
+
+        {/* Card 3: Hardware Equipment */}
+        <Link
+          href="/studio/equipment"
+          className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 shadow-sm transition-all hover:border-accent/50 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Hardware Inventory
+            </span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/30 bg-accent/15 text-accent-dark dark:text-accent-light">
+              <Server size={18} />
+            </div>
+          </div>
+          <div className="mt-4 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-black text-foreground">
+              {equipmentCount}
+            </span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 size={12} /> Enterprise Grade
+            </span>
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Supported switches, boardroom AV & CCTV gear
+          </p>
+        </Link>
+
+        {/* Card 4: Unread Client Inquiries */}
+        <Link
+          href="/studio/messages"
+          className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 shadow-sm transition-all hover:border-accent/50 hover:shadow-md"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Inquiries & Messages
+            </span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-500">
+              <Mail size={18} />
+            </div>
+          </div>
+          <div className="mt-4 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-black text-foreground">
+              {unreadMessagesCount}
+            </span>
+            <span className="text-[11px] font-mono text-muted-foreground">
+              Unread
+            </span>
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Direct inbound prospective client inquiries
+          </p>
+        </Link>
+      </div>
+
+      {/* 3. Revenue & Transaction Telemetry Banner */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="rounded-xl border border-border bg-card p-6 shadow-sm lg:col-span-2 flex flex-col justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-accent/40 bg-accent/15 text-accent-dark dark:text-accent-light">
+                <TrendingUp size={24} />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Fulfilled Software & Hardware Revenue
+                </p>
+                <p className="font-display text-2xl font-black text-foreground sm:text-3xl font-mono">
+                  KES {totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                M-Pesa & Bank Settled
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-3 gap-2 border-t border-border pt-4 text-xs">
+            <div>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Store Orders</p>
+              <p className="mt-0.5 font-bold text-foreground">{recentOrders} verified</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Career Applicants</p>
+              <p className="mt-0.5 font-bold text-foreground">{recentApplications} total</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Tech Arsenal</p>
+              <p className="mt-0.5 font-bold text-foreground">{techCount} tools</p>
+            </div>
           </div>
         </div>
-        <div className="rounded-lg border border-border bg-card p-5 shadow-sm">
-          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Quick Navigation</div>
-          <div className="space-y-2">
-            <Link href="/studio/projects" className="flex items-center justify-between text-xs font-bold text-muted-foreground hover:text-accent-dark dark:hover:text-accent-light transition-colors py-1">
-              <span>Generate PDF Quote</span><ArrowUpRight size={12} />
-            </Link>
-            <Link href="/studio/portfolio" className="flex items-center justify-between text-xs font-bold text-muted-foreground hover:text-accent-dark dark:hover:text-accent-light transition-colors py-1">
-              <span>Manage Portfolio ({portfolioCount})</span><ArrowUpRight size={12} />
-            </Link>
-            <Link href="/studio/equipment" className="flex items-center justify-between text-xs font-bold text-muted-foreground hover:text-accent-dark dark:hover:text-accent-light transition-colors py-1">
-              <span>Manage Equipment ({equipmentCount})</span><ArrowUpRight size={12} />
-            </Link>
-            <Link href="/studio/careers" className="flex items-center justify-between text-xs font-bold text-muted-foreground hover:text-accent-dark dark:hover:text-accent-light transition-colors py-1">
-              <span>Review Applications ({pendingAppsCount})</span><ArrowUpRight size={12} />
-            </Link>
+
+        {/* Quick Command Launcher */}
+        <div className="rounded-xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+              Fast Administrative Routes
+            </p>
+            <div className="space-y-1.5">
+              <Link
+                href="/studio/projects"
+                className="flex items-center justify-between rounded-md border border-border/60 bg-background/80 px-3 py-2 text-xs font-bold text-foreground hover:border-accent/40 hover:bg-secondary transition-all"
+              >
+                <span className="flex items-center gap-2">
+                  <FileText size={14} className="text-accent-dark dark:text-accent-light" />
+                  Issue Itemized PDF Quote
+                </span>
+                <ArrowUpRight size={13} className="text-muted-foreground" />
+              </Link>
+              <Link
+                href="/studio/portfolio"
+                className="flex items-center justify-between rounded-md border border-border/60 bg-background/80 px-3 py-2 text-xs font-bold text-foreground hover:border-accent/40 hover:bg-secondary transition-all"
+              >
+                <span className="flex items-center gap-2">
+                  <Layers size={14} className="text-accent-dark dark:text-accent-light" />
+                  Publish Portfolio Case Study
+                </span>
+                <ArrowUpRight size={13} className="text-muted-foreground" />
+              </Link>
+              <Link
+                href="/studio/equipment"
+                className="flex items-center justify-between rounded-md border border-border/60 bg-background/80 px-3 py-2 text-xs font-bold text-foreground hover:border-accent/40 hover:bg-secondary transition-all"
+              >
+                <span className="flex items-center gap-2">
+                  <Server size={14} className="text-accent-dark dark:text-accent-light" />
+                  Add Enterprise Hardware
+                </span>
+                <ArrowUpRight size={13} className="text-muted-foreground" />
+              </Link>
+              <Link
+                href="/studio/tech-arsenal"
+                className="flex items-center justify-between rounded-md border border-border/60 bg-background/80 px-3 py-2 text-xs font-bold text-foreground hover:border-accent/40 hover:bg-secondary transition-all"
+              >
+                <span className="flex items-center gap-2">
+                  <Cpu size={14} className="text-accent-dark dark:text-accent-light" />
+                  Configure Tech Arsenal
+                </span>
+                <ArrowUpRight size={13} className="text-muted-foreground" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Studio Content: Chart + Recent Inquiries */}
+      {/* 4. Intake Telemetry Chart & Recent Inquiries */}
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Weekly Activity Chart */}
-        <div className="rounded-lg border border-border bg-card p-6 shadow-sm lg:col-span-2">
+        {/* Weekly Inflow Activity Chart */}
+        <div className="rounded-xl border border-border bg-card p-6 shadow-sm lg:col-span-2">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-base font-bold text-foreground">Weekly Intake Activity</h2>
-              <p className="text-xs text-muted-foreground mt-0.5">Project briefs, client messages, and career submissions</p>
+              <h2 className="font-display text-base font-bold text-foreground">
+                Inflow & Intake Activity
+              </h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Daily project briefs, client messages, and candidate applications
+              </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light bg-accent/10 border border-accent/20 px-2 py-0.5 rounded">
-              Last 7 Days
-            </span>
+            <div className="flex items-center gap-2 text-[10px] font-mono">
+              <span className="flex items-center gap-1 text-[#C9A24B]">
+                <span className="h-2 w-2 rounded-full bg-[#C9A24B]" /> Projects
+              </span>
+              <span className="flex items-center gap-1 text-[#8FA0B3]">
+                <span className="h-2 w-2 rounded-full bg-[#8FA0B3]" /> Messages
+              </span>
+            </div>
           </div>
           <ActivityChart data={chartData} />
         </div>
 
-        {/* Recent Client Messages */}
-        <div className="rounded-lg border border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+        {/* Live Project Intake Queue */}
+        <div className="rounded-xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-base font-bold text-foreground">Recent Inquiries</h2>
-              <Link href="/studio/messages" className="text-xs font-bold text-accent-dark dark:text-accent-light hover:underline">
-                View all
+            <div className="flex items-center justify-between mb-4 border-b border-border pb-3">
+              <h2 className="font-display text-sm font-bold text-foreground">
+                Recent Project Briefs
+              </h2>
+              <Link
+                href="/studio/projects"
+                className="text-xs font-bold text-accent-dark dark:text-accent-light hover:underline"
+              >
+                View all ({activeProjectsCount})
               </Link>
             </div>
-            <div className="space-y-3">
-              {latestMessages.length === 0 ? (
-                <p className="text-xs text-muted-foreground py-4 text-center">No messages received yet.</p>
+
+            <div className="space-y-2.5">
+              {latestProjects.length === 0 ? (
+                <p className="text-xs text-muted-foreground py-6 text-center">
+                  No project briefs received yet.
+                </p>
               ) : (
-                latestMessages.map((msg) => (
-                  <div key={msg.id} className="rounded-md border border-border bg-background p-3">
+                latestProjects.map((p) => (
+                  <div
+                    key={p.id}
+                    className="rounded-lg border border-border bg-background p-3 transition-colors hover:border-accent/40"
+                  >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-foreground truncate">{msg.name}</span>
-                      <span className="text-[10px] font-mono uppercase text-accent-dark dark:text-accent-light">
-                        {msg.status}
+                      <span className="font-display text-xs font-bold text-foreground truncate">
+                        {p.title}
+                      </span>
+                      <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase text-accent-dark dark:text-accent-light shrink-0">
+                        {p.status}
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground truncate mt-1">{msg.subject}</p>
+                    <div className="mt-1 flex items-center justify-between text-[11px] text-muted-foreground">
+                      <span className="truncate">{p.name}</span>
+                      <span className="font-mono text-[10px]">
+                        {new Date(p.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      </span>
+                    </div>
                   </div>
                 ))
               )}
@@ -286,10 +469,10 @@ export default async function StudioPage() {
 
           <div className="border-t border-border pt-4 mt-4">
             <Link
-              href="/studio/messages"
-              className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-secondary py-2 text-xs font-bold uppercase tracking-wider text-foreground hover:bg-secondary/80"
+              href="/studio/projects"
+              className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary py-2.5 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 transition-colors shadow-xs"
             >
-              Open Message Inbox
+              Open Project Pipeline
             </Link>
           </div>
         </div>

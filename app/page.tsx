@@ -8,6 +8,7 @@ const fallbackTeasers: PortfolioTeaserItem[] = [
     id: "fallback-1",
     name: "BezaShop Commerce Platform",
     clientName: "BezaShop Retail",
+    clientLogoUrl: null,
     category: "Web Systems",
     description:
       "Inventory synchronization, multi-channel payment reconciliation, and automated invoice dispatch with sub-80ms response times.",
@@ -19,6 +20,7 @@ const fallbackTeasers: PortfolioTeaserItem[] = [
     id: "fallback-2",
     name: "NexoLogistics Field Ops Suite",
     clientName: "Nexo Freight EA",
+    clientLogoUrl: null,
     category: "Mobile Apps",
     description:
       "Offline-capable mobile dispatch and driver manifests with instant synchronization upon network reconnection.",
@@ -30,6 +32,7 @@ const fallbackTeasers: PortfolioTeaserItem[] = [
     id: "fallback-3",
     name: "DataBridge Multi-Rail Gateway",
     clientName: "Apex Financial Systems",
+    clientLogoUrl: null,
     category: "API & Infra",
     description:
       "Unified payments middleware handling automated STK push retries, webhook signature verifications, and bank integrations.",
@@ -53,6 +56,7 @@ export default async function Home() {
         id: item.id,
         name: item.name,
         clientName: item.clientName,
+        clientLogoUrl: item.clientLogoUrl,
         description: item.description,
         image: item.images[0] || "/images/web_system.png",
         liveUrl: item.liveUrl,

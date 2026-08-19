@@ -198,9 +198,17 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
                         {/* Meta & Clickable Client Link */}
                         <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground border-b border-border pb-3 mb-4">
                           <div className="flex items-center gap-2">
+                            {project.clientLogoUrl && (
+                              <img
+                                src={project.clientLogoUrl}
+                                alt=""
+                                aria-hidden="true"
+                                className="h-4 w-4 rounded-xs object-contain bg-black/10 dark:bg-white/10 p-0.5"
+                              />
+                            )}
                             <span className="font-bold text-foreground">{project.clientName}</span>
                             <span>•</span>
-                            <span className="font-mono">{project.year}</span>
+                            <span className="font-mono">{project.year || "2024"}</span>
                           </div>
 
                           {project.liveUrl && (

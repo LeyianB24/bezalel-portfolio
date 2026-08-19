@@ -27,6 +27,7 @@ export interface PortfolioTeaserItem {
   id: string;
   name: string;
   clientName: string;
+  clientLogoUrl?: string | null;
   category?: string;
   description: string;
   image: string;
@@ -370,7 +371,17 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent-light">
                           {project.techTags[0] || "Engineering"}
                         </span>
-                        <span className="text-xs text-white/60 font-medium">{project.clientName}</span>
+                        <div className="flex items-center gap-1.5">
+                          {project.clientLogoUrl && (
+                            <img
+                              src={project.clientLogoUrl}
+                              alt=""
+                              aria-hidden="true"
+                              className="h-3.5 w-3.5 rounded-xs object-contain bg-white/10 p-0.5"
+                            />
+                          )}
+                          <span className="text-xs text-white/60 font-medium">{project.clientName}</span>
+                        </div>
                       </div>
                       <h3 className="text-xl font-black tracking-tight text-white">{project.name}</h3>
                       <p className="mt-3 text-xs leading-relaxed text-primary-foreground/75">

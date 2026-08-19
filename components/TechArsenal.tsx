@@ -35,13 +35,13 @@ const techGroups: TechGroup[] = [
   {
     id: "fintech",
     title: "Payments & Financial Integration",
-    description: "Secure, idempotent payment workflows and automated reconciliation",
+    description: "Cross-border payment rails, multi-currency commerce, and automated settlement workflows",
     icon: <CreditCard className="h-5 w-5 text-accent" />,
     stack: [
+      { name: "Stripe (Global Rails)", icon: <CreditCard className="h-4 w-4" />, tag: "Core" },
       { name: "M-PESA (Daraja API)", icon: <BsPhone />, tag: "Core" },
-      { name: "Stripe", icon: <CreditCard className="h-4 w-4" />, tag: "Core" },
-      { name: "Card Gateways", icon: <CreditCard className="h-4 w-4" /> },
-      { name: "Bank APIs", icon: <Layers className="h-4 w-4" /> },
+      { name: "Apple & Google Pay", icon: <CreditCard className="h-4 w-4" />, tag: "Core" },
+      { name: "Bank APIs (ACH/SWIFT)", icon: <Layers className="h-4 w-4" /> },
     ],
   },
   {

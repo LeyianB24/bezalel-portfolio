@@ -133,7 +133,7 @@ export default function StorePageClient({
   const features = [
     { icon: Zap, label: "Verified Hardware", desc: "Tested enterprise networking, servers, and components" },
     { icon: Shield, label: "Direct Checkout", desc: "Instant M-Pesa, card, or Cash on Delivery with invoice dispatch" },
-    { icon: Star, label: "Nairobi Dispatch", desc: "Prompt same-day/next-day dispatch across Kenya" },
+    { icon: Star, label: "Worldwide & Regional Dispatch", desc: "Instant digital access, prompt Nairobi fulfillment & global shipping" },
   ];
 
   return (

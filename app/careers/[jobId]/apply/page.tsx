@@ -17,10 +17,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 
   return {
-    title: job ? `Apply: ${job.title} | Bezalel Studio` : "Job Application | Bezalel Studio",
+    title: job ? `Apply: ${job.title} | Bezalel Technologies` : "Job Application | Bezalel Technologies",
     description: job 
-      ? `Submit your application online for the ${job.title} (${job.department}) position at Bezalel Studio.` 
-      : "Submit your job application online to Bezalel Studio.",
+      ? `Submit your application online for the ${job.title} (${job.department}) position at Bezalel Technologies.` 
+      : "Submit your job application online to Bezalel Technologies.",
   };
 }
 

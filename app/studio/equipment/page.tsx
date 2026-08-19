@@ -5,7 +5,7 @@ import EquipmentDashboard, { EquipmentItemType } from "./EquipmentDashboard";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Equipment & Hardware Management | Bezalel Studio",
+  title: "Equipment & Hardware Management | Bezalel Technologies",
 };
 
 export default async function StudioEquipmentPage() {

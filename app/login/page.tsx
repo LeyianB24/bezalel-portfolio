@@ -53,7 +53,7 @@ function LoginForm() {
           SECURE_LOGIN
         </h2>
         <p className="text-xs font-mono uppercase tracking-wider text-zinc-500">
-          Bezalel Studio Terminal Access
+          Bezalel Technologies Operations Access
         </p>
       </div>
 

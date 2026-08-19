@@ -5,7 +5,7 @@ import TechArsenalDashboard, { TechItemType } from "./TechArsenalDashboard";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Tech Stack & Arsenal | Bezalel Studio",
+  title: "Tech Stack & Arsenal | Bezalel Technologies",
 };
 
 export default async function StudioTechArsenalPage() {

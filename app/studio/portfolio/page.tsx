@@ -6,7 +6,7 @@ import { PortfolioItemModel } from "@/types/prisma-models";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Portfolio Management | Bezalel Studio",
+  title: "Portfolio Management | Bezalel Technologies",
 };
 
 export default async function StudioPortfolioPage() {

@@ -3,7 +3,7 @@ import PageLayout from "@/components/PageLayout";
 import RequestForm from "./RequestForm";
 
 export const metadata: Metadata = {
-  title: "Request a Project Quote | Bezalel Studio",
+  title: "Request a Project Quote | Bezalel Technologies",
   description: "Submit your project brief, timeline, and budget. Our team of engineering partners will analyze your specifications and provide a technical estimate.",
 };
 

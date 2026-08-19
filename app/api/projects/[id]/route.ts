@@ -90,27 +90,31 @@ export async function PATCH(
       }
 
       const emailHtml = `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; background-color: #09090b; color: #f4f4f5; border: 1px solid #27272a; border-radius: 8px;">
-          <h2 style="color: #10b981; border-bottom: 1px solid #27272a; padding-bottom: 12px; margin-top: 0; font-size: 1.5em; letter-spacing: 0.05em;">BEZALEL STUDIO</h2>
-          <p style="font-size: 1.1em; line-height: 1.5;">Dear <strong>${updated.name}</strong>,</p>
-          <p style="line-height: 1.5; color: #d4d4d8;">Here is a pipeline update regarding your project request <strong>&ldquo;${updated.title}&rdquo;</strong>:</p>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background-color: #0B2036; color: #FAF6EC; border-radius: 8px;">
+          <div style="border-bottom: 2px solid #C9A24B; padding-bottom: 16px; margin-bottom: 24px;">
+            <h1 style="color: #FAF6EC; margin: 0; font-size: 22px; letter-spacing: 1px;">BEZALEL TECHNOLOGIES</h1>
+            <p style="color: #E8CD84; margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Software & Infrastructure Engineering</p>
+          </div>
+
+          <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${updated.name}</strong>,</p>
+          <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Here is a pipeline update regarding your project request <strong>&ldquo;${updated.title}&rdquo;</strong>:</p>
           
-          <div style="background-color: #18181b; border: 1px solid #27272a; padding: 20px; border-radius: 6px; margin: 20px 0;">
-            <span style="font-weight: bold; color: #10b981; display: block; margin-bottom: 10px; font-size: 1.15em;">Pipeline Status: ${statusTitle}</span>
-            <p style="margin: 0 0 12px 0; color: #d4d4d8; font-size: 0.95em; line-height: 1.5; white-space: pre-line;">${statusDetails}</p>
+          <div style="background-color: #050D17; border: 1px solid #C9A24B; padding: 20px; border-radius: 6px; margin: 20px 0;">
+            <span style="font-weight: bold; color: #E8CD84; display: block; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Pipeline Status: ${statusTitle}</span>
+            <p style="margin: 0 0 12px 0; color: #E0E7EC; font-size: 13px; line-height: 1.5; white-space: pre-line;">${statusDetails}</p>
             ${
               currentQuote !== null
-                ? `<p style="margin: 10px 0 0 0; color: #f4f4f5; font-size: 0.95em; border-top: 1px solid #27272a; padding-top: 10px;">
-                    <strong>Estimated Cost:</strong> $${currentQuote.toLocaleString()}
+                ? `<p style="margin: 10px 0 0 0; color: #FAF6EC; font-size: 14px; border-top: 1px solid #1B2430; padding-top: 10px;">
+                    <strong>Estimated Cost:</strong> KES ${currentQuote.toLocaleString()}
                    </p>`
                 : ""
             }
           </div>
           
-          <p style="line-height: 1.5; color: #d4d4d8;">If you have any questions, you can respond to this email thread to speak directly to your dedicated tech partner.</p>
+          <p style="line-height: 1.6; color: #E0E7EC; font-size: 13px;">If you have any questions, you can respond to this email thread or reach our engineers directly on WhatsApp at <strong>+254 796 157 265</strong>.</p>
           
-          <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #27272a; font-size: 0.85em; color: #71717a;">
-            <p style="margin: 0;">&copy; ${new Date().getFullYear()} Bezalel Studio. All rights reserved.</p>
+          <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #1B2430; font-size: 11px; color: #8FA0B3;">
+            <p style="margin: 0;">&copy; ${new Date().getFullYear()} Bezalel Technologies Ltd. All rights reserved. · <a href="https://bezalel.website" style="color: #E8CD84; text-decoration: none;">bezalel.website</a></p>
           </div>
         </div>
       `;

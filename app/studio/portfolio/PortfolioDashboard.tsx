@@ -4,7 +4,7 @@ import { useState } from "react";
 import { 
   Layers, Plus, Edit3, Trash2, ExternalLink, 
   X, Loader2, Star, Sparkles, Image as ImageIcon,
-  CheckCircle2, RefreshCw
+  CheckCircle2
 } from "lucide-react";
 import { toast } from "sonner";
 

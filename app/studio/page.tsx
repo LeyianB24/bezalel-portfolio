@@ -1,8 +1,6 @@
 import prisma from "@/lib/prisma";
 import {
-  Briefcase,
   FolderKanban,
-  ShoppingBag,
   Mail,
   ArrowUpRight,
   TrendingUp,
@@ -12,11 +10,8 @@ import {
   Cpu,
   Plus,
   CheckCircle2,
-  AlertCircle,
   FileText,
   Activity,
-  CreditCard,
-  ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
 import ActivityChart from "./ActivityChart";
@@ -34,37 +29,21 @@ interface ProjectItem {
   createdAt: Date;
 }
 
-interface MessageItem {
-  id: string;
-  subject: string;
-  name: string;
-  email: string;
-  status: string;
-  createdAt: Date;
-}
-
 export default async function StudioPage() {
   const session = await auth();
 
-  let openJobsCount = 0;
-  let pendingAppsCount = 0;
   let activeProjectsCount = 0;
-  let productsCount = 0;
-  let pendingOrdersCount = 0;
   let unreadMessagesCount = 0;
   let portfolioCount = 0;
   let equipmentCount = 0;
   let techCount = 0;
   let latestProjects: ProjectItem[] = [];
-  let latestMessages: MessageItem[] = [];
   let recentApplications = 0;
   let recentOrders = 0;
   let totalRevenue = 0;
 
   try {
     const results = await Promise.all([
-      prisma.job.count({ where: { isOpen: true } }),
-      prisma.jobApplication.count({ where: { status: "PENDING" } }),
       prisma.projectRequest.count({
         where: {
           status: {
@@ -72,14 +51,8 @@ export default async function StudioPage() {
           },
         },
       }),
-      prisma.product.count({ where: { isActive: true } }),
-      prisma.order.count({ where: { status: "PENDING" } }),
       prisma.contactMessage.count({ where: { status: "UNREAD" } }),
       prisma.projectRequest.findMany({
-        orderBy: { createdAt: "desc" },
-        take: 5,
-      }),
-      prisma.contactMessage.findMany({
         orderBy: { createdAt: "desc" },
         take: 5,
       }),
@@ -94,13 +67,9 @@ export default async function StudioPage() {
       prisma.techArsenalItem.count(),
     ]);
 
-    openJobsCount = results[0];
-    pendingAppsCount = results[1];
-    activeProjectsCount = results[2];
-    productsCount = results[3];
-    pendingOrdersCount = results[4];
-    unreadMessagesCount = results[5];
-    latestProjects = results[6].map((p) => ({
+    activeProjectsCount = results[0];
+    unreadMessagesCount = results[1];
+    latestProjects = results[2].map((p) => ({
       id: p.id,
       title: p.title,
       name: p.name,
@@ -109,20 +78,12 @@ export default async function StudioPage() {
       category: p.category,
       createdAt: p.createdAt,
     }));
-    latestMessages = results[7].map((m) => ({
-      id: m.id,
-      subject: m.subject,
-      name: m.name,
-      email: m.email,
-      status: m.status,
-      createdAt: m.createdAt,
-    }));
-    recentApplications = results[8];
-    recentOrders = results[9];
-    totalRevenue = results[10]._sum?.total || 0;
-    portfolioCount = results[11];
-    equipmentCount = results[12];
-    techCount = results[13];
+    recentApplications = results[3];
+    recentOrders = results[4];
+    totalRevenue = results[5]._sum?.total || 0;
+    portfolioCount = results[6];
+    equipmentCount = results[7];
+    techCount = results[8];
   } catch (err) {
     console.error("StudioPage database error:", err);
   }

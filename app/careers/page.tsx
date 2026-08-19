@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Careers & Open Roles | Bezalel Technologies",
-  description: "Explore engineering and IT infrastructure roles at Bezalel Technologies in Nairobi, Kenya.",
+  description: "Explore engineering and digital infrastructure roles at Bezalel Technologies (Remote Worldwide & Nairobi Hybrid).",
 };
 
 interface PositionItem {
@@ -25,12 +25,12 @@ const fallbackPositions: PositionItem[] = [
     id: "job-1",
     title: "Senior Full-Stack Engineer (Next.js / Node.js)",
     department: "Engineering",
-    location: "Nairobi / Hybrid",
+    location: "Remote (Worldwide) / Nairobi Hybrid",
     type: JobType.FULL_TIME,
-    description: "Architect and deliver high-reliability web platforms, API integrations, and database schemas for East African institutions.",
+    description: "Architect and deliver high-reliability web platforms, API integrations, and cloud systems for scale-ups and enterprises worldwide.",
     requirements: [
       "3+ years experience with Next.js, TypeScript, PostgreSQL, and Prisma",
-      "Demonstrated experience integrating payment gateways (M-Pesa Daraja, Stripe)",
+      "Demonstrated experience integrating payment gateways (Stripe, M-Pesa Daraja, bank rails)",
       "Strong commitment to clean architecture, code quality, and automated testing",
     ],
   },
@@ -38,7 +38,7 @@ const fallbackPositions: PositionItem[] = [
     id: "job-2",
     title: "IT Infrastructure & Network Technician",
     department: "Infrastructure",
-    location: "Nairobi / On-site",
+    location: "Nairobi / On-site & Field Deployments",
     type: JobType.FULL_TIME,
     description: "Install, configure, and maintain enterprise structured cabling, managed switches, boardroom AV, and CCTV systems.",
     requirements: [

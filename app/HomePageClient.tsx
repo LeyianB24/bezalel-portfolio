@@ -55,29 +55,29 @@ const stats = [
   {
     value: "< 2 hrs",
     label: "SLA Response Time",
-    description: "Rapid technical support for active operational deployments.",
+    description: "Rapid technical support across global and regional timezones.",
   },
   {
-    value: "KES 0",
-    label: "Hidden Fees",
+    value: "USD / KES",
+    label: "Transparent Invoicing",
     description: "Itemized, fixed-price PDF quotation before work begins.",
   },
   {
     value: "4",
     label: "Core Engineering Domains",
-    description: "Custom Software, Mobile Apps, IT Infra/AV, Payment Rails.",
+    description: "Custom Web Systems, Mobile Apps, Cloud/AV Infra, Payment Rails.",
   },
 ];
 
 const industries = [
-  "Banking & Microfinance",
-  "SACCOs",
+  "Fintech & Banking",
+  "Cross-Border Logistics",
+  "SaaS & Tech Startups",
   "Real Estate & Managed Estates",
-  "Logistics & Fleet Operations",
-  "Hospitality & Events",
+  "E-Commerce & Retail",
   "Public Sector & NGOs",
   "Agribusiness",
-  "Kenyan SMEs",
+  "Global Enterprises & SMEs",
 ];
 
 const services = [
@@ -181,7 +181,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               >
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/35 bg-[#C9A24B]/15 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-accent-light backdrop-blur-md">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B]" />
-                  Nairobi, Kenya · Senior Engineering Partner
+                  Global Delivery · HQ Nairobi, Kenya · Senior Engineering Partner
                 </div>
 
                 <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl text-white">
@@ -189,7 +189,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                 </h1>
 
                 <p className="mt-6 max-w-xl text-base leading-8 text-white/85 sm:text-lg">
-                  Bezalel Technologies builds dependable systems for Kenyan SMEs, SACCOs, managed estates, and institutions: bespoke web portals, IT infrastructure, boardroom AV, and M-Pesa payment integrations.
+                  Bezalel Technologies architects dependable, mission-critical systems for companies, startups, and institutions worldwide: bespoke web portals, cloud systems, mobile apps, IT infrastructure, and payment integrations.
                 </p>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -223,7 +223,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                   </span>
                   <span className="flex items-center gap-1.5">
                     <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
-                    Local SLA support in Nairobi
+                    Worldwide remote delivery & SLAs
                   </span>
                 </div>
               </motion.div>
@@ -427,7 +427,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               We listen. We understand. We build.
             </h2>
             <p className="mt-6 text-base leading-8 text-muted-foreground sm:text-lg">
-              We approach engineering as senior technical partners, not ticket-takers. Before writing a line of code or terminating fiber, we map your daily operations, identify points of failure, and agree on clear milestone deliverables. Every system is built to run reliably in production with full source code ownership and local engineering accountability in Nairobi.
+              We approach engineering as senior technical partners, not ticket-takers. Before writing a line of code or terminating fiber, we map your operations, identify points of failure, and agree on clear milestone deliverables. Every system is built to run reliably in production with full source code ownership, transparent milestone delivery, and international engineering standards.
             </p>
 
             <div className="mt-8 flex justify-center">
@@ -520,16 +520,16 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
 
                 <div className="mt-6 space-y-4 text-base leading-8 text-muted-foreground">
                   <p>
-                    Named after the artisan appointed in antiquity with intelligence, knowledge, and craft in all manner of workmanship (<span className="text-foreground font-semibold">Exodus 31</span>), Bezalel Technologies was founded in Nairobi on a foundational belief: African enterprises deserve digital and physical engineering built with genuine precision.
+                    Named after the artisan appointed in antiquity with intelligence, knowledge, and craft in all manner of workmanship (<span className="text-foreground font-semibold">Exodus 31</span>), Bezalel Technologies was founded with a foundational belief: ambitious enterprises worldwide deserve digital and physical engineering built with genuine precision.
                   </p>
                   <p>
-                    We reject superficial solutions and fragile shortcuts. Whether designing a high-volume transactional web system, wiring an executive boardroom AV setup, or deploying CCTV security networks, we treat every system as mission-critical infrastructure.
+                    We reject superficial solutions and fragile shortcuts. Whether designing a high-volume transactional web system, building mobile apps for cross-border logistics, wiring executive boardroom AV, or deploying enterprise cloud backends, we treat every system as mission-critical infrastructure.
                   </p>
                 </div>
 
                 <div className="mt-8 rounded-lg border border-border bg-card p-5">
                   <p className="text-sm italic text-foreground font-medium">
-                    &ldquo;True engineering craftsmanship is not about buzzwords—it is about building systems that stay up, settle payments accurately, and serve your team without fail.&rdquo;
+                    &ldquo;True engineering craftsmanship is not about buzzwords—it is about building systems that stay up, settle payments accurately, and serve your team without fail across borders.&rdquo;
                   </p>
                   <p className="mt-3 text-xs font-bold text-accent-dark dark:text-accent-light uppercase tracking-wider">
                     Leyian B. — Lead Engineer & Founder, Bezalel Technologies
@@ -550,11 +550,11 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                   <div className="flex items-center gap-2">
                     <Building2 className="h-4 w-4 text-accent-dark dark:text-accent-light" />
                     <span className="text-xs font-bold text-foreground">
-                      Engineering Hub & Client Operations
+                      Engineering HQ & Worldwide Operations
                     </span>
                   </div>
                   <span className="text-[11px] font-semibold text-muted-foreground">
-                    Nairobi, Kenya
+                    HQ: Nairobi · Serving Globally
                   </span>
                 </div>
               </div>
@@ -605,7 +605,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                 Tell us what needs to be built, fixed, or modernized.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Share your workflows, pain points, budget expectations, and deadlines. We will assess requirements and respond with a formal quotation.
+                Share your workflows, pain points, budget expectations, and deadlines. We assess requirements for clients worldwide and respond with a formal quotation.
               </p>
             </div>
             <div className="relative z-10 flex flex-col justify-center gap-3">
@@ -626,7 +626,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               <div className="mt-2 grid gap-2 text-xs text-muted-foreground">
                 <span className="flex items-center gap-2">
                   <Building2 className="h-4 w-4 text-accent-dark dark:text-accent-light" />
-                  Based in Nairobi, Kenya · Serving East African Enterprises
+                  Global Software & Infrastructure Engineering · Serving Clients Worldwide
                 </span>
                 <span className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-accent-dark dark:text-accent-light" />

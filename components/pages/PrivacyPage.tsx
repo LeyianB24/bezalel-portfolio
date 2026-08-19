@@ -26,8 +26,8 @@ const privacySections = [
   },
   {
     id: "compliance",
-    title: "5. Kenyan Data Protection Act Compliance",
-    content: "Bezalel Technologies operates in compliance with the Kenya Data Protection Act, 2019. We process data lawfully, fairly, and transparently, respecting data subject rights regarding access, rectification, and erasure.",
+    title: "5. Global Data Protection & GDPR Alignment",
+    content: "Bezalel Technologies operates in full compliance with the Kenya Data Protection Act, 2019, and adheres to global standards including EU GDPR principles for international clients. We process data lawfully, fairly, and transparently, respecting all data subject rights regarding access, portability, rectification, and erasure.",
   },
 ];
 
@@ -48,10 +48,10 @@ export default function PrivacyPage() {
               Privacy Policy
             </h1>
             <p className="mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
-              How Bezalel Technologies collects, protects, and handles personal and institutional information.
+              How Bezalel Technologies collects, protects, and handles personal and institutional information for clients worldwide.
             </p>
             <p className="mt-4 font-mono text-xs text-muted-foreground">
-              Last Updated: {lastUpdated} · Kenya Data Protection Act (2019) Aligned
+              Last Updated: {lastUpdated} · Kenya Data Protection Act (2019) & GDPR Aligned
             </p>
           </div>
 

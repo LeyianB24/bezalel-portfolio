@@ -269,7 +269,7 @@ export default function HeroProductMockup() {
 
       {/* Footer proof line */}
       <div className="mt-3 flex items-center justify-between px-1 text-[11px] text-[#8FA0B3]">
-        <span>Designed & engineered in Nairobi, Kenya</span>
+        <span>Global Engineering · HQ Nairobi, Kenya · Serving Worldwide</span>
         <span className="font-mono text-white/70">SLA: 99.9% Uptime</span>
       </div>
     </div>

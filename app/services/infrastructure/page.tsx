@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "IT Infrastructure & Boardroom AV | Bezalel Technologies",
-  description: "Enterprise networking, structured cabling, boardroom video conferencing, CCTV surveillance, and server hardware in Nairobi, Kenya.",
+  description: "Enterprise networking, structured cabling, boardroom video conferencing, CCTV surveillance, cloud DevOps, and server hardware deployments worldwide.",
 };
 
 export default async function Page() {

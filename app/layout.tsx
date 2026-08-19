@@ -35,13 +35,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Bezalel Technologies | Software and IT Infrastructure in Kenya",
+  title: "Bezalel Technologies | Global Software Engineering & Digital Infrastructure",
   description:
-    "Software development, IT infrastructure, AV, systems support, and project delivery for Kenyan businesses and institutions.",
+    "Custom software engineering, cloud systems, mobile platforms, API architecture, and enterprise IT infrastructure serving ambitious organizations worldwide.",
   openGraph: {
     images: ["/og-image.png"],
-    title: "Bezalel Technologies",
-    description: "Software and IT infrastructure for Kenyan businesses and institutions.",
+    title: "Bezalel Technologies | Global Software Engineering & Infrastructure",
+    description: "Custom software engineering, cloud systems, mobile platforms, and enterprise IT infrastructure serving clients worldwide.",
     url: "https://bezalel.tech",
     siteName: "Bezalel Technologies",
     locale: "en_US",
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bezalel Technologies",
-    description: "Software and IT infrastructure for Kenyan businesses and institutions.",
+    title: "Bezalel Technologies | Global Software Engineering & Infrastructure",
+    description: "Custom software engineering, cloud systems, mobile platforms, and enterprise IT infrastructure serving clients worldwide.",
     images: ["/og-image.png"],
   },
 };

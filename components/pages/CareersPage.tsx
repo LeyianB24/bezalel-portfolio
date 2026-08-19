@@ -63,7 +63,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
                 Engineering work focused on substance over noise.
               </h1>
               <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                We work directly with Kenyan SMEs, estates, SACCOs, and institutions to build software and infrastructure that cannot afford downtime.
+                We work directly with scale-ups, global enterprises, and regional institutions to build mission-critical software and digital infrastructure that cannot afford downtime.
               </p>
             </div>
 
@@ -95,7 +95,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
                 <Briefcase className="mx-auto h-12 w-12 text-muted-foreground/40 mb-4" />
                 <h2 className="text-lg font-bold text-foreground mb-1">No open positions currently listed</h2>
                 <p className="text-sm">
-                  We post new openings as project demands expand. You are welcome to send a speculative application with your CV and project links.
+                  We post new openings as project demands expand across remote and on-site engineering pipelines. You are welcome to send a speculative application with your CV and GitHub / portfolio links.
                 </p>
                 <a
                   href="mailto:bezaleltech@gmail.com?subject=Speculative Engineering Application"
@@ -120,7 +120,7 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
                   Don&apos;t see an exact match for your skills?
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-                  We are always interested in senior software engineers, infrastructure technicians, and systems architects based in Kenya.
+                  We are always interested in senior software engineers, distributed systems architects, and infrastructure technicians worldwide.
                 </p>
               </div>
               <a

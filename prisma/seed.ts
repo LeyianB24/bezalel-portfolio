@@ -120,15 +120,15 @@ async function main() {
     {
       title: 'Senior Full-Stack Engineer',
       department: 'Engineering',
-      location: 'Nairobi, Kenya (Hybrid)',
+      location: 'Remote (Worldwide) / Nairobi Hybrid',
       type: 'FULL_TIME' as const,
-      description: 'We are looking for a Senior Full-Stack Engineer to join our core product team. You will architect and build scalable web applications using Next.js, TypeScript, and PostgreSQL — shipping features that impact thousands of users.',
+      description: 'We are looking for a Senior Full-Stack Engineer to join our core product team. You will architect and build scalable web applications using Next.js, TypeScript, and PostgreSQL — shipping features that impact thousands of users globally.',
       requirements: [
         '5+ years of experience in full-stack web development',
         'Expert-level TypeScript and React/Next.js',
         'Strong PostgreSQL and database design skills',
         'Experience with cloud infrastructure (AWS/GCP/Vercel)',
-        'Excellent written and verbal communication skills',
+        'Excellent written and verbal communication skills across distributed teams',
         'Portfolio of shipped production applications',
       ],
       isOpen: true,
@@ -136,7 +136,7 @@ async function main() {
     {
       title: 'IT Infrastructure & Network Technician',
       department: 'Infrastructure',
-      location: 'Nairobi, Kenya (On-site)',
+      location: 'Nairobi, Kenya (On-site & Field Deployments)',
       type: 'FULL_TIME' as const,
       description: 'Install, configure, and maintain enterprise structured cabling, managed switches, boardroom AV, and CCTV systems.',
       requirements: [
@@ -161,19 +161,19 @@ async function main() {
   // ── Portfolio Items ──────────────────────────────────────────
   const portfolioItems = [
     {
-      name: 'BezaShop Commerce Platform',
-      clientName: 'BezaShop Retail',
-      description: 'Inventory synchronization, multi-channel payment reconciliation, and automated invoice dispatch with sub-80ms response times.',
-      techTags: ['Next.js', 'PostgreSQL', 'M-Pesa Daraja', 'Stripe', 'Tailwind CSS'],
+      name: 'BezaShop Global Commerce Platform',
+      clientName: 'BezaShop Retail & Exports',
+      description: 'Inventory synchronization across warehouses, multi-currency payment reconciliation (USD/EUR/KES), and automated invoice dispatch with sub-80ms response times.',
+      techTags: ['Next.js', 'PostgreSQL', 'Stripe Multi-Currency', 'M-Pesa Daraja', 'Tailwind CSS'],
       liveUrl: 'https://bezalel.website',
       images: ['/images/web_system.png'],
       featured: true,
       displayOrder: 1,
     },
     {
-      name: 'NexoLogistics Field Ops Suite',
-      clientName: 'Nexo Freight EA',
-      description: 'Offline-capable mobile dispatch and driver manifests with instant synchronization upon network reconnection.',
+      name: 'NexoLogistics Cross-Border Field Ops',
+      clientName: 'Nexo Freight Global',
+      description: 'Offline-capable mobile dispatch and driver manifests with instant synchronization upon network reconnection for cross-border logistics fleets.',
       techTags: ['React Native', 'TypeScript', 'Offline SQLite', 'Node.js', 'AWS'],
       liveUrl: 'https://bezalel.website',
       images: ['/images/mobile_app.png'],
@@ -183,8 +183,8 @@ async function main() {
     {
       name: 'DataBridge Multi-Rail Gateway',
       clientName: 'Apex Financial Systems',
-      description: 'Unified payments middleware handling automated STK push retries, webhook signature verifications, and bank integrations.',
-      techTags: ['Node.js', 'PostgreSQL', 'Redis', 'Docker', 'M-Pesa API'],
+      description: 'Unified payments middleware handling automated international wire integrations, STK push retries, webhook signature verifications, and bank reconciliations.',
+      techTags: ['Node.js', 'PostgreSQL', 'Redis', 'Docker', 'SWIFT / Stripe API'],
       liveUrl: 'https://bezalel.website',
       images: ['/images/hero_banner.png'],
       featured: true,

@@ -29,28 +29,28 @@ const categories = ["All", "Web Systems", "Mobile Apps", "API & Infra", "UI/UX D
 const defaultProjects: PortfolioData[] = [
   {
     id: "1",
-    name: "BezaShop Commerce Platform",
-    clientName: "BezaShop Retail",
+    name: "BezaShop Global Commerce Platform",
+    clientName: "BezaShop Retail & Exports",
     clientLogoUrl: "/images/logo.png",
     category: "Web Systems",
-    techTags: ["Next.js", "Prisma", "PostgreSQL", "Stripe", "M-Pesa"],
+    techTags: ["Next.js", "Prisma", "PostgreSQL", "Stripe Multi-Currency", "M-Pesa"],
     description:
-      "A high-availability commerce system covering inventory synchronization, multi-channel payment reconciliation, and automated admin invoicing.",
-    result: "Achieved zero checkout dropping during flash sales with under 80ms database query response times.",
+      "A high-availability global commerce system covering inventory synchronization across warehouses, multi-currency payment reconciliation (USD/EUR/KES), and automated invoice dispatch.",
+    result: "Achieved zero checkout drop-off during peak international sales with under 80ms database query response times.",
     year: "2024",
     image: "/images/web_system.png",
     liveUrl: "https://bezalel.website",
   },
   {
     id: "2",
-    name: "NexoLogistics Field Ops",
-    clientName: "Nexo Freight East Africa",
+    name: "NexoLogistics Cross-Border Field Ops",
+    clientName: "Nexo Freight Global",
     clientLogoUrl: "/images/logo.png",
     category: "Mobile Apps",
-    techTags: ["React Native", "Offline DB", "M-Pesa Daraja", "Location Services"],
+    techTags: ["React Native", "Offline DB", "GPS Telemetry", "Location Services"],
     description:
-      "Offline-capable mobile logistics and dispatch coordination suite for drivers, warehouse teams, and central dispatch in Kenya.",
-    result: "Enables continuous offline driver manifests with automatic sync once 3G/4G connectivity is regained.",
+      "Offline-capable mobile logistics and dispatch coordination suite for cross-border fleets, warehouse teams, and centralized multi-region dispatch.",
+    result: "Enables continuous offline driver manifests with automatic sync once cellular connectivity is regained.",
     year: "2024",
     image: "/images/mobile_app.png",
     liveUrl: "https://bezalel.website",
@@ -61,37 +61,37 @@ const defaultProjects: PortfolioData[] = [
     clientName: "Apex Financial Systems",
     clientLogoUrl: "/images/logo.png",
     category: "API & Infra",
-    techTags: ["Node.js", "Redis", "Docker", "M-Pesa IPN", "PostgreSQL"],
+    techTags: ["Node.js", "Redis", "Docker", "SWIFT / Daraja / Stripe", "PostgreSQL"],
     description:
-      "Unified payments middleware handling automated STK push retries, webhook signature verifications, and instant bank statement reconciliations.",
-    result: "Processed over 50,000 monthly transactions with 99.98% gateway uptime and zero duplicate billing.",
-    year: "2023",
+      "Unified payments middleware handling automated international wire integrations, STK push retries, webhook signature verifications, and instant statement reconciliations.",
+    result: "Processed over 150,000 monthly transactions with 99.98% gateway uptime and zero duplicate billing.",
+    year: "2024",
     image: "/images/hero_banner.png",
     liveUrl: "https://bezalel.website",
   },
   {
     id: "4",
-    name: "PulseHR Enterprise Management",
-    clientName: "Rift Holdings Ltd",
+    name: "PulseHR Global Workforce Platform",
+    clientName: "Rift Holdings International",
     clientLogoUrl: "/images/logo.png",
     category: "Web Systems",
-    techTags: ["Next.js", "TypeScript", "PostgreSQL", "RBAC", "Resend"],
+    techTags: ["Next.js", "TypeScript", "PostgreSQL", "Multi-Timezone RBAC", "Resend"],
     description:
-      "Operations portal managing employee records, leave approval workflows, payroll tax computation, and digital contract signing.",
-    result: "Consolidated five manual spreadsheet processes into a single auditable self-service portal.",
+      "Operations portal managing international employee records, cross-border contractor payouts, leave approval workflows, and digital contract signing.",
+    result: "Consolidated five disparate spreadsheet systems into a single auditable self-service portal for remote teams.",
     year: "2024",
     image: "/images/web_system.png",
     liveUrl: "https://bezalel.website",
   },
   {
     id: "5",
-    name: "KipaVault Financial Interface System",
-    clientName: "Kipa Microfinance",
+    name: "KipaVault Financial Design System",
+    clientName: "Kipa Microfinance Group",
     clientLogoUrl: "/images/logo.png",
     category: "UI/UX Design",
-    techTags: ["Design Tokens", "React", "Tailwind CSS", "Accessibility"],
+    techTags: ["Design Tokens", "React", "Tailwind CSS", "WCAG Accessibility"],
     description:
-      "Comprehensive design system and accessible component library designed specifically for mobile-first financial self-service applications.",
+      "Comprehensive design system and accessible component library designed specifically for mobile-first financial self-service applications across international markets.",
     result: "Standardized 45+ UI screens, reducing front-end sprint delivery times by 40%.",
     year: "2024",
     image: "/images/saas_kit.png",
@@ -141,7 +141,7 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
                 Systems shaped around reliability, performance, and clean handover.
               </h1>
               <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Selected production platforms across custom web systems, mobile field workflows, payment APIs, and interface architecture. Every build is accompanied by complete documentation and source code handover.
+                Selected production platforms across custom web systems, cross-border mobile field workflows, payment APIs, and interface architecture developed for clients worldwide. Every build is accompanied by complete documentation and source code handover.
               </p>
             </div>
           </div>

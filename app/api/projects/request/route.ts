@@ -15,6 +15,12 @@ const projectRequestSchema = z.object({
   category: z.nativeEnum(ProjectCategory),
   budget: z.preprocess((val) => {
     if (!val || val === "null" || val === "undefined") return null;
+    if (typeof val === "string") {
+      const sanitized = val.replace(/[^0-9.]/g, "");
+      if (!sanitized) return null;
+      const num = Number(sanitized);
+      return isNaN(num) ? null : num;
+    }
     const num = Number(val);
     return isNaN(num) ? null : num;
   }, z.number().nullable().optional()),

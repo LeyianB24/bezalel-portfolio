@@ -38,7 +38,7 @@ const standards = [
   "Strict TypeScript typing and clean modular architecture",
   "Role-based access control and encrypted session management",
   "Automated database migrations and transactional safety",
-  "Responsive performance tested on East African mobile networks",
+  "Multi-region low-latency CDN and responsive performance across global networks",
 ];
 
 export default function WebSystemsPage() {
@@ -52,10 +52,10 @@ export default function WebSystemsPage() {
               Service Overview
             </p>
             <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-foreground sm:text-6xl">
-              Web Systems & Internal Platforms
+              Web Systems & Enterprise Platforms
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              We design, build, and maintain custom web platforms for Kenyan and East African organizations. From internal workflow tools to public-facing portals, our systems are built for long-term reliability and straightforward maintenance.
+              We design, build, and maintain custom web platforms and portals for organizations worldwide. From internal workflow tools to high-traffic customer platforms with multi-currency support, our systems are built for long-term reliability and effortless global scaling.
             </p>
           </div>
 

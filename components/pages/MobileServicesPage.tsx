@@ -11,13 +11,13 @@ const mobileFeatures = [
   {
     title: "Offline-First Mobile Workflows",
     description: "Local data persistence with automatic sync upon reconnection, designed for field operations and erratic network coverage.",
-    proof: "Essential for delivery, inspection, and field-service teams across East Africa.",
+    proof: "Essential for delivery, inspection, and field-service teams worldwide.",
     icon: WifiOff,
   },
   {
-    title: "M-Pesa & Payment Integrations",
-    description: "Seamless STK Push and callback processing embedded directly inside native Android and iOS experiences.",
-    proof: "High-conversion checkout flows built for Kenyan mobile money users.",
+    title: "Global & Regional Payment Integrations",
+    description: "Seamless Stripe, Apple Pay, Google Pay, and M-Pesa STK Push processing embedded directly inside native Android and iOS experiences.",
+    proof: "High-conversion checkout flows supporting both international cards and local mobile money.",
     icon: Zap,
   },
   {
@@ -29,14 +29,14 @@ const mobileFeatures = [
   {
     title: "Device Security & Authentication",
     description: "Biometric login (Face ID / Fingerprint), encrypted local storage, and secure token lifecycle handling.",
-    proof: "Meets institutional banking and member data privacy standards.",
+    proof: "Meets international fintech and member data privacy compliance standards.",
     icon: ShieldCheck,
   },
 ];
 
 const mobileStandards = [
   "Smooth 60fps animations and responsive gesture handling",
-  "Optimized app bundle size for quick downloads",
+  "Optimized app bundle size for fast downloads globally",
   "Full push notification pipeline with actionable deep-linking",
   "Structured deployment to Google Play Store and Apple App Store",
 ];
@@ -55,7 +55,7 @@ export default function MobileServicesPage() {
               Mobile Applications & Field Workflows
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              We engineer dependable mobile applications built around real-world usage patterns. Whether you need field agent tools, customer self-service apps, or payment integrations, our mobile solutions are engineered for stability and ease of use.
+              We engineer dependable mobile applications built around real-world usage patterns for international audiences and bandwidth-constrained mobile environments alike. Whether you need field logistics tools, customer apps, or multi-currency mobile checkout, our solutions are engineered for stability.
             </p>
           </div>
 
@@ -88,10 +88,10 @@ export default function MobileServicesPage() {
                   Build Quality
                 </p>
                 <h2 className="font-display text-2xl font-black tracking-tight text-foreground sm:text-3xl">
-                  Engineered for East African mobile conditions.
+                  Engineered for real-world global mobile conditions.
                 </h2>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  We optimize battery consumption, memory footprint, and network requests so your app remains snappy even on entry-level devices.
+                  We optimize battery consumption, memory footprint, and network requests so your app remains snappy across both flagship and entry-level devices.
                 </p>
               </div>
 

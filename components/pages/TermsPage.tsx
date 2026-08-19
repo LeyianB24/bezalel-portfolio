@@ -44,10 +44,10 @@ const clauses = [
   {
     id: "clause-5",
     number: "05",
-    title: "Governing Law & Jurisdiction",
+    title: "Governing Law & Global Commercial Terms",
     icon: Gavel,
-    legalText: "These Terms of Service and any project agreements shall be governed by and construed in accordance with the laws of the Republic of Kenya. Any disputes shall be resolved through amicable negotiation or competent courts in Nairobi, Kenya.",
-    humanText: "Agreements are governed under Kenyan commercial law in Nairobi.",
+    legalText: "These Terms of Service and any master service agreements shall be governed by and construed in accordance with standard international commercial practices and the laws of Kenya. For international clients, dispute resolution may be conducted via recognized international commercial arbitration or competent courts as designated in individual bilateral service agreements.",
+    humanText: "Agreements support international commercial standards and bilateral contracts tailored for global clients.",
   },
 ];
 

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
   Package, ShoppingCart, CheckCircle2, 
-  AlertCircle, ArrowRight, Tag, X, Loader2, CreditCard, Smartphone, Truck
+  AlertCircle, ArrowRight, ArrowLeft, Tag, X, Loader2, CreditCard, Smartphone, Truck
 } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/Header";
@@ -45,6 +45,7 @@ export default function ProductDetailClient({
   const [customerPhone, setCustomerPhone] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [city, setCity] = useState("Nairobi");
+  const [country, setCountry] = useState("Kenya");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.MPESA);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -78,7 +79,7 @@ export default function ProductDetailClient({
           shippingAddress: {
             street: streetAddress,
             city,
-            country: "Kenya",
+            country: country || "Kenya",
           },
           items: [
             {
@@ -207,7 +208,7 @@ export default function ProductDetailClient({
                     <>
                       <CheckCircle2 size={16} className="text-accent-dark dark:text-accent-light" />
                       <span className="text-sm font-bold text-foreground">
-                        In Stock ({product.stock} units available in Nairobi warehouse)
+                        In Stock ({product.stock} units available · Global dispatch & instant digital delivery)
                       </span>
                     </>
                   ) : (
@@ -288,7 +289,7 @@ export default function ProductDetailClient({
                 </div>
 
                 <p className="text-[11px] text-muted-foreground mt-3 text-center">
-                  Prompt delivery across Kenya. M-Pesa, Card, and Cash on Delivery accepted.
+                  Worldwide digital delivery & global shipping. M-Pesa, Card, and Cash on Delivery accepted.
                 </p>
               </div>
             </motion.div>
@@ -318,28 +319,49 @@ export default function ProductDetailClient({
                       )}
                     </div>
                     <div className="p-4">
-                      <h3 className="font-bold text-sm mb-1 text-foreground group-hover:text-accent-dark dark:group-hover:text-accent-light transition-colors">{p.name}</h3>
-                      <span className="font-mono text-accent-dark dark:text-accent-light text-sm font-bold">{CURRENCY} {p.price.toLocaleString()}</span>
+                      <h3 className="font-bold text-foreground text-sm line-clamp-1 group-hover:text-accent-dark dark:group-hover:text-accent-light transition-colors">
+                        {p.name}
+                      </h3>
+                      <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                        {p.description}
+                      </p>
+                      <div className="mt-3 flex items-center justify-between">
+                        <span className="font-mono text-xs font-bold text-accent-dark dark:text-accent-light">
+                          {CURRENCY} {p.price.toLocaleString()}
+                        </span>
+                        <span className="text-[10px] text-muted-foreground uppercase font-bold">
+                          {p.category.name}
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 ))}
               </div>
             </section>
           )}
+
+          <div className="mt-16 text-center">
+            <Link
+              href="/store"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft size={14} /> Back to Store Catalog
+            </Link>
+          </div>
         </main>
 
         <Footer />
       </div>
 
-      {/* CHECKOUT MODAL */}
+      {/* Checkout Modal */}
       {isCheckoutOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl max-w-lg w-full p-6 relative shadow-2xl flex flex-col max-h-[92vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-card border border-border rounded-xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] flex flex-col">
             <button
               onClick={() => setIsCheckoutOpen(false)}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground p-1"
             >
-              <X className="w-5 h-5" />
+              <X size={18} />
             </button>
 
             <div className="border-b border-border pb-4 mb-4">
@@ -383,33 +405,33 @@ export default function ProductDetailClient({
 
                 <div className="space-y-1">
                   <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                    Phone Number (M-Pesa)
+                    Phone Number
                   </label>
                   <input
                     type="tel"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    placeholder="+254 7..."
+                    placeholder="+254 7... or +1..."
                     className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-none"
                   />
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                    Delivery Address / Building *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={streetAddress}
-                    onChange={(e) => setStreetAddress(e.target.value)}
-                    placeholder="e.g. Westlands, Chiromo Rd"
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-none"
-                  />
-                </div>
+              <div className="space-y-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Delivery Address / Building *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={streetAddress}
+                  onChange={(e) => setStreetAddress(e.target.value)}
+                  placeholder="e.g. 120 Main Street / Chiromo Rd"
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-none"
+                />
+              </div>
 
+              <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
                     Town / City *
@@ -419,7 +441,21 @@ export default function ProductDetailClient({
                     required
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    placeholder="Nairobi"
+                    placeholder="e.g. Nairobi, London, New York"
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-none"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Country *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    placeholder="e.g. Kenya, United States, UK"
                     className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-none"
                   />
                 </div>

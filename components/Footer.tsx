@@ -74,7 +74,7 @@ export default function Footer() {
           <div>
             <h3 className="font-display text-2xl font-black">Bezalel</h3>
             <p className="mt-4 max-w-sm text-sm leading-7 text-primary-foreground/70">
-              Software development, IT infrastructure, AV, and support for Kenyan businesses and institutions.
+              Custom software engineering, cloud systems, mobile platforms, and IT infrastructure serving clients worldwide.
             </p>
           </div>
 
@@ -82,7 +82,7 @@ export default function Footer() {
           <FooterColumn title="Company" links={companyLinks} />
 
           <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-accent-light">Contact</h4>
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-accent-light">Global Contact</h4>
             <ul className="space-y-3 text-sm text-primary-foreground/75">
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-accent-light" />
@@ -98,7 +98,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 text-accent-light" />
-                Nairobi, Kenya
+                HQ: Nairobi, Kenya · Serving Globally
               </li>
             </ul>
           </div>

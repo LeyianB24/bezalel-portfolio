@@ -9,35 +9,35 @@ import PageLayout from "@/components/PageLayout";
 
 const apiFeatures = [
   {
-    title: "Fintech & Payment Gateway Integration",
-    description: "Robust integrations with M-Pesa Daraja, Stripe, bank transfer rails, and automated reconciliation pipelines.",
-    proof: "Built with idempotency keys and error retry mechanisms to prevent double charges.",
+    title: "Global Fintech & Payment Gateway Integration",
+    description: "Robust integrations with Stripe, PayPal, M-Pesa Daraja, bank SWIFT/ACH/SEPA transfer rails, and automated reconciliation pipelines.",
+    proof: "Built with idempotency keys, signature checks, and retry mechanisms to eliminate billing errors.",
     icon: Database,
   },
   {
-    title: "REST & GraphQL API Development",
-    description: "Clean, documented API services with OpenAPI specifications, versioning, and strict schema validation.",
-    proof: "Enables seamless mobile and third-party integrations with zero guesswork.",
+    title: "REST & GraphQL Microservices",
+    description: "Clean, documented API services with OpenAPI specifications, versioning, and strict TypeScript schema validation.",
+    proof: "Enables seamless cross-border mobile, web, and third-party integrations with zero guesswork.",
     icon: ArrowRightLeft,
   },
   {
     title: "Authentication & Security Gateways",
-    description: "Role-based access control (RBAC), OAuth2 / JWT lifecycle management, rate limiting, and API key rotation.",
-    proof: "Protects sensitive institutional and customer data from unauthorized access.",
+    description: "Role-based access control (RBAC), OAuth2 / JWT lifecycle management, rate limiting, and automated API key rotation.",
+    proof: "Protects sensitive customer, financial, and organizational data from unauthorized access.",
     icon: ShieldCheck,
   },
   {
-    title: "Legacy System Modernization",
-    description: "Middleware connectors that interface legacy databases or proprietary on-premise software with modern cloud APIs.",
-    proof: "Modernize operational workflows without risky rip-and-replace overhauls.",
+    title: "Legacy & Cloud Systems Integration",
+    description: "Middleware connectors that interface on-premise databases, ERPs, or proprietary software with modern cloud APIs.",
+    proof: "Modernize operational workflows with zero risky rip-and-replace overhauls.",
     icon: Server,
   },
 ];
 
 const apiStandards = [
   "Comprehensive OpenAPI / Swagger specification documentation",
-  "Automated rate-limiting and DDoS mitigation at the network edge",
-  "Centralized logging, error tracking, and latency alerting",
+  "Automated rate-limiting and DDoS mitigation at the global edge",
+  "Centralized logging, distributed tracing, and latency alerting",
   "High-availability clustering with 99.9% uptime SLA capability",
 ];
 
@@ -55,7 +55,7 @@ export default function ApiServicesPage() {
               API Infrastructure & Systems Integration
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              We design and implement secure backend systems and API layers that connect your applications, payment rails, databases, and third-party services into a unified, reliable infrastructure.
+              We design and implement enterprise-grade backend systems and API layers that connect applications, global payment rails, databases, and third-party SaaS into unified, high-throughput infrastructure.
             </p>
           </div>
 

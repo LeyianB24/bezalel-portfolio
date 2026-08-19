@@ -302,14 +302,14 @@ export default function RequestForm() {
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="space-y-2">
                 <label htmlFor="budget" className="block text-xs font-bold uppercase tracking-wider text-foreground">
-                  Target Budget (KES or USD)
+                  Target Budget (USD, EUR, GBP, or KES)
                 </label>
                 <input 
                   id="budget"
-                  type="number" 
+                  type="text" 
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
-                  placeholder="e.g. 250000"
+                  placeholder="e.g. $5,000 or KES 350,000"
                   className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
                 <span className="text-[11px] text-muted-foreground">Leave blank if you prefer an estimate based on scope.</span>

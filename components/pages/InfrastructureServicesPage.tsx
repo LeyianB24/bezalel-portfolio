@@ -4,11 +4,9 @@ import {
   Network,
   ShieldCheck,
   Video,
-  Server,
   ArrowRight,
   CheckCircle2,
   Cpu,
-  Layers,
 } from "lucide-react";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
@@ -77,7 +75,7 @@ const infraStandards = [
   "Layer 3 VLAN segmentation for guest, staff, VoIP, and CCTV traffic",
   "Redundant dual-ISP failover with automated BGP/load balancing",
   "Clean server rack cable management with documented port maps",
-  "Dedicated 24/7 technical on-call SLAs across Nairobi and surrounding regions",
+  "Dedicated 24/7 technical on-call SLAs with remote management worldwide and on-site field support",
 ];
 
 export default function InfrastructureServicesPage({
@@ -98,7 +96,7 @@ export default function InfrastructureServicesPage({
               IT Infrastructure & Boardroom AV
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              We engineer, cable, and deploy high-reliability network infrastructure, executive boardroom video collaboration systems, CCTV surveillance, and server hardware for Kenyan enterprises and institutions.
+              We engineer, cable, and deploy high-reliability network infrastructure, executive boardroom video collaboration systems, CCTV surveillance, and server hardware for businesses and institutions — with remote management worldwide and dedicated on-site field deployments.
             </p>
           </div>
 

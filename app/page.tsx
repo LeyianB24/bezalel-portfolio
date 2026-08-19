@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -20,6 +21,13 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroProductMockup from "@/components/HeroProductMockup";
+
+const heroImages = [
+  "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
+  "/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg",
+  "/BG_images/AdobeStock_292953404-scaled.jpeg",
+  "/BG_images/team-collaborates-digitally-stockcake.jpg",
+];
 
 const stats = [
   {
@@ -62,6 +70,7 @@ const services = [
       "Custom portals, internal dashboards, and automated workflow systems built for teams that require reliable daily operations.",
     proof: "Designed for member records, service requests, reporting, approvals, and customer self-service.",
     icon: MonitorUp,
+    bgImage: "/BG_images/codes people.jpg",
   },
   {
     title: "IT Infrastructure & Boardroom AV",
@@ -69,6 +78,7 @@ const services = [
       "Structured cabling, managed networks, high-definition boardroom AV, CCTV surveillance, and biometric access control.",
     proof: "Engineered for corporate offices, estates, and institutions that cannot afford network interruptions.",
     icon: Network,
+    bgImage: "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
   },
   {
     title: "Payments & API Integration",
@@ -76,6 +86,7 @@ const services = [
       "M-Pesa Daraja, Stripe, bank transfer rails, and transactional databases integrated cleanly into existing business software.",
     proof: "Eliminates manual payment matching with automated reconciliation and instant notifications.",
     icon: CreditCard,
+    bgImage: "/BG_images/data.avif",
   },
   {
     title: "Audits, Support & Modernization",
@@ -83,6 +94,7 @@ const services = [
       "Independent technical code audits, performance fixes, architecture documentation, and ongoing maintenance SLAs.",
     proof: "Ideal when you inherit legacy codebases or need reliable ongoing engineering support.",
     icon: Wrench,
+    bgImage: "/BG_images/coporate.avif",
   },
 ];
 
@@ -117,20 +129,45 @@ const portfolioTeasers = [
 ];
 
 export default function Home() {
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveImage((current) => (current + 1) % heroImages.length);
+    }, 7000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* 1. Header */}
       <Header />
 
       <main>
-        {/* 2. Hero — Split Layout with Product Proof */}
+        {/* 2. Hero — Split Layout with Background Slideshow & Product Proof */}
         <section
           id="home"
-          className="relative min-h-[90svh] overflow-hidden bg-primary text-white pt-28 pb-16 lg:pt-36 lg:pb-24"
+          className="relative min-h-[92svh] overflow-hidden bg-primary text-white pt-28 pb-16 lg:pt-36 lg:pb-24 flex items-center"
         >
-          {/* Subtle Technical Grid Background */}
+          {/* Ken Burns Background Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={heroImages[activeImage]}
+              src={heroImages[activeImage]}
+              alt=""
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 1.0 }}
+              animate={{ opacity: 0.22, scale: 1.06 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.6, ease: "easeOut" }}
+              className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+            />
+          </AnimatePresence>
+
+          {/* Technical Engineering Grid Overlay */}
           <div
-            className="absolute inset-0 opacity-10 pointer-events-none"
+            className="absolute inset-0 opacity-15 pointer-events-none"
             style={{
               backgroundImage:
                 "linear-gradient(to right, #C9A24B 1px, transparent 1px), linear-gradient(to bottom, #C9A24B 1px, transparent 1px)",
@@ -138,16 +175,16 @@ export default function Home() {
             }}
           />
 
-          {/* Deep Navy Scrim */}
+          {/* Deep Navy Scrim Overlay */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.08) 0%, rgba(5, 13, 23, 0.95) 75%)",
+                "radial-gradient(ellipse at 75% 25%, rgba(201, 162, 75, 0.12) 0%, rgba(5, 13, 23, 0.88) 55%, rgba(5, 13, 23, 0.98) 100%)",
             }}
           />
 
-          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
               {/* Hero Left: Plain Language Headline + CTA */}
               <motion.div
@@ -155,7 +192,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, ease: "easeOut" }}
               >
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/30 bg-[#C9A24B]/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-accent-light backdrop-blur">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/35 bg-[#C9A24B]/15 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-accent-light backdrop-blur-md">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B]" />
                   Nairobi, Kenya · Senior Engineering Partner
                 </div>
@@ -164,7 +201,7 @@ export default function Home() {
                   Software and infrastructure for organisations that cannot afford downtime.
                 </h1>
 
-                <p className="mt-6 max-w-xl text-base leading-8 text-white/80 sm:text-lg">
+                <p className="mt-6 max-w-xl text-base leading-8 text-white/85 sm:text-lg">
                   Bezalel Technologies builds dependable systems for Kenyan SMEs, SACCOs, managed estates, and institutions: bespoke web portals, IT infrastructure, boardroom AV, and M-Pesa payment integrations.
                 </p>
 
@@ -188,7 +225,7 @@ export default function Home() {
                   </a>
                 </div>
 
-                <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/10 pt-6 text-xs text-white/65">
+                <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/15 pt-6 text-xs text-white/70">
                   <span className="flex items-center gap-1.5">
                     <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
                     Fixed-milestone quotations
@@ -267,7 +304,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 5. Services (4 Focused Cards) */}
+        {/* 5. Services (4 Focused Cards with Subtle Image Textures) */}
         <section id="services" className="px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
@@ -280,19 +317,25 @@ export default function Home() {
             </div>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
-              {services.map(({ title, description, proof, icon: Icon }) => (
+              {services.map(({ title, description, proof, icon: Icon, bgImage }) => (
                 <article
                   key={title}
-                  className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 flex flex-col justify-between"
+                  className="group relative overflow-hidden rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 flex flex-col justify-between"
                 >
-                  <div>
-                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                  {/* Subtle Background Image on Hover */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-[0.06] dark:group-hover:opacity-[0.12] pointer-events-none"
+                    style={{ backgroundImage: `url('${bgImage}')` }}
+                  />
+
+                  <div className="relative z-10">
+                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-xs">
                       <Icon className="h-5 w-5" />
                     </div>
                     <h3 className="text-xl font-bold tracking-tight text-foreground">{title}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
                   </div>
-                  <p className="mt-5 border-t border-border pt-4 text-xs font-semibold leading-relaxed text-foreground">
+                  <p className="relative z-10 mt-5 border-t border-border pt-4 text-xs font-semibold leading-relaxed text-foreground">
                     {proof}
                   </p>
                 </article>
@@ -370,8 +413,13 @@ export default function Home() {
         </section>
 
         {/* 7. Approach — "We listen. We understand. We build." */}
-        <section id="approach" className="px-4 py-16 sm:px-6 sm:py-24 border-b border-border">
-          <div className="mx-auto max-w-4xl text-center">
+        <section id="approach" className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 border-b border-border">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+            style={{ backgroundImage: "url('/BG_images/team-collaborates-digitally-stockcake.jpg')" }}
+          />
+
+          <div className="relative z-10 mx-auto max-w-4xl text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
               Engineering Approach
             </p>
@@ -453,18 +501,23 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 9. Story Section — The Bezalel Craft & Standard */}
+        {/* 9. Story Section — The Bezalel Craft & Standard with Engineering Showcase Image */}
         <section id="story" className="px-4 py-16 sm:px-6 sm:py-24 border-b border-border">
-          <div className="mx-auto max-w-4xl">
-            <div className="flex items-start gap-4">
-              <Quote className="h-8 w-8 text-accent-dark dark:text-accent-light shrink-0 mt-1 opacity-80" />
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
-                  Our Origin & Craft
-                </p>
-                <h2 className="mt-2 font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl text-foreground">
-                  Building with skill, wisdom, and craftsmanship in all workmanship.
-                </h2>
+                <div className="flex items-start gap-4">
+                  <Quote className="h-8 w-8 text-accent-dark dark:text-accent-light shrink-0 mt-1 opacity-80" />
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+                      Our Origin & Craft
+                    </p>
+                    <h2 className="mt-2 font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl text-foreground">
+                      Building with skill, wisdom, and craftsmanship in all workmanship.
+                    </h2>
+                  </div>
+                </div>
+
                 <div className="mt-6 space-y-4 text-base leading-8 text-muted-foreground">
                   <p>
                     Named after the artisan appointed in antiquity with intelligence, knowledge, and craft in all manner of workmanship (<span className="text-foreground font-semibold">Exodus 31</span>), Bezalel Technologies was founded in Nairobi on a foundational belief: African enterprises deserve digital and physical engineering built with genuine precision.
@@ -481,6 +534,28 @@ export default function Home() {
                   <p className="mt-3 text-xs font-bold text-accent-dark dark:text-accent-light uppercase tracking-wider">
                     Leyian B. — Lead Engineer & Founder, Bezalel Technologies
                   </p>
+                </div>
+              </div>
+
+              {/* Story Visual Card */}
+              <div className="relative overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src="/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg"
+                    alt="Bezalel Technologies engineering and deployment collaboration"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="border-t border-border bg-background/95 p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4 text-accent-dark dark:text-accent-light" />
+                    <span className="text-xs font-bold text-foreground">
+                      Engineering Hub & Client Operations
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-semibold text-muted-foreground">
+                    Nairobi, Kenya
+                  </span>
                 </div>
               </div>
             </div>
@@ -513,10 +588,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 11. Final CTA */}
+        {/* 11. Final CTA with Atmospheric Backdrop */}
         <section id="contact" className="px-4 py-16 sm:px-6 sm:py-24">
-          <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-border bg-card p-6 shadow-sm md:grid-cols-[1fr_0.8fr] md:p-10">
-            <div>
+          <div className="relative overflow-hidden mx-auto grid max-w-7xl gap-8 rounded-xl border border-border bg-card p-6 shadow-sm md:grid-cols-[1fr_0.8fr] md:p-10">
+            {/* Subtle Atmospheric Backdrop */}
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-[0.03] dark:opacity-[0.06] pointer-events-none"
+              style={{ backgroundImage: "url('/BG_images/AdobeStock_292953404-scaled.jpeg')" }}
+            />
+
+            <div className="relative z-10">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
                 Start a conversation
               </p>
@@ -527,7 +608,7 @@ export default function Home() {
                 Share your workflows, pain points, budget expectations, and deadlines. We will assess requirements and respond with a formal quotation.
               </p>
             </div>
-            <div className="flex flex-col justify-center gap-3">
+            <div className="relative z-10 flex flex-col justify-center gap-3">
               <Link
                 href="/projects/request"
                 className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-4 text-xs font-bold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-primary/90 shadow-sm"

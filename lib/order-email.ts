@@ -1,4 +1,5 @@
 import { sendEmail } from "./resend";
+import { generateOrderInvoicePdfBuffer } from "./invoice-pdf";
 
 export interface OrderEmailData {
   orderId: string;
@@ -22,6 +23,38 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
     ? data.shippingAddress 
     : `${data.shippingAddress.street || ""}, ${data.shippingAddress.city || ""}, ${data.shippingAddress.country || "Kenya"}`;
 
+  const orderDate = new Date().toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
+  const orderRef = data.orderId.slice(-8).toUpperCase();
+
+  let pdfAttachment: { filename: string; content: Buffer } | undefined;
+  try {
+    const pdfBuffer = await generateOrderInvoicePdfBuffer({
+      orderId: data.orderId,
+      date: orderDate,
+      customerName: data.customerName,
+      customerEmail: data.customerEmail,
+      customerPhone: data.customerPhone || null,
+      shippingAddress: address,
+      items: data.items,
+      subtotal: data.total,
+      tax: 0,
+      total: data.total,
+      paymentMethod: data.paymentMethod,
+      paymentRef: data.paymentRef || null,
+    });
+    pdfAttachment = {
+      filename: `Tax_Invoice_${orderRef}.pdf`,
+      content: pdfBuffer,
+    };
+  } catch (pdfErr) {
+    console.error("❌ Failed to generate order invoice PDF:", pdfErr);
+  }
+
   const itemsHtml = data.items
     .map(
       (item) => `
@@ -41,18 +74,18 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background-color: #0B2036; color: #FAF6EC; border-radius: 8px;">
       <div style="border-bottom: 2px solid #C9A24B; padding-bottom: 16px; margin-bottom: 24px;">
         <h1 style="color: #FAF6EC; margin: 0; font-size: 22px; letter-spacing: 1px;">BEZALEL STORE</h1>
-        <p style="color: #E8CD84; margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Order Confirmation & Invoice</p>
+        <p style="color: #E8CD84; margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Order Confirmation & Official Tax Invoice</p>
       </div>
 
       <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${data.customerName}</strong>,</p>
       
       <p style="font-size: 14px; line-height: 1.6; color: #E0E7EC;">
-        Thank you for your order! We have received your payment and are preparing your hardware/items for dispatch.
+        Thank you for your order! We have received your payment and are preparing your hardware/items for dispatch. Your official branded PDF invoice is attached to this email.
       </p>
 
       <div style="background-color: #050D17; border: 1px solid #C9A24B; border-radius: 6px; padding: 20px; margin: 24px 0;">
         <div style="font-size: 12px; font-weight: bold; color: #E8CD84; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
-          Order #${data.orderId.slice(-8).toUpperCase()}
+          Order #${orderRef}
         </div>
         
         <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
@@ -92,7 +125,8 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
   return sendEmail({
     to: data.customerEmail,
     cc: adminEmail,
-    subject: `Order Confirmation #${data.orderId.slice(-8).toUpperCase()} - Bezalel Technologies`,
+    subject: `Order Confirmation #${orderRef} (Invoice Attached) - Bezalel Technologies`,
     html: emailHtml,
+    attachments: pdfAttachment ? [pdfAttachment] : undefined,
   });
 }

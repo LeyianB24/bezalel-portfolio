@@ -21,8 +21,25 @@ export async function POST(request: Request) {
       },
     });
 
-    // We can simulate sending an email notification here using Resend or mock log
-    console.log(`[CONTACT EMAIL MOCK] New message from ${name} (${email}): ${subject}`);
+    const { sendEmail } = await import("@/lib/resend");
+    const adminEmail = process.env.ADMIN_EMAIL || "bezaleltech@gmail.com";
+
+    // Send admin notification
+    sendEmail({
+      to: adminEmail,
+      replyTo: email,
+      subject: `New Inquiry: ${subject} from ${name}`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; padding: 25px; background-color: #0B2036; color: #FAF6EC; border-radius: 8px;">
+          <h2 style="color: #E8CD84; margin-top: 0;">New Inbound Client Inquiry</h2>
+          <p><strong>From:</strong> ${name} (<a href="mailto:${email}" style="color: #E8CD84;">${email}</a>)</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <div style="background-color: #050D17; padding: 15px; border-radius: 6px; border: 1px solid #C9A24B; margin: 20px 0;">
+            <p style="margin: 0; white-space: pre-wrap; color: #FAF6EC;">${message}</p>
+          </div>
+        </div>
+      `,
+    }).catch((err) => console.error("❌ Failed to send contact email to admin:", err));
 
     return NextResponse.json(contactMessage, { status: 201 });
   } catch (error) {

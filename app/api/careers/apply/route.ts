@@ -55,26 +55,61 @@ export async function POST(req: Request) {
       },
     });
 
+    const appDate = new Date().toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+    const appRef = `APP-${application.id.slice(-6).toUpperCase()}`;
+
+    // Generate branded Application Receipt PDF
+    let pdfAttachment: { filename: string; content: Buffer } | undefined;
+    try {
+      const { generateApplicationAcknowledgmentPdfBuffer } = await import("@/lib/application-pdf");
+      const pdfBuffer = await generateApplicationAcknowledgmentPdfBuffer({
+        applicationId: application.id,
+        date: appDate,
+        applicantName: name,
+        applicantEmail: email,
+        applicantPhone: phone || null,
+        jobTitle: job.title,
+        jobDepartment: job.department,
+        coverNote: coverNote || null,
+      });
+      pdfAttachment = {
+        filename: `Application_Receipt_${appRef}.pdf`,
+        content: pdfBuffer,
+      };
+    } catch (pdfErr) {
+      console.error("❌ Failed to generate application receipt PDF:", pdfErr);
+    }
+
     // Send emails (non-blocking)
     // 1. Applicant Confirmation Email
     const applicantHtml = `
-      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; background-color: #09090b; color: #f4f4f5; border: 1px solid #27272a; border-radius: 8px;">
-        <h2 style="color: #10b981; border-bottom: 1px solid #27272a; padding-bottom: 12px; margin-top: 0; font-size: 1.5em; letter-spacing: 0.05em;">BEZALEL STUDIO</h2>
-        <p style="font-size: 1.1em; line-height: 1.5;">Dear <strong>${name}</strong>,</p>
-        <p style="line-height: 1.5; color: #d4d4d8;">Thank you for your interest in joining Bezalel Studio. We have successfully received your application for the position of <strong>${job.title}</strong> (${job.department}).</p>
-        <p style="line-height: 1.5; color: #d4d4d8;">Our team will carefully review your details, experience, and CV. We will reach out to schedule an interview if your skills align with our current needs.</p>
-        <p style="line-height: 1.5; color: #d4d4d8;">In the meantime, feel free to explore our platform or check your application status directly in your dashboard if you are a registered user.</p>
-        <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #27272a; font-size: 0.85em; color: #71717a;">
-          <p style="margin: 0;">This is an automated receipt. Please do not reply directly to this email.</p>
-          <p style="margin: 5px 0 0 0;">&copy; ${new Date().getFullYear()} Bezalel Studio. All rights reserved.</p>
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background-color: #0B2036; color: #FAF6EC; border-radius: 8px;">
+        <div style="border-bottom: 2px solid #C9A24B; padding-bottom: 16px; margin-bottom: 24px;">
+          <h1 style="color: #FAF6EC; margin: 0; font-size: 22px; letter-spacing: 1px;">BEZALEL TECHNOLOGIES</h1>
+          <p style="color: #E8CD84; margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Engineering Talent & Recruitment</p>
+        </div>
+
+        <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${name}</strong>,</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Thank you for your interest in joining Bezalel Technologies. We have successfully received your application for the position of <strong>${job.title}</strong> (${job.department}) [Ref: <strong>${appRef}</strong>].</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Our engineering leadership is reviewing your submission and CV. Your official <strong>Application Receipt PDF</strong> is attached to this email.</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">We will contact you directly to schedule a technical discussion if your experience aligns with our active project pipeline.</p>
+        
+        <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #1B2430; font-size: 11px; color: #8FA0B3;">
+          <p style="margin: 0;">Bezalel Technologies Ltd · Global Software & Infrastructure · <a href="https://bezalel.website" style="color: #E8CD84; text-decoration: none;">bezalel.website</a></p>
         </div>
       </div>
     `;
 
     sendEmail({
       to: email,
-      subject: `Application Received: ${job.title} at Bezalel Studio`,
+      subject: `Application Received: ${job.title} [${appRef}] - Bezalel Technologies`,
       html: applicantHtml,
+      attachments: pdfAttachment ? [pdfAttachment] : undefined,
     }).catch((err) => console.error("❌ Failed to send confirmation email to applicant:", err));
 
     // 2. Admin Alert Email

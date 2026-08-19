@@ -81,36 +81,80 @@ export async function POST(req: Request) {
       },
     });
 
+    const briefDate = new Date().toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+    const refCode = `BEZ-${projectRequest.id.slice(-6).toUpperCase()}`;
+
+    // Generate branded Project Brief PDF
+    let pdfAttachment: { filename: string; content: Buffer } | undefined;
+    try {
+      const { generateProjectBriefPdfBuffer } = await import("@/lib/project-brief-pdf");
+      const pdfBuffer = await generateProjectBriefPdfBuffer({
+        requestId: projectRequest.id,
+        date: briefDate,
+        clientName: name,
+        clientEmail: email,
+        clientCompany: company,
+        clientPhone: (formData.get("phone") as string) || null,
+        projectTitle: title,
+        category,
+        budget: budget ? budget : null,
+        timeline,
+        description,
+        attachmentUrl,
+      });
+      pdfAttachment = {
+        filename: `Project_Brief_${refCode}.pdf`,
+        content: pdfBuffer,
+      };
+    } catch (pdfErr) {
+      console.error("❌ Failed to generate project brief PDF:", pdfErr);
+    }
+
     // Send emails (non-blocking)
     // 1. Client Confirmation Email
     const clientHtml = `
-      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; background-color: #09090b; color: #f4f4f5; border: 1px solid #27272a; border-radius: 8px;">
-        <h2 style="color: #10b981; border-bottom: 1px solid #27272a; padding-bottom: 12px; margin-top: 0; font-size: 1.5em; letter-spacing: 0.05em;">BEZALEL STUDIO</h2>
-        <p style="font-size: 1.1em; line-height: 1.5;">Dear <strong>${name}</strong>,</p>
-        <p style="line-height: 1.5; color: #d4d4d8;">We have successfully received your project request: <strong>&ldquo;${title}&rdquo;</strong>.</p>
-        <p style="line-height: 1.5; color: #d4d4d8;">Our engineering team is already reviewing your brief and details. We will assess the specifications, category, budget, and timeline to provide a detailed estimate and quote.</p>
-        <p style="line-height: 1.5; color: #d4d4d8;">We typically get back to you with questions or an initial project quote within <strong>24–48 hours</strong>.</p>
-        <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #27272a; font-size: 0.85em; color: #71717a;">
-          <p style="margin: 0;">This is an automated confirmation of receipt. Please do not reply directly to this email.</p>
-          <p style="margin: 5px 0 0 0;">&copy; ${new Date().getFullYear()} Bezalel Studio. All rights reserved.</p>
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background-color: #0B2036; color: #FAF6EC; border-radius: 8px;">
+        <div style="border-bottom: 2px solid #C9A24B; padding-bottom: 16px; margin-bottom: 24px;">
+          <h1 style="color: #FAF6EC; margin: 0; font-size: 22px; letter-spacing: 1px;">BEZALEL TECHNOLOGIES</h1>
+          <p style="color: #E8CD84; margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Software & Infrastructure Engineering</p>
+        </div>
+
+        <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${name}</strong>,</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">We have successfully received your project scope: <strong>&ldquo;${title}&rdquo;</strong> [Ref: <strong>${refCode}</strong>].</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Our engineering team is assessing the technical specifications and requirements. We have attached an official <strong>Project Brief PDF</strong> to this email summarizing your submission.</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">We typically provide an itemized milestone quotation and schedule a discovery call within <strong>24–48 hours</strong>.</p>
+        
+        <div style="background-color: #050D17; border: 1px solid #C9A24B; border-radius: 6px; padding: 16px; margin: 20px 0;">
+          <p style="margin: 0; color: #E8CD84; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Need fast adjustments?</p>
+          <p style="margin: 4px 0 0 0; color: #FAF6EC; font-size: 13px;">Direct WhatsApp Engineer Desk: <strong>+254 796 157 265</strong></p>
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #1B2430; font-size: 11px; color: #8FA0B3;">
+          <p style="margin: 0;">Bezalel Technologies Ltd · Nairobi, Kenya · <a href="https://bezalel.website" style="color: #E8CD84; text-decoration: none;">bezalel.website</a></p>
         </div>
       </div>
     `;
 
     sendEmail({
       to: email,
-      subject: `Project Proposal Received: ${title}`,
+      subject: `Project Proposal Received: ${title} [${refCode}] - Bezalel Technologies`,
       html: clientHtml,
+      attachments: pdfAttachment ? [pdfAttachment] : undefined,
     }).catch((err) => console.error("❌ Failed to send confirmation email to client:", err));
 
     // 2. Admin Notification Email
-    const adminEmail = process.env.SEED_ADMIN_EMAIL || "bezalel@bezalelstudio.com";
+    const adminEmail = process.env.ADMIN_EMAIL || process.env.SEED_ADMIN_EMAIL || "bezaleltech@gmail.com";
     const studioUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/studio/projects`;
 
     const adminHtml = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; background-color: #09090b; color: #f4f4f5; border: 1px solid #27272a; border-radius: 8px;">
-        <h2 style="color: #10b981; border-bottom: 1px solid #27272a; padding-bottom: 12px; margin-top: 0; font-size: 1.4em;">New Project Request Alert</h2>
-        <p style="color: #e4e4e7;">A new project brief has been submitted to the pipeline.</p>
+        <h2 style="color: #10b981; border-bottom: 1px solid #27272a; padding-bottom: 12px; margin-top: 0; font-size: 1.4em;">New Project Request Alert [${refCode}]</h2>
+        <p style="color: #e4e4e7;">A new project brief has been submitted to the pipeline. (Official PDF Brief Attached)</p>
         
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em;">
           <tbody>
@@ -136,7 +180,7 @@ export async function POST(req: Request) {
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Est. Budget:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${budget ? `$${budget.toLocaleString()}` : "Not specified"}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${budget ? `KES ${budget.toLocaleString()}` : "Not specified"}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Timeline:</td>
@@ -170,8 +214,9 @@ export async function POST(req: Request) {
 
     sendEmail({
       to: adminEmail,
-      subject: `New Project Request: ${title} from ${name}`,
+      subject: `New Project Request: ${title} from ${name} [${refCode}]`,
       html: adminHtml,
+      attachments: pdfAttachment ? [pdfAttachment] : undefined,
     }).catch((err) => console.error("❌ Failed to send notification email to admin:", err));
 
     return NextResponse.json(projectRequest, { status: 201 });

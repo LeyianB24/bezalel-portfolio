@@ -136,7 +136,7 @@ export default function RequestForm() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+    <div className="relative z-20 mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <Link 
         href="/" 
         className="mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"

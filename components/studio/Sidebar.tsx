@@ -18,7 +18,8 @@ import {
   ExternalLink,
   Shield,
   Layers,
-  Server
+  Server,
+  Cpu
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -38,6 +39,7 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
     { label: "Projects & Quotes", href: "/studio/projects", icon: FolderKanban },
     { label: "Portfolio", href: "/studio/portfolio", icon: Layers },
     { label: "Equipment", href: "/studio/equipment", icon: Server },
+    { label: "Tech Stack", href: "/studio/tech-arsenal", icon: Cpu },
     { label: "Store & Orders", href: "/studio/store", icon: ShoppingBag },
     { label: "Careers", href: "/studio/careers", icon: Briefcase },
     { label: "Messages", href: "/studio/messages", icon: Mail },

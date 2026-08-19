@@ -31,6 +31,7 @@ enum Role {
   ADMIN
   CLIENT
   CUSTOMER
+  APPLICANT
 }
 
 model Account {
@@ -207,6 +208,7 @@ model Product {
   categoryId   String
   category     Category    @relation(fields: [categoryId], references: [id])
   orderItems   OrderItem[]
+  equipment    Equipment[]
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 }
@@ -272,6 +274,56 @@ model PortfolioItem {
   displayOrder  Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+// ─── HARDWARE & INFRASTRUCTURE EQUIPMENT ────────────────────────
+
+model Equipment {
+  id             String            @id @default(cuid())
+  name           String
+  category       EquipmentCategory
+  description    String            @db.Text
+  specs          String[]
+  imageUrl       String?
+  isClientFacing Boolean           @default(true)
+  isSellable     Boolean           @default(false)
+  productId      String?
+  product        Product?          @relation(fields: [productId], references: [id], onDelete: SetNull)
+  status         String            @default("ACTIVE")
+  displayOrder   Int               @default(0)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+enum EquipmentCategory {
+  NETWORKING
+  AV_CONFERENCING
+  SECURITY_CCTV
+  SERVERS_STORAGE
+  ACCESS_CONTROL
+  OTHER
+}
+
+// ─── TECH ARSENAL STACK ─────────────────────────────────────────
+
+model TechArsenalItem {
+  id           String       @id @default(cuid())
+  name         String
+  category     TechCategory
+  iconKey      String?
+  description  String?
+  isCore       Boolean      @default(false)
+  displayOrder Int          @default(0)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+enum TechCategory {
+  CORE_SYSTEMS
+  INFRA_CLOUD
+  PAYMENTS_DATABASE
+  HARDWARE_AV
+  MOBILE_DEVICES
 }
 
 // ─── CONTACT ────────────────────────────────────────────────────

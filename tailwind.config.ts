@@ -24,28 +24,28 @@ const config: Config = {
       },
     },
     extend: {
-      // 2. High-Performance Font Stack
+      // 2. High-Performance Font Stack (Outfit, Plus Jakarta Sans, JetBrains Mono)
       fontFamily: {
         sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
-        display: ["var(--font-display)", ...defaultTheme.fontFamily.serif],
+        display: ["var(--font-display)", "var(--font-sans)", ...defaultTheme.fontFamily.sans],
         mono: [
-          "SF Mono",
+          "var(--font-mono)",
           "JetBrains Mono",
+          "SF Mono",
           "Fira Code",
-          ...defaultTheme.fontFamily.mono
+          ...defaultTheme.fontFamily.mono,
         ],
         serif: ["var(--font-display)", ...defaultTheme.fontFamily.serif],
       },
 
       // 3. The Color Palette (HSL Linked)
-      // Wrapping in 'hsl(var(...))' enables opacity modifiers like bg-primary/20
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        
+
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -76,14 +76,13 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        
       },
 
       // 4. Engineering Patterns (Grids & Dots)
-      // Creates CSS-only backgrounds without needing external images
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "grid-pattern": "linear-gradient(to right, #80808012 1px, transparent 1px), linear-gradient(to bottom, #80808012 1px, transparent 1px)",
+        "grid-pattern":
+          "linear-gradient(to right, #80808012 1px, transparent 1px), linear-gradient(to bottom, #80808012 1px, transparent 1px)",
         "dot-pattern": "radial-gradient(#80808012 1px, transparent 1px)",
       },
       backgroundSize: {
@@ -96,9 +95,9 @@ const config: Config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "shimmer": "shimmer 2s linear infinite", // For Gold/Metallic Text
-        "scroll": "scroll 40s linear infinite",   // For Tech Stack Carousel
-        "spotlight": "spotlight 2s ease .75s 1 forwards",
+        shimmer: "shimmer 2s linear infinite",
+        scroll: "scroll 40s linear infinite",
+        spotlight: "spotlight 2s ease .75s 1 forwards",
       },
 
       // 6. Physics-Based Keyframes
@@ -111,19 +110,19 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "shimmer": {
+        shimmer: {
           from: { backgroundPosition: "0 0" },
           to: { backgroundPosition: "-200% 0" },
         },
-        "scroll": {
+        scroll: {
           to: { transform: "translate(calc(-50% - 0.5rem))" },
         },
-        "spotlight": {
+        spotlight: {
           "0%": { opacity: "0", transform: "translate(-72%, -62%) scale(0.5)" },
           "100%": { opacity: "1", transform: "translate(-50%,-40%) scale(1)" },
         },
       },
-      
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -136,7 +135,7 @@ const config: Config = {
     tailwindAnimate,
     tailwindTypography,
     // 7. Custom Plugin for Text Glow & Masking
-    plugin(function({ addUtilities }) {
+    plugin(function ({ addUtilities }) {
       addUtilities({
         ".text-glow": {
           "text-shadow": "0 0 20px hsla(var(--primary), 0.5)",

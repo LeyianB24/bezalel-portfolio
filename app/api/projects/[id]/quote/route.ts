@@ -291,18 +291,35 @@ export async function POST(
 
     const adminEmail = process.env.ADMIN_EMAIL || "bezaleltech@gmail.com";
 
-    await sendEmail({
-      to: project.email,
-      cc: adminEmail,
-      subject: `Official ${docType}: ${title} [${documentNumber}] - Bezalel Technologies`,
-      html: emailHtml,
-      attachments: [
-        {
-          filename: `${documentNumber}.pdf`,
-          content: pdfBuffer,
-        },
-      ],
-    });
+    let emailSent = false;
+    let emailWarning: string | null = null;
+
+    try {
+      const emailResult = await sendEmail({
+        to: project.email,
+        cc: adminEmail,
+        subject: `Official ${docType}: ${title} [${documentNumber}] - Bezalel Technologies`,
+        html: emailHtml,
+        attachments: [
+          {
+            filename: `${documentNumber}.pdf`,
+            content: pdfBuffer,
+          },
+        ],
+      });
+
+      emailSent = emailResult.success;
+      if (!emailResult.success && emailResult.error) {
+        emailWarning = typeof emailResult.error === "object" && "message" in emailResult.error
+          ? (emailResult.error as any).message
+          : "Email could not be delivered to unverified domain";
+      } else if (emailResult.sandboxRedirect) {
+        emailWarning = `Delivered to verified admin address (leyianbeza24@gmail.com) via Resend Sandbox`;
+      }
+    } catch (emailErr) {
+      console.warn("⚠️ Email delivery warning:", emailErr);
+      emailWarning = emailErr instanceof Error ? emailErr.message : "Email delivery skipped";
+    }
 
     return NextResponse.json({
       success: true,
@@ -310,6 +327,8 @@ export async function POST(
       project: updatedProject,
       documentNumber,
       quoteNumber: documentNumber,
+      emailSent,
+      emailWarning,
     });
   } catch (error) {
     console.error("❌ Generate quote error:", error);

@@ -366,7 +366,12 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
         quotedPrice: total,
       } : p));
 
-      toast.success(`Official ${docType} ${result.documentNumber || result.quoteNumber} emailed to ${quoteProject.email}!`);
+      if (result.emailWarning) {
+        toast.success(`Official ${docType} ${result.documentNumber || result.quoteNumber} created! (${result.emailWarning})`);
+      } else {
+        toast.success(`Official ${docType} ${result.documentNumber || result.quoteNumber} emailed to ${quoteProject.email}!`);
+      }
+
       setIsQuoteModalOpen(false);
       setQuoteProject(null);
     } catch (err) {

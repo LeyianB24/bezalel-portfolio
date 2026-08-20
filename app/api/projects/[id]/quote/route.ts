@@ -10,7 +10,11 @@ const quoteRequestSchema = z.object({
   documentType: z.string().optional().default("RATE CARD"),
   title: z.string().optional(),
   subtitle: z.string().optional(),
+  clientName: z.string().optional(),
   clientLocation: z.string().optional(),
+  clientEmail: z.string().optional(),
+  clientCompany: z.string().optional().nullable(),
+  clientPhone: z.string().optional().nullable(),
   scopeSummary: z.string().optional().nullable(),
   tableTitle: z.string().optional(),
   taxLabel: z.string().optional().nullable(),
@@ -45,13 +49,15 @@ const quoteRequestSchema = z.object({
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     const { errorResponse } = await verifyApiAdminPermission("PROJECTS_QUOTATIONS");
     if (errorResponse) return errorResponse;
 
-    const { id } = await params;
+    const resolvedParams = await Promise.resolve(params);
+    const id = resolvedParams?.id;
+
     const body = await req.json();
     const parsedData = quoteRequestSchema.parse(body);
 
@@ -77,38 +83,43 @@ export async function POST(
     const year = issueDate.getFullYear();
 
     // Determine sequential document number: RC-YYYY-XXX
-    let documentNumber: string;
-    const existingQuotation = await (prisma.quotation as any).findUnique({
-      where: { projectRequestId: id },
-      select: { documentNumber: true },
-    });
-
-    if (existingQuotation?.documentNumber) {
-      documentNumber = existingQuotation.documentNumber;
-    } else {
-      const yearQuotes = await (prisma.quotation as any).findMany({
-        where: {
-          documentNumber: {
-            startsWith: `RC-${year}-`,
-          },
-        },
+    let documentNumber = `RC-${year}-001`;
+    try {
+      const existingQuotation = await (prisma.quotation as any).findUnique({
+        where: { projectRequestId: id },
         select: { documentNumber: true },
       });
 
-      let maxSeq = 0;
-      if (Array.isArray(yearQuotes)) {
-        for (const q of yearQuotes) {
-          if (q.documentNumber) {
-            const parts = q.documentNumber.split("-");
-            const seq = parseInt(parts[2], 10);
-            if (!isNaN(seq) && seq > maxSeq) {
-              maxSeq = seq;
+      if (existingQuotation?.documentNumber) {
+        documentNumber = existingQuotation.documentNumber;
+      } else {
+        const yearQuotes = await (prisma.quotation as any).findMany({
+          where: {
+            documentNumber: {
+              startsWith: `RC-${year}-`,
+            },
+          },
+          select: { documentNumber: true },
+        });
+
+        let maxSeq = 0;
+        if (Array.isArray(yearQuotes)) {
+          for (const q of yearQuotes) {
+            if (q.documentNumber) {
+              const parts = q.documentNumber.split("-");
+              const seq = parseInt(parts[2], 10);
+              if (!isNaN(seq) && seq > maxSeq) {
+                maxSeq = seq;
+              }
             }
           }
         }
+        const nextSeq = maxSeq + 1;
+        documentNumber = `RC-${year}-${String(nextSeq).padStart(3, "0")}`;
       }
-      const nextSeq = maxSeq + 1;
-      documentNumber = `RC-${year}-${String(nextSeq).padStart(3, "0")}`;
+    } catch (dbErr) {
+      console.warn("⚠️ Document number lookup fallback in quote route:", dbErr);
+      documentNumber = `RC-${year}-${project.id.slice(-4).toUpperCase()}`;
     }
 
     const formattedIssueDate = issueDate.toLocaleDateString("en-GB", {
@@ -160,76 +171,128 @@ export async function POST(
       closingNote: parsedData.closingNote || null,
     });
 
-    // Save quotation to DB with all fields
-    const quotation = await prisma.quotation.upsert({
-      where: { projectRequestId: id },
-      create: {
-        projectRequestId: id,
-        documentNumber,
-        documentType: docType,
-        title,
-        subtitle,
-        clientLocation,
-        scopeSummary: parsedData.scopeSummary || null,
-        tableTitle: parsedData.tableTitle || null,
-        taxLabel: parsedData.taxLabel || null,
-        depositPercentage,
-        amountDueToStart,
-        depositNote: parsedData.depositNote || null,
-        depositBadge: parsedData.depositBadge || null,
-        timelineTitle: parsedData.timelineTitle || null,
-        timelinePhases: parsedData.timelinePhases ? JSON.parse(JSON.stringify(parsedData.timelinePhases)) : undefined,
-        paymentTerms: parsedData.paymentTerms || [],
-        included: parsedData.included || [],
-        excluded: parsedData.excluded || [],
-        closingNote: parsedData.closingNote || null,
-        lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
-        subtotal,
-        tax,
-        total,
-        notes: parsedData.notes || null,
-        validUntil: validUntilDate,
-        sentAt: issueDate,
-        status: "SENT",
-      },
-      update: {
-        documentNumber,
-        documentType: docType,
-        title,
-        subtitle,
-        clientLocation,
-        scopeSummary: parsedData.scopeSummary || null,
-        tableTitle: parsedData.tableTitle || null,
-        taxLabel: parsedData.taxLabel || null,
-        depositPercentage,
-        amountDueToStart,
-        depositNote: parsedData.depositNote || null,
-        depositBadge: parsedData.depositBadge || null,
-        timelineTitle: parsedData.timelineTitle || null,
-        timelinePhases: parsedData.timelinePhases ? JSON.parse(JSON.stringify(parsedData.timelinePhases)) : undefined,
-        paymentTerms: parsedData.paymentTerms || [],
-        included: parsedData.included || [],
-        excluded: parsedData.excluded || [],
-        closingNote: parsedData.closingNote || null,
-        lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
-        subtotal,
-        tax,
-        total,
-        notes: parsedData.notes || null,
-        validUntil: validUntilDate,
-        sentAt: issueDate,
-        status: "SENT",
-      },
-    });
+    // Save quotation to DB with fallback if database schema is not yet migrated
+    let quotation: any = null;
+    try {
+      quotation = await prisma.quotation.upsert({
+        where: { projectRequestId: id },
+        create: {
+          projectRequestId: id,
+          documentNumber,
+          documentType: docType,
+          title,
+          subtitle,
+          clientLocation,
+          scopeSummary: parsedData.scopeSummary || null,
+          tableTitle: parsedData.tableTitle || null,
+          taxLabel: parsedData.taxLabel || null,
+          depositPercentage,
+          amountDueToStart,
+          depositNote: parsedData.depositNote || null,
+          depositBadge: parsedData.depositBadge || null,
+          timelineTitle: parsedData.timelineTitle || null,
+          timelinePhases: parsedData.timelinePhases ? JSON.parse(JSON.stringify(parsedData.timelinePhases)) : undefined,
+          paymentTerms: parsedData.paymentTerms || [],
+          included: parsedData.included || [],
+          excluded: parsedData.excluded || [],
+          closingNote: parsedData.closingNote || null,
+          lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
+          subtotal,
+          tax,
+          total,
+          notes: parsedData.notes || null,
+          validUntil: validUntilDate,
+          sentAt: issueDate,
+          status: "SENT",
+        },
+        update: {
+          documentNumber,
+          documentType: docType,
+          title,
+          subtitle,
+          clientLocation,
+          scopeSummary: parsedData.scopeSummary || null,
+          tableTitle: parsedData.tableTitle || null,
+          taxLabel: parsedData.taxLabel || null,
+          depositPercentage,
+          amountDueToStart,
+          depositNote: parsedData.depositNote || null,
+          depositBadge: parsedData.depositBadge || null,
+          timelineTitle: parsedData.timelineTitle || null,
+          timelinePhases: parsedData.timelinePhases ? JSON.parse(JSON.stringify(parsedData.timelinePhases)) : undefined,
+          paymentTerms: parsedData.paymentTerms || [],
+          included: parsedData.included || [],
+          excluded: parsedData.excluded || [],
+          closingNote: parsedData.closingNote || null,
+          lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
+          subtotal,
+          tax,
+          total,
+          notes: parsedData.notes || null,
+          validUntil: validUntilDate,
+          sentAt: issueDate,
+          status: "SENT",
+        },
+      });
+    } catch (upsertErr) {
+      console.warn("⚠️ Full quotation upsert failed, falling back to base schema fields:", upsertErr);
+      quotation = await prisma.quotation.upsert({
+        where: { projectRequestId: id },
+        create: {
+          projectRequestId: id,
+          lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
+          subtotal,
+          tax,
+          total,
+          notes: parsedData.notes || JSON.stringify({
+            documentNumber,
+            documentType: docType,
+            title,
+            subtitle,
+            clientLocation,
+            scopeSummary: parsedData.scopeSummary,
+            depositPercentage,
+            amountDueToStart,
+          }),
+          validUntil: validUntilDate,
+          sentAt: issueDate,
+          status: "SENT",
+        },
+        update: {
+          lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
+          subtotal,
+          tax,
+          total,
+          notes: parsedData.notes || JSON.stringify({
+            documentNumber,
+            documentType: docType,
+            title,
+            subtitle,
+            clientLocation,
+            scopeSummary: parsedData.scopeSummary,
+            depositPercentage,
+            amountDueToStart,
+          }),
+          validUntil: validUntilDate,
+          sentAt: issueDate,
+          status: "SENT",
+        },
+      });
+    }
 
     // Update project request status to QUOTED
-    const updatedProject = await prisma.projectRequest.update({
-      where: { id },
-      data: {
-        status: "QUOTED",
-        quotedPrice: total,
-      },
-    });
+    let updatedProject = rawProject;
+    try {
+      updatedProject = await prisma.projectRequest.update({
+        where: { id },
+        data: {
+          status: "QUOTED",
+          quotedPrice: total,
+        },
+      });
+    } catch (updateErr) {
+      console.warn("⚠️ Project status update warning:", updateErr);
+    }
 
     // Email client with PDF attachment and CC admin
     const emailHtml = `
@@ -335,7 +398,9 @@ export async function POST(
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: "Invalid quote data", details: error.issues }, { status: 400 });
     }
-    return NextResponse.json({ error: "Failed to generate quotation" }, { status: 500 });
+    return NextResponse.json({ 
+      error: error instanceof Error ? error.message : "Failed to generate quotation" 
+    }, { status: 500 });
   }
 }
 

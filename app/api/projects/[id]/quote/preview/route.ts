@@ -9,7 +9,11 @@ const quotePreviewSchema = z.object({
   documentType: z.string().optional().default("RATE CARD"),
   title: z.string().optional(),
   subtitle: z.string().optional(),
+  clientName: z.string().optional(),
   clientLocation: z.string().optional(),
+  clientEmail: z.string().optional(),
+  clientCompany: z.string().optional().nullable(),
+  clientPhone: z.string().optional().nullable(),
   scopeSummary: z.string().optional().nullable(),
   tableTitle: z.string().optional(),
   taxLabel: z.string().optional().nullable(),
@@ -43,25 +47,37 @@ const quotePreviewSchema = z.object({
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     const { errorResponse } = await verifyApiAdminPermission("PROJECTS_QUOTATIONS");
     if (errorResponse) return errorResponse;
 
-    const { id } = await params;
+    const resolvedParams = await Promise.resolve(params);
+    const id = resolvedParams?.id;
+
     const body = await req.json();
     const parsedData = quotePreviewSchema.parse(body);
 
-    const rawProject = await prisma.projectRequest.findUnique({
-      where: { id },
-    });
-
-    if (!rawProject) {
-      return NextResponse.json({ error: "Project request not found" }, { status: 404 });
+    let project: Partial<ProjectRequestModel> | null = null;
+    if (id) {
+      try {
+        project = await prisma.projectRequest.findUnique({
+          where: { id },
+        });
+      } catch (dbErr) {
+        console.warn("⚠️ Could not query projectRequest from DB for preview:", dbErr);
+      }
     }
 
-    const project = rawProject as unknown as ProjectRequestModel;
+    const clientName = parsedData.clientName || project?.name || "Valued Client";
+    const clientEmail = parsedData.clientEmail || project?.email || "client@example.com";
+    const clientCompany = parsedData.clientCompany || project?.company || null;
+    const clientPhone = parsedData.clientPhone || project?.phone || null;
+    const clientLocation = parsedData.clientLocation || clientCompany || "Nairobi, Kenya";
+    const title = parsedData.title || project?.title || "Website & E-commerce Platform Development";
+    const subtitle = parsedData.subtitle || "PROJECT PROPOSAL, COST ESTIMATE & TIMELINE";
+    const docType = parsedData.documentType || "RATE CARD";
 
     // Calculations
     const subtotal = parsedData.lineItems.reduce((sum, item) => sum + item.amount, 0);
@@ -74,39 +90,45 @@ export async function POST(
     const validUntilDate = new Date(issueDate.getTime() + parsedData.validUntilDays * 24 * 60 * 60 * 1000);
     const year = issueDate.getFullYear();
 
-    // Check existing document number or use preview number
-    let documentNumber: string;
-    const existingQuotation = await (prisma.quotation as any).findUnique({
-      where: { projectRequestId: id },
-      select: { documentNumber: true },
-    });
+    let documentNumber = `RC-${year}-PREVIEW`;
+    if (id) {
+      try {
+        const existingQuotation = await (prisma.quotation as any).findUnique({
+          where: { projectRequestId: id },
+          select: { documentNumber: true },
+        });
 
-    if (existingQuotation?.documentNumber) {
-      documentNumber = existingQuotation.documentNumber;
-    } else {
-      const yearQuotes = await (prisma.quotation as any).findMany({
-        where: {
-          documentNumber: {
-            startsWith: `RC-${year}-`,
-          },
-        },
-        select: { documentNumber: true },
-      });
+        if (existingQuotation?.documentNumber) {
+          documentNumber = existingQuotation.documentNumber;
+        } else {
+          const yearQuotes = await (prisma.quotation as any).findMany({
+            where: {
+              documentNumber: {
+                startsWith: `RC-${year}-`,
+              },
+            },
+            select: { documentNumber: true },
+          });
 
-      let maxSeq = 0;
-      if (Array.isArray(yearQuotes)) {
-        for (const q of yearQuotes) {
-          if (q.documentNumber) {
-            const parts = q.documentNumber.split("-");
-            const seq = parseInt(parts[2], 10);
-            if (!isNaN(seq) && seq > maxSeq) {
-              maxSeq = seq;
+          let maxSeq = 0;
+          if (Array.isArray(yearQuotes)) {
+            for (const q of yearQuotes) {
+              if (q.documentNumber) {
+                const parts = q.documentNumber.split("-");
+                const seq = parseInt(parts[2], 10);
+                if (!isNaN(seq) && seq > maxSeq) {
+                  maxSeq = seq;
+                }
+              }
             }
           }
+          const nextSeq = maxSeq + 1;
+          documentNumber = `RC-${year}-${String(nextSeq).padStart(3, "0")}`;
         }
+      } catch (dbErr) {
+        console.warn("⚠️ Document number lookup fallback in preview:", dbErr);
+        documentNumber = `RC-${year}-001`;
       }
-      const nextSeq = maxSeq + 1;
-      documentNumber = `RC-${year}-${String(nextSeq).padStart(3, "0")}`;
     }
 
     const formattedIssueDate = issueDate.toLocaleDateString("en-GB", {
@@ -121,11 +143,6 @@ export async function POST(
       year: "numeric",
     });
 
-    const title = parsedData.title || project.title;
-    const subtitle = parsedData.subtitle || "PROJECT PROPOSAL, COST ESTIMATE & TIMELINE";
-    const clientLocation = parsedData.clientLocation || project.company || "Nairobi, Kenya";
-    const docType = parsedData.documentType || "RATE CARD";
-
     const pdfBuffer = await generateQuotationPdfBuffer({
       documentNumber,
       documentType: docType,
@@ -133,11 +150,11 @@ export async function POST(
       validUntil: formattedValidUntil,
       title,
       subtitle,
-      clientName: project.name,
+      clientName,
       clientLocation,
-      clientEmail: project.email,
-      clientCompany: project.company,
-      clientPhone: project.phone || null,
+      clientEmail,
+      clientCompany,
+      clientPhone,
       scopeSummary: parsedData.scopeSummary || null,
       tableTitle: parsedData.tableTitle || "Website Design & Development — Scope & Rates",
       lineItems: parsedData.lineItems,
@@ -161,7 +178,7 @@ export async function POST(
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `inline; filename="${documentNumber}_preview.pdf"`,
+        "Content-Disposition": `inline; filename="${documentNumber}.pdf"`,
       },
     });
   } catch (error) {
@@ -169,7 +186,9 @@ export async function POST(
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: "Invalid quote preview data", details: error.issues }, { status: 400 });
     }
-    return NextResponse.json({ error: "Failed to render PDF preview" }, { status: 500 });
+    return NextResponse.json({ 
+      error: error instanceof Error ? error.message : "Failed to render PDF preview" 
+    }, { status: 500 });
   }
 }
 

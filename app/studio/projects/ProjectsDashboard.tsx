@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { 
   FolderKanban, Eye, X, Loader2, FileText, 
-  Plus, Trash2, Send, Calculator, FileCheck, Layers
+  Plus, Trash2, Send, Calculator, FileCheck, Layers, Download, ExternalLink
 } from "lucide-react";
 import { ProjectCategory, ProjectStatus } from "@prisma/client";
 import { toast } from "sonner";
@@ -91,6 +91,10 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
   
   const [isGeneratingQuote, setIsGeneratingQuote] = useState(false);
   const [isPreviewingPdf, setIsPreviewingPdf] = useState(false);
+
+  // PDF Preview Viewer Modal State
+  const [previewPdfUrl, setPreviewPdfUrl] = useState<string | null>(null);
+  const [isPreviewViewerOpen, setIsPreviewViewerOpen] = useState(false);
 
   const openProjectDetails = (project: ProjectWithUser) => {
     setSelectedProject(project);
@@ -293,7 +297,11 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
     documentType: docType,
     title: docTitle,
     subtitle: docSubtitle,
+    clientName: quoteProject?.name,
     clientLocation,
+    clientEmail: quoteProject?.email,
+    clientCompany: quoteProject?.company,
+    clientPhone: quoteProject?.phone,
     scopeSummary,
     tableTitle: tableHeading,
     taxLabel: taxLabelOverride,
@@ -311,7 +319,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
     validUntilDays: 30,
   });
 
-  // Preview PDF in new tab
+  // Preview PDF in modal & open
   const handlePreviewPdf = async () => {
     if (!quoteProject) return;
     setIsPreviewingPdf(true);
@@ -324,14 +332,15 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
       });
 
       if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.error || "Failed to generate PDF preview");
+        const errData = await response.json().catch(() => ({ error: `Server error (${response.status})` }));
+        throw new Error(errData.error || errData.details?.[0]?.message || "Failed to generate PDF preview");
       }
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
-      toast.success("PDF preview opened in new tab");
+      setPreviewPdfUrl(url);
+      setIsPreviewViewerOpen(true);
+      toast.success("Rate Card PDF rendered successfully!");
     } catch (err) {
       console.error("Preview error:", err);
       const msg = err instanceof Error ? err.message : "Failed to preview PDF";
@@ -354,8 +363,8 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to generate quotation");
+        const errorData = await response.json().catch(() => ({ error: `Server error (${response.status})` }));
+        throw new Error(errorData.error || errorData.details?.[0]?.message || "Failed to generate quotation");
       }
 
       const result = await response.json();
@@ -1022,7 +1031,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
                   disabled={isPreviewingPdf || lineItems.length === 0}
                   onClick={handlePreviewPdf}
                   className="border border-accent text-accent-dark dark:text-accent-light hover:bg-accent/10 font-bold px-4 py-2.5 rounded-md text-xs transition-colors flex items-center gap-2 disabled:opacity-50"
-                  title="Preview rendered PDF in a new tab"
+                  title="Preview rendered PDF"
                 >
                   {isPreviewingPdf ? (
                     <>
@@ -1056,6 +1065,56 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
                   )}
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── IN-APP PDF PREVIEW MODAL ─────────────────────────────── */}
+      {isPreviewViewerOpen && previewPdfUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <div className="bg-card border border-border rounded-xl max-w-5xl w-full p-5 relative shadow-2xl flex flex-col h-[90vh]">
+            <div className="flex items-center justify-between border-b border-border pb-3 mb-3">
+              <div className="flex items-center gap-2">
+                <FileCheck className="w-5 h-5 text-accent-dark dark:text-accent-light" />
+                <h3 className="font-bold text-base text-foreground">
+                  {docType} Preview — {docTitle || "Official Document"}
+                </h3>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <a
+                  href={previewPdfUrl}
+                  download={`${docTitle || "Quotation"}.pdf`}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold bg-accent text-accent-foreground px-3 py-1.5 rounded-md hover:bg-accent-light transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" /> Download PDF
+                </a>
+                <a
+                  href={previewPdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold border border-border bg-background hover:bg-secondary text-foreground px-3 py-1.5 rounded-md transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> New Tab
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsPreviewViewerOpen(false)}
+                  className="p-1.5 text-muted-foreground hover:text-foreground rounded-md"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Embedded PDF Viewer */}
+            <div className="flex-1 w-full bg-slate-900 rounded-lg overflow-hidden border border-border">
+              <iframe
+                src={previewPdfUrl}
+                title="Quotation PDF Preview"
+                className="w-full h-full border-0 bg-white"
+              />
             </div>
           </div>
         </div>

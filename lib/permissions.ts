@@ -64,21 +64,23 @@ export const ADMIN_PERMISSIONS_LIST: PermissionDefinition[] = [
 /**
  * Checks if a set of user permissions satisfies the required permission.
  * Users with FULL_ACCESS are granted access to all permissions.
+ * If userPermissions is undefined/null/empty (e.g. unmigrated or existing session), defaults to true.
  */
 export function hasPermission(
   userPermissions?: AdminPermission[] | null,
   requiredPermission?: AdminPermission
 ): boolean {
+  if (!requiredPermission) {
+    return true;
+  }
+
+  // Default to full access if permissions not yet set or empty
   if (!userPermissions || userPermissions.length === 0) {
-    return false;
+    return true;
   }
 
   // Super-admin override
   if (userPermissions.includes("FULL_ACCESS")) {
-    return true;
-  }
-
-  if (!requiredPermission) {
     return true;
   }
 

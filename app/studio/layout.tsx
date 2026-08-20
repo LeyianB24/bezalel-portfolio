@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import prisma from "@/lib/prisma";
 import Sidebar from "@/components/studio/Sidebar";
+import { AdminPermission } from "@prisma/client";
 
 export default async function StudioLayout({
   children,
@@ -11,6 +13,23 @@ export default async function StudioLayout({
 
   if (!session || session.user?.role !== "ADMIN") {
     redirect("/?error=Unauthorized");
+  }
+
+  let permissions = session.user?.permissions;
+  if (!permissions || permissions.length === 0) {
+    if (session.user?.id) {
+      try {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: session.user.id },
+          select: { permissions: true },
+        });
+        permissions = dbUser?.permissions?.length ? dbUser.permissions : [AdminPermission.FULL_ACCESS];
+      } catch {
+        permissions = [AdminPermission.FULL_ACCESS];
+      }
+    } else {
+      permissions = [AdminPermission.FULL_ACCESS];
+    }
   }
 
   return (
@@ -29,7 +48,7 @@ export default async function StudioLayout({
           name: session.user?.name,
           email: session.user?.email,
           image: session.user?.image,
-          permissions: session.user?.permissions,
+          permissions,
         }}
       />
 

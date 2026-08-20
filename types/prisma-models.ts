@@ -17,6 +17,24 @@ export interface PortfolioItemModel {
 
 export interface QuotationModel {
   id: string;
+  documentNumber?: string | null;
+  documentType: string;
+  title?: string | null;
+  subtitle?: string | null;
+  clientLocation?: string | null;
+  scopeSummary?: string | null;
+  tableTitle?: string | null;
+  taxLabel?: string | null;
+  depositPercentage: number;
+  amountDueToStart?: number | null;
+  depositNote?: string | null;
+  depositBadge?: string | null;
+  timelineTitle?: string | null;
+  timelinePhases?: unknown;
+  paymentTerms: string[];
+  included: string[];
+  excluded: string[];
+  closingNote?: string | null;
   projectRequestId: string;
   lineItems: unknown;
   subtotal: number;
@@ -59,7 +77,10 @@ export type ExtendedPrismaClient = PrismaClient & {
     delete: (args: { where: { id: string } }) => Promise<PortfolioItemModel>;
   };
   quotation: {
-    findUnique: (args: { where: { projectRequestId: string } | { id: string } }) => Promise<QuotationModel | null>;
+    findMany: (args?: { where?: Record<string, unknown>; select?: Record<string, unknown>; orderBy?: Record<string, unknown>; take?: number }) => Promise<QuotationModel[]>;
+    findUnique: (args: { where: { projectRequestId?: string; id?: string }; select?: Record<string, unknown> }) => Promise<QuotationModel | null>;
+    create: (args: { data: Record<string, unknown> }) => Promise<QuotationModel>;
+    update: (args: { where: { id?: string; projectRequestId?: string }; data: Record<string, unknown> }) => Promise<QuotationModel>;
     upsert: (args: {
       where: { projectRequestId: string };
       create: Record<string, unknown>;

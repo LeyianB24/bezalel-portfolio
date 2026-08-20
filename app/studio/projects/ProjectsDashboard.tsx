@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { 
   FolderKanban, Eye, X, Loader2, FileText, 
-  Plus, Trash2, Send, Calculator
+  Plus, Trash2, Send, Calculator, FileCheck, Layers
 } from "lucide-react";
 import { ProjectCategory, ProjectStatus } from "@prisma/client";
 import { toast } from "sonner";
@@ -38,6 +38,13 @@ interface LineItemState {
   amount: number;
 }
 
+interface TimelinePhaseState {
+  phaseNumber: string;
+  name: string;
+  description: string;
+  dayRangeLabel: string;
+}
+
 interface ProjectsDashboardProps {
   initialProjects: ProjectWithUser[];
 }
@@ -55,13 +62,35 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
   const [quotedPrice, setQuotedPrice] = useState<number | "">("");
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // Quotation Builder Modal State
+  // ─── QUOTATION BUILDER MODAL STATE ────────────────────────────
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [quoteProject, setQuoteProject] = useState<ProjectWithUser | null>(null);
+  
+  const [docType, setDocType] = useState<string>("RATE CARD");
+  const [docTitle, setDocTitle] = useState<string>("");
+  const [docSubtitle, setDocSubtitle] = useState<string>("PROJECT PROPOSAL, COST ESTIMATE & TIMELINE");
+  const [clientLocation, setClientLocation] = useState<string>("Nairobi, Kenya");
+  const [scopeSummary, setScopeSummary] = useState<string>("");
+  const [tableHeading, setTableHeading] = useState<string>("Website Design & Development — Scope & Rates");
+  
   const [lineItems, setLineItems] = useState<LineItemState[]>([]);
   const [taxRate, setTaxRate] = useState<number>(0);
-  const [quoteNotes, setQuoteNotes] = useState<string>("Includes 30 days post-launch warranty and complete source code repository handover.");
+  const [taxLabelOverride, setTaxLabelOverride] = useState<string>("N/A — sole proprietor rate, VAT not applicable");
+  
+  const [depositPercentage, setDepositPercentage] = useState<number>(50);
+  const [depositNote, setDepositNote] = useState<string>("");
+  const [depositBadge, setDepositBadge] = useState<string>("");
+  
+  const [timelineTitle, setTimelineTitle] = useState<string>("Project Timeline — Estimated 5 Weeks");
+  const [timelinePhases, setTimelinePhases] = useState<TimelinePhaseState[]>([]);
+  
+  const [paymentTerms, setPaymentTerms] = useState<string[]>([]);
+  const [includedItems, setIncludedItems] = useState<string[]>([]);
+  const [excludedItems, setExcludedItems] = useState<string[]>([]);
+  const [closingNote, setClosingNote] = useState<string>("");
+  
   const [isGeneratingQuote, setIsGeneratingQuote] = useState(false);
+  const [isPreviewingPdf, setIsPreviewingPdf] = useState(false);
 
   const openProjectDetails = (project: ProjectWithUser) => {
     setSelectedProject(project);
@@ -72,22 +101,111 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
 
   const openQuoteBuilder = (project: ProjectWithUser) => {
     setQuoteProject(project);
+    setDocType("RATE CARD");
+    setDocTitle(project.title || "Website & E-commerce Platform Development");
+    setDocSubtitle("PROJECT PROPOSAL, COST ESTIMATE & TIMELINE");
+    setClientLocation(project.company ? `${project.company}, Nairobi, Kenya` : "Nairobi, Kenya");
+    
+    // Default Scope Summary
+    setScopeSummary(
+      `A lean, launch-ready platform engineered for ${project.name} — custom architecture, user experience, automated integrations, and complete production deployment.`
+    );
+    setTableHeading("Website Design & Development — Scope & Rates");
+
+    // Line items setup
     if (project.budget && project.budget > 0) {
       const budgetVal = project.budget;
       setLineItems([
-        { description: `${project.title} - Architecture & Core Development`, qty: 1, unitPrice: Math.round(budgetVal * 0.7), amount: Math.round(budgetVal * 0.7) },
-        { description: `Integration, Deployment & Handover`, qty: 1, unitPrice: Math.round(budgetVal * 0.3), amount: Math.round(budgetVal * 0.3) },
+        { description: `${project.title} — Planning, UI/UX Mockups & Architecture`, qty: 1, unitPrice: Math.round(budgetVal * 0.2), amount: Math.round(budgetVal * 0.2) },
+        { description: `Core Frontend & Backend Engineering`, qty: 1, unitPrice: Math.round(budgetVal * 0.5), amount: Math.round(budgetVal * 0.5) },
+        { description: `M-Pesa / Payment Integrations & Order Workflows`, qty: 1, unitPrice: Math.round(budgetVal * 0.15), amount: Math.round(budgetVal * 0.15) },
+        { description: `Testing, Production Deployment & Handover`, qty: 1, unitPrice: Math.round(budgetVal * 0.15), amount: Math.round(budgetVal * 0.15) },
       ]);
     } else {
       setLineItems([
-        { description: `${project.title} - Architecture & System Design`, qty: 1, unitPrice: 45000, amount: 45000 },
-        { description: "Core Feature Engineering & Database Modeling", qty: 1, unitPrice: 120000, amount: 120000 },
-        { description: "Quality Assurance, Production Setup & Handover", qty: 1, unitPrice: 35000, amount: 35000 },
+        { description: "Project Planning & Requirements Analysis", qty: 1, unitPrice: 10000, amount: 10000 },
+        { description: "UI/UX Design & Storefront Mockups (brand-matched, mobile-first)", qty: 1, unitPrice: 20000, amount: 20000 },
+        { description: "Frontend Development — Product Catalog, Categories, Cart & Checkout", qty: 1, unitPrice: 45000, amount: 45000 },
+        { description: "Backend Development — Admin Dashboard (Inventory & Order Management)", qty: 1, unitPrice: 35000, amount: 35000 },
+        { description: "M-Pesa Daraja Payment Integration (STK Push, order reconciliation)", qty: 1, unitPrice: 25000, amount: 25000 },
+        { description: "Order Assistant Chatbot — product Q&A, order status, WhatsApp handoff", qty: 1, unitPrice: 20000, amount: 20000 },
+        { description: "Content Integration, Product Upload & Delivery-Fee Setup", qty: 1, unitPrice: 10000, amount: 10000 },
+        { description: "Testing, Bug Fixes & Quality Assurance", qty: 1, unitPrice: 8000, amount: 8000 },
+        { description: "Deployment & Website Configuration", qty: 1, unitPrice: 7000, amount: 7000 },
       ]);
     }
+
+    setTaxRate(0);
+    setTaxLabelOverride("N/A — sole proprietor rate, VAT not applicable");
+    setDepositPercentage(50);
+    setDepositNote("A 50% deposit secures your project slot and covers planning through frontend development. Work begins once this is received. The remaining balance is due on delivery.");
+    setDepositBadge("50% UPFRONT · DUE BEFORE KICKOFF");
+
+    // Timeline phases
+    setTimelineTitle("Project Timeline — Estimated 5 Weeks");
+    setTimelinePhases([
+      {
+        phaseNumber: "PHASE 01",
+        name: "Planning & Design",
+        description: "Requirements gathering, UI/UX mockups, and brand alignment.",
+        dayRangeLabel: "Days 1–5",
+      },
+      {
+        phaseNumber: "PHASE 02",
+        name: "Development",
+        description: "Frontend storefront build, admin dashboard, M-Pesa & chatbot integration.",
+        dayRangeLabel: "Days 6–22",
+      },
+      {
+        phaseNumber: "PHASE 03",
+        name: "Content & QA",
+        description: "Product uploads, delivery-fee setup, cross-device testing, bug fixes.",
+        dayRangeLabel: "Days 23–30",
+      },
+      {
+        phaseNumber: "PHASE 04",
+        name: "Launch",
+        description: `Deployment, final walkthrough, and handover to ${project.name}.`,
+        dayRangeLabel: "Days 31–35",
+      },
+    ]);
+
+    // Payment Terms
+    setPaymentTerms([
+      "50% is due upfront, before any work commences.",
+      "The remaining 50% is due upon successful completion and delivery of the platform.",
+      "Work begins only after receipt of the initial deposit.",
+      "Payment accepted via M-Pesa Paybill/Till or bank transfer to Bezalel Technologies.",
+      "Add-on features or scope changes will be quoted and billed separately upon mutual agreement.",
+    ]);
+
+    // Included deliverables
+    setIncludedItems([
+      "Mobile-first, responsive storefront across all devices",
+      "Product catalog with categories, search/filters, and variant support",
+      "M-Pesa STK Push checkout — automated payment reconciliation",
+      "Order assistant chatbot for product questions, order status, and WhatsApp handoff",
+      "Admin dashboard to manage products, orders, and delivery status",
+      "Flat-rate delivery pricing (Nairobi vs. upcountry)",
+      "1 round of revisions post-delivery, plus 14 days of post-launch support",
+    ]);
+
+    // Excluded items (can be emptied by admin to omit section)
+    setExcludedItems([
+      "Customer accounts / multi-vendor marketplace engine",
+      "Custom mobile applications (iOS/Android native apps)",
+      "Third-party ad campaign management and recurring domain/hosting fees",
+    ]);
+
+    // Closing note
+    setClosingNote(
+      `This rate card is an estimate based on the scope discussed. Final pricing may be adjusted if requirements change. Reach out anytime at technologiesbezalel@gmail.com.`
+    );
+
     setIsQuoteModalOpen(true);
   };
 
+  // Line items helpers
   const handleLineItemChange = (index: number, field: keyof LineItemState, value: string | number) => {
     const updated = [...lineItems];
     const item = { ...updated[index] };
@@ -109,7 +227,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
   const addLineItem = () => {
     setLineItems([
       ...lineItems,
-      { description: "New Scope Item", qty: 1, unitPrice: 20000, amount: 20000 },
+      { description: "Additional Scope Deliverable", qty: 1, unitPrice: 15000, amount: 15000 },
     ]);
   };
 
@@ -121,10 +239,109 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
     setLineItems(lineItems.filter((_, i) => i !== index));
   };
 
-  const subtotal = lineItems.reduce((acc, item) => acc + item.amount, 0);
-  const tax = Math.round(subtotal * taxRate * 100) / 100;
-  const total = subtotal + tax;
+  // Timeline phase helpers
+  const handlePhaseChange = (index: number, field: keyof TimelinePhaseState, value: string) => {
+    const updated = [...timelinePhases];
+    updated[index] = { ...updated[index], [field]: value };
+    setTimelinePhases(updated);
+  };
 
+  const addTimelinePhase = () => {
+    const nextNum = timelinePhases.length + 1;
+    setTimelinePhases([
+      ...timelinePhases,
+      {
+        phaseNumber: `PHASE ${String(nextNum).padStart(2, "0")}`,
+        name: "New Milestone Phase",
+        description: "Milestone deliverable details and scope.",
+        dayRangeLabel: `Days ${nextNum * 7 - 6}–${nextNum * 7}`,
+      },
+    ]);
+  };
+
+  const removeTimelinePhase = (index: number) => {
+    if (timelinePhases.length <= 1) {
+      toast.error("At least one timeline phase is required");
+      return;
+    }
+    setTimelinePhases(timelinePhases.filter((_, i) => i !== index));
+  };
+
+  // Array helpers (Terms, Included, Excluded)
+  const updateArrayItem = (setter: React.Dispatch<React.SetStateAction<string[]>>, list: string[], index: number, value: string) => {
+    const updated = [...list];
+    updated[index] = value;
+    setter(updated);
+  };
+
+  const addArrayItem = (setter: React.Dispatch<React.SetStateAction<string[]>>, list: string[], defaultValue: string) => {
+    setter([...list, defaultValue]);
+  };
+
+  const removeArrayItem = (setter: React.Dispatch<React.SetStateAction<string[]>>, list: string[], index: number) => {
+    setter(list.filter((_, i) => i !== index));
+  };
+
+  // Calculations
+  const subtotal = lineItems.reduce((acc, item) => acc + item.amount, 0);
+  const tax = taxRate > 0 ? Math.round(subtotal * taxRate * 100) / 100 : 0;
+  const total = subtotal + tax;
+  const amountDueToStart = Math.round(total * (depositPercentage / 100));
+
+  // Build Quote Payload
+  const buildQuotePayload = () => ({
+    documentType: docType,
+    title: docTitle,
+    subtitle: docSubtitle,
+    clientLocation,
+    scopeSummary,
+    tableTitle: tableHeading,
+    taxLabel: taxLabelOverride,
+    depositPercentage,
+    depositNote,
+    depositBadge,
+    timelineTitle,
+    timelinePhases,
+    paymentTerms,
+    included: includedItems,
+    excluded: excludedItems.filter(item => item.trim().length > 0),
+    closingNote,
+    lineItems,
+    taxRate,
+    validUntilDays: 30,
+  });
+
+  // Preview PDF in new tab
+  const handlePreviewPdf = async () => {
+    if (!quoteProject) return;
+    setIsPreviewingPdf(true);
+
+    try {
+      const response = await fetch(`/api/projects/${quoteProject.id}/quote/preview`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildQuotePayload()),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || "Failed to generate PDF preview");
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank");
+      toast.success("PDF preview opened in new tab");
+    } catch (err) {
+      console.error("Preview error:", err);
+      const msg = err instanceof Error ? err.message : "Failed to preview PDF";
+      toast.error(msg);
+    } finally {
+      setIsPreviewingPdf(false);
+    }
+  };
+
+  // Generate & Dispatch Quote
   const handleGenerateAndSendQuote = async () => {
     if (!quoteProject) return;
     setIsGeneratingQuote(true);
@@ -133,12 +350,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
       const response = await fetch(`/api/projects/${quoteProject.id}/quote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          lineItems,
-          taxRate,
-          notes: quoteNotes,
-          validUntilDays: 30,
-        }),
+        body: JSON.stringify(buildQuotePayload()),
       });
 
       if (!response.ok) {
@@ -154,7 +366,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
         quotedPrice: total,
       } : p));
 
-      toast.success(`Quotation ${result.quoteNumber} generated and emailed with PDF to ${quoteProject.email}!`);
+      toast.success(`Official ${docType} ${result.documentNumber || result.quoteNumber} emailed to ${quoteProject.email}!`);
       setIsQuoteModalOpen(false);
       setQuoteProject(null);
     } catch (err) {
@@ -207,7 +419,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border pb-5">
         <div>
           <h1 className="font-display text-3xl font-black text-foreground tracking-tight">Project Pipeline & Quotations</h1>
-          <p className="text-muted-foreground text-sm">Review incoming client briefs, create itemized PDF quotations, and dispatch official estimates.</p>
+          <p className="text-muted-foreground text-sm">Review incoming client briefs, create official Rate Cards & Quotations, and dispatch PDF estimates.</p>
         </div>
       </div>
 
@@ -290,7 +502,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
                           type="button"
                           onClick={() => openQuoteBuilder(project)}
                           className="inline-flex items-center gap-1.5 text-xs font-bold bg-accent text-accent-foreground px-3 py-1.5 rounded-md hover:bg-accent-light transition-colors shadow-sm"
-                          title="Generate PDF Quotation"
+                          title="Generate Rate Card / PDF Quotation"
                         >
                           <Calculator className="w-3.5 h-3.5" />
                           <span>Quote PDF</span>
@@ -313,36 +525,114 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
         </div>
       </div>
 
-      {/* QUOTATION BUILDER MODAL */}
+      {/* ─── COMPREHENSIVE RATE CARD & QUOTATION BUILDER MODAL ──── */}
       {isQuoteModalOpen && quoteProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl max-w-3xl w-full p-6 relative shadow-2xl flex flex-col max-h-[92vh]">
+          <div className="bg-card border border-border rounded-xl max-w-4xl w-full p-6 relative shadow-2xl flex flex-col max-h-[94vh]">
             <button
               onClick={() => { setIsQuoteModalOpen(false); setQuoteProject(null); }}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground p-1"
             >
               <X className="w-5 h-5" />
             </button>
 
+            {/* Modal Header */}
             <div className="border-b border-border pb-4 mb-4">
-              <div className="text-xs font-bold uppercase tracking-widest text-accent-dark dark:text-accent-light mb-1">
-                Quotation Generator
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent-dark dark:text-accent-light mb-1">
+                <FileCheck className="w-4 h-4" /> Official Document Generator (Rate Card / Quotation Spec v6)
               </div>
               <h2 className="text-2xl font-black text-foreground">
-                Itemized PDF Quote for {quoteProject.name}
+                Quotation & Rate Card for {quoteProject.name}
               </h2>
-              <p className="text-xs text-muted-foreground mt-1">
-                Project: <strong className="text-foreground">{quoteProject.title}</strong> · Recipient: {quoteProject.email}
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Client: <strong className="text-foreground">{quoteProject.name}</strong> · Email: <strong className="text-foreground">{quoteProject.email}</strong>
               </p>
             </div>
 
-            <div className="space-y-5 overflow-y-auto flex-1 pr-1">
-              {/* Line Items Table */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                    Deliverables & Line Items (KES)
-                  </h3>
+            {/* Modal Body Form */}
+            <div className="space-y-6 overflow-y-auto flex-1 pr-2">
+              
+              {/* 1. Header & Metadata Block */}
+              <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-3">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                  1. Document Header & Identification
+                </div>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Document Type Label
+                    </label>
+                    <select
+                      value={docType}
+                      onChange={(e) => setDocType(e.target.value)}
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs font-bold uppercase text-foreground focus:border-accent outline-none"
+                    >
+                      <option value="RATE CARD">RATE CARD</option>
+                      <option value="QUOTATION">QUOTATION</option>
+                      <option value="INVOICE">INVOICE</option>
+                    </select>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Main Document Title
+                    </label>
+                    <input
+                      type="text"
+                      value={docTitle}
+                      onChange={(e) => setDocTitle(e.target.value)}
+                      placeholder="e.g. Website & E-commerce Platform Development"
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground focus:border-accent outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Subtitle
+                    </label>
+                    <input
+                      type="text"
+                      value={docSubtitle}
+                      onChange={(e) => setDocSubtitle(e.target.value)}
+                      placeholder="PROJECT PROPOSAL, COST ESTIMATE & TIMELINE"
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Client Location
+                    </label>
+                    <input
+                      type="text"
+                      value={clientLocation}
+                      onChange={(e) => setClientLocation(e.target.value)}
+                      placeholder="e.g. Nairobi, Kenya"
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                    Intro Paragraph (Scope Summary)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={scopeSummary}
+                    onChange={(e) => setScopeSummary(e.target.value)}
+                    placeholder="Brief intro paragraph describing the scoped platform and deliverables..."
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-none resize-none leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* 2. Scope Deliverables & Line Items Table */}
+              <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                    2. Deliverables & Rates Table (KES)
+                  </div>
                   <button
                     type="button"
                     onClick={addLineItem}
@@ -352,19 +642,32 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
                   </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="mb-2">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                    Table Section Heading
+                  </label>
+                  <input
+                    type="text"
+                    value={tableHeading}
+                    onChange={(e) => setTableHeading(e.target.value)}
+                    className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs text-foreground focus:border-accent outline-none"
+                  />
+                </div>
+
+                <div className="space-y-2">
                   {lineItems.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-2 rounded-md border border-border bg-background p-3">
+                    <div key={idx} className="flex items-center gap-2 rounded-md border border-border bg-background p-2.5">
+                      <span className="text-xs font-mono text-muted-foreground w-6 text-center">{idx + 1}</span>
                       <div className="flex-1">
                         <input
                           type="text"
                           value={item.description}
                           onChange={(e) => handleLineItemChange(idx, "description", e.target.value)}
                           placeholder="Scope deliverable description..."
-                          className="w-full bg-transparent text-sm font-medium text-foreground outline-none placeholder:text-muted-foreground"
+                          className="w-full bg-transparent text-xs font-medium text-foreground outline-none placeholder:text-muted-foreground"
                         />
                       </div>
-                      <div className="w-16">
+                      <div className="w-14">
                         <input
                           type="number"
                           min="1"
@@ -398,60 +701,308 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
                     </div>
                   ))}
                 </div>
+
+                {/* Subtotal, Tax & Total Overview */}
+                <div className="grid sm:grid-cols-2 gap-3 pt-2 border-t border-border mt-3">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Tax / VAT Text Override
+                    </label>
+                    <input
+                      type="text"
+                      value={taxLabelOverride}
+                      onChange={(e) => setTaxLabelOverride(e.target.value)}
+                      placeholder="e.g. N/A — sole proprietor rate, VAT not applicable"
+                      className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs text-foreground focus:border-accent outline-none"
+                    />
+                  </div>
+                  <div className="rounded-lg border border-border bg-background p-3 space-y-1">
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>Subtotal:</span>
+                      <span className="font-mono font-bold">KES {subtotal.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>Tax:</span>
+                      <span className="text-[11px]">{taxLabelOverride}</span>
+                    </div>
+                    <div className="flex justify-between text-sm font-bold text-foreground border-t border-border pt-1 mt-1">
+                      <span>Total Project Cost:</span>
+                      <span className="font-mono text-accent-dark dark:text-accent-light text-base">
+                        KES {total.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Tax & Notes */}
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                    Tax / VAT Rate
-                  </label>
-                  <select
-                    value={taxRate}
-                    onChange={(e) => setTaxRate(Number(e.target.value))}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-none"
+              {/* 3. Amount Due to Start Callout Box */}
+              <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-3">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                  3. Amount Due to Start (Deposit Callout Box)
+                </div>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Deposit Percentage (%)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={depositPercentage}
+                      onChange={(e) => setDepositPercentage(Number(e.target.value))}
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs font-mono font-bold text-foreground focus:border-accent outline-none"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Computed Amount Due to Start
+                    </label>
+                    <div className="px-3 py-2 bg-primary/10 border border-primary/20 rounded-md font-mono text-sm font-bold text-accent-dark dark:text-accent-light">
+                      KES {amountDueToStart.toLocaleString()} ({depositPercentage}% of KES {total.toLocaleString()})
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Deposit Explanation Note
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={depositNote}
+                      onChange={(e) => setDepositNote(e.target.value)}
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-none resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Callout Badge Label
+                    </label>
+                    <input
+                      type="text"
+                      value={depositBadge}
+                      onChange={(e) => setDepositBadge(e.target.value)}
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 4. Project Timeline Phases */}
+              <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5" /> 4. Project Timeline Phases
+                  </div>
+                  <button
+                    type="button"
+                    onClick={addTimelinePhase}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-accent-dark dark:text-accent-light hover:underline"
                   >
-                    <option value={0}>0% (Zero-Rated / Standard Exempt)</option>
-                    <option value={0.16}>16% (Kenyan VAT)</option>
-                  </select>
+                    <Plus className="w-3.5 h-3.5" /> Add Phase
+                  </button>
                 </div>
 
-                {/* Live Total Box */}
-                <div className="rounded-lg border border-border bg-secondary/30 p-4 space-y-1">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Subtotal:</span>
-                    <span className="font-mono">KES {subtotal.toLocaleString()}</span>
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                    Timeline Section Title
+                  </label>
+                  <input
+                    type="text"
+                    value={timelineTitle}
+                    onChange={(e) => setTimelineTitle(e.target.value)}
+                    className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs text-foreground focus:border-accent outline-none"
+                  />
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {timelinePhases.map((phase, idx) => (
+                    <div key={idx} className="border border-border bg-background p-3 rounded-lg space-y-2 relative">
+                      <div className="flex items-center justify-between">
+                        <input
+                          type="text"
+                          value={phase.phaseNumber}
+                          onChange={(e) => handlePhaseChange(idx, "phaseNumber", e.target.value)}
+                          className="text-[11px] font-bold text-accent-dark dark:text-accent-light uppercase bg-transparent outline-none w-24"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeTimelinePhase(idx)}
+                          className="text-muted-foreground hover:text-red-500"
+                          title="Remove phase"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        value={phase.name}
+                        onChange={(e) => handlePhaseChange(idx, "name", e.target.value)}
+                        placeholder="Phase Name..."
+                        className="w-full bg-transparent text-xs font-bold text-foreground border-b border-border pb-1 outline-none"
+                      />
+                      <textarea
+                        rows={2}
+                        value={phase.description}
+                        onChange={(e) => handlePhaseChange(idx, "description", e.target.value)}
+                        placeholder="Phase description..."
+                        className="w-full bg-transparent text-[11px] text-muted-foreground outline-none resize-none leading-tight"
+                      />
+                      <input
+                        type="text"
+                        value={phase.dayRangeLabel}
+                        onChange={(e) => handlePhaseChange(idx, "dayRangeLabel", e.target.value)}
+                        placeholder="e.g. Days 1–5"
+                        className="w-full bg-transparent text-[11px] font-bold text-accent-dark dark:text-accent-light outline-none"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 5. Payment Terms */}
+              <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                    5. Payment Terms Bullets
                   </div>
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>VAT ({taxRate * 100}%):</span>
-                    <span className="font-mono">KES {tax.toLocaleString()}</span>
+                  <button
+                    type="button"
+                    onClick={() => addArrayItem(setPaymentTerms, paymentTerms, "New payment term note...")}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-accent-dark dark:text-accent-light hover:underline"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add Term
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  {paymentTerms.map((term, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="text-muted-foreground text-xs">•</span>
+                      <input
+                        type="text"
+                        value={term}
+                        onChange={(e) => updateArrayItem(setPaymentTerms, paymentTerms, idx, e.target.value)}
+                        className="flex-1 bg-background border border-border rounded px-3 py-1.5 text-xs text-foreground outline-none focus:border-accent"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem(setPaymentTerms, paymentTerms, idx)}
+                        className="text-muted-foreground hover:text-red-500 p-1"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 6. What's Included & Not Included */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* What's Included */}
+                <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                      6A. What&apos;s Included
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => addArrayItem(setIncludedItems, includedItems, "Additional included feature...")}
+                      className="inline-flex items-center gap-1 text-xs font-bold text-accent-dark dark:text-accent-light hover:underline"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Add
+                    </button>
                   </div>
-                  <div className="flex justify-between text-sm font-bold text-foreground border-t border-border pt-1 mt-1">
-                    <span>Total Investment:</span>
-                    <span className="font-mono text-accent-dark dark:text-accent-light text-base">
-                      KES {total.toLocaleString()}
-                    </span>
+                  <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                    {includedItems.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-1.5">
+                        <span className="text-muted-foreground text-xs">•</span>
+                        <input
+                          type="text"
+                          value={item}
+                          onChange={(e) => updateArrayItem(setIncludedItems, includedItems, idx, e.target.value)}
+                          className="flex-1 bg-background border border-border rounded px-2.5 py-1 text-xs text-foreground outline-none focus:border-accent"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeArrayItem(setIncludedItems, includedItems, idx)}
+                          className="text-muted-foreground hover:text-red-500 p-0.5"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Not Included at This Budget */}
+                <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                        6B. Not Included (Optional)
+                      </div>
+                      <span className="text-[10px] text-muted-foreground block">
+                        Leave empty to omit this section in PDF
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => addArrayItem(setExcludedItems, excludedItems, "Excluded feature / upgrade...")}
+                      className="inline-flex items-center gap-1 text-xs font-bold text-accent-dark dark:text-accent-light hover:underline"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Add
+                    </button>
+                  </div>
+                  <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                    {excludedItems.length === 0 ? (
+                      <div className="text-xs text-muted-foreground italic py-3 text-center border border-dashed border-border rounded">
+                        Section is omitted (empty).
+                      </div>
+                    ) : (
+                      excludedItems.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-1.5">
+                          <span className="text-muted-foreground text-xs">•</span>
+                          <input
+                            type="text"
+                            value={item}
+                            onChange={(e) => updateArrayItem(setExcludedItems, excludedItems, idx, e.target.value)}
+                            className="flex-1 bg-background border border-border rounded px-2.5 py-1 text-xs text-foreground outline-none focus:border-accent"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeArrayItem(setExcludedItems, excludedItems, idx)}
+                            className="text-muted-foreground hover:text-red-500 p-0.5"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
 
-              {/* Notes / Terms */}
-              <div className="space-y-1">
-                <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  Terms & Handover Notes
+              {/* 7. Closing Note */}
+              <div className="bg-secondary/20 border border-border p-4 rounded-lg space-y-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                  7. Closing Note & Contact Sign-off
                 </label>
                 <textarea
                   rows={2}
-                  value={quoteNotes}
-                  onChange={(e) => setQuoteNotes(e.target.value)}
-                  placeholder="Payment milestones, warranty period, or special delivery terms..."
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-accent outline-none resize-none"
+                  value={closingNote}
+                  onChange={(e) => setClosingNote(e.target.value)}
+                  placeholder="Thank you note and closing contact statement..."
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-none resize-none"
                 />
               </div>
+
             </div>
 
-            {/* Actions */}
-            <div className="flex gap-3 justify-end border-t border-border pt-4 mt-4">
+            {/* Actions Toolbar */}
+            <div className="flex items-center justify-between border-t border-border pt-4 mt-4">
               <button
                 type="button"
                 onClick={() => { setIsQuoteModalOpen(false); setQuoteProject(null); }}
@@ -459,30 +1010,53 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
               >
                 Cancel
               </button>
-              <button
-                type="button"
-                disabled={isGeneratingQuote || lineItems.length === 0}
-                onClick={handleGenerateAndSendQuote}
-                className="bg-accent hover:bg-accent-light text-accent-foreground font-bold px-5 py-2.5 rounded-md text-xs transition-colors flex items-center gap-2 shadow-sm disabled:opacity-50"
-              >
-                {isGeneratingQuote ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Generating & Emailing PDF...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Generate & Email PDF Quote
-                  </>
-                )}
-              </button>
+              
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  disabled={isPreviewingPdf || lineItems.length === 0}
+                  onClick={handlePreviewPdf}
+                  className="border border-accent text-accent-dark dark:text-accent-light hover:bg-accent/10 font-bold px-4 py-2.5 rounded-md text-xs transition-colors flex items-center gap-2 disabled:opacity-50"
+                  title="Preview rendered PDF in a new tab"
+                >
+                  {isPreviewingPdf ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Rendering Preview...
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="w-4 h-4" />
+                      Preview PDF
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isGeneratingQuote || lineItems.length === 0}
+                  onClick={handleGenerateAndSendQuote}
+                  className="bg-accent hover:bg-accent-light text-accent-foreground font-bold px-5 py-2.5 rounded-md text-xs transition-colors flex items-center gap-2 shadow-sm disabled:opacity-50"
+                >
+                  {isGeneratingQuote ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Generating & Emailing PDF...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Generate & Email {docType}
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* PROJECT DETAILS & STATUS MODAL */}
+      {/* ─── PROJECT DETAILS & STATUS MODAL ───────────────────────── */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-card border border-border rounded-xl max-w-2xl w-full p-6 relative shadow-2xl flex flex-col max-h-[92vh]">

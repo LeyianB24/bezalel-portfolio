@@ -171,20 +171,38 @@ enum ProjectStatus {
 // ─── QUOTATIONS ──────────────────────────────────────────────────
 
 model Quotation {
-  id               String          @id @default(cuid())
-  projectRequestId String          @unique
-  projectRequest   ProjectRequest  @relation(fields: [projectRequestId], references: [id])
-  lineItems        Json            // [{description, qty, unitPrice, amount}]
-  subtotal         Float
-  tax              Float           @default(0)
-  total            Float
-  validUntil       DateTime
-  notes            String?         @db.Text
-  pdfUrl           String?
-  sentAt           DateTime?
-  status           QuotationStatus @default(DRAFT)
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  id                String          @id @default(cuid())
+  documentNumber    String?
+  documentType      String          @default("RATE CARD")
+  title             String?
+  subtitle          String?
+  clientLocation    String?
+  scopeSummary      String?         @db.Text
+  tableTitle        String?
+  taxLabel          String?
+  depositPercentage Float           @default(50)
+  amountDueToStart  Float?
+  depositNote       String?         @db.Text
+  depositBadge      String?
+  timelineTitle     String?
+  timelinePhases    Json?           // [{phaseNumber, name, description, dayRangeLabel}]
+  paymentTerms      String[]        @default([])
+  included          String[]        @default([])
+  excluded          String[]        @default([])
+  closingNote       String?         @db.Text
+  projectRequestId  String          @unique
+  projectRequest    ProjectRequest  @relation(fields: [projectRequestId], references: [id])
+  lineItems         Json            // [{description, qty, unitPrice, amount}]
+  subtotal          Float
+  tax               Float           @default(0)
+  total             Float
+  validUntil        DateTime
+  notes             String?         @db.Text
+  pdfUrl            String?
+  sentAt            DateTime?
+  status            QuotationStatus @default(DRAFT)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 }
 
 enum QuotationStatus {

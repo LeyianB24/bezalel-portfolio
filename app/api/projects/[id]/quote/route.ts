@@ -7,15 +7,38 @@ import { generateQuotationPdfBuffer } from "@/lib/quotation-pdf";
 import { ProjectRequestModel } from "@/types/prisma-models";
 
 const quoteRequestSchema = z.object({
+  documentType: z.string().optional().default("RATE CARD"),
+  title: z.string().optional(),
+  subtitle: z.string().optional(),
+  clientLocation: z.string().optional(),
+  scopeSummary: z.string().optional().nullable(),
+  tableTitle: z.string().optional(),
+  taxLabel: z.string().optional().nullable(),
+  depositPercentage: z.number().min(0).max(100).optional().default(50),
+  depositNote: z.string().optional().nullable(),
+  depositBadge: z.string().optional().nullable(),
+  timelineTitle: z.string().optional().nullable(),
+  timelinePhases: z.array(
+    z.object({
+      phaseNumber: z.string().optional(),
+      name: z.string().min(1, "Phase name is required"),
+      description: z.string().min(1, "Phase description is required"),
+      dayRangeLabel: z.string().min(1, "Day range is required"),
+    })
+  ).optional(),
+  paymentTerms: z.array(z.string()).optional(),
+  included: z.array(z.string()).optional(),
+  excluded: z.array(z.string()).optional(),
+  closingNote: z.string().optional().nullable(),
   lineItems: z.array(
     z.object({
       description: z.string().min(1, "Description is required"),
       qty: z.number().min(1).default(1),
-      unitPrice: z.number().min(0),
+      unitPrice: z.number().min(0).optional(),
       amount: z.number().min(0),
     })
   ).min(1, "At least one line item is required"),
-  taxRate: z.number().min(0).max(1).default(0),
+  taxRate: z.number().min(0).max(1).optional().default(0),
   notes: z.string().optional().nullable(),
   validUntilDays: z.number().min(1).default(30),
 });
@@ -44,62 +67,155 @@ export async function POST(
 
     // Compute sums
     const subtotal = parsedData.lineItems.reduce((sum, item) => sum + item.amount, 0);
-    const tax = Math.round(subtotal * parsedData.taxRate * 100) / 100;
+    const tax = parsedData.taxRate > 0 ? Math.round(subtotal * parsedData.taxRate * 100) / 100 : 0;
     const total = subtotal + tax;
+    const depositPercentage = parsedData.depositPercentage ?? 50;
+    const amountDueToStart = Math.round(total * (depositPercentage / 100));
 
     const issueDate = new Date();
     const validUntilDate = new Date(issueDate.getTime() + parsedData.validUntilDays * 24 * 60 * 60 * 1000);
-    const quoteNumber = `BEZ-${issueDate.getFullYear()}-${project.id.slice(-6).toUpperCase()}`;
+    const year = issueDate.getFullYear();
+
+    // Determine sequential document number: RC-YYYY-XXX
+    let documentNumber: string;
+    const existingQuotation = await (prisma.quotation as any).findUnique({
+      where: { projectRequestId: id },
+      select: { documentNumber: true },
+    });
+
+    if (existingQuotation?.documentNumber) {
+      documentNumber = existingQuotation.documentNumber;
+    } else {
+      const yearQuotes = await (prisma.quotation as any).findMany({
+        where: {
+          documentNumber: {
+            startsWith: `RC-${year}-`,
+          },
+        },
+        select: { documentNumber: true },
+      });
+
+      let maxSeq = 0;
+      if (Array.isArray(yearQuotes)) {
+        for (const q of yearQuotes) {
+          if (q.documentNumber) {
+            const parts = q.documentNumber.split("-");
+            const seq = parseInt(parts[2], 10);
+            if (!isNaN(seq) && seq > maxSeq) {
+              maxSeq = seq;
+            }
+          }
+        }
+      }
+      const nextSeq = maxSeq + 1;
+      documentNumber = `RC-${year}-${String(nextSeq).padStart(3, "0")}`;
+    }
 
     const formattedIssueDate = issueDate.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
+      day: "numeric",
+      month: "long",
       year: "numeric",
     });
 
     const formattedValidUntil = validUntilDate.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
+      day: "numeric",
+      month: "long",
       year: "numeric",
     });
 
+    const title = parsedData.title || project.title;
+    const subtitle = parsedData.subtitle || "PROJECT PROPOSAL, COST ESTIMATE & TIMELINE";
+    const clientLocation = parsedData.clientLocation || project.company || "Nairobi, Kenya";
+    const docType = parsedData.documentType || "RATE CARD";
+
     // Render PDF buffer
     const pdfBuffer = await generateQuotationPdfBuffer({
-      quoteNumber,
+      documentNumber,
+      documentType: docType,
       date: formattedIssueDate,
       validUntil: formattedValidUntil,
+      title,
+      subtitle,
       clientName: project.name,
+      clientLocation,
       clientEmail: project.email,
       clientCompany: project.company,
       clientPhone: project.phone || null,
-      projectTitle: project.title,
+      scopeSummary: parsedData.scopeSummary || null,
+      tableTitle: parsedData.tableTitle || "Website Design & Development — Scope & Rates",
       lineItems: parsedData.lineItems,
       subtotal,
       tax,
+      taxLabel: parsedData.taxLabel || (tax > 0 ? `KES ${tax.toLocaleString("en-KE")}` : "N/A — sole proprietor rate, VAT not applicable"),
       total,
-      notes: parsedData.notes,
+      depositPercentage,
+      amountDueToStart,
+      depositNote: parsedData.depositNote || null,
+      depositBadge: parsedData.depositBadge || `${depositPercentage}% UPFRONT · DUE BEFORE KICKOFF`,
+      timelineTitle: parsedData.timelineTitle || "Project Timeline — Estimated 5 Weeks",
+      timelinePhases: parsedData.timelinePhases,
+      paymentTerms: parsedData.paymentTerms,
+      included: parsedData.included,
+      excluded: parsedData.excluded || [],
+      closingNote: parsedData.closingNote || null,
     });
 
-    // Save quotation to DB
+    // Save quotation to DB with all fields
     const quotation = await prisma.quotation.upsert({
       where: { projectRequestId: id },
       create: {
         projectRequestId: id,
+        documentNumber,
+        documentType: docType,
+        title,
+        subtitle,
+        clientLocation,
+        scopeSummary: parsedData.scopeSummary || null,
+        tableTitle: parsedData.tableTitle || null,
+        taxLabel: parsedData.taxLabel || null,
+        depositPercentage,
+        amountDueToStart,
+        depositNote: parsedData.depositNote || null,
+        depositBadge: parsedData.depositBadge || null,
+        timelineTitle: parsedData.timelineTitle || null,
+        timelinePhases: parsedData.timelinePhases ? JSON.parse(JSON.stringify(parsedData.timelinePhases)) : undefined,
+        paymentTerms: parsedData.paymentTerms || [],
+        included: parsedData.included || [],
+        excluded: parsedData.excluded || [],
+        closingNote: parsedData.closingNote || null,
         lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
         subtotal,
         tax,
         total,
-        notes: parsedData.notes,
+        notes: parsedData.notes || null,
         validUntil: validUntilDate,
         sentAt: issueDate,
         status: "SENT",
       },
       update: {
+        documentNumber,
+        documentType: docType,
+        title,
+        subtitle,
+        clientLocation,
+        scopeSummary: parsedData.scopeSummary || null,
+        tableTitle: parsedData.tableTitle || null,
+        taxLabel: parsedData.taxLabel || null,
+        depositPercentage,
+        amountDueToStart,
+        depositNote: parsedData.depositNote || null,
+        depositBadge: parsedData.depositBadge || null,
+        timelineTitle: parsedData.timelineTitle || null,
+        timelinePhases: parsedData.timelinePhases ? JSON.parse(JSON.stringify(parsedData.timelinePhases)) : undefined,
+        paymentTerms: parsedData.paymentTerms || [],
+        included: parsedData.included || [],
+        excluded: parsedData.excluded || [],
+        closingNote: parsedData.closingNote || null,
         lineItems: JSON.parse(JSON.stringify(parsedData.lineItems)),
         subtotal,
         tax,
         total,
-        notes: parsedData.notes,
+        notes: parsedData.notes || null,
         validUntil: validUntilDate,
         sentAt: issueDate,
         status: "SENT",
@@ -126,22 +242,28 @@ export async function POST(
         <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${project.name}</strong>,</p>
         
         <p style="font-size: 14px; line-height: 1.6; color: #E0E7EC;">
-          Thank you for providing the scope for <strong>&ldquo;${project.title}&rdquo;</strong>. We have completed our technical assessment and prepared an official itemized quotation for your project.
+          Thank you for providing the scope for <strong>&ldquo;${title}&rdquo;</strong>. We have completed our technical assessment and prepared an official ${docType.toLowerCase()} for your project.
         </p>
 
         <div style="background-color: #050D17; border: 1px solid #C9A24B; border-radius: 6px; padding: 20px; margin: 24px 0;">
           <div style="font-size: 12px; font-weight: bold; color: #E8CD84; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
-            Quotation Summary [${quoteNumber}]
+            ${docType} Summary [${documentNumber}]
           </div>
           <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #FAF6EC;">
             <tr style="border-bottom: 1px solid #1B2430;">
               <td style="padding: 6px 0; color: #8FA0B3;">Project Title:</td>
-              <td style="padding: 6px 0; text-align: right; font-weight: bold;">${project.title}</td>
+              <td style="padding: 6px 0; text-align: right; font-weight: bold;">${title}</td>
             </tr>
             <tr style="border-bottom: 1px solid #1B2430;">
               <td style="padding: 6px 0; color: #8FA0B3;">Total Investment:</td>
               <td style="padding: 6px 0; text-align: right; font-weight: bold; color: #E8CD84; font-size: 16px;">
                 KES ${total.toLocaleString("en-KE", { minimumFractionDigits: 2 })}
+              </td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1B2430;">
+              <td style="padding: 6px 0; color: #8FA0B3;">Amount Due to Start (${depositPercentage}%):</td>
+              <td style="padding: 6px 0; text-align: right; font-weight: bold; color: #FAF6EC;">
+                KES ${amountDueToStart.toLocaleString("en-KE", { minimumFractionDigits: 2 })}
               </td>
             </tr>
             <tr>
@@ -152,7 +274,7 @@ export async function POST(
         </div>
 
         <p style="font-size: 13px; line-height: 1.6; color: #E0E7EC;">
-          The official branded quotation PDF with detailed deliverables, payment milestones, and terms is attached to this email for your review and internal sign-off.
+          The official branded ${docType.toLowerCase()} PDF with itemized deliverables, payment terms, and project timeline is attached to this email for your review and sign-off.
         </p>
 
         <p style="font-size: 13px; line-height: 1.6; color: #E0E7EC;">
@@ -172,11 +294,11 @@ export async function POST(
     await sendEmail({
       to: project.email,
       cc: adminEmail,
-      subject: `Official Quotation: ${project.title} [${quoteNumber}] - Bezalel Technologies`,
+      subject: `Official ${docType}: ${title} [${documentNumber}] - Bezalel Technologies`,
       html: emailHtml,
       attachments: [
         {
-          filename: `Quotation_${quoteNumber}.pdf`,
+          filename: `${documentNumber}.pdf`,
           content: pdfBuffer,
         },
       ],
@@ -186,7 +308,8 @@ export async function POST(
       success: true,
       quotation,
       project: updatedProject,
-      quoteNumber,
+      documentNumber,
+      quoteNumber: documentNumber,
     });
   } catch (error) {
     console.error("❌ Generate quote error:", error);

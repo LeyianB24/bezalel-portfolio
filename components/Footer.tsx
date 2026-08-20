@@ -16,7 +16,6 @@ const companyLinks = [
   { name: "Portfolio", href: "/portfolio" },
   { name: "Store", href: "/store" },
   { name: "Careers", href: "/careers" },
-  { name: "Admin login", href: "/login" },
 ];
 
 const legalLinks = [

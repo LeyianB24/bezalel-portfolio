@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { auth } from "@/auth";
+import { verifyApiAdminPermission } from "@/lib/permissions";
 
 export async function GET() {
   try {
@@ -17,10 +17,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session || session.user.role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const { errorResponse } = await verifyApiAdminPermission("STORE");
+    if (errorResponse) return errorResponse;
 
     const json = await request.json();
     const { name, slug, description, price, comparePrice, images, stock, sku, categoryId, isActive } = json;

@@ -73,18 +73,31 @@ export default function Header() {
           <Link
             href="/"
             aria-label="Bezalel Technologies home"
-            className="flex shrink-0 items-center"
+            className="flex shrink-0 items-center gap-2.5 mr-4 sm:mr-6 md:mr-8 transition-opacity hover:opacity-90"
             onClick={(event) => handleHashNavigation(event, "/#home")}
           >
+            {/* Mobile Mark-only on extra-small screens for optimal clarity */}
+            <div className="flex items-center gap-2 sm:hidden">
+              <img
+                src="/logos/bezalel-mark-gold.svg"
+                alt="Bezalel Mark"
+                className="h-9 w-9 object-contain"
+              />
+              <span className="font-display text-base font-black tracking-tight text-foreground">
+                BEZALEL
+              </span>
+            </div>
+
+            {/* Full Horizontal Wordmark for sm, md, lg and up */}
             <img
               src="/logos/bezalel-logo-horizontal-dark.png"
               alt="Bezalel Technologies"
-              className="h-8 w-auto dark:hidden"
+              className="hidden h-10 sm:block sm:h-11 md:h-12 w-auto max-h-12 object-contain dark:hidden"
             />
             <img
               src="/logos/bezalel-logo-horizontal-light.png"
               alt="Bezalel Technologies"
-              className="hidden h-8 w-auto dark:block"
+              className="hidden h-10 dark:sm:block dark:sm:h-11 dark:md:h-12 w-auto max-h-12 object-contain"
             />
           </Link>
 

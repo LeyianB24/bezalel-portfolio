@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import prisma from "@/lib/prisma";
+import { requireAdminPermission } from "@/lib/permissions";
 import TechArsenalDashboard, { TechItemType } from "./TechArsenalDashboard";
 
 export const dynamic = "force-dynamic";
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function StudioTechArsenalPage() {
+  await requireAdminPermission("TECH_ARSENAL");
   let items: TechItemType[] = [];
   try {
     const rawItems = await prisma.techArsenalItem.findMany({

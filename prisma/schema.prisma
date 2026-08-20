@@ -10,12 +10,13 @@ datasource db {
 // ─── AUTH & USERS ───────────────────────────────────────────────
 
 model User {
-  id              String    @id @default(cuid())
-  email           String    @unique
+  id              String            @id @default(cuid())
+  email           String            @unique
   name            String?
   image           String?
   password        String?
-  role            Role      @default(CUSTOMER)
+  role            Role              @default(CUSTOMER)
+  permissions     AdminPermission[] @default([FULL_ACCESS])
   emailVerified   DateTime?
   accounts        Account[]
   sessions        Session[]
@@ -23,8 +24,8 @@ model User {
   orders          Order[]
   projectRequests ProjectRequest[]
   messages        ContactMessage[]
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 }
 
 enum Role {
@@ -32,6 +33,17 @@ enum Role {
   CLIENT
   CUSTOMER
   APPLICANT
+}
+
+enum AdminPermission {
+  FULL_ACCESS
+  PROJECTS_QUOTATIONS
+  PORTFOLIO
+  EQUIPMENT
+  TECH_ARSENAL
+  STORE
+  CAREERS
+  MESSAGES
 }
 
 model Account {

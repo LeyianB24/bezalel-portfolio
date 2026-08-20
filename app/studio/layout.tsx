@@ -29,6 +29,7 @@ export default async function StudioLayout({
           name: session.user?.name,
           email: session.user?.email,
           image: session.user?.image,
+          permissions: session.user?.permissions,
         }}
       />
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { verifyApiAdminPermission } from "@/lib/permissions";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { TechCategory } from "@prisma/client";
@@ -18,10 +18,8 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session || session.user?.role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
+    const { errorResponse } = await verifyApiAdminPermission("TECH_ARSENAL");
+    if (errorResponse) return errorResponse;
 
     const { id } = await params;
     const body = await req.json();
@@ -47,10 +45,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session || session.user?.role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
+    const { errorResponse } = await verifyApiAdminPermission("TECH_ARSENAL");
+    if (errorResponse) return errorResponse;
 
     const { id } = await params;
     await prisma.techArsenalItem.delete({

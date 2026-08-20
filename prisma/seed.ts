@@ -1,4 +1,4 @@
-import { PrismaClient, EquipmentCategory, TechCategory } from '@prisma/client'
+import { PrismaClient, EquipmentCategory, TechCategory, AdminPermission } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
@@ -19,11 +19,13 @@ async function main() {
     update: {
       password: hashed,
       role: 'ADMIN',
+      permissions: [AdminPermission.FULL_ACCESS],
     },
     create: {
       email,
       name: 'Bezalel Admin',
       role: 'ADMIN',
+      permissions: [AdminPermission.FULL_ACCESS],
       password: hashed,
     },
   })

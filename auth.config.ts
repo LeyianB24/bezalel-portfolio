@@ -1,5 +1,5 @@
 import type { NextAuthConfig } from "next-auth"
-import { Role } from "@prisma/client"
+import { Role, AdminPermission } from "@prisma/client"
 
 export const authConfig = {
   pages: {
@@ -10,6 +10,7 @@ export const authConfig = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.permissions = user.permissions;
       }
       return token;
     },
@@ -17,6 +18,7 @@ export const authConfig = {
       if (session.user && token) {
         session.user.id = token.id as string;
         session.user.role = token.role as Role;
+        session.user.permissions = token.permissions as AdminPermission[];
       }
       return session;
     },

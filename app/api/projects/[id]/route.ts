@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { verifyApiAdminPermission } from "@/lib/permissions";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { ProjectStatus } from "@prisma/client";
@@ -20,11 +20,9 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Auth guard: Admin only
-    const session = await auth();
-    if (!session || session.user?.role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
+    // Auth guard: Admin with PROJECTS_QUOTATIONS permission
+    const { errorResponse } = await verifyApiAdminPermission("PROJECTS_QUOTATIONS");
+    if (errorResponse) return errorResponse;
 
     const { id } = await params;
     const body = await req.json();

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import prisma from "@/lib/prisma";
+import { requireAdminPermission } from "@/lib/permissions";
 import EquipmentDashboard, { EquipmentItemType } from "./EquipmentDashboard";
 
 export const dynamic = "force-dynamic";
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function StudioEquipmentPage() {
+  await requireAdminPermission("EQUIPMENT");
   let items: EquipmentItemType[] = [];
   try {
     const rawItems = await prisma.equipment.findMany({

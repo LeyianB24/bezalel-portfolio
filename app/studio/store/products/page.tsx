@@ -1,9 +1,12 @@
 import prisma from "@/lib/prisma"
+import { requireAdminPermission } from "@/lib/permissions"
 import ProductsDashboard from "./ProductsDashboard"
 
 export const revalidate = 0
 
 export default async function ProductsPage() {
+  await requireAdminPermission("STORE");
+
   const [products, categories] = await Promise.all([
     prisma.product.findMany({
       include: { category: true },

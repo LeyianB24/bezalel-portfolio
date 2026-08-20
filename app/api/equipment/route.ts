@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { verifyApiAdminPermission } from "@/lib/permissions";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { EquipmentCategory } from "@prisma/client";
@@ -55,10 +55,8 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const session = await auth();
-    if (!session || session.user?.role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
+    const { errorResponse } = await verifyApiAdminPermission("EQUIPMENT");
+    if (errorResponse) return errorResponse;
 
     const body = await req.json();
     const parsed = equipmentSchema.parse(body);

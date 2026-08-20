@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { EquipmentCategory } from "@prisma/client";
+import ImageUpload from "@/components/studio/ImageUpload";
 
 export interface EquipmentItemType {
   id: string;
@@ -407,15 +408,12 @@ export default function EquipmentDashboard({ initialItems }: EquipmentDashboardP
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
-                  Image Path / URL
-                </label>
-                <input
-                  type="text"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="/BG_images/codes people.jpg"
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent focus:outline-hidden"
+                <ImageUpload
+                  label="Hardware Photo / Architecture Diagram"
+                  description="Upload equipment photo from device camera or photo library."
+                  images={imageUrl ? [imageUrl] : []}
+                  onChange={(urls) => setImageUrl(urls[0] || "")}
+                  multiple={false}
                 />
               </div>
 

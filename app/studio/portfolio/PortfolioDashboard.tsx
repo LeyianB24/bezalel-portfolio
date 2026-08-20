@@ -4,9 +4,10 @@ import { useState } from "react";
 import { 
   Layers, Plus, Edit3, Trash2, ExternalLink, 
   X, Loader2, Star, Sparkles, Image as ImageIcon,
-  CheckCircle2
+  CheckCircle2, Upload
 } from "lucide-react";
 import { toast } from "sonner";
+import ImageUpload from "@/components/studio/ImageUpload";
 
 interface PortfolioItemType {
   id: string;
@@ -38,11 +39,12 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
   const [description, setDescription] = useState("");
   const [techTagsInput, setTechTagsInput] = useState("");
   const [liveUrl, setLiveUrl] = useState("");
-  const [imagesInput, setImagesInput] = useState("");
+  const [images, setImages] = useState<string[]>([]);
   const [featured, setFeatured] = useState(false);
   const [displayOrder, setDisplayOrder] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [isFetchingLogo, setIsFetchingLogo] = useState(false);
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
   const [logoSource, setLogoSource] = useState<string | null>(null);
 
   const openCreateModal = () => {
@@ -54,7 +56,7 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
     setDescription("");
     setTechTagsInput("Next.js, PostgreSQL, TypeScript, M-Pesa");
     setLiveUrl("https://");
-    setImagesInput("/images/web_system.png");
+    setImages([]);
     setFeatured(false);
     setDisplayOrder(items.length + 1);
     setIsModalOpen(true);
@@ -69,7 +71,7 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
     setDescription(item.description);
     setTechTagsInput(item.techTags.join(", "));
     setLiveUrl(item.liveUrl || "");
-    setImagesInput(item.images.join(", "));
+    setImages(item.images || []);
     setFeatured(item.featured);
     setDisplayOrder(item.displayOrder);
     setIsModalOpen(true);
@@ -97,18 +99,52 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
         setLogoSource(data.source === "apple_touch_icon" ? "Apple Touch Icon" : data.source === "html_icon" ? "Site Favicon" : "Favicon Service");
         toast.success(`Logo auto-fetched from ${data.domain || "site"}!`);
       } else {
-        toast.error("No logo or favicon detected. Please enter URL manually.");
+        toast.error("No logo or favicon detected. Please enter URL or upload from device.");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Could not auto-fetch logo. You can paste a logo URL manually.");
+      toast.error("Could not auto-fetch logo. You can upload an image from your device.");
     } finally {
       setIsFetchingLogo(false);
     }
   };
 
+  const handleLogoDeviceUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingLogo(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Upload failed");
+      }
+
+      const data = await res.json();
+      if (data.url) {
+        setClientLogoUrl(data.url);
+        setLogoSource("Uploaded from Device");
+        toast.success("Client logo uploaded successfully!");
+      }
+    } catch (error: unknown) {
+      console.error(error);
+      const msg = error instanceof Error ? error.message : "Failed to upload logo";
+      toast.error(msg);
+    } finally {
+      setIsUploadingLogo(false);
+      e.target.value = "";
+    }
+  };
+
   const handleLiveUrlBlur = () => {
-    // Auto-fetch logo if clientLogoUrl is currently empty
     if (!clientLogoUrl && liveUrl && liveUrl.length > 8 && (liveUrl.includes(".") || liveUrl.startsWith("http"))) {
       handleAutoFetchLogo(liveUrl);
     }
@@ -123,7 +159,6 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
 
     setIsSaving(true);
     const techTags = techTagsInput.split(",").map(t => t.trim()).filter(Boolean);
-    const images = imagesInput.split(",").map(i => i.trim()).filter(Boolean);
 
     const payload = {
       name,
@@ -132,7 +167,7 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
       description,
       techTags,
       liveUrl: liveUrl.trim() || null,
-      images,
+      images: images.filter(Boolean),
       featured,
       displayOrder: Number(displayOrder) || 0,
     };
@@ -194,8 +229,8 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
       {/* Header Info */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="font-display text-3xl font-black text-foreground tracking-tight">Portfolio Management</h1>
-          <p className="text-muted-foreground text-sm">One source of truth for all public portfolio displays, clickable client links, and logos.</p>
+          <h1 className="font-display text-3xl font-black text-foreground tracking-tight">Portfolio &amp; Client Projects</h1>
+          <p className="text-muted-foreground text-sm">Upload verified project screenshots, configure clickable client links, and manage showcase items.</p>
         </div>
         <button
           type="button"
@@ -212,7 +247,7 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
           <div className="col-span-full rounded-lg border border-border bg-card p-12 text-center text-muted-foreground">
             <Layers className="mx-auto h-12 w-12 text-muted-foreground/40 mb-3" />
             <h3 className="text-base font-bold text-foreground mb-1">No portfolio projects logged yet</h3>
-            <p className="text-xs">Add your first verified client deliverable to showcase on the public website.</p>
+            <p className="text-xs">Upload your first verified client deliverable to showcase on the public website.</p>
           </div>
         ) : (
           items.map((item) => (
@@ -221,6 +256,18 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
               className="flex flex-col justify-between rounded-lg border border-border bg-card p-5 shadow-sm transition-all hover:border-accent/40"
             >
               <div>
+                {/* Project Cover Image */}
+                {item.images && item.images.length > 0 && (
+                  <div className="w-full aspect-video rounded-md bg-secondary/50 border border-border overflow-hidden mb-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.images[0]}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between gap-2 border-b border-border pb-3 mb-3">
                   <div className="flex items-center gap-2.5">
                     {item.clientLogoUrl ? (
@@ -307,7 +354,7 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
       {/* CREATE / EDIT MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs">
-          <div className="bg-card border border-border rounded-xl max-w-2xl w-full p-6 relative shadow-2xl flex flex-col max-h-[92vh]">
+          <div className="bg-card border border-border rounded-xl max-w-3xl w-full p-6 relative shadow-2xl flex flex-col max-h-[92vh]">
             <button
               onClick={() => { setIsModalOpen(false); setEditingItem(null); }}
               className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
@@ -319,7 +366,7 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
               {editingItem ? "Edit Portfolio Project" : "Add Portfolio Project"}
             </h2>
             <p className="text-xs text-muted-foreground mb-4 border-b border-border pb-3">
-              Configure project branding, clickable client URL, auto-fetched logo, and tech stack tags.
+              Upload project screenshots from your phone or laptop, set client details, and attach clickable URLs.
             </p>
 
             <form onSubmit={handleSave} className="space-y-4 overflow-y-auto flex-1 pr-1">
@@ -390,11 +437,11 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
                 </div>
               </div>
 
-              {/* Client Logo Preview & Manual URL Input */}
-              <div className="rounded-lg border border-border bg-background/50 p-3 space-y-2">
+              {/* Client Logo Upload & URL Input */}
+              <div className="rounded-lg border border-border bg-background/50 p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                    Client Favicon / Logo URL
+                    Client Logo / Favicon
                   </label>
                   {logoSource && (
                     <span className="inline-flex items-center gap-1 rounded bg-emerald-500/15 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
@@ -403,8 +450,8 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
                   )}
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-card p-1">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border bg-card p-1.5">
                     {clientLogoUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -416,21 +463,51 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
                         }}
                       />
                     ) : (
-                      <ImageIcon className="h-5 w-5 text-muted-foreground/50" />
+                      <ImageIcon className="h-6 w-6 text-muted-foreground/50" />
                     )}
                   </div>
 
-                  <input
-                    type="text"
-                    value={clientLogoUrl}
-                    onChange={(e) => {
-                      setClientLogoUrl(e.target.value);
-                      setLogoSource("Manual Input");
-                    }}
-                    placeholder="Auto-detected on link entry or enter /logos/client.png"
-                    className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-hidden"
-                  />
+                  <div className="flex-1 w-full flex gap-2">
+                    <input
+                      type="text"
+                      value={clientLogoUrl}
+                      onChange={(e) => {
+                        setClientLogoUrl(e.target.value);
+                        setLogoSource("Manual Input");
+                      }}
+                      placeholder="Auto-detected or upload from device"
+                      className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-accent outline-hidden"
+                    />
+
+                    <label className="cursor-pointer shrink-0 inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/80 px-3 py-2 text-xs font-bold text-foreground hover:bg-secondary transition-colors">
+                      {isUploadingLogo ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      ) : (
+                        <Upload size={14} />
+                      )}
+                      <span>{isUploadingLogo ? "Uploading..." : "Upload Logo"}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleLogoDeviceUpload}
+                        disabled={isUploadingLogo}
+                      />
+                    </label>
+                  </div>
                 </div>
+              </div>
+
+              {/* PROJECT IMAGES UPLOADER (MULTI-DEVICE CAMERA & GALLERY) */}
+              <div className="rounded-lg border border-border bg-background/50 p-4 space-y-3">
+                <ImageUpload
+                  label="Project Screenshots & Photos (Upload from Any Device)"
+                  description="Tap or drag screenshots of the client application, mobile screens, or architecture diagrams."
+                  images={images}
+                  onChange={setImages}
+                  multiple={true}
+                  maxFiles={12}
+                />
               </div>
 
               <div className="space-y-1">
@@ -456,19 +533,6 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
                   value={techTagsInput}
                   onChange={(e) => setTechTagsInput(e.target.value)}
                   placeholder="Next.js, PostgreSQL, TypeScript, M-Pesa"
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-hidden"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  Image URLs (comma separated)
-                </label>
-                <input
-                  type="text"
-                  value={imagesInput}
-                  onChange={(e) => setImagesInput(e.target.value)}
-                  placeholder="/images/web_system.png, /images/hero_banner.png"
                   className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent outline-hidden"
                 />
               </div>

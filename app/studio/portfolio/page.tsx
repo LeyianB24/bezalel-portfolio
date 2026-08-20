@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import prisma from "@/lib/prisma";
+import { requireAdminPermission } from "@/lib/permissions";
 import PortfolioDashboard from "./PortfolioDashboard";
 import { PortfolioItemModel } from "@/types/prisma-models";
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function StudioPortfolioPage() {
+  await requireAdminPermission("PORTFOLIO");
   let items: PortfolioItemModel[] = [];
   try {
     items = await prisma.portfolioItem.findMany({

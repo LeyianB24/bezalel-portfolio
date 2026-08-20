@@ -35,14 +35,25 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bezalel.website"),
   title: "Bezalel Technologies | Global Software Engineering & Digital Infrastructure",
   description:
     "Custom software engineering, cloud systems, mobile platforms, API architecture, and enterprise IT infrastructure serving ambitious organizations worldwide.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logos/bezalel-mark-gold.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   openGraph: {
     images: ["/og-image.png"],
     title: "Bezalel Technologies | Global Software Engineering & Infrastructure",
     description: "Custom software engineering, cloud systems, mobile platforms, and enterprise IT infrastructure serving clients worldwide.",
-    url: "https://bezalel.tech",
+    url: "https://bezalel.website",
     siteName: "Bezalel Technologies",
     locale: "en_US",
     type: "website",

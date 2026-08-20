@@ -20,30 +20,48 @@ import {
   Layers,
   Server,
   Cpu,
+  UserCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AdminPermission } from "@prisma/client";
+import { hasPermission } from "@/lib/permissions";
 
 type SidebarUser = {
   name?: string | null;
   email?: string | null;
   image?: string | null;
+  permissions?: AdminPermission[] | null;
 };
+
+interface NavItem {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  permission?: AdminPermission;
+}
 
 export default function Sidebar({ user }: { user?: SidebarUser }) {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isOpenMobile, setIsOpenMobile] = useState(false);
 
-  const navItems = [
+  const allNavItems: NavItem[] = [
     { label: "Overview", href: "/studio", icon: LayoutDashboard },
-    { label: "Projects & Quotes", href: "/studio/projects", icon: FolderKanban },
-    { label: "Portfolio Items", href: "/studio/portfolio", icon: Layers },
-    { label: "Hardware Equipment", href: "/studio/equipment", icon: Server },
-    { label: "Tech Arsenal", href: "/studio/tech-arsenal", icon: Cpu },
-    { label: "Store & Orders", href: "/studio/store", icon: ShoppingBag },
-    { label: "Career Postings", href: "/studio/careers", icon: Briefcase },
-    { label: "Message Inbox", href: "/studio/messages", icon: Mail },
+    { label: "Projects & Quotes", href: "/studio/projects", icon: FolderKanban, permission: "PROJECTS_QUOTATIONS" },
+    { label: "Portfolio Items", href: "/studio/portfolio", icon: Layers, permission: "PORTFOLIO" },
+    { label: "Hardware Equipment", href: "/studio/equipment", icon: Server, permission: "EQUIPMENT" },
+    { label: "Tech Arsenal", href: "/studio/tech-arsenal", icon: Cpu, permission: "TECH_ARSENAL" },
+    { label: "Store & Orders", href: "/studio/store", icon: ShoppingBag, permission: "STORE" },
+    { label: "Career Postings", href: "/studio/careers", icon: Briefcase, permission: "CAREERS" },
+    { label: "Message Inbox", href: "/studio/messages", icon: Mail, permission: "MESSAGES" },
+    { label: "Admin Team", href: "/studio/admins", icon: UserCheck, permission: "FULL_ACCESS" },
   ];
+
+  const navItems = allNavItems.filter((item) =>
+    item.permission ? hasPermission(user?.permissions, item.permission) : true
+  );
+
+  const isSuperAdmin = user?.permissions?.includes("FULL_ACCESS") || !user?.permissions || user.permissions.length === 0;
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
   const toggleMobile = () => setIsOpenMobile(!isOpenMobile);
@@ -152,7 +170,9 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
                 </div>
                 <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
                   <ShieldCheck size={11} className="text-accent-dark dark:text-accent-light shrink-0" />
-                  <span className="truncate">Lead Engineer / Admin</span>
+                  <span className="truncate">
+                    {isSuperAdmin ? "Lead Engineer / Super Admin" : `Console Admin (${user?.permissions?.length || 0} scope)`}
+                  </span>
                 </div>
               </div>
             </div>

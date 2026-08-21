@@ -68,6 +68,24 @@ export interface ProjectRequestModel {
   updatedAt: Date;
 }
 
+export interface AuditLogModel {
+  id: string;
+  actorId?: string | null;
+  actorEmail?: string | null;
+  actorName?: string | null;
+  action: string;
+  entityType: string;
+  entityId?: string | null;
+  metadata?: unknown;
+  createdAt: Date;
+  actor?: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    image: string | null;
+  } | null;
+}
+
 export type ExtendedPrismaClient = PrismaClient & {
   portfolioItem: {
     findMany: (args?: { where?: Record<string, unknown>; orderBy?: Record<string, unknown>; take?: number }) => Promise<PortfolioItemModel[]>;
@@ -87,4 +105,11 @@ export type ExtendedPrismaClient = PrismaClient & {
       update: Record<string, unknown>;
     }) => Promise<QuotationModel>;
   };
+  auditLog: {
+    findMany: (args?: { where?: Record<string, unknown>; orderBy?: Record<string, unknown>; take?: number; include?: Record<string, unknown> }) => Promise<AuditLogModel[]>;
+    findUnique: (args: { where: { id: string } }) => Promise<AuditLogModel | null>;
+    create: (args: { data: Record<string, unknown> }) => Promise<AuditLogModel>;
+    delete: (args: { where: { id: string } }) => Promise<AuditLogModel>;
+  };
+  [key: string]: any;
 };

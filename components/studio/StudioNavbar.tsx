@@ -3,19 +3,21 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ExternalLink, Terminal, ShieldCheck, Activity } from "lucide-react";
+import { ExternalLink, ShieldCheck, Activity, Menu, X } from "lucide-react";
 import NotificationCenter from "./NotificationCenter";
 import StudioThemeToggle from "./StudioThemeToggle";
 import { AdminPermission } from "@prisma/client";
+import { useStudio } from "./StudioContext";
 
-interface StudioHeaderUser {
+export interface StudioNavbarUser {
   name?: string | null;
   email?: string | null;
   image?: string | null;
   permissions?: AdminPermission[] | null;
 }
 
-export default function StudioHeader({ user }: { user?: StudioHeaderUser }) {
+export default function StudioNavbar({ user }: { user?: StudioNavbarUser }) {
+  const { isOpenMobile, toggleMobile } = useStudio();
   const [timeString, setTimeString] = useState<string>("");
 
   useEffect(() => {
@@ -44,51 +46,66 @@ export default function StudioHeader({ user }: { user?: StudioHeaderUser }) {
         .slice(0, 2)
     : "BZ";
 
+  const isSuperAdmin =
+    user?.permissions?.includes("FULL_ACCESS") ||
+    !user?.permissions ||
+    user.permissions.length === 0;
+
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-border bg-card/85 px-4 backdrop-blur-xl transition-colors sm:px-6 md:px-8 shadow-xs">
-      {/* Left Brand Identity & Breadcrumbs */}
+    <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-border bg-card/90 px-4 sm:px-6 md:px-8 backdrop-blur-xl transition-colors shadow-xs">
+      {/* Left Brand Identity: Bezalel Logo & Node Status */}
       <div className="flex items-center gap-3 md:gap-4">
+        {/* Mobile Hamburger / Close Button */}
+        <button
+          onClick={toggleMobile}
+          className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background p-2 text-muted-foreground hover:bg-secondary hover:text-foreground md:hidden transition-colors"
+          aria-label={isOpenMobile ? "Close navigation menu" : "Open navigation menu"}
+        >
+          {isOpenMobile ? <X size={18} /> : <Menu size={18} />}
+        </button>
+
+        {/* Unified Bezalel Logo Link */}
         <Link
           href="/studio"
           className="flex items-center gap-2.5 transition-opacity hover:opacity-90 group"
-          title="Bezalel Executive Studio Console"
+          title="Bezalel Technologies — Studio Ops Console"
         >
           {/* Bezalel Gold Mark */}
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/30 bg-accent/10 p-1.5 shadow-2xs group-hover:border-accent/60 transition-all">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/35 bg-accent/15 p-1.5 shadow-2xs group-hover:border-accent/60 transition-all">
             <img
               src="/logos/bezalel-mark-gold.svg"
-              alt="Bezalel Technologies Mark"
+              alt="Bezalel Logo Mark"
               className="h-full w-full object-contain"
             />
           </div>
 
-          <div className="hidden sm:block">
-            {/* Theme-aware Horizontal Wordmark */}
+          <div>
+            {/* Wordmark with Light/Dark Theme Adaptation */}
             <div className="flex items-center">
               <img
                 src="/logos/bezalel-logo-horizontal-dark.png"
                 alt="Bezalel Technologies"
-                className="h-7 w-auto object-contain dark:hidden"
+                className="h-6 sm:h-7 w-auto object-contain dark:hidden"
               />
               <img
                 src="/logos/bezalel-logo-horizontal-light.png"
                 alt="Bezalel Technologies"
-                className="hidden h-7 w-auto object-contain dark:block"
+                className="hidden h-6 sm:h-7 w-auto object-contain dark:block"
               />
             </div>
             <div className="flex items-center gap-1.5 -mt-0.5">
               <span className="text-[9px] font-mono font-bold tracking-widest text-accent-dark dark:text-accent-light uppercase">
-                ADMIN TERMINAL
+                STUDIO TERMINAL
               </span>
-              <span className="text-muted-foreground text-[9px]">•</span>
-              <span className="text-[9px] font-mono text-muted-foreground uppercase">
+              <span className="hidden sm:inline text-muted-foreground text-[9px]">•</span>
+              <span className="hidden sm:inline text-[9px] font-mono text-muted-foreground uppercase">
                 V4.2 PROD
               </span>
             </div>
           </div>
         </Link>
 
-        {/* Live Status Badge (Desktop only) */}
+        {/* Live Status Badge (Desktop) */}
         <div className="hidden lg:flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -98,7 +115,7 @@ export default function StudioHeader({ user }: { user?: StudioHeaderUser }) {
         </div>
       </div>
 
-      {/* Right Controls: Clock, Notifications, Theme Toggle, Profile */}
+      {/* Right Controls: Telemetry Clock, Live Site, Notifications, Theme Toggle, Profile */}
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Real-time Digital Telemetry Clock */}
         {timeString && (
@@ -113,7 +130,7 @@ export default function StudioHeader({ user }: { user?: StudioHeaderUser }) {
           href="/"
           target="_blank"
           className="hidden md:inline-flex items-center gap-1.5 rounded-lg border border-border bg-background/60 px-2.5 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
-          title="Open Public Website"
+          title="Open Public Website in New Tab"
         >
           <ExternalLink size={13} />
           <span className="hidden lg:inline">Live Site</span>
@@ -122,10 +139,10 @@ export default function StudioHeader({ user }: { user?: StudioHeaderUser }) {
         {/* Real-Time Notification Center */}
         <NotificationCenter />
 
-        {/* Working Theme Toggle */}
+        {/* Studio Theme Switcher */}
         <StudioThemeToggle showLabel={false} />
 
-        {/* Admin Profile Chip */}
+        {/* Admin Profile Header Badge */}
         <div className="flex items-center gap-2 border-l border-border pl-2 sm:pl-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-accent/40 bg-accent/15 text-xs font-black text-accent-dark dark:text-accent-light shadow-2xs">
             {user?.image ? (
@@ -139,12 +156,12 @@ export default function StudioHeader({ user }: { user?: StudioHeaderUser }) {
             )}
           </div>
           <div className="hidden md:block text-left">
-            <div className="text-xs font-bold leading-tight text-foreground truncate max-w-[110px]">
-              {user?.name || "Operator"}
+            <div className="text-xs font-bold leading-tight text-foreground truncate max-w-[120px]">
+              {user?.name || "Lead Engineer"}
             </div>
             <div className="flex items-center gap-1 text-[9px] font-mono text-muted-foreground">
               <ShieldCheck size={10} className="text-accent-dark dark:text-accent-light shrink-0" />
-              <span>ADMIN</span>
+              <span>{isSuperAdmin ? "SUPER ADMIN" : `ADMIN (${user?.permissions?.length || 0})`}</span>
             </div>
           </div>
         </div>

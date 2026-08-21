@@ -85,7 +85,7 @@ export async function POST(
     // Determine sequential document number: RC-YYYY-XXX
     let documentNumber = `RC-${year}-001`;
     try {
-      const existingQuotation = await (prisma.quotation as any).findUnique({
+      const existingQuotation = await prisma.quotation.findUnique({
         where: { projectRequestId: id },
         select: { documentNumber: true },
       });
@@ -93,7 +93,7 @@ export async function POST(
       if (existingQuotation?.documentNumber) {
         documentNumber = existingQuotation.documentNumber;
       } else {
-        const yearQuotes = await (prisma.quotation as any).findMany({
+        const yearQuotes = await prisma.quotation.findMany({
           where: {
             documentNumber: {
               startsWith: `RC-${year}-`,
@@ -172,7 +172,7 @@ export async function POST(
     });
 
     // Save quotation to DB with fallback if database schema is not yet migrated
-    let quotation: any = null;
+    let quotation: { id?: string } | null = null;
     try {
       quotation = await prisma.quotation.upsert({
         where: { projectRequestId: id },
@@ -373,9 +373,10 @@ export async function POST(
 
       emailSent = emailResult.success;
       if (!emailResult.success && emailResult.error) {
-        emailWarning = typeof emailResult.error === "object" && "message" in emailResult.error
-          ? (emailResult.error as any).message
-          : "Email could not be delivered to unverified domain";
+        emailWarning =
+          typeof emailResult.error === "object" && "message" in (emailResult.error as object)
+            ? (emailResult.error as { message?: string }).message || "Email delivery failed"
+            : "Email could not be delivered to unverified domain";
       } else if (emailResult.sandboxRedirect) {
         emailWarning = `Delivered to verified admin address (leyianbeza24@gmail.com) via Resend Sandbox`;
       }

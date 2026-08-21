@@ -2,6 +2,7 @@ import { AdminPermission } from "@prisma/client";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
+import type { Session } from "next-auth";
 
 export interface PermissionDefinition {
   key: AdminPermission;
@@ -114,7 +115,7 @@ export async function requireAdminPermission(
  */
 export async function verifyApiAdminPermission(
   requiredPermission?: AdminPermission
-): Promise<{ errorResponse: NextResponse | null; session: any }> {
+): Promise<{ errorResponse: NextResponse | null; session: Session | null }> {
   const session = await auth();
 
   if (!session || session.user?.role !== "ADMIN") {

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-  Cpu,
   Plus,
   Edit3,
   Trash2,

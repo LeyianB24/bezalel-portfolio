@@ -111,5 +111,5 @@ export type ExtendedPrismaClient = PrismaClient & {
     create: (args: { data: Record<string, unknown> }) => Promise<AuditLogModel>;
     delete: (args: { where: { id: string } }) => Promise<AuditLogModel>;
   };
-  [key: string]: any;
+  [key: string]: unknown;
 };

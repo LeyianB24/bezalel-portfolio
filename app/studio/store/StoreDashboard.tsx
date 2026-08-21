@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PackageSearch, DollarSign, Package, ShoppingBag, Eye, X, CheckCircle2 } from "lucide-react";
+import { PackageSearch, DollarSign, Package, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 

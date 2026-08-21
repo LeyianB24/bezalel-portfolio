@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { FiCpu, FiDatabase, FiServer } from "react-icons/fi";
 import InteractiveCard from "./InteractiveCard";
 

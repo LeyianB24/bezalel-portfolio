@@ -22,16 +22,6 @@ import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
 
-interface ProjectItem {
-  id: string;
-  title: string;
-  name: string;
-  email: string;
-  status: string;
-  category: string;
-  createdAt: Date;
-}
-
 interface RecentSignal {
   id: string;
   type: "PROJECT" | "MESSAGE" | "ORDER" | "CAREER";
@@ -50,7 +40,6 @@ export default async function StudioPage() {
   let portfolioCount = 0;
   let equipmentCount = 0;
   let techCount = 0;
-  let latestProjects: ProjectItem[] = [];
   let recentApplications = 0;
   let recentOrders = 0;
   let totalRevenue = 0;
@@ -92,15 +81,6 @@ export default async function StudioPage() {
 
     activeProjectsCount = results[0];
     unreadMessagesCount = results[1];
-    latestProjects = results[2].map((p) => ({
-      id: p.id,
-      title: p.title,
-      name: p.name,
-      email: p.email,
-      status: p.status,
-      category: p.category,
-      createdAt: p.createdAt,
-    }));
     recentApplications = results[3];
     recentOrders = results[4];
     totalRevenue = results[5]._sum?.total || 0;

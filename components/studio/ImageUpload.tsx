@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Upload, X, Loader2, Image as ImageIcon, Plus, Link as LinkIcon, Smartphone, Camera } from "lucide-react";
+import { Upload, X, Loader2, Plus, Link as LinkIcon, Smartphone, Camera } from "lucide-react";
 import { toast } from "sonner";
 
 interface ImageUploadProps {

@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -14,8 +13,6 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Menu,
-  X,
   ExternalLink,
   ShieldCheck,
   Layers,
@@ -27,14 +24,14 @@ import { cn } from "@/lib/utils";
 import { AdminPermission } from "@prisma/client";
 import { hasPermission } from "@/lib/permissions";
 import StudioThemeToggle from "./StudioThemeToggle";
-import NotificationCenter from "./NotificationCenter";
+import { useStudio } from "./StudioContext";
 
-type SidebarUser = {
+export interface SidebarUser {
   name?: string | null;
   email?: string | null;
   image?: string | null;
   permissions?: AdminPermission[] | null;
-};
+}
 
 interface NavItem {
   label: string;
@@ -45,8 +42,7 @@ interface NavItem {
 
 export default function Sidebar({ user }: { user?: SidebarUser }) {
   const pathname = usePathname();
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isOpenMobile, setIsOpenMobile] = useState(false);
+  const { isCollapsed, toggleSidebar, isOpenMobile, closeMobile } = useStudio();
 
   const allNavItems: NavItem[] = [
     { label: "Overview", href: "/studio", icon: LayoutDashboard },
@@ -64,10 +60,10 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
     item.permission ? hasPermission(user?.permissions, item.permission) : true
   );
 
-  const isSuperAdmin = user?.permissions?.includes("FULL_ACCESS") || !user?.permissions || user.permissions.length === 0;
-
-  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
-  const toggleMobile = () => setIsOpenMobile(!isOpenMobile);
+  const isSuperAdmin =
+    user?.permissions?.includes("FULL_ACCESS") ||
+    !user?.permissions ||
+    user.permissions.length === 0;
 
   const initials = user?.name
     ? user.name
@@ -80,110 +76,44 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
 
   return (
     <>
-      {/* Mobile Top Navigation Bar */}
-      <header className="flex h-16 items-center justify-between border-b border-border bg-card/90 px-4 backdrop-blur-md md:hidden">
-        <Link href="/studio" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/30 bg-accent/15 p-1">
-            <img
-              src="/logos/bezalel-mark-gold.svg"
-              alt="Bezalel Logo"
-              className="h-full w-full object-contain"
-            />
-          </div>
-          <div>
-            <span className="font-display text-sm font-black tracking-wider text-foreground">
-              BEZALEL
-            </span>
-            <span className="text-[10px] font-mono font-bold text-accent-dark dark:text-accent-light block -mt-1">
-              STUDIO TERMINAL
-            </span>
-          </div>
-        </Link>
-
-        <div className="flex items-center gap-2">
-          <NotificationCenter />
-          <StudioThemeToggle />
-          <button
-            onClick={toggleMobile}
-            className="rounded-md border border-border bg-background p-2 text-muted-foreground hover:text-foreground"
-            aria-label="Toggle mobile menu"
-          >
-            {isOpenMobile ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Sidebar Overlay Backdrop */}
       {isOpenMobile && (
         <div
           className="fixed inset-0 z-40 bg-black/80 backdrop-blur-xs md:hidden"
-          onClick={toggleMobile}
+          onClick={closeMobile}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar Shell */}
+      {/* Sidebar Shell — Positioned strictly below the top navbar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex h-full flex-col border-r border-border bg-card/95 backdrop-blur-xl transition-all duration-300 shadow-sm",
-          "md:translate-x-0 md:sticky md:top-0",
-          isCollapsed ? "w-16" : "w-64",
+          "fixed top-16 bottom-0 left-0 z-40 flex h-[calc(100vh-4rem)] flex-col border-r border-border bg-card/95 backdrop-blur-xl shadow-xs transition-all duration-300",
+          "md:sticky md:top-16 md:z-30 md:translate-x-0",
+          isCollapsed ? "md:w-16" : "md:w-64",
           isOpenMobile ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0"
         )}
       >
-        {/* Brand Header */}
-        <div className="flex h-16 items-center justify-between border-b border-border px-3.5">
-          <Link
-            href="/studio"
-            className={cn(
-              "flex items-center gap-2.5 transition-opacity duration-200",
-              isCollapsed && "opacity-0 md:w-0 overflow-hidden"
-            )}
-          >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-accent/30 bg-accent/15 p-1 shadow-2xs">
-              <img
-                src="/logos/bezalel-mark-gold.svg"
-                alt="Bezalel Mark"
-                className="h-full w-full object-contain"
-              />
-            </div>
-            <div>
-              <div className="flex items-center">
-                <img
-                  src="/logos/bezalel-logo-horizontal-dark.png"
-                  alt="Bezalel Technologies"
-                  className="h-6 w-auto object-contain dark:hidden"
-                />
-                <img
-                  src="/logos/bezalel-logo-horizontal-light.png"
-                  alt="Bezalel Technologies"
-                  className="hidden h-6 w-auto object-contain dark:block"
-                />
-              </div>
-              <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light block">
-                ENGINEERING OPS
+        {/* Top Control Edge: Collapse/Expand Toggle & Section Label (No logo) */}
+        <div
+          className={cn(
+            "flex h-12 items-center border-b border-border transition-colors",
+            isCollapsed ? "justify-center px-2" : "justify-between px-3.5"
+          )}
+        >
+          {!isCollapsed && (
+            <div className="flex items-center gap-2 overflow-hidden">
+              <span className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground uppercase">
+                Console Nav
               </span>
-            </div>
-          </Link>
-
-          {/* Collapsed Mark Display */}
-          {isCollapsed && (
-            <div className="flex h-full w-full items-center justify-center">
-              <Link href="/studio" title="Bezalel Studio">
-                <div className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/30 bg-accent/15 p-1">
-                  <img
-                    src="/logos/bezalel-mark-gold.svg"
-                    alt="Bezalel Logo"
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-              </Link>
             </div>
           )}
 
           <button
             onClick={toggleSidebar}
-            className="hidden rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground md:block transition-colors"
+            className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            title={isCollapsed ? "Expand sidebar (w-64)" : "Collapse sidebar (w-16)"}
           >
             {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
@@ -197,7 +127,7 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
                 {user?.image ? (
                   <img
                     src={user.image}
-                    alt={user.name || ""}
+                    alt={user.name || "Admin"}
                     className="h-full w-full rounded-md object-cover"
                   />
                 ) : (
@@ -211,7 +141,9 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
                 <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
                   <ShieldCheck size={11} className="text-accent-dark dark:text-accent-light shrink-0" />
                   <span className="truncate">
-                    {isSuperAdmin ? "Lead Engineer / Super Admin" : `Console Admin (${user?.permissions?.length || 0} scope)`}
+                    {isSuperAdmin
+                      ? "Super Administrator"
+                      : `Console Admin (${user?.permissions?.length || 0})`}
                   </span>
                 </div>
               </div>
@@ -220,14 +152,17 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
         )}
 
         {isCollapsed && (
-          <div className="flex justify-center border-b border-border py-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/40 bg-accent/15 text-xs font-black text-accent-dark dark:text-accent-light">
+          <div className="flex justify-center border-b border-border py-2.5">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/40 bg-accent/15 text-xs font-black text-accent-dark dark:text-accent-light"
+              title={user?.name || "Admin Profile"}
+            >
               {initials}
             </div>
           </div>
         )}
 
-        {/* Navigation Items */}
+        {/* Navigation Items (Independent internal scroll) */}
         <nav className="flex-1 space-y-1 overflow-y-auto p-2">
           {navItems.map((item) => {
             const isActive =
@@ -239,7 +174,7 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setIsOpenMobile(false)}
+                onClick={closeMobile}
                 className={cn(
                   "group flex items-center gap-3 rounded-md px-3 py-2 text-xs font-bold tracking-wide transition-all duration-200",
                   isActive
@@ -248,7 +183,13 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
                 )}
                 title={isCollapsed ? item.label : undefined}
               >
-                <Icon size={16} className={cn("shrink-0 transition-transform group-hover:scale-110", isActive && "text-accent-dark dark:text-accent-light")} />
+                <Icon
+                  size={16}
+                  className={cn(
+                    "shrink-0 transition-transform group-hover:scale-110",
+                    isActive && "text-accent-dark dark:text-accent-light"
+                  )}
+                />
                 <span
                   className={cn(
                     "transition-all duration-200 truncate",
@@ -284,7 +225,7 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
           </div>
         )}
 
-        {/* Action Footers with Quick Theme Toggle */}
+        {/* Action Footers: Theme Toggle, Live Site, Sign Out */}
         <div className="border-t border-border p-2 space-y-1">
           {!isCollapsed && (
             <div className="px-1 py-1">

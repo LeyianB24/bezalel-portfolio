@@ -51,9 +51,10 @@ export async function sendEmail({ to, subject, html, cc, replyTo, attachments }:
       console.warn("⚠️ Resend Email Send Warning:", error);
 
       // Handle Resend testing/sandbox restriction (only allowed to send to account owner's email)
+      const errorObj = error as { statusCode?: number; message?: string };
       const isSandboxRestriction =
-        (error as any).statusCode === 403 ||
-        (error.message && error.message.includes("only send testing emails to your own email address"));
+        errorObj.statusCode === 403 ||
+        (Boolean(error.message) && error.message.includes("only send testing emails to your own email address"));
 
       if (isSandboxRestriction) {
         const ownerEmail = "leyianbeza24@gmail.com";

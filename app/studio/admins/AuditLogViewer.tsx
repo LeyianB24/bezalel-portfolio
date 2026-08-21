@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Shield, RefreshCw, Clock, User, FileText, Search } from "lucide-react";
+import { Shield, RefreshCw, Clock, User, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AuditLogItem {

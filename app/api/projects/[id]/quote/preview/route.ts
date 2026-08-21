@@ -93,7 +93,7 @@ export async function POST(
     let documentNumber = `RC-${year}-PREVIEW`;
     if (id) {
       try {
-        const existingQuotation = await (prisma.quotation as any).findUnique({
+        const existingQuotation = await prisma.quotation.findUnique({
           where: { projectRequestId: id },
           select: { documentNumber: true },
         });
@@ -101,7 +101,7 @@ export async function POST(
         if (existingQuotation?.documentNumber) {
           documentNumber = existingQuotation.documentNumber;
         } else {
-          const yearQuotes = await (prisma.quotation as any).findMany({
+          const yearQuotes = await prisma.quotation.findMany({
             where: {
               documentNumber: {
                 startsWith: `RC-${year}-`,

@@ -9,9 +9,7 @@ import {
   X,
   Loader2,
   CheckCircle2,
-  Layers,
   ShoppingBag,
-  Shield,
 } from "lucide-react";
 import { toast } from "sonner";
 import { EquipmentCategory } from "@prisma/client";

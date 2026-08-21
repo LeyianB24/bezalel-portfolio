@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export interface LogAuditParams {
   actorId?: string | null;
@@ -32,7 +33,7 @@ export async function logAudit({
         action,
         entityType,
         entityId: entityId || null,
-        metadata: metadata ? (metadata as any) : undefined,
+        metadata: metadata ? (metadata as Prisma.InputJsonValue) : undefined,
       },
     });
   } catch (err) {

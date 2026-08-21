@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { 
-  Briefcase, Users, Plus, Eye, Check, X, 
-  ExternalLink, FileText, Filter, Calendar, 
-  Loader2, ToggleLeft, ToggleRight, Building, MapPin 
+  Briefcase, Users, Plus, Eye, X, 
+  ExternalLink, FileText, Filter, 
+  Loader2, ToggleLeft, ToggleRight, MapPin 
 } from "lucide-react";
 import { JobType, AppStatus } from "@prisma/client";
 import { toast } from "sonner";

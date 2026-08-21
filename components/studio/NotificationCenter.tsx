@@ -95,8 +95,11 @@ export default function NotificationCenter() {
   }, [isOpen]);
 
   // Mark single item as read
-  const handleMarkItemRead = async (item: StudioNotificationItem, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleMarkItemRead = async (
+    item: StudioNotificationItem,
+    e?: React.MouseEvent | { stopPropagation?: () => void }
+  ) => {
+    e?.stopPropagation?.();
     try {
       // Optimistic update
       setNotifications((prev) =>
@@ -145,7 +148,7 @@ export default function NotificationCenter() {
 
   const handleItemClick = (item: StudioNotificationItem) => {
     if (item.isUnread) {
-      handleMarkItemRead(item, { stopPropagation: () => {} } as any);
+      handleMarkItemRead(item);
     }
     setIsOpen(false);
     router.push(item.actionUrl);

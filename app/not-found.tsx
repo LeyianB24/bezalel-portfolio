@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { ArrowLeft, Home, Compass } from "lucide-react";
+import { Home, Compass } from "lucide-react";
 
 export default function RootNotFound() {
   return (

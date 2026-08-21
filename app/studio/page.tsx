@@ -12,6 +12,9 @@ import {
   CheckCircle2,
   FileText,
   Activity,
+  ShoppingBag,
+  Briefcase,
+  Bell,
 } from "lucide-react";
 import Link from "next/link";
 import ActivityChart from "./ActivityChart";
@@ -29,6 +32,16 @@ interface ProjectItem {
   createdAt: Date;
 }
 
+interface RecentSignal {
+  id: string;
+  type: "PROJECT" | "MESSAGE" | "ORDER" | "CAREER";
+  title: string;
+  subtitle: string;
+  timestamp: Date;
+  status: string;
+  url: string;
+}
+
 export default async function StudioPage() {
   const session = await auth();
 
@@ -41,6 +54,7 @@ export default async function StudioPage() {
   let recentApplications = 0;
   let recentOrders = 0;
   let totalRevenue = 0;
+  const recentSignals: RecentSignal[] = [];
 
   try {
     const results = await Promise.all([
@@ -65,6 +79,15 @@ export default async function StudioPage() {
       prisma.portfolioItem.count(),
       prisma.equipment.count(),
       prisma.techArsenalItem.count(),
+      // Also fetch recent messages and orders for operational signals
+      prisma.contactMessage.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 3,
+      }),
+      prisma.order.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 3,
+      }),
     ]);
 
     activeProjectsCount = results[0];
@@ -84,6 +107,45 @@ export default async function StudioPage() {
     portfolioCount = results[6];
     equipmentCount = results[7];
     techCount = results[8];
+
+    // Build unified live signals feed
+    results[2].slice(0, 3).forEach((p) => {
+      recentSignals.push({
+        id: `pr-${p.id}`,
+        type: "PROJECT",
+        title: `Project: ${p.title}`,
+        subtitle: `From ${p.name} • ${p.category}`,
+        timestamp: p.createdAt,
+        status: p.status,
+        url: "/studio/projects",
+      });
+    });
+
+    results[9].forEach((m) => {
+      recentSignals.push({
+        id: `msg-${m.id}`,
+        type: "MESSAGE",
+        title: `Inquiry: ${m.subject || "Client Message"}`,
+        subtitle: `From ${m.name}`,
+        timestamp: m.createdAt,
+        status: m.status,
+        url: "/studio/messages",
+      });
+    });
+
+    results[10].forEach((o) => {
+      recentSignals.push({
+        id: `ord-${o.id}`,
+        type: "ORDER",
+        title: `Order #${o.id.slice(-6).toUpperCase()}`,
+        subtitle: `Customer: ${o.name}`,
+        timestamp: o.createdAt,
+        status: o.status,
+        url: "/studio/store",
+      });
+    });
+
+    recentSignals.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
   } catch (err) {
     console.error("StudioPage database error:", err);
   }
@@ -357,7 +419,7 @@ export default async function StudioPage() {
         </div>
       </div>
 
-      {/* 4. Intake Telemetry Chart & Recent Inquiries */}
+      {/* 4. Intake Telemetry Chart & Recent Inquiries & Live Signals */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Weekly Inflow Activity Chart */}
         <div className="rounded-xl border border-border bg-card p-6 shadow-sm lg:col-span-2">
@@ -382,58 +444,69 @@ export default async function StudioPage() {
           <ActivityChart data={chartData} />
         </div>
 
-        {/* Live Project Intake Queue */}
+        {/* Live Operational Signals Feed */}
         <div className="rounded-xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4 border-b border-border pb-3">
-              <h2 className="font-display text-sm font-bold text-foreground">
-                Recent Project Briefs
-              </h2>
-              <Link
-                href="/studio/projects"
-                className="text-xs font-bold text-accent-dark dark:text-accent-light hover:underline"
-              >
-                View all ({activeProjectsCount})
-              </Link>
+              <div className="flex items-center gap-2">
+                <Bell size={15} className="text-accent-dark dark:text-accent-light" />
+                <h2 className="font-display text-sm font-bold text-foreground">
+                  Inbound Signals Feed
+                </h2>
+              </div>
+              <span className="rounded-full bg-accent/15 px-2 py-0.5 font-mono text-[9px] font-bold text-accent-dark dark:text-accent-light">
+                LIVE
+              </span>
             </div>
 
             <div className="space-y-2.5">
-              {latestProjects.length === 0 ? (
+              {recentSignals.length === 0 ? (
                 <p className="text-xs text-muted-foreground py-6 text-center">
-                  No project briefs received yet.
+                  No inbound signals logged yet.
                 </p>
               ) : (
-                latestProjects.map((p) => (
-                  <div
-                    key={p.id}
-                    className="rounded-lg border border-border bg-background p-3 transition-colors hover:border-accent/40"
+                recentSignals.slice(0, 5).map((s) => (
+                  <Link
+                    key={s.id}
+                    href={s.url}
+                    className="block rounded-lg border border-border bg-background p-2.5 transition-all hover:border-accent/40 hover:bg-secondary/40"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-display text-xs font-bold text-foreground truncate">
-                        {p.title}
+                      <span className="font-display text-xs font-bold text-foreground truncate flex items-center gap-1.5">
+                        {s.type === "PROJECT" && <FolderKanban size={13} className="text-accent shrink-0" />}
+                        {s.type === "MESSAGE" && <Mail size={13} className="text-blue-500 shrink-0" />}
+                        {s.type === "ORDER" && <ShoppingBag size={13} className="text-emerald-500 shrink-0" />}
+                        {s.type === "CAREER" && <Briefcase size={13} className="text-purple-500 shrink-0" />}
+                        <span className="truncate">{s.title}</span>
                       </span>
                       <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase text-accent-dark dark:text-accent-light shrink-0">
-                        {p.status}
+                        {s.status}
                       </span>
                     </div>
                     <div className="mt-1 flex items-center justify-between text-[11px] text-muted-foreground">
-                      <span className="truncate">{p.name}</span>
-                      <span className="font-mono text-[10px]">
-                        {new Date(p.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      <span className="truncate text-[10px]">{s.subtitle}</span>
+                      <span className="font-mono text-[9px] shrink-0">
+                        {new Date(s.timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 ))
               )}
             </div>
           </div>
 
-          <div className="border-t border-border pt-4 mt-4">
+          <div className="border-t border-border pt-4 mt-4 flex items-center justify-between text-xs">
             <Link
               href="/studio/projects"
-              className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary py-2.5 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 transition-colors shadow-xs"
+              className="font-bold text-accent-dark dark:text-accent-light hover:underline"
             >
-              Open Project Pipeline
+              Projects ({activeProjectsCount})
+            </Link>
+            <Link
+              href="/studio/messages"
+              className="font-bold text-accent-dark dark:text-accent-light hover:underline"
+            >
+              Messages ({unreadMessagesCount})
             </Link>
           </div>
         </div>

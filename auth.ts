@@ -5,6 +5,7 @@ import { z } from "zod"
 import bcrypt from "bcryptjs"
 import prisma from "@/lib/prisma"
 import { authConfig } from "./auth.config"
+import { loginLimiter } from "@/lib/ratelimit"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -23,8 +24,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
         const { email, password } = parsedCredentials.data
 
+        // Rate limit by email to prevent brute-force / credential stuffing
+        const limitResult = await loginLimiter.limit(`login:${email.toLowerCase().trim()}`)
+        if (!limitResult.success) {
+          throw new Error("Too many login attempts. Please wait 1 minute before trying again.")
+        }
+
         const user = await prisma.user.findUnique({
-          where: { email },
+          where: { email: email.toLowerCase().trim() },
         })
 
         if (!user || !user.password) {

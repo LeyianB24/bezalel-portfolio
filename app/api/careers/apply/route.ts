@@ -3,8 +3,13 @@ import prisma from "@/lib/prisma";
 import { uploadCV } from "@/lib/cloudinary";
 import { sendEmail } from "@/lib/resend";
 import { auth } from "@/auth";
+import { checkRateLimit } from "@/lib/ratelimit";
 
 export async function POST(req: Request) {
+  // Rate limiting check
+  const rateLimitResponse = await checkRateLimit(req, "form");
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     const formData = await req.formData();
     const jobId = formData.get("jobId") as string;

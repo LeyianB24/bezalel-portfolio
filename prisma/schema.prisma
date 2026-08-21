@@ -24,6 +24,7 @@ model User {
   orders          Order[]
   projectRequests ProjectRequest[]
   messages        ContactMessage[]
+  auditLogs       AuditLog[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 }
@@ -375,4 +376,24 @@ enum MessageStatus {
   READ
   REPLIED
   ARCHIVED
+}
+
+// ─── AUDIT LOGGING ──────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorEmail String?
+  actorName  String?
+  action     String   // e.g. "QUOTATION_SENT", "ADMIN_CREATED", "PERMISSIONS_UPDATED", "ORDER_STATUS_CHANGED", "JOB_STATUS_CHANGED"
+  entityType String   // e.g. "Quotation", "User", "Order", "Job", "PortfolioItem", "Equipment"
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
 }

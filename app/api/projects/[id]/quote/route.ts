@@ -384,6 +384,22 @@ export async function POST(
       emailWarning = emailErr instanceof Error ? emailErr.message : "Email delivery skipped";
     }
 
+    const { logAudit } = await import("@/lib/audit");
+    await logAudit({
+      action: "QUOTATION_SENT",
+      entityType: "Quotation",
+      entityId: quotation?.id || id,
+      metadata: {
+        documentNumber,
+        projectTitle: title,
+        clientName: project.name,
+        clientEmail: project.email,
+        total,
+        amountDueToStart,
+        emailSent,
+      },
+    });
+
     return NextResponse.json({
       success: true,
       quotation,

@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Search, Filter, Package, Star, Zap, Shield, ArrowRight, Tag, X } from "lucide-react";
 import Link from "next/link";
@@ -44,10 +44,12 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       {/* Image / Category Badge */}
       <div className="relative aspect-[4/3] bg-secondary/20 flex items-center justify-center overflow-hidden">
         {product.images.length > 0 ? (
-          <img 
+          <Image 
             src={product.images[0]} 
-            alt={product.name} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+            alt={product.name || "Hardware equipment product"} 
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-300" 
           />
         ) : (
           <div className="flex flex-col items-center gap-2 text-muted-foreground/40">

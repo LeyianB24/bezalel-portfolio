@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { 
   Package, ShoppingCart, CheckCircle2, 
@@ -150,10 +150,13 @@ export default function ProductDetailClient({
               className="relative aspect-square rounded-lg border border-border bg-card overflow-hidden flex items-center justify-center shadow-sm"
             >
               {product.images.length > 0 ? (
-                <img
+                <Image
                   src={product.images[0]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
+                  alt={product.name || "Product gallery image"}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                  className="object-cover"
                 />
               ) : (
                 <div className="flex flex-col items-center gap-4 text-muted-foreground/30">
@@ -311,9 +314,15 @@ export default function ProductDetailClient({
                     href={`/store/${p.slug}`}
                     className="group rounded-lg border border-border bg-card overflow-hidden hover:border-accent/40 shadow-sm transition-all"
                   >
-                    <div className="aspect-[4/3] bg-secondary/20 flex items-center justify-center overflow-hidden">
+                    <div className="relative aspect-[4/3] bg-secondary/20 flex items-center justify-center overflow-hidden">
                       {p.images.length > 0 ? (
-                        <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <Image
+                          src={p.images[0]}
+                          alt={p.name || "Related product item"}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
                       ) : (
                         <Package size={32} className="text-muted-foreground/30" strokeWidth={1} />
                       )}

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { PaymentMethod, OrderStatus } from "@prisma/client";
 import { stripe } from "@/lib/stripe";
 import { sendOrderConfirmationEmail } from "@/lib/order-email";
+import { checkRateLimit } from "@/lib/ratelimit";
 
 const checkoutSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -27,6 +28,10 @@ const checkoutSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  // Rate limiting check
+  const rateLimitResponse = await checkRateLimit(req, "checkout");
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     const session = await auth();
     const body = await req.json();

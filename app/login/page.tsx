@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useState, Suspense } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
-import { KeyRound, Mail, Loader2, ArrowLeft } from "lucide-react"
+import { KeyRound, Mail, Loader2, ArrowLeft, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 
 function LoginForm() {
@@ -35,7 +36,7 @@ function LoginForm() {
         router.push(callbackUrl)
         router.refresh()
       }
-    } catch (error) {
+    } catch {
       toast.error("An error occurred during authentication.")
     } finally {
       setIsLoading(false)
@@ -43,18 +44,30 @@ function LoginForm() {
   }
 
   return (
-    <div className="z-10 w-full max-w-md space-y-6 rounded-xl border border-zinc-800 bg-zinc-900/40 p-8 shadow-2xl backdrop-blur-md">
-      {/* Logo/Header */}
-      <div className="space-y-2 text-center">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 text-emerald-500 font-mono font-bold text-lg shadow-inner">
-          B//
+    <div className="z-10 w-full max-w-md space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-8 shadow-2xl backdrop-blur-xl">
+      {/* Official Brand Logo/Header */}
+      <div className="space-y-3 text-center">
+        <div className="flex justify-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-accent/40 bg-accent/15 p-2 shadow-inner">
+            <img
+              src="/logos/bezalel-mark-gold.svg"
+              alt="Bezalel Technologies"
+              className="h-full w-full object-contain"
+            />
+          </div>
         </div>
-        <h2 className="text-xl font-bold tracking-tight text-white font-mono">
-          SECURE_LOGIN
-        </h2>
-        <p className="text-xs font-mono uppercase tracking-wider text-zinc-500">
-          Bezalel Technologies Operations Access
-        </p>
+        <div>
+          <div className="flex items-center justify-center">
+            <img
+              src="/logos/bezalel-logo-horizontal-light.png"
+              alt="Bezalel Technologies"
+              className="h-8 w-auto object-contain"
+            />
+          </div>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-accent-light/90 mt-1">
+            EXECUTIVE STUDIO OPS • ADMIN TERMINAL
+          </p>
+        </div>
       </div>
 
       {errorParam === "Unauthorized" && (
@@ -66,7 +79,7 @@ function LoginForm() {
       <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
         {/* Email input */}
         <div className="space-y-1.5">
-          <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">
+          <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">
             Operator Email
           </label>
           <div className="relative">
@@ -78,14 +91,14 @@ function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="operator@bezalelstudio.com"
-              className="w-full rounded-md border border-zinc-800 bg-zinc-950 py-2.5 pr-4 pl-10 text-zinc-200 outline-none transition-all placeholder:text-zinc-700 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 disabled:opacity-55"
+              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/90 py-2.5 pr-4 pl-10 text-zinc-100 outline-none transition-all placeholder:text-zinc-600 focus:border-accent focus:ring-1 focus:ring-accent disabled:opacity-55"
             />
           </div>
         </div>
 
         {/* Password input */}
         <div className="space-y-1.5">
-          <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">
+          <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">
             Passkey Code
           </label>
           <div className="relative">
@@ -97,7 +110,7 @@ function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
-              className="w-full rounded-md border border-zinc-800 bg-zinc-950 py-2.5 pr-4 pl-10 text-zinc-200 outline-none transition-all placeholder:text-zinc-700 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 disabled:opacity-55"
+              className="w-full rounded-lg border border-zinc-800 bg-zinc-950/90 py-2.5 pr-4 pl-10 text-zinc-100 outline-none transition-all placeholder:text-zinc-600 focus:border-accent focus:ring-1 focus:ring-accent disabled:opacity-55"
             />
           </div>
         </div>
@@ -106,15 +119,18 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-md bg-emerald-600 py-3 font-semibold text-white transition-all hover:bg-emerald-500 disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-3 font-bold text-accent-foreground transition-all hover:bg-accent-light shadow-md disabled:opacity-50"
         >
           {isLoading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              VERIFYING...
+              VERIFYING CREDENTIALS...
             </>
           ) : (
-            "AUTHENTICATE //"
+            <>
+              <ShieldCheck size={16} />
+              AUTHENTICATE CONSOLE //
+            </>
           )}
         </button>
       </form>
@@ -124,22 +140,22 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4 text-zinc-100 selection:bg-emerald-600/30 selection:text-emerald-500">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4 text-zinc-100 selection:bg-accent/30 selection:text-accent-light">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(5,150,105,0.08),rgba(255,255,255,0))] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(201,162,75,0.12),rgba(0,0,0,0))] pointer-events-none" />
       
       {/* Back to site button */}
       <Link 
         href="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-zinc-500 transition-colors hover:text-zinc-200"
+        className="absolute top-6 left-6 flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-zinc-400 transition-colors hover:text-zinc-100"
       >
         <ArrowLeft size={14} /> Back to Site
       </Link>
 
       <Suspense fallback={
-        <div className="z-10 w-full max-w-md text-center py-10 font-mono text-zinc-500">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto text-emerald-500 mb-2" />
-          BOOTING_SECURE_Terminal...
+        <div className="z-10 w-full max-w-md text-center py-10 font-mono text-zinc-400">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto text-accent mb-2" />
+          BOOTING_SECURE_TERMINAL...
         </div>
       }>
         <LoginForm />

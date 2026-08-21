@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
@@ -183,12 +183,20 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
                 >
                   <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
                     <div className="relative min-h-[260px] overflow-hidden lg:min-h-[360px] bg-secondary/30">
-                      <img 
-                        src={project.image} 
-                        alt={project.name} 
-                        className="h-full w-full object-cover" 
-                      />
-                      <div className="absolute left-4 top-4 rounded-md bg-background/90 px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light backdrop-blur border border-border">
+                      {project.image ? (
+                        <Image
+                          src={project.image}
+                          alt={project.name || "Portfolio case study screenshot"}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-secondary/40 flex items-center justify-center text-muted-foreground text-xs font-mono">
+                          SYSTEM OVERVIEW
+                        </div>
+                      )}
+                      <div className="absolute left-4 top-4 z-10 rounded-md bg-background/90 px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light backdrop-blur border border-border">
                         {project.category}
                       </div>
                     </div>
@@ -199,10 +207,11 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
                         <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground border-b border-border pb-3 mb-4">
                           <div className="flex items-center gap-2">
                             {project.clientLogoUrl && (
-                              <img
+                              <Image
                                 src={project.clientLogoUrl}
-                                alt=""
-                                aria-hidden="true"
+                                alt={`${project.clientName} logo`}
+                                width={16}
+                                height={16}
                                 className="h-4 w-4 rounded-xs object-contain bg-black/10 dark:bg-white/10 p-0.5"
                               />
                             )}

@@ -5,6 +5,7 @@ import { sendEmail } from "@/lib/resend";
 import { auth } from "@/auth";
 import { z } from "zod";
 import { ProjectCategory } from "@prisma/client";
+import { checkRateLimit } from "@/lib/ratelimit";
 
 const projectRequestSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -28,6 +29,10 @@ const projectRequestSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  // Rate limiting check
+  const rateLimitResponse = await checkRateLimit(req, "form");
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     const formData = await req.formData();
     

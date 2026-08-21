@@ -43,7 +43,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { errorResponse } = await verifyApiAdminPermission("FULL_ACCESS");
+  const { errorResponse, session } = await verifyApiAdminPermission("FULL_ACCESS");
   if (errorResponse) return errorResponse;
 
   try {
@@ -101,6 +101,21 @@ export async function POST(req: NextRequest) {
         permissions: true,
         image: true,
         createdAt: true,
+      },
+    });
+
+    const { logAudit } = await import("@/lib/audit");
+    await logAudit({
+      actorId: session?.user?.id,
+      actorEmail: session?.user?.email,
+      actorName: session?.user?.name,
+      action: "ADMIN_CREATED",
+      entityType: "User",
+      entityId: newAdmin.id,
+      metadata: {
+        email: newAdmin.email,
+        name: newAdmin.name,
+        permissions: newAdmin.permissions,
       },
     });
 

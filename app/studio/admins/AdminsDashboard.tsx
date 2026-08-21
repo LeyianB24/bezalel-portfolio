@@ -19,6 +19,7 @@ import {
 import { toast } from "sonner";
 import { AdminPermission } from "@prisma/client";
 import { ADMIN_PERMISSIONS_LIST } from "@/lib/permissions";
+import AuditLogViewer from "./AuditLogViewer";
 
 export interface AdminUserType {
   id: string;
@@ -447,6 +448,11 @@ export default function AdminsDashboard({
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* 3.5 Administrative Audit Trail */}
+      <div className="pt-4 border-t border-border/80">
+        <AuditLogViewer />
       </div>
 
       {/* 4. Create Administrator Modal */}

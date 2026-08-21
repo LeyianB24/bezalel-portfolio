@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -25,6 +26,8 @@ import {
 import { cn } from "@/lib/utils";
 import { AdminPermission } from "@prisma/client";
 import { hasPermission } from "@/lib/permissions";
+import StudioThemeToggle from "./StudioThemeToggle";
+import NotificationCenter from "./NotificationCenter";
 
 type SidebarUser = {
   name?: string | null;
@@ -77,28 +80,37 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
 
   return (
     <>
-      {/* Mobile Header */}
+      {/* Mobile Top Navigation Bar */}
       <header className="flex h-16 items-center justify-between border-b border-border bg-card/90 px-4 backdrop-blur-md md:hidden">
         <Link href="/studio" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-xs border border-white/10">
-            BZ
+          <div className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/30 bg-accent/15 p-1">
+            <img
+              src="/logos/bezalel-mark-gold.svg"
+              alt="Bezalel Logo"
+              className="h-full w-full object-contain"
+            />
           </div>
           <div>
             <span className="font-display text-sm font-black tracking-wider text-foreground">
               BEZALEL
             </span>
             <span className="text-[10px] font-mono font-bold text-accent-dark dark:text-accent-light block -mt-1">
-              STUDIO OPS
+              STUDIO TERMINAL
             </span>
           </div>
         </Link>
-        <button
-          onClick={toggleMobile}
-          className="rounded-md border border-border bg-background p-2 text-muted-foreground hover:text-foreground"
-          aria-label="Toggle mobile menu"
-        >
-          {isOpenMobile ? <X size={18} /> : <Menu size={18} />}
-        </button>
+
+        <div className="flex items-center gap-2">
+          <NotificationCenter />
+          <StudioThemeToggle />
+          <button
+            onClick={toggleMobile}
+            className="rounded-md border border-border bg-background p-2 text-muted-foreground hover:text-foreground"
+            aria-label="Toggle mobile menu"
+          >
+            {isOpenMobile ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
       </header>
 
       {/* Mobile Sidebar Overlay */}
@@ -119,7 +131,7 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
         )}
       >
         {/* Brand Header */}
-        <div className="flex h-16 items-center justify-between border-b border-border px-4">
+        <div className="flex h-16 items-center justify-between border-b border-border px-3.5">
           <Link
             href="/studio"
             className={cn(
@@ -127,18 +139,47 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
               isCollapsed && "opacity-0 md:w-0 overflow-hidden"
             )}
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-black text-xs border border-white/10 shadow-xs">
-              BZ
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-accent/30 bg-accent/15 p-1 shadow-2xs">
+              <img
+                src="/logos/bezalel-mark-gold.svg"
+                alt="Bezalel Mark"
+                className="h-full w-full object-contain"
+              />
             </div>
             <div>
-              <span className="font-display text-sm font-black tracking-wider text-foreground block leading-tight">
-                BEZALEL
-              </span>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light block">
+              <div className="flex items-center">
+                <img
+                  src="/logos/bezalel-logo-horizontal-dark.png"
+                  alt="Bezalel Technologies"
+                  className="h-6 w-auto object-contain dark:hidden"
+                />
+                <img
+                  src="/logos/bezalel-logo-horizontal-light.png"
+                  alt="Bezalel Technologies"
+                  className="hidden h-6 w-auto object-contain dark:block"
+                />
+              </div>
+              <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light block">
                 ENGINEERING OPS
               </span>
             </div>
           </Link>
+
+          {/* Collapsed Mark Display */}
+          {isCollapsed && (
+            <div className="flex h-full w-full items-center justify-center">
+              <Link href="/studio" title="Bezalel Studio">
+                <div className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/30 bg-accent/15 p-1">
+                  <img
+                    src="/logos/bezalel-mark-gold.svg"
+                    alt="Bezalel Logo"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              </Link>
+            </div>
+          )}
+
           <button
             onClick={toggleSidebar}
             className="hidden rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground md:block transition-colors"
@@ -154,7 +195,6 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
             <div className="flex items-center gap-3 rounded-lg border border-border/80 bg-secondary/40 p-2.5 shadow-xs">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-accent/40 bg-accent/15 text-xs font-black text-accent-dark dark:text-accent-light">
                 {user?.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={user.image}
                     alt={user.name || ""}
@@ -244,8 +284,14 @@ export default function Sidebar({ user }: { user?: SidebarUser }) {
           </div>
         )}
 
-        {/* Action Footers */}
+        {/* Action Footers with Quick Theme Toggle */}
         <div className="border-t border-border p-2 space-y-1">
+          {!isCollapsed && (
+            <div className="px-1 py-1">
+              <StudioThemeToggle className="w-full justify-between px-3 py-2" showLabel={true} />
+            </div>
+          )}
+
           <Link
             href="/"
             target="_blank"

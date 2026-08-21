@@ -15,7 +15,7 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { errorResponse } = await verifyApiAdminPermission("FULL_ACCESS");
+  const { errorResponse, session } = await verifyApiAdminPermission("FULL_ACCESS");
   if (errorResponse) return errorResponse;
 
   try {
@@ -100,6 +100,20 @@ export async function PATCH(
       },
     });
 
+    const { logAudit } = await import("@/lib/audit");
+    await logAudit({
+      actorId: session?.user?.id,
+      actorEmail: session?.user?.email,
+      actorName: session?.user?.name,
+      action: "ADMIN_PERMISSIONS_UPDATED",
+      entityType: "User",
+      entityId: id,
+      metadata: {
+        targetEmail: updated.email,
+        updatedPermissions: updated.permissions,
+      },
+    });
+
     return NextResponse.json(updated);
   } catch (error) {
     console.error("Error updating admin user:", error);
@@ -158,6 +172,19 @@ export async function DELETE(
 
     await prisma.user.delete({
       where: { id },
+    });
+
+    const { logAudit } = await import("@/lib/audit");
+    await logAudit({
+      actorId: session?.user?.id,
+      actorEmail: session?.user?.email,
+      actorName: session?.user?.name,
+      action: "ADMIN_DELETED",
+      entityType: "User",
+      entityId: id,
+      metadata: {
+        deletedEmail: targetUser.email,
+      },
     });
 
     return NextResponse.json({ success: true, deletedId: id });

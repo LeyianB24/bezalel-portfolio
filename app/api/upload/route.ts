@@ -29,7 +29,14 @@ export async function POST(req: Request) {
       const isSvg = file.type === "image/svg+xml" || file.name.endsWith(".svg");
 
       if (isSvg) {
-        processedBuffer = buffer;
+        const svgContent = buffer.toString("utf-8");
+        // Sanitize SVG to prevent Stored XSS via script tags, event handlers, or javascript: URLs
+        const sanitizedSvg = svgContent
+          .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+          .replace(/on\w+\s*=\s*(["']).*?\1/gi, "")
+          .replace(/on\w+\s*=\s*[^>\s]+/gi, "")
+          .replace(/javascript:/gi, "");
+        processedBuffer = Buffer.from(sanitizedSvg, "utf-8");
         contentType = "image/svg+xml";
       } else {
         processedBuffer = await sharp(buffer)

@@ -9,6 +9,7 @@ import { loginLimiter } from "@/lib/ratelimit"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authConfig,
+  trustHost: true,
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [

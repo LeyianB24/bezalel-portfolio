@@ -163,7 +163,7 @@ export async function POST(req: Request) {
 
     // 2. Admin Notification Email
     const adminEmail = process.env.ADMIN_EMAIL || process.env.SEED_ADMIN_EMAIL || "bezaleltech@gmail.com";
-    const studioUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/studio/projects`;
+    const studioUrl = `${process.env.NEXTAUTH_URL || process.env.AUTH_URL || "https://www.bezalel.website"}/studio/projects`;
 
     const adminHtml = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; background-color: #09090b; color: #f4f4f5; border: 1px solid #27272a; border-radius: 8px;">

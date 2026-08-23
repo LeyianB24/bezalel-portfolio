@@ -11,8 +11,21 @@ import Link from "next/link"
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl") || "/studio"
+  const rawCallbackUrl = searchParams.get("callbackUrl") || "/studio"
   const errorParam = searchParams.get("error")
+
+  // Ensure callbackUrl is always relative within the current host (prevents localhost redirect leaks)
+  let callbackUrl = "/studio"
+  try {
+    if (rawCallbackUrl.startsWith("/")) {
+      callbackUrl = rawCallbackUrl
+    } else {
+      const parsed = new URL(rawCallbackUrl)
+      callbackUrl = parsed.pathname + parsed.search + parsed.hash || "/studio"
+    }
+  } catch {
+    callbackUrl = "/studio"
+  }
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

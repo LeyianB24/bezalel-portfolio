@@ -2,6 +2,7 @@ import type { NextAuthConfig } from "next-auth"
 import { Role, AdminPermission } from "@prisma/client"
 
 export const authConfig = {
+  trustHost: true,
   pages: {
     signIn: "/login",
   },

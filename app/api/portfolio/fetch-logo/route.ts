@@ -23,6 +23,29 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid URL format" }, { status: 400 });
     }
 
+    const hostname = parsedUrl.hostname.toLowerCase();
+    const isPrivateOrInternal =
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      hostname === "::1" ||
+      hostname === "0.0.0.0" ||
+      hostname.startsWith("10.") ||
+      hostname.startsWith("192.168.") ||
+      hostname.startsWith("172.16.") ||
+      hostname.startsWith("172.17.") ||
+      hostname.startsWith("172.18.") ||
+      hostname.startsWith("172.19.") ||
+      hostname.startsWith("172.2") ||
+      hostname.startsWith("172.30.") ||
+      hostname.startsWith("172.31.") ||
+      hostname.startsWith("169.254.") ||
+      hostname.endsWith(".internal") ||
+      hostname.endsWith(".local");
+
+    if (isPrivateOrInternal || !["http:", "https:"].includes(parsedUrl.protocol)) {
+      return NextResponse.json({ error: "Access to private or internal hosts is restricted" }, { status: 400 });
+    }
+
     const domain = parsedUrl.hostname.replace(/^www\./, "");
     const fallbackFavicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 

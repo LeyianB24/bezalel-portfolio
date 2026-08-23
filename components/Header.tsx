@@ -61,10 +61,10 @@ export default function Header() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed left-0 right-0 top-0 z-50 px-3 py-3 sm:px-5"
+        className="fixed left-0 right-0 top-0 z-50 px-2.5 py-2.5 sm:px-5 sm:py-3"
       >
         <div
-          className={`mx-auto flex max-w-7xl items-center justify-between rounded-lg border px-4 py-3 shadow-sm transition-all duration-300 md:px-5 ${
+          className={`mx-auto flex max-w-7xl items-center justify-between rounded-lg border px-3 py-2 sm:px-4 sm:py-3 shadow-sm transition-all duration-300 md:px-5 ${
             isScrolled
               ? "border-border/80 bg-background/95 backdrop-blur-xl"
               : "border-white/20 bg-background/80 backdrop-blur-md"

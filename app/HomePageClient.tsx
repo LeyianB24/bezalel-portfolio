@@ -135,7 +135,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
         {/* 2. Hero — Split Layout with Background Slideshow & Product Proof */}
         <section
           id="home"
-          className="relative min-h-[92svh] overflow-hidden bg-primary text-white pt-28 pb-16 lg:pt-36 lg:pb-24 flex items-center"
+          className="relative min-h-[88svh] sm:min-h-[92svh] overflow-hidden bg-primary text-white pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-24 flex items-center"
         >
           {/* Ken Burns Background Slideshow */}
           <AnimatePresence initial={false}>
@@ -171,58 +171,59 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
             }}
           />
 
-          <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+          <div className="relative z-10 mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8 min-w-0 overflow-hidden">
+            <div className="grid gap-8 lg:gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center w-full min-w-0">
               {/* Hero Left: Plain Language Headline + CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, ease: "easeOut" }}
+                className="w-full min-w-0 max-w-full"
               >
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/35 bg-[#C9A24B]/15 px-3 py-1 text-[11px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] text-accent-light backdrop-blur-md max-w-full">
+                <div className="mb-3.5 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-[#C9A24B]/35 bg-[#C9A24B]/15 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-bold uppercase tracking-[0.08em] sm:tracking-[0.2em] text-accent-light backdrop-blur-md max-w-full">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#C9A24B]" />
-                  <span className="truncate">Global Delivery · HQ Nairobi, Kenya · Engineering Partner</span>
+                  <span className="truncate">Global Engineering Partner · HQ Nairobi, Kenya</span>
                 </div>
 
-                <h1 className="font-display text-3xl font-black leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl text-white">
+                <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-black leading-[1.12] sm:leading-[1.08] tracking-tight text-white">
                   Software and infrastructure for organisations that cannot afford downtime.
                 </h1>
 
-                <p className="mt-5 sm:mt-6 max-w-xl text-sm sm:text-lg leading-7 sm:leading-8 text-white/85">
+                <p className="mt-4 sm:mt-6 max-w-xl text-xs sm:text-base lg:text-lg leading-relaxed sm:leading-8 text-white/85">
                   Bezalel Technologies architects dependable, mission-critical systems for companies, startups, and institutions worldwide: bespoke web portals, cloud systems, mobile apps, IT infrastructure, and payment integrations.
                 </p>
 
-                <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full sm:w-auto">
                   <Link
                     href="/projects/request"
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 sm:py-4 text-sm font-bold text-accent-foreground shadow-md transition-colors hover:bg-accent-light text-center"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-bold text-accent-foreground shadow-md transition-colors hover:bg-accent-light text-center"
                   >
                     Start a project
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4 shrink-0" />
                   </Link>
 
                   <a
                     href="https://wa.me/254796157265"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/25 bg-white/[0.04] px-6 py-3.5 sm:py-4 text-sm font-bold text-white transition-colors hover:bg-white/10 hover:border-white/40 text-center"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-white/25 bg-white/[0.04] px-5 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/10 hover:border-white/40 text-center"
                   >
                     Talk on WhatsApp
-                    <ExternalLink className="h-4 w-4" />
+                    <ExternalLink className="h-4 w-4 shrink-0" />
                   </a>
                 </div>
 
-                <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 border-t border-white/15 pt-5 sm:pt-6 text-xs text-white/70">
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-x-4 sm:gap-x-6 gap-y-2 border-t border-white/15 pt-4 sm:pt-6 text-[11px] sm:text-xs text-white/70">
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B] shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#C9A24B] shrink-0" />
                     Fixed-milestone quotations
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B] shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#C9A24B] shrink-0" />
                     Full source code ownership
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B] shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#C9A24B] shrink-0" />
                     Worldwide remote delivery & SLAs
                   </span>
                 </div>
@@ -233,7 +234,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.65, delay: 0.15, ease: "easeOut" }}
-                className="w-full"
+                className="w-full min-w-0 max-w-full"
               >
                 <HeroProductMockup />
               </motion.div>

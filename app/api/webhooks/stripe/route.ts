@@ -13,14 +13,20 @@ export async function POST(req: Request) {
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+  if (!webhookSecret) {
+    console.error("⚠️ Stripe Webhook misconfiguration: STRIPE_WEBHOOK_SECRET is not set.");
+    return NextResponse.json({ error: "Stripe webhook secret is not configured" }, { status: 400 });
+  }
+
+  if (!signature) {
+    console.warn("⚠️ Stripe Webhook rejected: missing stripe-signature header.");
+    return NextResponse.json({ error: "Missing stripe-signature header" }, { status: 400 });
+  }
+
   let event: Stripe.Event;
 
   try {
-    if (webhookSecret && signature) {
-      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-    } else {
-      event = JSON.parse(body) as Stripe.Event;
-    }
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Signature verification failed";
     console.error(`⚠️ Stripe Webhook signature verification failed:`, message);

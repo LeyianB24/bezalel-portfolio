@@ -179,23 +179,23 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, ease: "easeOut" }}
               >
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/35 bg-[#C9A24B]/15 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-accent-light backdrop-blur-md">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B]" />
-                  Global Delivery · HQ Nairobi, Kenya · Senior Engineering Partner
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/35 bg-[#C9A24B]/15 px-3 py-1 text-[11px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] text-accent-light backdrop-blur-md max-w-full">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#C9A24B]" />
+                  <span className="truncate">Global Delivery · HQ Nairobi, Kenya · Engineering Partner</span>
                 </div>
 
-                <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl text-white">
+                <h1 className="font-display text-3xl font-black leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl text-white">
                   Software and infrastructure for organisations that cannot afford downtime.
                 </h1>
 
-                <p className="mt-6 max-w-xl text-base leading-8 text-white/85 sm:text-lg">
+                <p className="mt-5 sm:mt-6 max-w-xl text-sm sm:text-lg leading-7 sm:leading-8 text-white/85">
                   Bezalel Technologies architects dependable, mission-critical systems for companies, startups, and institutions worldwide: bespoke web portals, cloud systems, mobile apps, IT infrastructure, and payment integrations.
                 </p>
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                   <Link
                     href="/projects/request"
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-4 text-sm font-bold text-accent-foreground shadow-md transition-colors hover:bg-accent-light"
+                    className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 sm:py-4 text-sm font-bold text-accent-foreground shadow-md transition-colors hover:bg-accent-light text-center"
                   >
                     Start a project
                     <ArrowRight className="h-4 w-4" />
@@ -205,24 +205,24 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                     href="https://wa.me/254796157265"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/25 bg-white/[0.04] px-6 py-4 text-sm font-bold text-white transition-colors hover:bg-white/10 hover:border-white/40"
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/25 bg-white/[0.04] px-6 py-3.5 sm:py-4 text-sm font-bold text-white transition-colors hover:bg-white/10 hover:border-white/40 text-center"
                   >
                     Talk on WhatsApp
                     <ExternalLink className="h-4 w-4" />
                   </a>
                 </div>
 
-                <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/15 pt-6 text-xs text-white/70">
+                <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 border-t border-white/15 pt-5 sm:pt-6 text-xs text-white/70">
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B] shrink-0" />
                     Fixed-milestone quotations
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B] shrink-0" />
                     Full source code ownership
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B]" />
+                    <CheckCircle2 className="h-4 w-4 text-[#C9A24B] shrink-0" />
                     Worldwide remote delivery & SLAs
                   </span>
                 </div>

@@ -19,10 +19,10 @@ describe("RBAC Permissions: hasPermission", () => {
     expect(hasPermission(null, undefined)).toBe(true);
   });
 
-  it("defaults to granting access when user permissions array is null or empty (legacy session compatibility)", () => {
-    expect(hasPermission(null, "PORTFOLIO")).toBe(true);
-    expect(hasPermission(undefined, "STORE")).toBe(true);
-    expect(hasPermission([], "MESSAGES")).toBe(true);
+  it("denies access when user permissions array is null or empty (fail-closed principle)", () => {
+    expect(hasPermission(null, "PORTFOLIO")).toBe(false);
+    expect(hasPermission(undefined, "STORE")).toBe(false);
+    expect(hasPermission([], "MESSAGES")).toBe(false);
   });
 
   it("grants full access across all permissions when user has FULL_ACCESS", () => {

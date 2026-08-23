@@ -90,6 +90,14 @@ export async function POST(req: Request) {
       console.error("❌ Failed to generate application receipt PDF:", pdfErr);
     }
 
+    const { escapeHtml } = await import("@/lib/utils");
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safePhone = phone ? escapeHtml(phone) : null;
+    const safeCoverNote = coverNote ? escapeHtml(coverNote) : null;
+    const safeJobTitle = escapeHtml(job.title);
+    const safeDepartment = escapeHtml(job.department);
+
     // Send emails (non-blocking)
     // 1. Applicant Confirmation Email
     const applicantHtml = `
@@ -99,8 +107,8 @@ export async function POST(req: Request) {
           <p style="color: #E8CD84; margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Engineering Talent & Recruitment</p>
         </div>
 
-        <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${name}</strong>,</p>
-        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Thank you for your interest in joining Bezalel Technologies. We have successfully received your application for the position of <strong>${job.title}</strong> (${job.department}) [Ref: <strong>${appRef}</strong>].</p>
+        <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${safeName}</strong>,</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Thank you for your interest in joining Bezalel Technologies. We have successfully received your application for the position of <strong>${safeJobTitle}</strong> (${safeDepartment}) [Ref: <strong>${appRef}</strong>].</p>
         <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Our engineering leadership is reviewing your submission and CV. Your official <strong>Application Receipt PDF</strong> is attached to this email.</p>
         <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">We will contact you directly to schedule a technical discussion if your experience aligns with our active project pipeline.</p>
         
@@ -124,21 +132,21 @@ export async function POST(req: Request) {
     const adminHtml = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; background-color: #09090b; color: #f4f4f5; border: 1px solid #27272a; border-radius: 8px;">
         <h2 style="color: #10b981; border-bottom: 1px solid #27272a; padding-bottom: 12px; margin-top: 0; font-size: 1.4em;">New Application Alert</h2>
-        <p style="color: #e4e4e7;">A new application has been submitted for the role of <strong>${job.title}</strong> (${job.department}).</p>
+        <p style="color: #e4e4e7;">A new application has been submitted for the role of <strong>${safeJobTitle}</strong> (${safeDepartment}).</p>
         
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em;">
           <tbody>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold; width: 140px;">Applicant Name:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${name}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${safeName}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Applicant Email:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a;"><a href="mailto:${email}" style="color: #10b981; text-decoration: none;">${email}</a></td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a;"><a href="mailto:${safeEmail}" style="color: #10b981; text-decoration: none;">${safeEmail}</a></td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Applicant Phone:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${phone || "Not provided"}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${safePhone || "Not provided"}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">CV Document:</td>
@@ -152,11 +160,11 @@ export async function POST(req: Request) {
         </table>
 
         ${
-          coverNote
+          safeCoverNote
             ? `
           <div style="background-color: #18181b; border: 1px solid #27272a; padding: 15px; border-radius: 6px; margin: 20px 0;">
             <span style="font-weight: bold; color: #a1a1aa; display: block; margin-bottom: 8px; font-size: 0.9em;">Cover Note:</span>
-            <p style="margin: 0; color: #e4e4e7; font-size: 0.95em; white-space: pre-wrap; line-height: 1.5;">${coverNote}</p>
+            <p style="margin: 0; color: #e4e4e7; font-size: 0.95em; white-space: pre-wrap; line-height: 1.5;">${safeCoverNote}</p>
           </div>
         `
             : ""

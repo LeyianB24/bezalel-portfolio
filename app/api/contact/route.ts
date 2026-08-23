@@ -27,7 +27,13 @@ export async function POST(request: Request) {
     });
 
     const { sendEmail } = await import("@/lib/resend");
+    const { escapeHtml } = await import("@/lib/utils");
     const adminEmail = process.env.ADMIN_EMAIL || "bezaleltech@gmail.com";
+
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeSubject = escapeHtml(subject);
+    const safeMessage = escapeHtml(message);
 
     // Send admin notification
     sendEmail({
@@ -37,10 +43,10 @@ export async function POST(request: Request) {
       html: `
         <div style="font-family: sans-serif; max-width: 600px; padding: 25px; background-color: #0B2036; color: #FAF6EC; border-radius: 8px;">
           <h2 style="color: #E8CD84; margin-top: 0;">New Inbound Client Inquiry</h2>
-          <p><strong>From:</strong> ${name} (<a href="mailto:${email}" style="color: #E8CD84;">${email}</a>)</p>
-          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>From:</strong> ${safeName} (<a href="mailto:${safeEmail}" style="color: #E8CD84;">${safeEmail}</a>)</p>
+          <p><strong>Subject:</strong> ${safeSubject}</p>
           <div style="background-color: #050D17; padding: 15px; border-radius: 6px; border: 1px solid #C9A24B; margin: 20px 0;">
-            <p style="margin: 0; white-space: pre-wrap; color: #FAF6EC;">${message}</p>
+            <p style="margin: 0; white-space: pre-wrap; color: #FAF6EC;">${safeMessage}</p>
           </div>
         </div>
       `,

@@ -120,6 +120,15 @@ export async function POST(req: Request) {
       console.error("❌ Failed to generate project brief PDF:", pdfErr);
     }
 
+    const { escapeHtml } = await import("@/lib/utils");
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeCompany = company ? escapeHtml(company) : null;
+    const safeTitle = escapeHtml(title);
+    const safeDescription = escapeHtml(description);
+    const safeTimeline = timeline ? escapeHtml(timeline) : null;
+    const safeCategory = escapeHtml(category);
+
     // Send emails (non-blocking)
     // 1. Client Confirmation Email
     const clientHtml = `
@@ -129,8 +138,8 @@ export async function POST(req: Request) {
           <p style="color: #E8CD84; margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Software & Infrastructure Engineering</p>
         </div>
 
-        <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${name}</strong>,</p>
-        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">We have successfully received your project scope: <strong>&ldquo;${title}&rdquo;</strong> [Ref: <strong>${refCode}</strong>].</p>
+        <p style="font-size: 15px; line-height: 1.6; color: #FAF6EC;">Dear <strong>${safeName}</strong>,</p>
+        <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">We have successfully received your project scope: <strong>&ldquo;${safeTitle}&rdquo;</strong> [Ref: <strong>${refCode}</strong>].</p>
         <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">Our engineering team is assessing the technical specifications and requirements. We have attached an official <strong>Project Brief PDF</strong> to this email summarizing your submission.</p>
         <p style="line-height: 1.6; color: #E0E7EC; font-size: 14px;">We typically provide an itemized milestone quotation and schedule a discovery call within <strong>24–48 hours</strong>.</p>
         
@@ -165,23 +174,23 @@ export async function POST(req: Request) {
           <tbody>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold; width: 140px;">Client Name:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${name}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${safeName}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Client Email:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a;"><a href="mailto:${email}" style="color: #10b981; text-decoration: none;">${email}</a></td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a;"><a href="mailto:${safeEmail}" style="color: #10b981; text-decoration: none;">${safeEmail}</a></td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Company:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${company || "None"}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${safeCompany || "None"}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Project Title:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${title}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${safeTitle}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Category:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${category}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${safeCategory}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Est. Budget:</td>
@@ -189,7 +198,7 @@ export async function POST(req: Request) {
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Timeline:</td>
-              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${timeline || "Not specified"}</td>
+              <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #f4f4f5;">${safeTimeline || "Not specified"}</td>
             </tr>
             <tr>
               <td style="padding: 10px 8px; border-bottom: 1px solid #27272a; color: #a1a1aa; font-weight: bold;">Attachment:</td>
@@ -206,7 +215,7 @@ export async function POST(req: Request) {
 
         <div style="background-color: #18181b; border: 1px solid #27272a; padding: 15px; border-radius: 6px; margin: 20px 0;">
           <span style="font-weight: bold; color: #a1a1aa; display: block; margin-bottom: 8px; font-size: 0.9em;">Project Description:</span>
-          <p style="margin: 0; color: #e4e4e7; font-size: 0.95em; white-space: pre-wrap; line-height: 1.5;">${description}</p>
+          <p style="margin: 0; color: #e4e4e7; font-size: 0.95em; white-space: pre-wrap; line-height: 1.5;">${safeDescription}</p>
         </div>
 
         <div style="margin-top: 30px; text-align: center;">

@@ -88,6 +88,7 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
   const [includedItems, setIncludedItems] = useState<string[]>([]);
   const [excludedItems, setExcludedItems] = useState<string[]>([]);
   const [closingNote, setClosingNote] = useState<string>("");
+  const [quickTargetPrice, setQuickTargetPrice] = useState<string>("");
   
   const [isGeneratingQuote, setIsGeneratingQuote] = useState(false);
   const [isPreviewingPdf, setIsPreviewingPdf] = useState(false);
@@ -117,25 +118,55 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
     setTableHeading("Website Design & Development — Scope & Rates");
 
     // Line items setup
-    if (project.budget && project.budget > 0) {
-      const budgetVal = project.budget;
-      setLineItems([
-        { description: `${project.title} — Planning, UI/UX Mockups & Architecture`, qty: 1, unitPrice: Math.round(budgetVal * 0.2), amount: Math.round(budgetVal * 0.2) },
-        { description: `Core Frontend & Backend Engineering`, qty: 1, unitPrice: Math.round(budgetVal * 0.5), amount: Math.round(budgetVal * 0.5) },
-        { description: `M-Pesa / Payment Integrations & Order Workflows`, qty: 1, unitPrice: Math.round(budgetVal * 0.15), amount: Math.round(budgetVal * 0.15) },
-        { description: `Testing, Production Deployment & Handover`, qty: 1, unitPrice: Math.round(budgetVal * 0.15), amount: Math.round(budgetVal * 0.15) },
-      ]);
+    const existingQuote = project.quotation as {
+      documentType?: string;
+      title?: string;
+      subtitle?: string;
+      clientLocation?: string;
+      scopeSummary?: string;
+      tableTitle?: string;
+      taxLabel?: string;
+      depositPercentage?: number;
+      depositNote?: string;
+      depositBadge?: string;
+      timelineTitle?: string;
+      timelinePhases?: TimelinePhaseState[];
+      paymentTerms?: string[];
+      included?: string[];
+      excluded?: string[];
+      closingNote?: string;
+      lineItems?: LineItemState[];
+      taxRate?: number;
+    } | null;
+
+    if (existingQuote?.lineItems && Array.isArray(existingQuote.lineItems) && existingQuote.lineItems.length > 0) {
+      setLineItems(existingQuote.lineItems);
+      if (existingQuote.documentType) setDocType(existingQuote.documentType);
+      if (existingQuote.title) setDocTitle(existingQuote.title);
+      if (existingQuote.subtitle) setDocSubtitle(existingQuote.subtitle);
+      if (existingQuote.scopeSummary) setScopeSummary(existingQuote.scopeSummary);
+      if (existingQuote.tableTitle) setTableHeading(existingQuote.tableTitle);
+      if (existingQuote.depositPercentage !== undefined) setDepositPercentage(existingQuote.depositPercentage);
+      if (existingQuote.depositNote) setDepositNote(existingQuote.depositNote);
+      if (existingQuote.depositBadge) setDepositBadge(existingQuote.depositBadge);
+      if (existingQuote.timelineTitle) setTimelineTitle(existingQuote.timelineTitle);
+      if (existingQuote.timelinePhases) setTimelinePhases(existingQuote.timelinePhases);
+      if (existingQuote.paymentTerms) setPaymentTerms(existingQuote.paymentTerms);
+      if (existingQuote.included) setIncludedItems(existingQuote.included);
+      if (existingQuote.excluded) setExcludedItems(existingQuote.excluded);
+      if (existingQuote.closingNote) setClosingNote(existingQuote.closingNote);
     } else {
+      const targetPrice = (project.quotedPrice && project.quotedPrice > 0)
+        ? project.quotedPrice
+        : (project.budget && project.budget > 0)
+        ? project.budget
+        : 170000;
+
       setLineItems([
-        { description: "Project Planning & Requirements Analysis", qty: 1, unitPrice: 10000, amount: 10000 },
-        { description: "UI/UX Design & Storefront Mockups (brand-matched, mobile-first)", qty: 1, unitPrice: 20000, amount: 20000 },
-        { description: "Frontend Development — Product Catalog, Categories, Cart & Checkout", qty: 1, unitPrice: 45000, amount: 45000 },
-        { description: "Backend Development — Admin Dashboard (Inventory & Order Management)", qty: 1, unitPrice: 35000, amount: 35000 },
-        { description: "M-Pesa Daraja Payment Integration (STK Push, order reconciliation)", qty: 1, unitPrice: 25000, amount: 25000 },
-        { description: "Order Assistant Chatbot — product Q&A, order status, WhatsApp handoff", qty: 1, unitPrice: 20000, amount: 20000 },
-        { description: "Content Integration, Product Upload & Delivery-Fee Setup", qty: 1, unitPrice: 10000, amount: 10000 },
-        { description: "Testing, Bug Fixes & Quality Assurance", qty: 1, unitPrice: 8000, amount: 8000 },
-        { description: "Deployment & Website Configuration", qty: 1, unitPrice: 7000, amount: 7000 },
+        { description: `${project.title} — Planning, UI/UX Mockups & Architecture`, qty: 1, unitPrice: Math.round(targetPrice * 0.2), amount: Math.round(targetPrice * 0.2) },
+        { description: `Core Frontend & Backend Engineering`, qty: 1, unitPrice: Math.round(targetPrice * 0.5), amount: Math.round(targetPrice * 0.5) },
+        { description: `M-Pesa / Payment Integrations & Order Workflows`, qty: 1, unitPrice: Math.round(targetPrice * 0.15), amount: Math.round(targetPrice * 0.15) },
+        { description: `Testing, Production Deployment & Handover`, qty: 1, unitPrice: Math.round(targetPrice * 0.15), amount: Math.round(targetPrice * 0.15) },
       ]);
     }
 
@@ -241,6 +272,30 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
       return;
     }
     setLineItems(lineItems.filter((_, i) => i !== index));
+  };
+
+  const handleApplyTargetPrice = () => {
+    const target = Number(quickTargetPrice);
+    if (!target || target <= 0) {
+      toast.error("Please enter a valid positive target amount");
+      return;
+    }
+    const currentSubtotal = lineItems.reduce((sum, item) => sum + item.amount, 0);
+    if (currentSubtotal <= 0) {
+      const perItem = Math.round(target / lineItems.length);
+      setLineItems(lineItems.map(item => ({ ...item, unitPrice: Math.round(perItem / (item.qty || 1)), amount: perItem })));
+    } else {
+      const ratio = target / currentSubtotal;
+      setLineItems(lineItems.map(item => {
+        const newAmt = Math.round(item.amount * ratio);
+        return {
+          ...item,
+          unitPrice: Math.round(newAmt / (item.qty || 1)),
+          amount: newAmt,
+        };
+      }));
+    }
+    toast.success(`Line items adjusted to target total: KES ${target.toLocaleString()}`);
   };
 
   // Timeline phase helpers
@@ -656,16 +711,40 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
                   </button>
                 </div>
 
-                <div className="mb-2">
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
-                    Table Section Heading
-                  </label>
-                  <input
-                    type="text"
-                    value={tableHeading}
-                    onChange={(e) => setTableHeading(e.target.value)}
-                    className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs text-foreground focus:border-accent outline-none"
-                  />
+                <div className="grid sm:grid-cols-[1fr_auto] gap-2 items-end mb-2">
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      Table Section Heading
+                    </label>
+                    <input
+                      type="text"
+                      value={tableHeading}
+                      onChange={(e) => setTableHeading(e.target.value)}
+                      className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs text-foreground focus:border-accent outline-none"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-1.5 bg-background border border-border rounded-md px-2.5 py-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">
+                      Set Target Price (KES):
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={quickTargetPrice}
+                      onChange={(e) => setQuickTargetPrice(e.target.value)}
+                      placeholder="e.g. 150000"
+                      className="w-24 font-mono font-bold text-xs bg-transparent text-foreground outline-none text-right"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyTargetPrice}
+                      className="px-2 py-0.5 rounded bg-accent text-accent-foreground text-[10px] font-bold hover:bg-accent-light transition-colors"
+                      title="Proportionately scale line item rates to this target total"
+                    >
+                      Apply
+                    </button>
+                  </div>
                 </div>
 
                 <div className="space-y-2">

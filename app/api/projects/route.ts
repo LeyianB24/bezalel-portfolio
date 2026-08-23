@@ -10,6 +10,9 @@ export async function GET() {
     }
 
     const projects = await prisma.projectRequest.findMany({
+      include: {
+        quotation: true,
+      },
       orderBy: { createdAt: "desc" },
     });
 

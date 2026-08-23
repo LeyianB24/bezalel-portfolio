@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { verifyApiAdminPermission } from "@/lib/permissions";
+import { z } from "zod";
+import { OrderStatus } from "@prisma/client";
+
+const updateOrderStatusSchema = z.object({
+  status: z.nativeEnum(OrderStatus),
+});
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -8,11 +14,19 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (errorResponse) return errorResponse;
 
     const json = await request.json();
+    const parsed = updateOrderStatusSchema.safeParse(json);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid order status", details: parsed.error.issues },
+        { status: 400 }
+      );
+    }
+
     const { id } = await params;
 
     const order = await prisma.order.update({
       where: { id },
-      data: { status: json.status },
+      data: { status: parsed.data.status },
     });
 
     const { logAudit } = await import("@/lib/audit");

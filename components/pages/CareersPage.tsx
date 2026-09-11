@@ -51,31 +51,31 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
 
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-28 pb-20 sm:pt-36">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <main className="min-h-screen pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-20">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6">
           {/* Header */}
-          <div className="mb-16 border-b border-border pb-12 sm:mb-20">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+          <div className="mb-12 border-b border-border pb-8 sm:mb-20 sm:pb-12">
+            <p className="mb-2 sm:mb-4 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
               Careers at Bezalel
             </p>
             <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-              <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-foreground sm:text-6xl">
+              <h1 className="font-display text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-foreground">
                 Engineering work focused on substance over noise.
               </h1>
-              <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              <p className="max-w-xl text-xs sm:text-base lg:text-lg leading-relaxed text-muted-foreground">
                 We work directly with scale-ups, global enterprises, and regional institutions to build mission-critical software and digital infrastructure that cannot afford downtime.
               </p>
             </div>
 
             {/* Department Filter Tabs */}
             {departments.length > 2 && (
-              <div className="mt-8 flex flex-wrap gap-2">
+              <div className="mt-6 sm:mt-8 flex flex-wrap gap-1.5 sm:gap-2">
                 {departments.map((dept) => (
                   <button
                     key={dept}
                     type="button"
                     onClick={() => setFilter(dept)}
-                    className={`rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+                    className={`rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] xs:text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors ${
                       filter === dept
                         ? "bg-primary text-primary-foreground"
                         : "border border-border text-muted-foreground hover:text-foreground"
@@ -89,17 +89,17 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
           </div>
 
           {/* Job Postings Grid */}
-          <div className="mb-20 space-y-6">
+          <div className="mb-14 sm:mb-20 space-y-4 sm:space-y-6">
             {filteredJobs.length === 0 ? (
-              <div className="rounded-lg border border-border bg-card p-12 text-center text-muted-foreground">
-                <Briefcase className="mx-auto h-12 w-12 text-muted-foreground/40 mb-4" />
-                <h2 className="text-lg font-bold text-foreground mb-1">No open positions currently listed</h2>
-                <p className="text-sm">
+              <div className="rounded-lg border border-border bg-card p-6 sm:p-12 text-center text-muted-foreground">
+                <Briefcase className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground/40 mb-3 sm:mb-4" />
+                <h2 className="text-base sm:text-lg font-bold text-foreground mb-1">No open positions currently listed</h2>
+                <p className="text-xs sm:text-sm max-w-xl mx-auto">
                   We post new openings as project demands expand across remote and on-site engineering pipelines. You are welcome to send a speculative application with your CV and GitHub / portfolio links.
                 </p>
                 <a
                   href="mailto:bezaleltech@gmail.com?subject=Speculative Engineering Application"
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-accent-dark dark:text-accent-light hover:underline"
+                  className="mt-5 sm:mt-6 inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-accent-dark dark:text-accent-light hover:underline"
                 >
                   Email Bezalel Engineering
                   <ExternalLink className="h-4 w-4" />
@@ -113,19 +113,19 @@ export default function CareersPage({ positions = [] }: CareersPageProps) {
           </div>
 
           {/* Speculative Application Note */}
-          <div className="rounded-lg border border-border bg-card p-8 shadow-sm sm:p-10">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-10 shadow-sm">
+            <div className="flex flex-col gap-5 sm:gap-6 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="font-display text-2xl font-black text-foreground">
+                <h2 className="font-display text-xl xs:text-2xl font-black text-foreground">
                   Don&apos;t see an exact match for your skills?
                 </h2>
-                <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                <p className="mt-2 text-xs sm:text-base text-muted-foreground">
                   We are always interested in senior software engineers, distributed systems architects, and infrastructure technicians worldwide.
                 </p>
               </div>
               <a
                 href="mailto:bezaleltech@gmail.com?subject=Speculative Application"
-                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-border px-5 py-3 text-sm font-bold text-foreground transition-colors hover:border-accent hover:text-accent"
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-border px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold text-foreground transition-colors hover:border-accent hover:text-accent text-center"
               >
                 Send CV directly
                 <Mail className="h-4 w-4" />
@@ -145,11 +145,11 @@ function JobCard({ job }: { job: Job }) {
     <article className="overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all hover:border-accent/40">
       <div 
         onClick={() => setIsExpanded(!isExpanded)}
-        className="cursor-pointer p-6 sm:p-8"
+        className="cursor-pointer p-4 xs:p-6 sm:p-8"
       >
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground mb-3">
+            <div className="flex flex-wrap items-center gap-1.5 xs:gap-2 text-[11px] sm:text-xs text-muted-foreground mb-2.5 sm:mb-3">
               <span className="rounded bg-primary/10 px-2 py-0.5 font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
                 {job.department}
               </span>
@@ -163,12 +163,12 @@ function JobCard({ job }: { job: Job }) {
               </span>
             </div>
 
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            <h2 className="text-xl xs:text-2xl font-bold tracking-tight text-foreground">
               {job.title}
             </h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <Link
               href={`/careers/${job.id}/apply`}
               onClick={(e) => e.stopPropagation()}
@@ -195,7 +195,7 @@ function JobCard({ job }: { job: Job }) {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="border-t border-border bg-background/50 p-6 sm:p-8"
+            className="border-t border-border bg-background/50 p-4 xs:p-6 sm:p-8"
           >
             <div className="space-y-6">
               <div>

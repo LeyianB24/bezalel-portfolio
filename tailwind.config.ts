@@ -24,6 +24,12 @@ const config: Config = {
       },
     },
     extend: {
+      screens: {
+        "2xs": "320px",
+        xs: "380px",
+        "3xl": "1792px",
+        "4xl": "2160px",
+      },
       // 2. High-Performance Font Stack (Outfit, Plus Jakarta Sans, JetBrains Mono)
       fontFamily: {
         sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
@@ -35,7 +41,8 @@ const config: Config = {
           "Fira Code",
           ...defaultTheme.fontFamily.mono,
         ],
-        serif: ["var(--font-display)", ...defaultTheme.fontFamily.serif],
+        serif: ["var(--font-serif)", ...defaultTheme.fontFamily.serif],
+        editorial: ["var(--font-serif)", ...defaultTheme.fontFamily.serif],
       },
 
       // 3. The Color Palette (HSL Linked)

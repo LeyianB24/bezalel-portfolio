@@ -62,7 +62,7 @@ async function main() {
       stock: 999,
       sku: 'BZL-TPL-001',
       categoryId: createdCategories['saas-starter-kits'],
-      images: ['/images/saas_kit.png'],
+      images: ['/images/nextstack-real.jpg'],
       isDigital: true,
     },
     {
@@ -74,7 +74,7 @@ async function main() {
       stock: 999,
       sku: 'BZL-LIB-001',
       categoryId: createdCategories['software-templates'],
-      images: ['/images/web_system.png'],
+      images: ['/images/mpesa-real.jpg'],
       isDigital: true,
     },
     {
@@ -86,7 +86,7 @@ async function main() {
       stock: 999,
       sku: 'BZL-UI-001',
       categoryId: createdCategories['ui-components'],
-      images: ['/images/hero_banner.png'],
+      images: ['/images/bezaui-real.jpg'],
       isDigital: true,
     },
     {
@@ -98,7 +98,7 @@ async function main() {
       stock: 10,
       sku: 'BZL-CON-001',
       categoryId: createdCategories['consulting-packages'],
-      images: ['/images/mobile_app.png'],
+      images: ['/images/tech-audit-real.jpg'],
       isDigital: false,
     },
   ]
@@ -111,6 +111,7 @@ async function main() {
         stock: product.stock,
         description: product.description,
         isDigital: product.isDigital,
+        images: product.images,
       },
       create: product,
     })
@@ -163,34 +164,100 @@ async function main() {
   // ── Portfolio Items ──────────────────────────────────────────
   const portfolioItems = [
     {
-      name: 'BezaShop Global Commerce Platform',
-      clientName: 'BezaShop Retail & Exports',
-      description: 'Inventory synchronization across warehouses, multi-currency payment reconciliation (USD/EUR/KES), and automated invoice dispatch with sub-80ms response times.',
-      techTags: ['Next.js', 'PostgreSQL', 'Stripe Multi-Currency', 'M-Pesa Daraja', 'Tailwind CSS'],
+      name: 'Harambee Financial Core SACCO System',
+      clientName: 'Harambee SACCO Society',
+      clientLogoUrl: '/logos/bezalel-mark-gold.svg',
+      description: 'Distributed core ledger, multi-branch teller workstations, automated dividend processing, and real-time M-Pesa B2C/C2B loan disbursements handling KES 1.48M daily volume with 99.98% uptime.',
+      techTags: ['Next.js', 'PostgreSQL', 'M-Pesa B2C/C2B', 'Redis', 'Docker'],
       liveUrl: 'https://bezalel.website',
-      images: ['/images/web_system.png'],
+      images: [
+        '/images/web_system.jpg',
+        '/images/screenshots/financial-transactions.jpg',
+        '/images/screenshots/analytics-overview.jpg',
+        '/BG_images/codes people.jpg',
+      ],
       featured: true,
       displayOrder: 1,
     },
     {
-      name: 'NexoLogistics Cross-Border Field Ops',
-      clientName: 'Nexo Freight Global',
-      description: 'Offline-capable mobile dispatch and driver manifests with instant synchronization upon network reconnection for cross-border logistics fleets.',
-      techTags: ['React Native', 'TypeScript', 'Offline SQLite', 'Node.js', 'AWS'],
+      name: 'Osotua Dairy Co-op & Agribusiness ERP',
+      clientName: 'Osotua Farming Co-operative',
+      clientLogoUrl: '/logos/bezalel-mark-gold.svg',
+      description: 'Farm-gate milk collection telemetry, automated weight integration via Bluetooth scales, offline field agent sync, and automated farmer payment batches for 1,420+ registered smallholders.',
+      techTags: ['Next.js', 'React Native', 'PostgreSQL', 'Offline Sync', 'M-Pesa Bulk'],
       liveUrl: 'https://bezalel.website',
-      images: ['/images/mobile_app.png'],
+      images: [
+        '/images/saas_kit.jpg',
+        '/images/screenshots/analytics-overview.jpg',
+        '/images/mobile_app.jpg',
+        '/BG_images/AdobeStock_292953404-scaled.jpeg',
+      ],
       featured: true,
       displayOrder: 2,
     },
     {
-      name: 'DataBridge Multi-Rail Gateway',
-      clientName: 'Apex Financial Systems',
-      description: 'Unified payments middleware handling automated international wire integrations, STK push retries, webhook signature verifications, and bank reconciliations.',
-      techTags: ['Node.js', 'PostgreSQL', 'Redis', 'Docker', 'SWIFT / Stripe API'],
+      name: 'Compass Cartage Cold-Chain & Fleet Engine',
+      clientName: 'Compass Cartage Logistics',
+      clientLogoUrl: '/logos/bezalel-mark-gold.svg',
+      description: 'Cross-border corridor telemetry, GPS geofencing, IoT temperature sensors for perishable exports, and offline manifest compliance for 48 commercial refrigerated vehicles.',
+      techTags: ['React Native', 'Node.js', 'PostgreSQL', 'IoT MQTT', 'AWS ECS'],
       liveUrl: 'https://bezalel.website',
-      images: ['/images/hero_banner.png'],
+      images: [
+        '/images/mobile_app.jpg',
+        '/images/screenshots/mobile-telemetry.jpg',
+        '/images/network_infrastructure.jpg',
+        '/BG_images/data.avif',
+      ],
       featured: true,
       displayOrder: 3,
+    },
+    {
+      name: 'BezaShop Multi-Currency Commerce Engine',
+      clientName: 'BezaShop Retail & Exports',
+      clientLogoUrl: '/logos/bezalel-mark-gold.svg',
+      description: 'Inventory synchronization across 3 distribution hubs, multi-currency payment checkout (USD/EUR/KES), automated invoice dispatch, and sub-80ms page render speeds.',
+      techTags: ['Next.js', 'Prisma', 'Stripe Multi-Currency', 'Daraja Rails', 'Tailwind CSS'],
+      liveUrl: 'https://bezalel.website',
+      images: [
+        '/images/hero_banner.jpg',
+        '/images/web_system.jpg',
+        '/images/screenshots/financial-transactions.jpg',
+        '/images/products/unifi-switch-48-poe.jpg',
+      ],
+      featured: true,
+      displayOrder: 4,
+    },
+    {
+      name: 'DataBridge Inter-Bank Settlement Gateway',
+      clientName: 'Apex Financial Services',
+      clientLogoUrl: '/logos/bezalel-mark-gold.svg',
+      description: 'ISO-8583 and Daraja payments middleware processing automated inter-bank settlement, automated float balancing, cryptographic signature verification, and ledger reconciliations.',
+      techTags: ['Node.js', 'PostgreSQL', 'Redis', 'Docker', 'SWIFT API'],
+      liveUrl: 'https://bezalel.website',
+      images: [
+        '/images/network_infrastructure.jpg',
+        '/images/screenshots/cloud-audit.jpg',
+        '/images/screenshots/financial-transactions.jpg',
+        '/BG_images/codes people.jpg',
+      ],
+      featured: true,
+      displayOrder: 5,
+    },
+    {
+      name: 'Apex Industrial High-Availability Infrastructure',
+      clientName: 'Apex Regional Headquarters',
+      clientLogoUrl: '/logos/bezalel-mark-gold.svg',
+      description: 'High-density Layer-3 10GbE network switching, redundant fiber failover with sub-second switchover, biometric access control, and boardroom Crestron telepresence integration.',
+      techTags: ['10G Fiber SFP+', 'UniFi Enterprise', 'Crestron Flex', 'VLAN QoS', 'Linux'],
+      liveUrl: 'https://bezalel.website',
+      images: [
+        '/images/products/unifi-switch-48-poe.jpg',
+        '/images/products/crestron-flex-conference.jpg',
+        '/images/products/hikvision-32ch-nvr.jpg',
+        '/images/network_infrastructure.jpg',
+      ],
+      featured: true,
+      displayOrder: 6,
     },
   ]
 
@@ -200,54 +267,116 @@ async function main() {
       await prisma.portfolioItem.create({ data: item })
       console.log(`✅ PortfolioItem seeded: ${item.name}`)
     } else {
-      console.log(`⏭️  PortfolioItem already exists: ${item.name}`)
+      await prisma.portfolioItem.update({
+        where: { id: existing.id },
+        data: item,
+      })
+      console.log(`🔄 PortfolioItem updated: ${item.name}`)
     }
   }
 
-  // ── Equipment ────────────────────────────────────────────────
+  // ── Equipment & Hardware Packages with Pricing ──────────────
   const equipmentList = [
     {
       name: 'UniFi Enterprise 24-Port 10G PoE Managed Switch',
       category: EquipmentCategory.NETWORKING,
       description: 'High-density Layer 3 enterprise networking switch with 2.5GbE PoE+ ports and 10G SFP+ uplinks for mission-critical institutional LAN.',
       specs: ['24x 2.5GbE PoE+ RJ45 Ports', '2x 10G SFP+ Uplinks', '400W Total PoE Power Budget', 'Layer 3 Switching & VLAN Routing'],
-      imageUrl: '/BG_images/codes people.jpg',
+      imageUrl: '/images/products/unifi-switch-48-poe.jpg',
       isClientFacing: true,
       isSellable: true,
       status: 'ACTIVE',
       displayOrder: 1,
+      price: 85000,
+      comparePrice: 95000,
+      stock: 14,
+      sku: 'BZL-NET-001',
     },
     {
       name: 'Crestron Flex UC Boardroom Video System',
       category: EquipmentCategory.AV_CONFERENCING,
       description: 'Native Zoom Rooms and Microsoft Teams boardroom collaboration system with beamforming microphone array and intelligent 4K auto-framing camera.',
       specs: ['Native Zoom/Teams Touch Controller', '4K Ultra-HD Intelligent Camera', 'Dual Display Support (4K HDR)', 'Acoustic Echo Cancellation'],
-      imageUrl: '/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif',
+      imageUrl: '/images/products/crestron-flex-conference.jpg',
       isClientFacing: true,
       isSellable: true,
       status: 'ACTIVE',
       displayOrder: 2,
+      price: 345000,
+      comparePrice: 380000,
+      stock: 6,
+      sku: 'BZL-AV-001',
     },
     {
       name: 'Hikvision Pro 32-Channel 4K AcuSense NVR',
       category: EquipmentCategory.SECURITY_CCTV,
       description: 'AI-powered surveillance recorder with real-time perimeter protection, facial recognition, vehicle classification, and RAID-1 failover.',
       specs: ['32 Channels up to 12MP Resolution', '4x SATA Interface (up to 40TB)', 'AcuSense AI Deep Learning Filter', 'H.265+ Compression Engine'],
-      imageUrl: '/BG_images/data.avif',
+      imageUrl: '/images/products/hikvision-32ch-nvr.jpg',
       isClientFacing: true,
       isSellable: true,
       status: 'ACTIVE',
       displayOrder: 3,
+      price: 52000,
+      comparePrice: 58000,
+      stock: 18,
+      sku: 'BZL-SEC-001',
     },
   ]
 
   for (const eq of equipmentList) {
+    const slug = eq.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    
+    // Ensure corresponding Product exists with pricing
+    const product = await prisma.product.upsert({
+      where: { slug },
+      update: {
+        price: eq.price,
+        comparePrice: eq.comparePrice,
+        stock: eq.stock,
+        sku: eq.sku,
+        description: eq.description,
+        images: [eq.imageUrl],
+      },
+      create: {
+        name: eq.name,
+        slug,
+        description: eq.description,
+        price: eq.price,
+        comparePrice: eq.comparePrice,
+        stock: eq.stock,
+        sku: eq.sku,
+        categoryId: createdCategories['hardware-infrastructure'],
+        images: [eq.imageUrl],
+        isDigital: false,
+      },
+    })
+
     const existing = await prisma.equipment.findFirst({ where: { name: eq.name } })
+    const eqData = {
+      name: eq.name,
+      category: eq.category,
+      description: eq.description,
+      specs: eq.specs,
+      imageUrl: eq.imageUrl,
+      isClientFacing: eq.isClientFacing,
+      isSellable: eq.isSellable,
+      status: eq.status,
+      displayOrder: eq.displayOrder,
+      productId: product.id,
+    }
+
     if (!existing) {
-      await prisma.equipment.create({ data: eq })
-      console.log(`✅ Equipment seeded: ${eq.name}`)
+      await prisma.equipment.create({
+        data: eqData,
+      })
+      console.log(`✅ Equipment seeded with Product: ${eq.name} (KES ${eq.price.toLocaleString()})`)
     } else {
-      console.log(`⏭️  Equipment already exists: ${eq.name}`)
+      await prisma.equipment.update({
+        where: { id: existing.id },
+        data: eqData,
+      })
+      console.log(`🔄 Equipment updated with Product: ${eq.name} (KES ${eq.price.toLocaleString()})`)
     }
   }
 

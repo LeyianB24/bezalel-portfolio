@@ -136,37 +136,37 @@ export default function RequestForm() {
   }
 
   return (
-    <div className="relative z-20 mx-auto max-w-4xl px-4 py-12 sm:px-6">
+    <div className="relative z-20 mx-auto max-w-4xl px-3 xs:px-4 py-8 sm:px-6 sm:py-12">
       <Link 
         href="/" 
-        className="mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+        className="mb-6 sm:mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" /> Back to homepage
       </Link>
 
       {/* Header Summary */}
-      <div className="mb-8 rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+      <div className="mb-6 sm:mb-8 rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm">
+        <p className="mb-2 sm:mb-3 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
           Project Inquiry
         </p>
-        <h1 className="font-display text-3xl font-black tracking-tight text-foreground sm:text-4xl">
+        <h1 className="font-display text-2xl xs:text-3xl sm:text-4xl font-black tracking-tight text-foreground">
           Start a Project Brief
         </h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm leading-relaxed text-muted-foreground">
           Tell us what you are building, the current operational problem, your budget range, and timeline expectations. We will respond with practical feedback and an itemized quotation.
         </p>
       </div>
 
       {/* Form Card */}
-      <div className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8">
-        <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
           {/* Section 1: Contact Info */}
           <div>
             <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-border pb-2">
               01 // Contact Information
             </h2>
             
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
               <div className="space-y-2">
                 <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-foreground">
                   Your Name <span className="text-accent-dark dark:text-accent-light">*</span>
@@ -178,7 +178,7 @@ export default function RequestForm() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. David Mwangi"
-                  className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  className="w-full min-h-[44px] rounded-md border border-border bg-background px-4 py-2.5 sm:py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
 
@@ -193,7 +193,7 @@ export default function RequestForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="e.g. david@company.co.ke"
-                  className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  className="w-full min-h-[44px] rounded-md border border-border bg-background px-4 py-2.5 sm:py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
 
@@ -207,7 +207,7 @@ export default function RequestForm() {
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   placeholder="e.g. Apex SACCO Ltd"
-                  className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  className="w-full min-h-[44px] rounded-md border border-border bg-background px-4 py-2.5 sm:py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
 
@@ -221,7 +221,7 @@ export default function RequestForm() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="e.g. +254 700 000 000"
-                  className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  className="w-full min-h-[44px] rounded-md border border-border bg-background px-4 py-2.5 sm:py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
             </div>
@@ -237,13 +237,13 @@ export default function RequestForm() {
               <label className="block text-xs font-bold uppercase tracking-wider text-foreground">
                 Project Category <span className="text-accent-dark dark:text-accent-light">*</span>
               </label>
-              <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+              <div className="grid gap-2.5 sm:gap-3 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3">
                 {CATEGORIES.map((cat) => (
                   <button
                     type="button"
                     key={cat.id}
                     onClick={() => setCategory(cat.id)}
-                    className={`rounded-lg border p-4 text-left transition-all ${
+                    className={`rounded-lg border p-3 xs:p-4 text-left transition-all min-h-[64px] ${
                       category === cat.id
                         ? "border-accent bg-accent/10 shadow-sm"
                         : "border-border bg-background hover:border-accent/40"

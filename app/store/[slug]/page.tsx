@@ -31,7 +31,7 @@ const fallbackProducts: ProductItem[] = [
     price: 48500,
     comparePrice: 54000,
     stock: 12,
-    images: ["/images/web_system.png"],
+    images: ["/images/products/unifi-switch-48-poe.jpg"],
     category: { id: "cat-1", name: "Networking", slug: "networking" },
   },
   {
@@ -42,7 +42,7 @@ const fallbackProducts: ProductItem[] = [
     price: 26000,
     comparePrice: 29500,
     stock: 25,
-    images: ["/images/hero_banner.png"],
+    images: ["/images/products/wifi6-mesh-router-system.jpg"],
     category: { id: "cat-1", name: "Networking", slug: "networking" },
   },
   {
@@ -53,7 +53,7 @@ const fallbackProducts: ProductItem[] = [
     price: 38000,
     comparePrice: 42000,
     stock: 8,
-    images: ["/images/mobile_app.png"],
+    images: ["/images/network_infrastructure.jpg"],
     category: { id: "cat-2", name: "Servers & Compute", slug: "servers" },
   },
 ];

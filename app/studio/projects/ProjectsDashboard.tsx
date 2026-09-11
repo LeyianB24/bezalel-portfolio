@@ -1188,12 +1188,29 @@ export default function ProjectsDashboard({ initialProjects }: ProjectsDashboard
             </div>
 
             {/* Embedded PDF Viewer */}
-            <div className="flex-1 w-full bg-slate-900 rounded-lg overflow-hidden border border-border">
-              <iframe
-                src={previewPdfUrl}
-                title="Quotation PDF Preview"
-                className="w-full h-full border-0 bg-white"
-              />
+            <div className="flex-1 w-full bg-slate-900 rounded-lg overflow-hidden border border-border relative">
+              <object
+                data={previewPdfUrl}
+                type="application/pdf"
+                className="w-full h-full"
+              >
+                <iframe
+                  src={previewPdfUrl}
+                  title="Quotation PDF Preview"
+                  className="w-full h-full border-0 bg-white"
+                >
+                  <div className="flex flex-col items-center justify-center h-full p-6 text-center text-slate-300">
+                    <p className="mb-4 text-sm">Your browser does not support in-line PDF previews.</p>
+                    <a
+                      href={previewPdfUrl}
+                      download={`${docTitle || "Quotation"}.pdf`}
+                      className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2 rounded-md font-bold text-xs"
+                    >
+                      <Download className="w-4 h-4" /> Download PDF Directly
+                    </a>
+                  </div>
+                </iframe>
+              </object>
             </div>
           </div>
         </div>

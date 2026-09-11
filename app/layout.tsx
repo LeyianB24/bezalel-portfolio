@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono, IBM_Plex_Serif } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
@@ -14,6 +14,13 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const outfit = Outfit({
   variable: "--font-display",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const ibmPlexSerif = IBM_Plex_Serif({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -78,6 +85,7 @@ export default function RootLayout({
           className={`
             ${plusJakartaSans.variable} 
             ${outfit.variable} 
+            ${ibmPlexSerif.variable}
             ${jetbrainsMono.variable} 
             font-sans
             antialiased 

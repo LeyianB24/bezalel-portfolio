@@ -85,36 +85,36 @@ export default function InfrastructureServicesPage({
 }) {
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-28 pb-20 sm:pt-36">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <main className="min-h-screen pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-20">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6">
           {/* Header */}
-          <div className="mb-16 border-b border-border pb-12 sm:mb-20">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+          <div className="mb-12 border-b border-border pb-8 sm:mb-20 sm:pb-12">
+            <p className="mb-2 sm:mb-4 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
               Service Overview
             </p>
-            <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-foreground sm:text-6xl">
+            <h1 className="font-display text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-foreground">
               IT Infrastructure & Boardroom AV
             </h1>
-            <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-4 sm:mt-6 max-w-3xl text-xs sm:text-base lg:text-lg leading-relaxed text-muted-foreground">
               We engineer, cable, and deploy high-reliability network infrastructure, executive boardroom video collaboration systems, CCTV surveillance, and server hardware for businesses and institutions — with remote management worldwide and dedicated on-site field deployments.
             </p>
           </div>
 
           {/* 4 Feature Cards */}
-          <div className="mb-20 grid gap-6 md:grid-cols-2">
+          <div className="mb-14 sm:mb-20 grid gap-4 sm:gap-6 md:grid-cols-2">
             {infraFeatures.map(({ title, description, proof, icon: Icon }) => (
               <div
                 key={title}
-                className="flex flex-col justify-between rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8"
+                className="flex flex-col justify-between rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm"
               >
                 <div>
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                  <div className="mb-4 sm:mb-5 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h2 className="text-xl font-bold tracking-tight text-foreground">{title}</h2>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
+                  <h2 className="text-lg xs:text-xl font-bold tracking-tight text-foreground">{title}</h2>
+                  <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm leading-relaxed text-muted-foreground">{description}</p>
                 </div>
-                <p className="mt-5 border-t border-border pt-4 text-xs font-semibold leading-relaxed text-foreground">
+                <p className="mt-4 sm:mt-5 border-t border-border pt-3.5 sm:pt-4 text-xs font-semibold leading-relaxed text-foreground">
                   {proof}
                 </p>
               </div>
@@ -122,25 +122,25 @@ export default function InfrastructureServicesPage({
           </div>
 
           {/* Supported Hardware & Equipment Showcase */}
-          <div className="mb-20 rounded-xl border border-border bg-card p-8 sm:p-12">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-8 pb-6 border-b border-border">
+          <div className="mb-14 sm:mb-20 rounded-xl border border-border bg-card p-4 xs:p-6 sm:p-8 md:p-12 shadow-sm">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-6 sm:mb-8 pb-5 sm:pb-6 border-b border-border">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent-dark dark:text-accent-light">
+                <p className="text-[10px] xs:text-xs font-bold uppercase tracking-[0.2em] text-accent-dark dark:text-accent-light">
                   Hardware Standards
                 </p>
-                <h2 className="font-display text-2xl font-black tracking-tight text-foreground sm:text-3xl mt-1">
+                <h2 className="font-display text-xl xs:text-2xl sm:text-3xl font-black tracking-tight text-foreground mt-1">
                   Enterprise Equipment We Deploy & Support
                 </h2>
               </div>
               <Link
                 href="/store"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-accent-dark dark:text-accent-light hover:underline"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-accent-dark dark:text-accent-light hover:underline shrink-0"
               >
                 Browse Hardware Store <ArrowRight size={14} />
               </Link>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3">
               {equipmentList.map((item) => (
                 <div
                   key={item.id}

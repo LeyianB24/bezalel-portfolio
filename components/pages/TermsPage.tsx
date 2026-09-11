@@ -57,18 +57,18 @@ export default function TermsPage() {
 
   return (
     <PageLayout variant="subtle">
-      <div className="pt-28 pb-24 sm:pt-36">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-16 border-b border-border pb-12">
+          <div className="mb-12 sm:mb-16 border-b border-border pb-8 sm:pb-12">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light mb-4">
               <Scale className="h-4 w-4" />
               Legal Terms
             </div>
-            <h1 className="font-display text-4xl font-black tracking-tight text-foreground sm:text-6xl">
+            <h1 className="font-display text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground">
               Terms of Service
             </h1>
-            <p className="mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
+            <p className="mt-4 max-w-2xl text-sm xs:text-base text-muted-foreground sm:text-lg">
               Operating rules, project agreements, intellectual property handover, and mutual obligations.
             </p>
             <p className="mt-4 font-mono text-xs text-muted-foreground">
@@ -111,7 +111,7 @@ export default function TermsPage() {
                 <section
                   key={id}
                   id={id}
-                  className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8"
+                  className="rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm"
                 >
                   <div className="mb-4 flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
@@ -121,22 +121,22 @@ export default function TermsPage() {
                       <span className="font-mono text-xs font-bold text-accent-dark dark:text-accent-light">
                         Clause {number}
                       </span>
-                      <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                      <h2 className="text-lg xs:text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                         {title}
                       </h2>
                     </div>
                   </div>
 
                   <div className="mt-6 space-y-4">
-                    <div className="rounded-md border border-border bg-background p-4 text-sm leading-relaxed text-foreground">
+                    <div className="rounded-md border border-border bg-background p-3 xs:p-4 text-xs xs:text-sm leading-relaxed text-foreground">
                       {legalText}
                     </div>
 
-                    <div className="rounded-md border border-accent/20 bg-accent/5 p-4">
+                    <div className="rounded-md border border-accent/20 bg-accent/5 p-3 xs:p-4">
                       <div className="text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light mb-1">
                         Plain Summary
                       </div>
-                      <p className="text-sm leading-relaxed text-muted-foreground">
+                      <p className="text-xs xs:text-sm leading-relaxed text-muted-foreground">
                         {humanText}
                       </p>
                     </div>

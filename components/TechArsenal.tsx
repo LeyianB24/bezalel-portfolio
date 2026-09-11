@@ -107,21 +107,21 @@ const itemVariants: Variants = {
 
 export default function TechArsenal() {
   return (
-    <section id="arsenal" className="relative px-4 py-16 sm:px-6 sm:py-24">
-      <div className="mx-auto max-w-7xl">
-        <header className="mb-12 max-w-3xl sm:mb-16">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+    <section id="arsenal" className="relative px-3 xs:px-4 py-12 sm:px-6 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl 3xl:max-w-[1600px]">
+        <header className="mb-8 max-w-3xl sm:mb-12 lg:mb-16">
+          <p className="mb-2 sm:mb-3 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
             Technology Stack
           </p>
-          <h2 className="font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+          <h2 className="font-display text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-black leading-tight tracking-tight">
             Established tools, chosen for reliability and long-term maintenance.
           </h2>
-          <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-lg">
+          <p className="mt-3 sm:mt-4 text-xs sm:text-base lg:text-lg leading-relaxed sm:leading-7 text-muted-foreground">
             We build with proven software frameworks and cloud infrastructure so systems stay maintainable well beyond initial launch.
           </p>
         </header>
 
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
           {techGroups.map((group) => (
             <motion.div 
               key={group.id}
@@ -129,19 +129,19 @@ export default function TechArsenal() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-80px" }}
-              className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8"
+              className="rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm"
             >
-              <div className="mb-6 flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <div className="mb-5 sm:mb-6 flex items-start gap-3.5 sm:gap-4">
+                <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
                   {group.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold tracking-tight text-foreground">{group.title}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{group.description}</p>
+                  <h3 className="text-lg xs:text-xl font-bold tracking-tight text-foreground">{group.title}</h3>
+                  <p className="mt-1 text-xs sm:text-sm text-muted-foreground">{group.description}</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-2 xs:gap-3 sm:grid-cols-4">
                 {group.stack.map((tech) => (
                   <TechItem key={tech.name} tech={tech} />
                 ))}
@@ -158,14 +158,14 @@ const TechItem = memo(function TechItem({ tech }: { tech: Tech }) {
   return (
     <motion.div
       variants={itemVariants}
-      className="group relative flex flex-col items-center justify-center rounded-md border border-border bg-background/80 p-3 text-center transition-colors hover:border-accent/50 hover:bg-card"
+      className="group relative flex flex-col items-center justify-center rounded-md border border-border bg-background/80 p-2.5 xs:p-3 text-center transition-colors hover:border-accent/50 hover:bg-card min-w-0"
     >
-      <div className="mb-2 text-2xl text-foreground/80 transition-colors group-hover:text-accent-dark dark:group-hover:text-accent-light">
+      <div className="mb-1.5 sm:mb-2 text-xl sm:text-2xl text-foreground/80 transition-colors group-hover:text-accent-dark dark:group-hover:text-accent-light shrink-0">
         {tech.icon}
       </div>
-      <span className="text-xs font-semibold text-foreground">{tech.name}</span>
+      <span className="text-[11px] xs:text-xs font-semibold text-foreground truncate max-w-full">{tech.name}</span>
       {tech.tag && (
-        <span className="mt-1 rounded bg-primary/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+        <span className="mt-1 rounded bg-primary/10 px-1.5 py-0.5 text-[8.5px] xs:text-[9px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
           {tech.tag}
         </span>
       )}

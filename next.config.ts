@@ -4,12 +4,12 @@ const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://js.stripe.com https://checkout.stripe.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  img-src 'self' data: blob: https://res.cloudinary.com https://*.cloudinary.com https://www.google.com https://s2.googleusercontent.com https://*.stripe.com https://*.public.blob.vercel-storage.com;
+  img-src 'self' data: blob: https://res.cloudinary.com https://*.cloudinary.com https://www.google.com https://s2.googleusercontent.com https://*.stripe.com https://*.public.blob.vercel-storage.com https://images.unsplash.com https://*.unsplash.com https://upload.wikimedia.org;
   font-src 'self' data: https://fonts.gstatic.com;
-  connect-src 'self' https://api.stripe.com https://api.cloudinary.com https://res.cloudinary.com https://*.neon.tech wss://*.neon.tech https://*.upstash.io;
-  frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://checkout.stripe.com;
-  frame-ancestors 'none';
-  object-src 'none';
+  connect-src 'self' https://api.stripe.com https://api.cloudinary.com https://res.cloudinary.com https://*.neon.tech wss://*.neon.tech https://*.upstash.io https://images.unsplash.com;
+  frame-src 'self' blob: data: https://maps.google.com https://www.google.com https://*.google.com https://www.openstreetmap.org https://js.stripe.com https://hooks.stripe.com https://checkout.stripe.com;
+  frame-ancestors 'self';
+  object-src 'self' blob:;
   base-uri 'self';
   form-action 'self';
 `
@@ -44,6 +44,21 @@ const nextConfig: NextConfig = {
         hostname: "*.public.blob.vercel-storage.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "/**",
+      },
     ],
   },
   async headers() {
@@ -57,7 +72,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "X-Frame-Options",
-            value: "DENY",
+            value: "SAMEORIGIN",
           },
           {
             key: "Referrer-Policy",

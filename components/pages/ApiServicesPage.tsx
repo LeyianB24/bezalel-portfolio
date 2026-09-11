@@ -44,29 +44,29 @@ const apiStandards = [
 export default function ApiServicesPage() {
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-28 pb-20 sm:pt-36">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <main className="min-h-screen pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-20">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6">
           {/* Header */}
-          <div className="mb-16 border-b border-border pb-12 sm:mb-20">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
+          <div className="mb-12 border-b border-border pb-8 sm:mb-20 sm:pb-12">
+            <p className="mb-2 sm:mb-4 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
               Service Overview
             </p>
-            <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-foreground sm:text-6xl">
+            <h1 className="font-display text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-foreground">
               API Infrastructure & Systems Integration
             </h1>
-            <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-4 sm:mt-6 max-w-3xl text-xs sm:text-base lg:text-lg leading-relaxed text-muted-foreground">
               We design and implement enterprise-grade backend systems and API layers that connect applications, global payment rails, databases, and third-party SaaS into unified, high-throughput infrastructure.
             </p>
           </div>
 
           {/* Core Capabilities */}
-          <div className="mb-20">
-            <h2 className="mb-8 font-display text-2xl font-black tracking-tight text-foreground sm:text-3xl">
+          <div className="mb-14 sm:mb-20">
+            <h2 className="mb-6 sm:mb-8 font-display text-xl xs:text-2xl sm:text-3xl font-black tracking-tight text-foreground">
               Core Capabilities
             </h2>
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
               {apiFeatures.map(({ title, description, proof, icon: Icon }) => (
-                <div key={title} className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8">
+                <div key={title} className="rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm">
                   <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <Icon className="h-5 w-5" />
                   </div>

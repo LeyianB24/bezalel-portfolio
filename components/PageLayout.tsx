@@ -52,7 +52,7 @@ export default function PageLayout({
   };
 
   return (
-    <div className={`min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-hidden ${className}`}>
+    <div className={`min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-clip ${className}`}>
       
       {/* --- SCROLL PROGRESS BAR --- */}
       {showScrollProgress && (
@@ -72,7 +72,7 @@ export default function PageLayout({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 pt-20 min-h-screen"
+        className="relative z-10 pt-16 sm:pt-20 min-h-screen"
       >
         {children}
         {showFooter && <Footer />}
@@ -89,7 +89,7 @@ export default function PageLayout({
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={scrollToTop}
-              className="fixed bottom-8 right-8 z-50 p-4 rounded-full 
+              className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 p-3 sm:p-4 rounded-full 
                        premium-card 
                        border border-accent/30 text-primary
                        shadow-lg hover:shadow-[0_0_24px_rgba(201,162,75,0.4)] 
@@ -97,7 +97,7 @@ export default function PageLayout({
                        transition-all duration-300 group"
               aria-label="Scroll to top"
             >
-              <FiArrowUp className="text-xl group-hover:-translate-y-1 transition-transform duration-300" />
+              <FiArrowUp className="text-lg sm:text-xl group-hover:-translate-y-1 transition-transform duration-300" />
             </motion.button>
           )}
         </AnimatePresence>

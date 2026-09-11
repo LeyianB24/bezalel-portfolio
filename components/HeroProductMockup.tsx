@@ -7,83 +7,95 @@ import {
   Activity,
   Layers,
   CreditCard,
-  ShieldCheck,
   Building2,
-  Server,
+  ArrowRight,
 } from "lucide-react";
 
-type MockupTab = "sacco" | "estate" | "payments";
+type MockupTab = "sacco" | "logistics" | "agri" | "payments";
 
 export default function HeroProductMockup() {
   const [activeTab, setActiveTab] = useState<MockupTab>("sacco");
 
   return (
-    <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-xl border border-white/15 bg-[#050D17]/95 p-2.5 shadow-2xl backdrop-blur-xl sm:p-4">
+    <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-xl border border-white/20 bg-[#050D17]/95 p-3 sm:p-5 shadow-2xl backdrop-blur-2xl">
       {/* Window Titlebar */}
-      <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2.5 sm:pb-3">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5">
-            <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-red-500/80" />
-            <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-yellow-500/80" />
-            <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-green-500/80" />
+      <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2.5 sm:pb-3.5">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-1.5 shrink-0">
+            <div className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+            <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+            <div className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
           </div>
-          <span className="ml-2 hidden text-[11px] font-mono text-white/50 sm:inline-block">
-            app.bezalel.website/{activeTab}-engine
+          <span className="ml-1 hidden font-mono text-xs text-white/50 sm:inline-block truncate">
+            telemetry.bezalel.website/{activeTab}-live
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold text-emerald-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Live in Production
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold text-emerald-400 shadow-xs">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span>Live Architecture Preview</span>
           </span>
         </div>
       </div>
 
-      {/* Domain Switcher — 3-Column Grid with min-w-0 to prevent overflow on mobile */}
-      <div className="mt-2.5 sm:mt-3 grid grid-cols-3 gap-1 rounded-lg border border-white/10 bg-white/[0.03] p-1 sm:gap-1.5">
+      {/* Domain Switcher — 4-Column Grid */}
+      <div className="mt-3 grid grid-cols-4 gap-1 rounded-lg border border-white/10 bg-white/[0.03] p-1">
         <button
           type="button"
           onClick={() => setActiveTab("sacco")}
-          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1 py-1.5 text-[10px] font-semibold transition-all sm:gap-1.5 sm:px-2 sm:text-xs ${
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
             activeTab === "sacco"
               ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
               : "text-white/70 hover:text-white hover:bg-white/[0.04]"
           }`}
         >
-          <Layers className="h-3.5 w-3.5 shrink-0" />
+          <Layers className="h-3.5 w-3.5 shrink-0 hidden xs:inline" />
           <span className="truncate">SACCO</span>
         </button>
 
         <button
           type="button"
-          onClick={() => setActiveTab("estate")}
-          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1 py-1.5 text-[10px] font-semibold transition-all sm:gap-1.5 sm:px-2 sm:text-xs ${
-            activeTab === "estate"
+          onClick={() => setActiveTab("logistics")}
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
+            activeTab === "logistics"
               ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
               : "text-white/70 hover:text-white hover:bg-white/[0.04]"
           }`}
         >
-          <Building2 className="h-3.5 w-3.5 shrink-0" />
-          <span className="truncate">Estate & AV</span>
+          <Activity className="h-3.5 w-3.5 shrink-0 hidden xs:inline" />
+          <span className="truncate">Logistics</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("agri")}
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
+            activeTab === "agri"
+              ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
+              : "text-white/70 hover:text-white hover:bg-white/[0.04]"
+          }`}
+        >
+          <Building2 className="h-3.5 w-3.5 shrink-0 hidden xs:inline" />
+          <span className="truncate">Agri-ERP</span>
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab("payments")}
-          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1 py-1.5 text-[10px] font-semibold transition-all sm:gap-1.5 sm:px-2 sm:text-xs ${
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
             activeTab === "payments"
               ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
               : "text-white/70 hover:text-white hover:bg-white/[0.04]"
           }`}
         >
-          <CreditCard className="h-3.5 w-3.5 shrink-0" />
-          <span className="truncate">Daraja Rails</span>
+          <CreditCard className="h-3.5 w-3.5 shrink-0 hidden xs:inline" />
+          <span className="truncate">Daraja</span>
         </button>
       </div>
 
       {/* Tab Content Area */}
-      <div className="mt-2.5 sm:mt-3 min-h-[280px] rounded-lg border border-white/10 bg-[#0B2036]/60 p-2.5 sm:p-5">
+      <div className="mt-3 min-h-[300px] rounded-lg border border-white/10 bg-[#0B2036]/70 p-3 sm:p-5">
         <AnimatePresence mode="wait">
           {activeTab === "sacco" && (
             <motion.div
@@ -149,9 +161,9 @@ export default function HeroProductMockup() {
             </motion.div>
           )}
 
-          {activeTab === "estate" && (
+          {activeTab === "logistics" && (
             <motion.div
-              key="estate"
+              key="logistics"
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
@@ -160,46 +172,103 @@ export default function HeroProductMockup() {
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="min-w-0 flex-1">
-                  <h4 className="text-xs sm:text-sm font-bold text-white truncate">Commercial Estate & AV</h4>
-                  <p className="text-[10px] sm:text-xs text-[#8FA0B3] truncate">CCTV mesh, biometric turnstiles & AV automation</p>
+                  <h4 className="text-xs sm:text-sm font-bold text-white truncate">Compass Cartage Fleet Operations</h4>
+                  <p className="text-[10px] sm:text-xs text-[#8FA0B3] truncate">48 vehicles · Offline manifests · Border telematics</p>
                 </div>
-                <span className="text-[10px] sm:text-[11px] font-mono text-[#E8CD84] shrink-0">Node-NBO</span>
+                <span className="text-[10px] sm:text-[11px] font-mono text-[#E8CD84] shrink-0">EA-Transit</span>
               </div>
 
               <div className="grid grid-cols-3 gap-1 sm:gap-3">
                 <div className="min-w-0 rounded-md border border-white/10 bg-white/[0.04] p-1.5 sm:p-2.5">
-                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">CCTV</p>
-                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">32 / 32</p>
-                  <span className="text-[8px] sm:text-[10px] text-emerald-400 block truncate">100% Online</span>
+                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Fleet Active</p>
+                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">48 / 48</p>
+                  <span className="text-[8px] sm:text-[10px] text-emerald-400 block truncate">100% Tracking</span>
                 </div>
                 <div className="min-w-0 rounded-md border border-white/10 bg-white/[0.04] p-1.5 sm:p-2.5">
-                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Turnstiles</p>
-                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">1,240</p>
-                  <span className="text-[8px] sm:text-[10px] text-white/70 block truncate">Scans today</span>
+                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Clearance Delay</p>
+                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">-40%</p>
+                  <span className="text-[8px] sm:text-[10px] text-emerald-400 block truncate">Border Checkpoint</span>
                 </div>
                 <div className="min-w-0 rounded-md border border-white/10 bg-white/[0.04] p-1.5 sm:p-2.5">
-                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Boardroom</p>
-                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">Ready</p>
-                  <span className="text-[8px] sm:text-[10px] text-[#E8CD84] block truncate">Zoom Synced</span>
+                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Manifest Sync</p>
+                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">Offline-P2P</p>
+                  <span className="text-[8px] sm:text-[10px] text-[#E8CD84] block truncate">SQLite Reconciled</span>
                 </div>
               </div>
 
               <div className="space-y-1.5 pt-1">
-                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8FA0B3]">Telemetry Log</p>
+                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8FA0B3]">Live Telemetry Feed</p>
                 <div className="divide-y divide-white/5 rounded-md border border-white/10 bg-black/30 text-xs">
                   <div className="flex items-center justify-between p-1.5 sm:p-2 gap-2">
                     <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                      <span className="font-mono text-white/90 truncate text-[11px] sm:text-xs">Biometric Gate Barrier</span>
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                      <span className="font-mono text-white/90 truncate text-[11px] sm:text-xs">TRK-08 Mombasa-Kampala Corridor</span>
                     </div>
-                    <span className="text-[10px] sm:text-[11px] text-emerald-400 shrink-0">0.12s latency</span>
+                    <span className="text-[10px] sm:text-[11px] text-emerald-400 shrink-0">Cleared Malaba</span>
                   </div>
                   <div className="flex items-center justify-between p-1.5 sm:p-2 gap-2">
                     <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                      <Server className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                      <span className="font-mono text-white/90 truncate text-[11px] sm:text-xs">Switch VLAN 10G</span>
+                      <Activity className="h-3.5 w-3.5 text-[#E8CD84] shrink-0" />
+                      <span className="font-mono text-white/90 truncate text-[11px] sm:text-xs">TRK-14 Nairobi-Kigali Transit</span>
                     </div>
-                    <span className="text-[10px] sm:text-[11px] text-emerald-400 shrink-0">0 Loss</span>
+                    <span className="text-[10px] sm:text-[11px] text-white/70 shrink-0">Busia GPS Ping</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === "agri" && (
+            <motion.div
+              key="agri"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-3 sm:space-y-4"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-xs sm:text-sm font-bold text-white truncate">Osotua Dairy Cooperative ERP</h4>
+                  <p className="text-[10px] sm:text-xs text-[#8FA0B3] truncate">IoT milk intake scales & automated M-Pesa B2C dividends</p>
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-mono text-[#E8CD84] shrink-0">v3.2-agri</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-1 sm:gap-3">
+                <div className="min-w-0 rounded-md border border-white/10 bg-white/[0.04] p-1.5 sm:p-2.5">
+                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Morning Intake</p>
+                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">18,420 L</p>
+                  <span className="text-[8px] sm:text-[10px] text-emerald-400 block truncate">100% IoT Weighed</span>
+                </div>
+                <div className="min-w-0 rounded-md border border-white/10 bg-white/[0.04] p-1.5 sm:p-2.5">
+                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Active Farmers</p>
+                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">1,420</p>
+                  <span className="text-[8px] sm:text-[10px] text-[#E8CD84] block truncate">Biometric Linked</span>
+                </div>
+                <div className="min-w-0 rounded-md border border-white/10 bg-white/[0.04] p-1.5 sm:p-2.5">
+                  <p className="text-[8.5px] sm:text-[10px] uppercase tracking-wider text-[#8FA0B3] truncate">Payout Speed</p>
+                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-base font-black text-white truncate">&lt; 3 min</p>
+                  <span className="text-[8px] sm:text-[10px] text-emerald-400 block truncate">Zero Discrepancy</span>
+                </div>
+              </div>
+
+              <div className="space-y-1.5 pt-1">
+                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8FA0B3]">Automated Financial Actions</p>
+                <div className="divide-y divide-white/5 rounded-md border border-white/10 bg-black/30 text-xs">
+                  <div className="flex items-center justify-between p-1.5 sm:p-2 gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                      <span className="font-mono text-white/90 truncate text-[11px] sm:text-xs">Hub-4 Chilling Intake Batch</span>
+                    </div>
+                    <span className="text-[10px] sm:text-[11px] text-emerald-400 shrink-0">4,210 L verified</span>
+                  </div>
+                  <div className="flex items-center justify-between p-1.5 sm:p-2 gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                      <span className="font-mono text-white/90 truncate text-[11px] sm:text-xs">B2C Morning Dividend Run</span>
+                    </div>
+                    <span className="font-semibold text-white shrink-0 text-[11px] sm:text-xs">KES 480,000 sent</span>
                   </div>
                 </div>
               </div>
@@ -268,9 +337,19 @@ export default function HeroProductMockup() {
       </div>
 
       {/* Footer proof line */}
-      <div className="mt-2.5 sm:mt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-0 px-1 text-[10px] sm:text-[11px] text-[#8FA0B3]">
-        <span>Global Delivery · HQ Nairobi, Kenya</span>
-        <span className="font-mono text-white/70">Production SLA: 99.9% Uptime</span>
+      <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-t border-white/10 pt-3 px-1 text-[10px] sm:text-xs text-[#8FA0B3]">
+        <div className="flex items-center gap-2">
+          <span>Global Delivery · HQ Nairobi</span>
+          <span className="text-white/30">|</span>
+          <span className="font-mono text-emerald-400">99.9% Uptime SLA</span>
+        </div>
+        <a
+          href="#portfolio"
+          className="inline-flex items-center gap-1.5 font-bold text-accent-light hover:text-white transition-colors"
+        >
+          <span>Explore Case Studies</span>
+          <ArrowRight className="h-3.5 w-3.5" />
+        </a>
       </div>
     </div>
   );

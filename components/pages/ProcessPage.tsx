@@ -45,59 +45,59 @@ const steps = [
 export default function ProcessPage() {
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-28 pb-20 sm:pt-36">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <main className="min-h-screen pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-20">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-16 border-b border-border pb-12 sm:mb-20">
+          <div className="mb-12 sm:mb-16 border-b border-border pb-8 sm:pb-12">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
               Engineering Delivery
             </p>
-            <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-foreground sm:text-6xl">
+            <h1 className="font-display text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-foreground">
               How We Deliver Projects
             </h1>
-            <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-4 sm:mt-6 max-w-3xl text-sm xs:text-base leading-relaxed text-muted-foreground sm:text-lg">
               We structure our engineering work around predictable milestones, transparent communication, and accountable delivery. You always know what is being built, when it will be delivered, and how much it will cost.
             </p>
           </div>
 
           {/* Steps List */}
-          <div className="mb-20 space-y-8">
+          <div className="mb-16 sm:mb-20 space-y-6 sm:space-y-8">
             {steps.map((step) => (
               <div
                 key={step.id}
-                className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8"
+                className="rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="flex items-center gap-4">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-accent/40 bg-accent/10 font-mono text-sm font-black text-accent-dark dark:text-accent-light">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <span className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-md border border-accent/40 bg-accent/10 font-mono text-xs sm:text-sm font-black text-accent-dark dark:text-accent-light">
                       {step.id}
                     </span>
-                    <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                    <h2 className="text-lg xs:text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                       {step.title}
                     </h2>
                   </div>
                 </div>
 
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                <p className="mt-3 sm:mt-4 text-xs xs:text-sm leading-relaxed text-muted-foreground sm:text-base">
                   {step.description}
                 </p>
 
                 <div className="mt-6 grid gap-4 border-t border-border pt-6 md:grid-cols-2">
-                  <div className="rounded-md border border-border bg-background p-4">
+                  <div className="rounded-md border border-border bg-background p-3 xs:p-4">
                     <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
                       Inputs & Prerequisites
                     </div>
                     <ul className="space-y-2">
                       {step.inputs.map((item) => (
                         <li key={item} className="flex items-center gap-2 text-xs text-foreground/80 sm:text-sm">
-                          <div className="h-1.5 w-1.5 rounded-full bg-accent-dark dark:bg-accent-light" />
-                          {item}
+                          <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-dark dark:bg-accent-light" />
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="rounded-md border border-border bg-background p-4">
+                  <div className="rounded-md border border-border bg-background p-3 xs:p-4">
                     <div className="mb-3 text-xs font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
                       Deliverables & Outcomes
                     </div>
@@ -105,7 +105,7 @@ export default function ProcessPage() {
                       {step.outputs.map((item) => (
                         <li key={item} className="flex items-center gap-2 text-xs font-medium text-foreground sm:text-sm">
                           <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-dark dark:text-accent-light" />
-                          {item}
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -116,19 +116,19 @@ export default function ProcessPage() {
           </div>
 
           {/* CTA */}
-          <div className="rounded-lg border border-border bg-primary p-8 text-primary-foreground sm:p-12">
+          <div className="rounded-lg border border-border bg-primary p-5 xs:p-6 sm:p-10 lg:p-12 text-primary-foreground">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="font-display text-2xl font-black sm:text-3xl">
+                <h2 className="font-display text-xl xs:text-2xl sm:text-3xl font-black">
                   Ready to discuss your project?
                 </h2>
-                <p className="mt-2 text-sm text-primary-foreground/75 sm:text-base">
+                <p className="mt-2 text-xs xs:text-sm text-primary-foreground/75 sm:text-base">
                   Submit a brief to start Step 1. We will review your goals and schedule a scoping conversation.
                 </p>
               </div>
               <Link
                 href="/projects/request"
-                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-5 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
               >
                 Start a project
                 <ArrowRight className="h-4 w-4" />

@@ -39,20 +39,20 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:py-20">
         <div className="grid gap-10 border-b border-white/10 pb-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-accent-light">
+            <p className="mb-3 sm:mb-4 text-[10px] sm:text-xs font-bold uppercase tracking-[0.24em] text-accent-light">
               Bezalel Technologies
             </p>
-            <h2 className="max-w-3xl font-display text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+            <h2 className="max-w-3xl font-display text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-black leading-tight tracking-tight">
               Need software or infrastructure delivered properly?
             </h2>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-primary-foreground/75 sm:text-base">
+            <p className="mt-4 sm:mt-5 max-w-2xl text-xs sm:text-base leading-relaxed sm:leading-7 text-primary-foreground/75">
               Share the problem, timeline, and budget range. We will review the brief and respond with the next practical step.
             </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+          <div className="flex flex-col gap-2.5 sm:flex-row lg:justify-end w-full sm:w-auto">
             <Link
               href="/projects/request"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light text-center"
             >
               Start a project
               <ArrowUpRight className="h-4 w-4" />
@@ -61,7 +61,7 @@ export default function Footer() {
               href="https://wa.me/254796157265"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-5 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-white/10"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-5 py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-colors hover:bg-white/10 text-center"
             >
               WhatsApp
               <ArrowUpRight className="h-4 w-4" />
@@ -69,10 +69,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 py-10 sm:py-12 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 className="font-display text-2xl font-black">Bezalel</h3>
-            <p className="mt-4 max-w-sm text-sm leading-7 text-primary-foreground/70">
+            <h3 className="font-display text-xl sm:text-2xl font-black">Bezalel</h3>
+            <p className="mt-3 sm:mt-4 max-w-sm text-xs sm:text-sm leading-relaxed sm:leading-7 text-primary-foreground/70">
               Custom software engineering, cloud systems, mobile platforms, and IT infrastructure serving clients worldwide.
             </p>
           </div>
@@ -82,30 +82,34 @@ export default function Footer() {
 
           <div>
             <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-accent-light">Global Contact</h4>
-            <ul className="space-y-3 text-sm text-primary-foreground/75">
+            <ul className="space-y-3 text-xs sm:text-sm text-primary-foreground/75">
               <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-accent-light" />
-                <a href="mailto:bezaleltech@gmail.com" className="hover:text-primary-foreground">
+                <Mail className="h-4 w-4 text-accent-light shrink-0" />
+                <a href="mailto:bezaleltech@gmail.com" className="hover:text-primary-foreground break-all sm:break-normal">
                   bezaleltech@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-accent-light" />
+                <Phone className="h-4 w-4 text-accent-light shrink-0" />
                 <a href="tel:+254796157265" className="hover:text-primary-foreground">
                   +254 796 157 265
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 text-accent-light" />
-                HQ: Nairobi, Kenya · Serving Globally
+              <li className="flex items-start gap-3">
+                <MapPin className="h-4 w-4 text-accent-light shrink-0 mt-1" />
+                <div>
+                  <p className="font-semibold text-primary-foreground">Valley View Office Park</p>
+                  <p className="text-[11px] text-primary-foreground/75">2nd Floor, Block 1, Parklands</p>
+                  <p className="text-[11px] text-primary-foreground/60">Nairobi, Kenya</p>
+                </div>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col gap-5 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-primary-foreground/60">
-            <span>&copy; {currentYear} Bezalel Technologies. All rights reserved.</span>
+        <div className="flex flex-col gap-4 border-t border-white/10 pt-6 sm:pt-8 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2 text-[11px] sm:text-xs text-primary-foreground/60">
+            <span>&copy; {currentYear} <a href="https://www.bezalel.website/" target="_blank" rel="noopener noreferrer" className="hover:text-primary-foreground font-semibold underline decoration-white/30 underline-offset-2">Bezalel Technologies</a>. All rights reserved.</span>
             {legalLinks.map((link) => (
               <Link key={link.href} href={link.href} className="hover:text-primary-foreground">
                 {link.name}

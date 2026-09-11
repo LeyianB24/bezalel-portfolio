@@ -36,18 +36,18 @@ export default function PrivacyPage() {
 
   return (
     <PageLayout variant="subtle">
-      <div className="pt-28 pb-24 sm:pt-36">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-16 border-b border-border pb-12">
+          <div className="mb-12 sm:mb-16 border-b border-border pb-8 sm:pb-12">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light mb-4">
               <ShieldCheck className="h-4 w-4" />
               Privacy & Data Protection
             </div>
-            <h1 className="font-display text-4xl font-black tracking-tight text-foreground sm:text-6xl">
+            <h1 className="font-display text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground">
               Privacy Policy
             </h1>
-            <p className="mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
+            <p className="mt-4 max-w-2xl text-sm xs:text-base text-muted-foreground sm:text-lg">
               How Bezalel Technologies collects, protects, and handles personal and institutional information for clients worldwide.
             </p>
             <p className="mt-4 font-mono text-xs text-muted-foreground">
@@ -56,8 +56,8 @@ export default function PrivacyPage() {
           </div>
 
           {/* Quick Summary Cards */}
-          <div className="mb-16 grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg border border-border bg-card p-5 shadow-sm">
+          <div className="mb-12 sm:mb-16 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            <div className="rounded-lg border border-border bg-card p-4 xs:p-5 shadow-sm">
               <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
                 <CheckCircle2 className="h-5 w-5 text-accent-light" />
               </div>
@@ -94,9 +94,9 @@ export default function PrivacyPage() {
               <div
                 key={section.id}
                 id={section.id}
-                className="rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8"
+                className="rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm"
               >
-                <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                <h2 className="text-lg xs:text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                   {section.title}
                 </h2>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">

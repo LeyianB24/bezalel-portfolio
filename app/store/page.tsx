@@ -62,7 +62,7 @@ const fallbackCatalog = [
     comparePrice: 4200,
     stock: 65,
     sku: "BZL-CBL-HDMI5",
-    images: ["/images/products/hdmi-21-ultra-high-speed.jpg?v=2"],
+    images: ["/images/products/hdmi-21-ultra-high-speed.jpg"],
     category: { id: "cat-cables", name: "Cables & Converters", slug: "cables" },
     isFeatured: true,
     isBestseller: true,

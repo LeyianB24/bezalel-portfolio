@@ -14,6 +14,9 @@ import {
   Tag,
   Search,
   Check,
+  Edit3,
+  Sparkles,
+  Layers,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -55,6 +58,7 @@ export default function ProductsDashboard({
   // Modals & UI state
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<ProductType | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -84,6 +88,25 @@ export default function ProductsDashboard({
   const [modalNewCatName, setModalNewCatName] = useState("");
   const [modalNewCatSlug, setModalNewCatSlug] = useState("");
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
+  const [editingCatId, setEditingCatId] = useState<string | null>(null);
+  const [editingCatName, setEditingCatName] = useState<string>("");
+  const [isUpdatingCategory, setIsUpdatingCategory] = useState(false);
+
+  // Verified Hardware & Real Product Photography Presets
+  const verifiedImagePresets = [
+    { name: "8K HDMI 2.1 Cable (Gold Plated)", url: "/images/products/hdmi-21-ultra-high-speed.jpg" },
+    { name: "UniFi 48-Port Managed Switch", url: "/images/products/unifi-switch-48-poe.jpg" },
+    { name: "MikroTik 10G Cloud Router", url: "/images/products/mikrotik-cloud-router.jpg" },
+    { name: "100W GaN Fast Charger", url: "/images/products/pd-100w-gan-fast-charger.jpg" },
+    { name: "Cat6A Shielded RJ45 Cable", url: "/images/products/cat6a-shielded-cable.jpg" },
+    { name: "Smart Surge Extension PDU", url: "/images/products/smart-surge-pdu-extension.jpg" },
+    { name: "USB-C Multiport Hub", url: "/images/products/usb-c-multiport-hub.jpg" },
+    { name: "Hikvision 32Ch CCTV NVR", url: "/images/products/hikvision-32ch-nvr.jpg" },
+    { name: "Wi-Fi 6 Mesh System", url: "/images/products/wifi6-mesh-router-system.jpg" },
+    { name: "Developer Workstation Laptop", url: "/images/nextstack-real.jpg" },
+    { name: "Mobile Banking Smartphone", url: "/images/mpesa-real.jpg" },
+    { name: "UI Design Workstation", url: "/images/bezaui-real.jpg" },
+  ];
 
   const resetForm = () => {
     setFormData({
@@ -97,8 +120,31 @@ export default function ProductsDashboard({
       categoryId: categories.length > 0 ? categories[0].id : "",
       sku: "",
     });
+    setEditingProduct(null);
     setShowInlineNewCategory(false);
     setNewCategoryName("");
+  };
+
+  const openCreateModal = () => {
+    resetForm();
+    setIsProductModalOpen(true);
+  };
+
+  const openEditModal = (product: ProductType) => {
+    setEditingProduct(product);
+    setFormData({
+      name: product.name,
+      slug: product.slug,
+      description: product.description,
+      price: product.price.toString(),
+      comparePrice: product.comparePrice ? product.comparePrice.toString() : "",
+      stock: product.stock.toString(),
+      images: product.images || [],
+      categoryId: product.categoryId || (categories[0]?.id || ""),
+      sku: product.sku || "",
+    });
+    setShowInlineNewCategory(false);
+    setIsProductModalOpen(true);
   };
 
   // Quick Inline Category Creation
@@ -197,7 +243,48 @@ export default function ProductsDashboard({
     }
   };
 
-  // Create Product Submit
+  // Rename Category
+  const handleUpdateCategory = async (catId: string) => {
+    if (!editingCatName.trim()) {
+      toast.error("Category name cannot be empty");
+      return;
+    }
+
+    setIsUpdatingCategory(true);
+    try {
+      const slug = editingCatName.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      const res = await fetch(`/api/store/categories/${catId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: editingCatName.trim(), slug }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to update category");
+      }
+
+      const updated = await res.json();
+      setCategories((prev) => prev.map((c) => (c.id === catId ? { ...c, ...updated } : c)));
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.categoryId === catId
+            ? { ...p, category: { id: catId, name: updated.name, slug: updated.slug } }
+            : p
+        )
+      );
+      setEditingCatId(null);
+      setEditingCatName("");
+      toast.success(`Category renamed to "${updated.name}"`);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Failed to update category";
+      toast.error(msg);
+    } finally {
+      setIsUpdatingCategory(false);
+    }
+  };
+
+  // Create / Update Product Submit
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.price || (!formData.categoryId && !newCategoryName)) {
@@ -228,37 +315,67 @@ export default function ProductsDashboard({
         targetCategoryId = categories[0].id;
       }
 
-      const res = await fetch("/api/store/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          categoryId: targetCategoryId,
-          slug: formData.slug || formData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
-          price: parseFloat(formData.price),
-          comparePrice: formData.comparePrice ? parseFloat(formData.comparePrice) : null,
-          stock: parseInt(formData.stock),
-        }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to create product");
-      }
-
-      const newProduct: ProductType = await res.json();
-      newProduct.category = categories.find((c) => c.id === targetCategoryId) || {
-        id: targetCategoryId,
-        name: "General",
-        slug: "general",
+      const payload = {
+        name: formData.name,
+        slug: formData.slug || formData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+        description: formData.description,
+        price: parseFloat(formData.price),
+        comparePrice: formData.comparePrice ? parseFloat(formData.comparePrice) : null,
+        stock: parseInt(formData.stock),
+        images: formData.images,
+        categoryId: targetCategoryId,
+        sku: formData.sku || null,
       };
 
-      setProducts([newProduct, ...products]);
-      setIsProductModalOpen(false);
-      resetForm();
-      toast.success("Product successfully added to the store catalog.");
+      if (editingProduct) {
+        const res = await fetch(`/api/store/products/${editingProduct.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Failed to update product");
+        }
+
+        const updated: ProductType = await res.json();
+        updated.category = categories.find((c) => c.id === targetCategoryId) || {
+          id: targetCategoryId,
+          name: "General",
+          slug: "general",
+        };
+
+        setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+        setIsProductModalOpen(false);
+        resetForm();
+        toast.success(`Product "${updated.name}" updated successfully!`);
+      } else {
+        const res = await fetch("/api/store/products", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Failed to create product");
+        }
+
+        const newProduct: ProductType = await res.json();
+        newProduct.category = categories.find((c) => c.id === targetCategoryId) || {
+          id: targetCategoryId,
+          name: "General",
+          slug: "general",
+        };
+
+        setProducts([newProduct, ...products]);
+        setIsProductModalOpen(false);
+        resetForm();
+        toast.success("Product successfully added to the store catalog.");
+      }
     } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : "Failed to create product";
+      const msg = error instanceof Error ? error.message : "Failed to save product";
       toast.error(msg);
     } finally {
       setIsSubmitting(false);
@@ -431,17 +548,22 @@ export default function ProductsDashboard({
                   : "border-border/60 opacity-60"
               }`}
             >
-              {/* Product Image */}
-              <div className="w-full aspect-square bg-secondary/50 border border-border rounded-lg mb-4 flex items-center justify-center text-muted-foreground overflow-hidden">
+              {/* Product Image with Multi-Image Indicator */}
+              <div className="relative w-full aspect-square bg-secondary/50 border border-border rounded-lg mb-4 flex items-center justify-center text-muted-foreground overflow-hidden">
                 {product.images?.length > 0 ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
                   <Package size={32} className="text-muted-foreground/60" />
+                )}
+                {product.images?.length > 1 && (
+                  <span className="absolute top-2 right-2 bg-black/75 backdrop-blur-xs text-white px-2 py-0.5 rounded text-[10px] font-bold shadow-xs">
+                    📸 {product.images.length}
+                  </span>
                 )}
               </div>
 
@@ -472,7 +594,7 @@ export default function ProductsDashboard({
                 </div>
               </div>
 
-              {/* Actions */}
+              {/* Actions Toolbar */}
               <div className="mt-4 pt-3 border-t border-border flex justify-between items-center">
                 <button
                   onClick={() => toggleProductStatus(product.id, product.isActive)}
@@ -488,18 +610,30 @@ export default function ProductsDashboard({
                     {product.isActive ? "Live" : "Draft"}
                   </span>
                 </button>
-                <button
-                  onClick={() => deleteProduct(product.id, product.name)}
-                  disabled={deletingId === product.id}
-                  className="rounded p-1 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-colors disabled:opacity-50"
-                  title="Delete product"
-                >
-                  {deletingId === product.id ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : (
-                    <Trash2 size={14} />
-                  )}
-                </button>
+
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => openEditModal(product)}
+                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-bold text-accent-dark dark:text-accent-light hover:bg-accent/10 transition-colors"
+                    title="Edit product details, price, or images"
+                  >
+                    <Edit3 size={13} />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    onClick={() => deleteProduct(product.id, product.name)}
+                    disabled={deletingId === product.id}
+                    className="rounded p-1 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                    title="Delete product"
+                  >
+                    {deletingId === product.id ? (
+                      <Loader2 size={14} className="animate-spin" />
+                    ) : (
+                      <Trash2 size={14} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -517,9 +651,13 @@ export default function ProductsDashboard({
                 </div>
                 <div>
                   <h2 className="font-display text-base font-bold text-foreground">
-                    Add Product / Equipment Item
+                    {editingProduct ? "Edit Product Specifications" : "Add Product / Equipment Item"}
                   </h2>
-                  <p className="text-xs text-muted-foreground">Add to store catalog and set categories</p>
+                  <p className="text-xs text-muted-foreground">
+                    {editingProduct
+                      ? `Modifying SKU, pricing, images, and category for ${editingProduct.name}`
+                      : "Add to store catalog and set categories"}
+                  </p>
                 </div>
               </div>
               <button
@@ -615,13 +753,59 @@ export default function ProductsDashboard({
 
               <div>
                 <ImageUpload
-                  label="Product Photos"
+                  label="Product Photos (Upload from Device)"
                   description="Upload product images from phone camera, gallery, or computer."
                   images={formData.images}
                   onChange={(imgs) => setFormData({ ...formData, images: imgs })}
                   multiple={true}
                   maxFiles={6}
                 />
+              </div>
+
+              {/* Verified Real Hardware Photo Presets */}
+              <div className="space-y-2 rounded-lg border border-accent/30 bg-accent/5 p-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light flex items-center gap-1.5">
+                    <Sparkles size={12} />
+                    <span>Quick Verified Real Photography Presets</span>
+                  </label>
+                  <span className="text-[10px] text-muted-foreground">1-click attach</span>
+                </div>
+                <p className="text-[11px] text-muted-foreground">
+                  Select authentic, high-resolution photographs to avoid cartoon/AI images:
+                </p>
+                <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto pr-1">
+                  {verifiedImagePresets.map((preset) => {
+                    const isSelected = formData.images.includes(preset.url);
+                    return (
+                      <button
+                        key={preset.url}
+                        type="button"
+                        onClick={() => {
+                          if (isSelected) {
+                            setFormData({
+                              ...formData,
+                              images: formData.images.filter((img) => img !== preset.url),
+                            });
+                          } else {
+                            setFormData({
+                              ...formData,
+                              images: [...formData.images, preset.url],
+                            });
+                          }
+                        }}
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium border transition-colors ${
+                          isSelected
+                            ? "border-accent bg-accent/20 text-accent-dark dark:text-accent-light font-bold"
+                            : "border-border bg-background hover:bg-secondary text-foreground"
+                        }`}
+                      >
+                        {isSelected && <Check size={11} className="text-accent" />}
+                        <span>{preset.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -687,7 +871,10 @@ export default function ProductsDashboard({
               <div className="pt-3 flex justify-end gap-3 border-t border-border">
                 <button
                   type="button"
-                  onClick={() => setIsProductModalOpen(false)}
+                  onClick={() => {
+                    setIsProductModalOpen(false);
+                    setEditingProduct(null);
+                  }}
                   className="rounded-md border border-border px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:bg-secondary hover:text-foreground"
                 >
                   Cancel
@@ -698,7 +885,11 @@ export default function ProductsDashboard({
                   className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2 text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-sm hover:bg-accent-light disabled:opacity-50"
                 >
                   {isSubmitting && <Loader2 size={14} className="animate-spin" />}
-                  {isSubmitting ? "Saving..." : "Create Product"}
+                  {isSubmitting
+                    ? "Saving..."
+                    : editingProduct
+                    ? "Update Product Catalog"
+                    : "Add to Catalog"}
                 </button>
               </div>
             </form>
@@ -772,30 +963,75 @@ export default function ProductsDashboard({
                 <div className="space-y-1.5">
                   {categories.map((c) => {
                     const itemCount = products.filter((p) => p.categoryId === c.id).length;
+                    const isEditingThis = editingCatId === c.id;
                     return (
                       <div
                         key={c.id}
                         className="flex items-center justify-between p-2.5 rounded-md border border-border bg-background text-xs"
                       >
-                        <div className="min-w-0">
-                          <p className="font-semibold text-foreground truncate">{c.name}</p>
-                          <p className="text-[10px] font-mono text-muted-foreground truncate">slug: {c.slug}</p>
-                        </div>
+                        {isEditingThis ? (
+                          <div className="flex-1 flex items-center gap-2 mr-2">
+                            <input
+                              type="text"
+                              value={editingCatName}
+                              onChange={(e) => setEditingCatName(e.target.value)}
+                              className="flex-1 rounded border border-accent bg-card px-2 py-1 text-xs text-foreground focus:outline-none"
+                              autoFocus
+                            />
+                            <button
+                              type="button"
+                              disabled={isUpdatingCategory || !editingCatName.trim()}
+                              onClick={() => handleUpdateCategory(c.id)}
+                              className="bg-accent text-accent-foreground px-2.5 py-1 rounded text-xs font-bold shrink-0 disabled:opacity-50 flex items-center gap-1"
+                            >
+                              {isUpdatingCategory ? <Loader2 size={11} className="animate-spin" /> : <Check size={11} />}
+                              <span>Save</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setEditingCatId(null);
+                                setEditingCatName("");
+                              }}
+                              className="text-muted-foreground hover:text-foreground p-1 text-xs"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="min-w-0">
+                              <p className="font-semibold text-foreground truncate">{c.name}</p>
+                              <p className="text-[10px] font-mono text-muted-foreground truncate">slug: {c.slug}</p>
+                            </div>
 
-                        <div className="flex items-center gap-2 shrink-0">
-                          <span className="rounded bg-muted px-2 py-0.5 text-[10px] font-bold text-muted-foreground">
-                            {itemCount} item{itemCount !== 1 ? "s" : ""}
-                          </span>
-                          <button
-                            type="button"
-                            disabled={deletingCatId === c.id || itemCount > 0}
-                            onClick={() => handleDeleteCategory(c.id, c.name)}
-                            className="p-1 text-muted-foreground hover:text-red-500 transition-colors disabled:opacity-30"
-                            title={itemCount > 0 ? "Cannot delete category with active products" : "Delete category"}
-                          >
-                            {deletingCatId === c.id ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
-                          </button>
-                        </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="rounded bg-muted px-2 py-0.5 text-[10px] font-bold text-muted-foreground">
+                                {itemCount} item{itemCount !== 1 ? "s" : ""}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingCatId(c.id);
+                                  setEditingCatName(c.name);
+                                }}
+                                className="p-1 text-muted-foreground hover:text-accent-dark dark:hover:text-accent-light transition-colors"
+                                title="Rename category"
+                              >
+                                <Edit3 size={13} />
+                              </button>
+                              <button
+                                type="button"
+                                disabled={deletingCatId === c.id || itemCount > 0}
+                                onClick={() => handleDeleteCategory(c.id, c.name)}
+                                className="p-1 text-muted-foreground hover:text-red-500 transition-colors disabled:opacity-30"
+                                title={itemCount > 0 ? "Cannot delete category with active products" : "Delete category"}
+                              >
+                                {deletingCatId === c.id ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
+                              </button>
+                            </div>
+                          </>
+                        )}
                       </div>
                     );
                   })}

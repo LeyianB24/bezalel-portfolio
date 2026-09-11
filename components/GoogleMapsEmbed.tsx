@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, Navigation, ExternalLink, Clock, ShieldCheck } from "lucide-react";
 
 interface GoogleMapsEmbedProps {
@@ -14,6 +14,24 @@ export default function GoogleMapsEmbed({
 }: GoogleMapsEmbedProps) {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapView, setMapView] = useState<"google" | "satellite" | "street">("google");
+  const [isVisible, setIsVisible] = useState(false);
+  const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
+
+  // Lazy load iframe only when user scrolls near the map component
+  useEffect(() => {
+    if (!containerRef || isVisible) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" }
+    );
+    observer.observe(containerRef);
+    return () => observer.disconnect();
+  }, [containerRef, isVisible]);
 
   // Valley View Office Park, Parklands, Nairobi, Kenya (-1.2647, 36.8242)
   const lat = -1.2647;
@@ -37,6 +55,7 @@ export default function GoogleMapsEmbed({
 
   return (
     <div
+      ref={setContainerRef}
       className={`rounded-2xl border border-border bg-card overflow-hidden shadow-sm flex flex-col ${className}`}
     >
       {/* Header with Address Badges */}
@@ -128,25 +147,49 @@ export default function GoogleMapsEmbed({
 
       {/* Map Container */}
       <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] min-h-[300px] sm:min-h-[360px] bg-muted/40">
-        {!mapLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center bg-card/80 backdrop-blur-xs z-10 text-xs text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-accent animate-ping" />
-              <span>Loading Google Maps preview...</span>
+        {!isVisible ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-card/60 backdrop-blur-xs">
+            <div className="h-12 w-12 rounded-full bg-accent/15 text-accent flex items-center justify-center mb-3">
+              <MapPin className="h-6 w-6 animate-bounce" />
             </div>
+            <h4 className="font-display text-sm sm:text-base font-bold text-foreground">
+              Valley View Office Park, Nairobi
+            </h4>
+            <p className="text-xs text-muted-foreground mt-1 max-w-sm">
+              2nd Floor, Block 1, Parklands · GPS: -1.2647, 36.8242
+            </p>
+            <button
+              type="button"
+              onClick={() => setIsVisible(true)}
+              className="mt-4 inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-xs font-bold text-accent-foreground hover:bg-accent-light transition-colors shadow-xs"
+            >
+              <Navigation className="h-3.5 w-3.5" />
+              <span>Load Interactive Map</span>
+            </button>
           </div>
-        )}
+        ) : (
+          <>
+            {!mapLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-card/80 backdrop-blur-xs z-10 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-accent animate-ping" />
+                  <span>Loading Google Maps preview...</span>
+                </div>
+              </div>
+            )}
 
-        <iframe
-          key={mapView}
-          src={currentEmbedUrl}
-          title="Google Maps Location Preview - Valley View Office Park"
-          loading="lazy"
-          onLoad={() => setMapLoaded(true)}
-          className="w-full h-full border-0 contrast-[1.02] opacity-95 transition-opacity duration-300"
-          referrerPolicy="no-referrer-when-downgrade"
-          allowFullScreen
-        />
+            <iframe
+              key={mapView}
+              src={currentEmbedUrl}
+              title="Google Maps Location Preview - Valley View Office Park"
+              loading="lazy"
+              onLoad={() => setMapLoaded(true)}
+              className="w-full h-full border-0 contrast-[1.02] opacity-95 transition-opacity duration-300"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </>
+        )}
       </div>
 
       {/* Footer Info Strip */}

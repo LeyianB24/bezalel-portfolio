@@ -15,9 +15,18 @@ import {
   ShieldCheck,
   Clock,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import GoogleMapsEmbed from "@/components/GoogleMapsEmbed";
+
+const GoogleMapsEmbed = dynamic(() => import("@/components/GoogleMapsEmbed"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[360px] rounded-2xl border border-border bg-card animate-pulse flex items-center justify-center text-muted-foreground text-xs">
+      Loading office location...
+    </div>
+  ),
+});
 
 export default function ContactPageClient() {
   const [name, setName] = useState("");

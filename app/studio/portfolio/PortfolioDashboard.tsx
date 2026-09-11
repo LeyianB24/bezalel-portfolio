@@ -4,10 +4,25 @@ import { useState } from "react";
 import { 
   Layers, Plus, Edit3, Trash2, ExternalLink, 
   X, Loader2, Star, Sparkles, Image as ImageIcon,
-  CheckCircle2, Upload
+  CheckCircle2, Upload, Check
 } from "lucide-react";
 import { toast } from "sonner";
 import ImageUpload from "@/components/studio/ImageUpload";
+
+const verifiedPortfolioPresets = [
+  { name: "Agri Mobile Dashboard", url: "/images/portfolio/osotua-mobile-real.jpg" },
+  { name: "Farm Telemetry & IoT", url: "/images/portfolio/osotua-telemetry-real.jpg" },
+  { name: "Logistics Orders Engine", url: "/images/portfolio/osotua-orders-real.jpg" },
+  { name: "DevOps Cloud Console", url: "/images/portfolio/nextstack-devops-real.jpg" },
+  { name: "Distributed Microservices", url: "/images/portfolio/nextstack-architecture-real.jpg" },
+  { name: "CI/CD Pipeline Metrics", url: "/images/portfolio/nextstack-pipelines-real.jpg" },
+  { name: "BezaUI Dark Component Kit", url: "/images/portfolio/bezaui-components-real.jpg" },
+  { name: "Enterprise Design Tokens", url: "/images/portfolio/bezaui-palette-real.jpg" },
+  { name: "Storybook Spec Matrix", url: "/images/portfolio/bezaui-storybook-real.jpg" },
+  { name: "M-Pesa STK Push Modal", url: "/images/portfolio/mpesa-payment-modal-real.jpg" },
+  { name: "B2C Disbursement Terminal", url: "/images/portfolio/mpesa-disbursement-real.jpg" },
+  { name: "Automated Ledger Engine", url: "/images/portfolio/mpesa-reconciliation-real.jpg" },
+];
 
 interface PortfolioItemType {
   id: string;
@@ -327,7 +342,37 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
                       {tech}
                     </span>
                   ))}
-                </div>
+                {/* Google Play-Style Screenshots Strip */}
+                {item.images && item.images.length > 0 && (
+                  <div className="mt-4 pt-3 border-t border-border">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                        Showcase Reel ({item.images.length} screens)
+                      </span>
+                      <span className="text-[9px] font-mono text-[#C9A24B] font-bold">
+                        Google Play Layout
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                      {item.images.map((img, sIdx) => (
+                        <div
+                          key={sIdx}
+                          className="relative h-14 w-20 shrink-0 rounded-md border border-border/80 overflow-hidden bg-muted/40 shadow-xs group/thumb"
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={img}
+                            alt={`${item.name} screen ${sIdx + 1}`}
+                            className="h-full w-full object-cover group-hover/thumb:scale-110 transition-transform duration-200"
+                          />
+                          <span className="absolute bottom-0.5 right-1 bg-black/75 text-[8px] text-white px-1 rounded font-mono">
+                            {sIdx + 1}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="mt-6 flex items-center justify-end gap-2 border-t border-border pt-3">
@@ -508,6 +553,43 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
                   multiple={true}
                   maxFiles={12}
                 />
+
+                {/* Verified Real System Screenshot Presets */}
+                <div className="mt-3 pt-3 border-t border-border/80 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light flex items-center gap-1.5">
+                      <Sparkles size={12} />
+                      <span>Verified System Screenshot Presets</span>
+                    </span>
+                    <span className="text-[10px] text-muted-foreground">Click to attach</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1">
+                    {verifiedPortfolioPresets.map((preset) => {
+                      const isSelected = images.includes(preset.url);
+                      return (
+                        <button
+                          key={preset.url}
+                          type="button"
+                          onClick={() => {
+                            if (isSelected) {
+                              setImages(images.filter((img) => img !== preset.url));
+                            } else {
+                              setImages([...images, preset.url]);
+                            }
+                          }}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium border transition-colors ${
+                            isSelected
+                              ? "border-accent bg-accent/20 text-accent-dark dark:text-accent-light font-bold"
+                              : "border-border bg-background hover:bg-secondary text-foreground"
+                          }`}
+                        >
+                          {isSelected && <Check size={11} className="text-accent" />}
+                          <span>{preset.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-1">

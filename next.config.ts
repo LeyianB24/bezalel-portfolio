@@ -18,6 +18,16 @@ const cspHeader = `
 
 const nextConfig: NextConfig = {
   images: {
+    localPatterns: [
+      {
+        pathname: "/**",
+        search: "",
+      },
+      {
+        pathname: "/**",
+        search: "?*",
+      },
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -87,6 +97,25 @@ const nextConfig: NextConfig = {
             value: cspHeader,
           },
         ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: "/contacts",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/stores",
+        destination: "/store",
+        permanent: true,
+      },
+      {
+        source: "/portfolios",
+        destination: "/portfolio",
+        permanent: true,
       },
     ];
   },

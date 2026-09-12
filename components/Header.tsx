@@ -53,13 +53,6 @@ export default function Header() {
           const y = target.getBoundingClientRect().top + window.scrollY - 88;
           window.scrollTo({ top: y, behavior: "smooth" });
         }
-      } else if (href === "/contact") {
-        event.preventDefault();
-        const target = document.getElementById("contact");
-        if (target) {
-          const y = target.getBoundingClientRect().top + window.scrollY - 88;
-          window.scrollTo({ top: y, behavior: "smooth" });
-        }
       }
     }
   };

@@ -342,6 +342,8 @@ export default function PortfolioDashboard({ initialItems }: PortfolioDashboardP
                       {tech}
                     </span>
                   ))}
+                </div>
+
                 {/* Google Play-Style Screenshots Strip */}
                 {item.images && item.images.length > 0 && (
                   <div className="mt-4 pt-3 border-t border-border">

@@ -11,12 +11,10 @@ import {
   ToggleLeft,
   ToggleRight,
   FolderPlus,
-  Tag,
   Search,
   Check,
   Edit3,
   Sparkles,
-  Layers,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -459,10 +457,7 @@ export default function ProductsDashboard({
           </button>
 
           <button
-            onClick={() => {
-              resetForm();
-              setIsProductModalOpen(true);
-            }}
+            onClick={openCreateModal}
             className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-sm transition-all hover:bg-accent-light"
           >
             <Plus size={15} /> Add New Item

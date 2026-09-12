@@ -6,16 +6,17 @@ import { FaGithub, FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const serviceLinks = [
-  { name: "Software and web systems", href: "/#services" },
-  { name: "IT infrastructure and AV", href: "/#services" },
-  { name: "Systems support", href: "/#services" },
-  { name: "Payments and workflows", href: "/#services" },
+  { name: "Software and web systems", href: "/services/web-systems" },
+  { name: "IT infrastructure and AV", href: "/services/infrastructure" },
+  { name: "Payments and API architecture", href: "/services/api" },
+  { name: "Mobile systems and field ops", href: "/services/mobile" },
 ];
 
 const companyLinks = [
   { name: "Portfolio", href: "/portfolio" },
   { name: "Store", href: "/store" },
   { name: "Careers", href: "/careers" },
+  { name: "Contact & Consultations", href: "/contact" },
 ];
 
 const legalLinks = [

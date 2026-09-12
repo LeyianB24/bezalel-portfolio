@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
@@ -48,6 +48,13 @@ interface HomePageClientProps {
   portfolioProjects: PortfolioTeaserItem[];
 }
 
+const heroImages = [
+  "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
+  "/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg",
+  "/BG_images/AdobeStock_292953404-scaled.jpeg",
+  "/BG_images/team-collaborates-digitally-stockcake.jpg",
+];
+
 const stats = [
   {
     value: "100%",
@@ -90,6 +97,7 @@ const services = [
     proof: "Designed for member records, service requests, reporting, approvals, and customer self-service.",
     icon: MonitorUp,
     bgImage: "/BG_images/codes people.jpg",
+    href: "/services/web-systems",
   },
   {
     title: "IT Infrastructure & Boardroom AV",
@@ -98,6 +106,7 @@ const services = [
     proof: "Engineered for corporate offices, estates, and institutions that cannot afford network interruptions.",
     icon: Network,
     bgImage: "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
+    href: "/services/infrastructure",
   },
   {
     title: "Payments & API Integration",
@@ -106,14 +115,16 @@ const services = [
     proof: "Eliminates manual payment matching with automated reconciliation and instant notifications.",
     icon: CreditCard,
     bgImage: "/BG_images/data.avif",
+    href: "/services/api",
   },
   {
-    title: "Audits, Support & Modernization",
+    title: "Mobile Systems & Field Operations",
     description:
-      "Independent technical code audits, performance fixes, architecture documentation, and ongoing maintenance SLAs.",
-    proof: "Ideal when you inherit legacy codebases or need reliable ongoing engineering support.",
+      "Offline-first iOS & Android field telematics, driver manifests, cross-border sync, and distributed handheld operational suites.",
+    proof: "Engineered for harsh cellular environments with local SQLite cache and automatic background cloud sync.",
     icon: Wrench,
     bgImage: "/BG_images/coporate.avif",
+    href: "/services/mobile",
   },
 ];
 
@@ -203,6 +214,15 @@ const pricingTiers = [
 
 export default function HomePageClient({ portfolioProjects }: HomePageClientProps) {
   const [selectedSector, setSelectedSector] = useState<string>("All");
+  const [activeHeroImage, setActiveHeroImage] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveHeroImage((current) => (current + 1) % heroImages.length);
+    }, 7000);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   // Contact form state
   const [contactName, setContactName] = useState("");
@@ -278,6 +298,20 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
           id="home"
           className="relative min-h-[88svh] sm:min-h-[92svh] overflow-hidden bg-[#050D17] text-white pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-24 flex items-center"
         >
+          {/* Ken Burns Background Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={heroImages[activeHeroImage]}
+              src={heroImages[activeHeroImage]}
+              alt=""
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 1.0 }}
+              animate={{ opacity: 0.18, scale: 1.06 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.6, ease: "easeOut" }}
+              className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+            />
+          </AnimatePresence>
           {/* Subtle Technical Engineering Grid */}
           <div
             className="absolute inset-0 opacity-[0.14] pointer-events-none"
@@ -443,28 +477,34 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
             </div>
 
             <div className="mt-8 sm:mt-10 grid gap-4 sm:gap-6 md:grid-cols-2">
-              {services.map(({ title, description, proof, icon: Icon, bgImage }) => (
-                <article
+              {services.map(({ title, description, proof, icon: Icon, bgImage, href }) => (
+                <Link
                   key={title}
-                  className="group relative overflow-hidden rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm flex flex-col justify-between"
+                  href={href}
+                  className="group relative overflow-hidden rounded-lg border border-border bg-card p-4 xs:p-6 sm:p-8 shadow-sm flex flex-col justify-between transition-all duration-300 hover:border-accent/40 hover:shadow-md"
                 >
                   {/* Subtle Background Image on Hover */}
                   <div
-                    className="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-[0.06] dark:group-hover:opacity-[0.12] pointer-events-none"
+                    className="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-[0.08] dark:group-hover:opacity-[0.14] pointer-events-none"
                     style={{ backgroundImage: `url('${bgImage}')` }}
                   />
 
                   <div className="relative z-10">
-                    <div className="mb-4 sm:mb-5 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-xs">
-                      <Icon className="h-5 w-5" />
+                    <div className="flex items-center justify-between mb-4 sm:mb-5">
+                      <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-xs group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                        Architecture &amp; Specs <ArrowRight className="h-3.5 w-3.5" />
+                      </span>
                     </div>
-                    <h3 className="text-lg xs:text-xl font-bold tracking-tight text-foreground">{title}</h3>
+                    <h3 className="text-lg xs:text-xl font-bold tracking-tight text-foreground group-hover:text-accent-dark dark:group-hover:text-accent-light transition-colors">{title}</h3>
                     <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm leading-relaxed text-muted-foreground">{description}</p>
                   </div>
                   <p className="relative z-10 mt-4 sm:mt-5 border-t border-border pt-3.5 sm:pt-4 text-xs font-semibold leading-relaxed text-foreground">
                     {proof}
                   </p>
-                </article>
+                </Link>
               ))}
             </div>
           </div>

@@ -43,9 +43,15 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bezalel.website"),
-  title: "Bezalel Technologies | Global Software Engineering & Digital Infrastructure",
+  title: {
+    default: "Bezalel Technologies | Global Software Engineering & Infrastructure",
+    template: "%s | Bezalel Technologies",
+  },
   description:
     "Custom software engineering, cloud systems, mobile platforms, API architecture, and enterprise IT infrastructure serving ambitious organizations worldwide.",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -73,6 +79,46 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://bezalel.website/#organization",
+      "name": "Bezalel Technologies",
+      "url": "https://bezalel.website",
+      "logo": "https://bezalel.website/logos/bezalel-mark-gold.svg",
+      "description": "Custom software engineering, high-throughput financial ledgers, cloud architecture, and enterprise IT infrastructure.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Valley View Office Park, 2nd Floor, Block 1, Parklands",
+        "addressLocality": "Nairobi",
+        "addressCountry": "KE"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+254796157265",
+        "contactType": "customer support",
+        "email": "bezaleltech@gmail.com"
+      },
+      "sameAs": [
+        "https://twitter.com/LeyianB",
+        "https://github.com/LeyianB24",
+        "https://instagram.com/leyian_.b"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://bezalel.website/#website",
+      "url": "https://bezalel.website",
+      "name": "Bezalel Technologies",
+      "publisher": {
+        "@id": "https://bezalel.website/#organization"
+      }
+    }
+  ]
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -81,6 +127,12 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        </head>
         <body
           className={`
             ${plusJakartaSans.variable} 

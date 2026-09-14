@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import { OrderStatus } from "@prisma/client";
 import { sendOrderConfirmationEmail } from "@/lib/order-email";
 
+import crypto from "crypto";
+
 export async function handleMpesaCallback(req: Request, pathSecret?: string) {
   try {
     const configuredSecret = process.env.MPESA_CALLBACK_SECRET;
@@ -10,7 +12,15 @@ export async function handleMpesaCallback(req: Request, pathSecret?: string) {
     const querySecret = url.searchParams.get("secret");
     const providedSecret = pathSecret || querySecret;
 
-    if (!configuredSecret || !providedSecret || providedSecret !== configuredSecret) {
+    const isSecretValid =
+      Boolean(configuredSecret && providedSecret) &&
+      providedSecret!.length === configuredSecret!.length &&
+      crypto.timingSafeEqual(
+        Buffer.from(providedSecret!),
+        Buffer.from(configuredSecret!)
+      );
+
+    if (!configuredSecret || !providedSecret || !isSecretValid) {
       console.warn("⚠️ [M-PESA CALLBACK REJECTED]: Unauthorized request - invalid or missing webhook secret.");
       return NextResponse.json(
         { ResultCode: 1, ResultDesc: "Unauthorized: Invalid or missing webhook secret" },

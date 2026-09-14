@@ -79,15 +79,18 @@ export const checkoutLimiter = redis
   : new InMemoryRateLimiter(5, 10 * 60 * 1000);
 
 export function getClientIp(req: Request): string {
+  // Prioritize edge-verified headers from Cloudflare / Vercel Edge / Reverse Proxies
+  const edgeIp = req.headers.get("cf-connecting-ip") || req.headers.get("x-real-ip");
+  if (edgeIp) {
+    return edgeIp.trim();
+  }
+
   const forwardedFor = req.headers.get("x-forwarded-for");
   if (forwardedFor) {
     return forwardedFor.split(",")[0].trim();
   }
-  return (
-    req.headers.get("x-real-ip") ||
-    req.headers.get("cf-connecting-ip") ||
-    "127.0.0.1"
-  );
+
+  return "127.0.0.1";
 }
 
 /**

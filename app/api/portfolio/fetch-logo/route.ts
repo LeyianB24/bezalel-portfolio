@@ -55,6 +55,7 @@ export async function POST(req: Request) {
 
       const response = await fetch(parsedUrl.toString(), {
         signal: controller.signal,
+        redirect: "manual",
         headers: {
           "User-Agent": "Mozilla/5.0 (compatible; BezalelLogoBot/1.0; +https://bezalel.website)",
         },

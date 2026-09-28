@@ -37,18 +37,18 @@ const mobileFeatures = [
     description: "Local data persistence with automatic conflict-free synchronization upon reconnection, engineered for field operations and erratic network coverage.",
     proof: "Essential for delivery dispatch, inspection, and field-service teams worldwide.",
     icon: WifiOff,
-    accent: "text-blue-500",
-    bg: "bg-blue-500/10",
-    border: "border-blue-500/20",
+    accent: "text-accent-dark dark:text-accent-light",
+    bg: "bg-accent/10",
+    border: "border-accent/25",
   },
   {
     title: "Global & Regional Payment Rails",
     description: "Seamless Stripe, Apple Pay, Google Pay, and M-Pesa STK Push processing embedded directly inside native Android and iOS experiences.",
     proof: "High-conversion checkout flows supporting both international cards and local mobile money.",
     icon: Zap,
-    accent: "text-emerald-500",
+    accent: "text-emerald-600 dark:text-emerald-400",
     bg: "bg-emerald-500/10",
-    border: "border-emerald-500/20",
+    border: "border-emerald-500/25",
   },
   {
     title: "Cross-Platform Performance",
@@ -57,16 +57,16 @@ const mobileFeatures = [
     icon: Smartphone,
     accent: "text-[#C9A24B]",
     bg: "bg-[#C9A24B]/10",
-    border: "border-[#C9A24B]/20",
+    border: "border-[#C9A24B]/25",
   },
   {
     title: "Biometrics & Hardware Security",
     description: "Secure Enclave biometric login (Face ID & Fingerprint), AES-256 local storage, and automated token lifecycle rotation.",
     proof: "Meets international fintech and member data privacy compliance standards.",
     icon: ShieldCheck,
-    accent: "text-purple-500",
-    bg: "bg-purple-500/10",
-    border: "border-purple-500/20",
+    accent: "text-accent-dark dark:text-accent-light",
+    bg: "bg-accent/10",
+    border: "border-accent/25",
   },
 ];
 
@@ -88,23 +88,23 @@ export default function MobileServicesPage() {
   const theme: Theme = {
     ios: {
       name: "iOS 18 Native",
-      primary: "text-blue-500",
-      accent: "text-cyan-400",
-      bg: "bg-blue-600",
-      border: "border-blue-500/30",
-      glow: "shadow-blue-500/20",
-      gradient: "from-blue-600 via-indigo-500 to-cyan-400",
+      primary: "text-[#C9A24B]",
+      accent: "text-[#E8CD84]",
+      bg: "bg-[#C9A24B]",
+      border: "border-[#C9A24B]/40",
+      glow: "shadow-[#C9A24B]/20",
+      gradient: "from-[#0B2036] via-[#132A44] to-[#0B2036]",
       code: "swift",
       platform: "ios",
     },
     android: {
       name: "Android 15 Native",
       primary: "text-emerald-500",
-      accent: "text-lime-400",
-      bg: "bg-emerald-600",
-      border: "border-emerald-500/30",
+      accent: "text-emerald-400",
+      bg: "bg-emerald-500",
+      border: "border-emerald-500/40",
       glow: "shadow-emerald-500/20",
-      gradient: "from-emerald-600 via-teal-500 to-lime-400",
+      gradient: "from-[#061E16] via-[#0D3528] to-[#061E16]",
       code: "kotlin",
       platform: "android",
     },
@@ -164,37 +164,37 @@ export default function MobileServicesPage() {
               {/* Hardware Performance Metrics */}
               <div className="grid grid-cols-3 gap-3 pt-2">
                 <div className="p-3 sm:p-4 rounded-xl border border-border bg-card shadow-xs">
-                  <div className="flex items-center gap-1.5 text-emerald-500 mb-1">
+                  <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 mb-1">
                     <Activity className="h-4 w-4" />
                     <span className="text-[10px] font-mono font-bold uppercase">Frame Time</span>
                   </div>
                   <div className="text-lg sm:text-2xl font-black text-foreground">16ms</div>
-                  <div className="text-[10px] text-muted-foreground">Smooth 60fps</div>
+                  <div className="text-[10px] text-muted-foreground font-medium">Smooth 60fps</div>
                 </div>
 
                 <div className="p-3 sm:p-4 rounded-xl border border-border bg-card shadow-xs">
-                  <div className="flex items-center gap-1.5 text-blue-500 mb-1">
-                    <Zap className="h-4 w-4" />
+                  <div className="flex items-center gap-1.5 text-accent-dark dark:text-accent-light mb-1">
+                    <Zap className="h-4 w-4 text-[#C9A24B]" />
                     <span className="text-[10px] font-mono font-bold uppercase">Cold Start</span>
                   </div>
                   <div className="text-lg sm:text-2xl font-black text-foreground">0.38s</div>
-                  <div className="text-[10px] text-muted-foreground">Hermes Engine</div>
+                  <div className="text-[10px] text-muted-foreground font-medium">Hermes Engine</div>
                 </div>
 
                 <div className="p-3 sm:p-4 rounded-xl border border-border bg-card shadow-xs">
-                  <div className="flex items-center gap-1.5 text-[#C9A24B] mb-1">
+                  <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 mb-1">
                     <Fingerprint className="h-4 w-4" />
                     <span className="text-[10px] font-mono font-bold uppercase">Auth Speed</span>
                   </div>
                   <div className="text-lg sm:text-2xl font-black text-foreground">&lt;0.2s</div>
-                  <div className="text-[10px] text-muted-foreground">Biometric Lock</div>
+                  <div className="text-[10px] text-muted-foreground font-medium">Biometric Lock</div>
                 </div>
               </div>
             </div>
 
             {/* Right: 3D Interactive Phone Canvas */}
             <div className="lg:col-span-6 h-[540px] xs:h-[580px] sm:h-[620px] w-full flex items-center justify-center relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5 rounded-3xl blur-2xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-primary/5 to-accent/10 rounded-3xl blur-2xl pointer-events-none" />
               {isClient && <InteractivePhone theme={theme} platform={platform} />}
             </div>
           </div>
@@ -216,14 +216,14 @@ export default function MobileServicesPage() {
                     <div className={`flex h-11 w-11 items-center justify-center rounded-lg ${bg} ${accent}`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
                       Cross-Platform
                     </span>
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold tracking-tight text-foreground">{title}</h3>
                   <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-muted-foreground">{description}</p>
                   <p className="mt-4 border-t border-border pt-3 text-xs sm:text-sm font-semibold text-foreground flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B]" />
                     {proof}
                   </p>
                 </motion.div>
@@ -239,17 +239,17 @@ export default function MobileServicesPage() {
                   Build Quality
                 </p>
                 <h2 className="font-display text-xl xs:text-2xl sm:text-3xl font-black tracking-tight text-foreground">
-                  Engineered for real-world global mobile conditions.
+                  Native ergonomics without performance compromises.
                 </h2>
                 <p className="mt-3 text-xs sm:text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  We optimize battery consumption, memory footprint, and network payload sizes so your app remains snappy across both flagship devices and entry-level smartphones.
+                  Every mobile binary is compiled with tree-shaken dependencies, offline state reconciliation, automated crash analytics, and end-to-end device testing suites.
                 </p>
               </div>
 
               <div className="space-y-3">
                 {mobileStandards.map((standard) => (
-                  <div key={standard} className="flex items-start gap-3 rounded-lg border border-border bg-background p-3.5 sm:p-4">
-                    <CheckCircle2 className="mt-0.5 h-4 sm:h-5 w-4 sm:w-5 shrink-0 text-accent-dark dark:text-accent-light" />
+                  <div key={standard} className="flex items-start gap-3 rounded-lg border border-border bg-background/80 p-3.5 sm:p-4 shadow-xs">
+                    <CheckCircle2 className="mt-0.5 h-4 sm:h-5 w-4 sm:w-5 shrink-0 text-[#C9A24B]" />
                     <span className="text-xs sm:text-sm font-medium text-foreground">{standard}</span>
                   </div>
                 ))}
@@ -258,27 +258,27 @@ export default function MobileServicesPage() {
           </div>
 
           {/* Conversion CTA */}
-          <div className="rounded-2xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-lg">
+          <div className="rounded-2xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-xl relative overflow-hidden">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="font-display text-2xl sm:text-3xl font-black">
-                  Have a mobile app requirement?
+                <h2 className="font-display text-2xl sm:text-3xl font-black text-white">
+                  Launching a mobile product or field solution?
                 </h2>
-                <p className="mt-2 text-xs sm:text-sm text-primary-foreground/75 sm:text-base max-w-xl">
-                  Send us your brief and target user workflows. We will evaluate offline sync and payment needs and provide an itemized proposal.
+                <p className="mt-2 text-xs sm:text-sm text-white/80 sm:text-base max-w-xl">
+                  Discuss target operating environments, offline synchronization requirements, and platform integrations with our engineering leads.
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/projects/request"
-                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light shadow-md"
                 >
                   Configure App Project
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-white/20 bg-white/10 px-5 py-3.5 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/20"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-white/25 bg-white/10 px-5 py-3.5 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/20"
                 >
                   Contact Desk
                 </Link>
@@ -340,69 +340,69 @@ function InteractivePhone({ theme, platform }: { theme: Theme; platform: Platfor
         <motion.div 
           animate={{ top: ["0%", "100%", "0%"] }}
           transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-          className={`absolute left-[-20px] right-[-20px] h-[2px] ${theme.bg} z-50 blur-[2px] opacity-60 pointer-events-none [transform:translateZ(180px)]`}
+          className="absolute left-[-20px] right-[-20px] h-[2px] bg-[#C9A24B] z-50 blur-[2px] opacity-75 pointer-events-none [transform:translateZ(180px)]"
         />
 
         {/* --- LAYER 1: BACK CHASSIS --- */}
-        <PhoneLayer z={0} className="bg-[#090D14] border-border/80">
-          <div className="flex flex-col items-center justify-center h-full opacity-30">
-            <div className="w-20 h-20 rounded-full border border-border flex items-center justify-center">
-              <Zap className="h-6 w-6 text-accent" />
+        <PhoneLayer z={0} className="bg-[#0B1828] border border-[#C9A24B]/35 shadow-2xl">
+          <div className="flex flex-col items-center justify-center h-full opacity-40">
+            <div className="w-20 h-20 rounded-full border border-[#C9A24B]/30 flex items-center justify-center">
+              <Zap className="h-6 w-6 text-[#C9A24B]" />
             </div>
-            <div className="mt-3 font-mono text-[9px] tracking-widest text-muted-foreground">WIRELESS_CHARGING_COIL</div>
+            <div className="mt-3 font-mono text-[9px] tracking-widest text-[#E8CD84]">WIRELESS_CHARGING_COIL</div>
           </div>
         </PhoneLayer>
 
         {/* --- LAYER 2: LOGIC MOTHERBOARD --- */}
-        <PhoneLayer z={40} className="bg-card/90 backdrop-blur-sm border-border/70">
+        <PhoneLayer z={40} className="bg-card/95 backdrop-blur-sm border border-border shadow-md">
           <div className="w-full h-full relative p-4">
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-[#090D14] border border-[#C9A24B]/40 rounded-2xl flex flex-col items-center justify-center shadow-lg">
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-[#071320] border border-[#C9A24B]/40 rounded-2xl flex flex-col items-center justify-center shadow-lg">
               <Cpu className="w-9 h-9 text-[#C9A24B] animate-pulse" />
-              <div className="mt-2 text-[8px] text-foreground font-mono font-bold">ARM64 ARCH</div>
-              <div className="text-[7px] text-muted-foreground font-mono">HERMES 64-BIT</div>
+              <div className="mt-2 text-[8px] text-white font-mono font-bold">ARM64 ARCH</div>
+              <div className="text-[7px] text-[#C9A24B] font-mono">HERMES 64-BIT</div>
             </div>
 
-            <div className="absolute bottom-10 left-3 right-3 p-2.5 rounded-lg bg-secondary/50 border border-border flex items-center justify-between text-[9px] font-mono text-muted-foreground">
-              <span className="flex items-center gap-1"><Battery className="h-3 w-3 text-emerald-500" /> 4323 mAh</span>
-              <span>LOW POWER MODE</span>
+            <div className="absolute bottom-10 left-3 right-3 p-2.5 rounded-lg bg-secondary/80 border border-border flex items-center justify-between text-[9px] font-mono text-muted-foreground shadow-xs">
+              <span className="flex items-center gap-1 font-semibold text-foreground"><Battery className="h-3 w-3 text-emerald-500" /> 4323 mAh</span>
+              <span className="font-semibold text-accent-dark dark:text-accent-light">LOW POWER MODE</span>
             </div>
           </div>
         </PhoneLayer>
 
         {/* --- LAYER 3: GLASS UI LAYER --- */}
-        <PhoneLayer z={120} className="bg-[#05080E] border-border overflow-hidden ring-4 ring-black/40">
+        <PhoneLayer z={120} className="bg-[#050D17] border border-[#C9A24B]/30 overflow-hidden ring-4 ring-black/30 shadow-2xl">
           <div className="w-full h-full flex flex-col justify-between p-4">
             
             {/* Status Bar */}
             <div className="flex justify-between items-center px-2 pt-2">
               <span className="text-[10px] font-bold text-white font-mono">9:41</span>
-              <div className="h-3.5 w-16 bg-black rounded-full border border-white/10" />
+              <div className="h-3.5 w-16 bg-black rounded-full border border-white/20" />
               <div className="flex items-center gap-1.5 text-white text-[10px]">
-                <span>5G</span>
+                <span className="font-medium">5G</span>
                 <Battery className="h-3 w-3 text-emerald-400" />
               </div>
             </div>
 
             {/* App UI Showcase Content */}
             <div className="space-y-3 my-auto">
-              <div className={`p-4 rounded-xl bg-gradient-to-br ${theme.gradient} text-white shadow-md relative overflow-hidden`}>
-                <div className="text-[9px] font-mono uppercase tracking-wider text-white/80">
+              <div className={`p-4 rounded-xl bg-gradient-to-br ${theme.gradient} text-white shadow-md relative overflow-hidden border border-[#C9A24B]/30`}>
+                <div className="text-[9px] font-mono uppercase tracking-wider text-[#C9A24B] font-bold">
                   Active {platform === "ios" ? "Apple iOS" : "Android"} Session
                 </div>
-                <div className="text-lg font-bold">Nairobi Tech Hub</div>
+                <div className="text-lg font-bold mt-0.5 text-white">Nairobi Tech Hub</div>
                 <div className="text-[10px] text-white/90 mt-1 flex items-center gap-1">
-                  <Globe2 className="h-3 w-3" /> Encrypted Tunnel Live
+                  <Globe2 className="h-3 w-3 text-[#C9A24B]" /> Encrypted Tunnel Live
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-white">
+                <div className="p-2.5 rounded-lg bg-white/[0.07] border border-white/10 text-white">
                   <div className="text-[8px] font-mono text-white/60">THROUGHPUT</div>
                   <div className="text-xs font-bold text-emerald-400">120 Mbps</div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-white">
+                <div className="p-2.5 rounded-lg bg-white/[0.07] border border-white/10 text-white">
                   <div className="text-[8px] font-mono text-white/60">LATENCY</div>
-                  <div className="text-xs font-bold text-blue-400">14 ms</div>
+                  <div className="text-xs font-bold text-[#E8CD84]">14 ms</div>
                 </div>
               </div>
 
@@ -413,7 +413,7 @@ function InteractivePhone({ theme, platform }: { theme: Theme; platform: Platfor
                 </div>
                 <div>
                   <div className="text-[10px] font-bold">Biometric Verified</div>
-                  <div className="text-[8px] text-white/70 font-mono">Secure Enclave Validated</div>
+                  <div className="text-[8px] text-white/80 font-mono">Secure Enclave Validated</div>
                 </div>
               </div>
             </div>

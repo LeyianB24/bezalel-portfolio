@@ -2,89 +2,82 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import {
-  Network,
-  ShieldCheck,
-  Video,
-  ArrowRight,
-  CheckCircle2,
-  Cpu,
-  Server,
-  Activity
+import { 
+  Network, Server, Video, ShieldCheck, Cpu, 
+  CheckCircle2, ArrowRight, Activity
 } from "lucide-react";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import { jellyPresets } from "@/lib/jelly-springs";
 
-export interface EquipmentData {
+interface EquipmentData {
   id: string;
   name: string;
   category: string;
   description: string;
   specs: string[];
-  imageUrl?: string | null;
 }
 
 const fallbackEquipment: EquipmentData[] = [
   {
-    id: "eq-1",
-    name: "UniFi Enterprise 24-Port 10G PoE Managed Switch",
-    category: "NETWORKING",
-    description: "High-density Layer 3 enterprise networking switch with 2.5GbE PoE+ ports and 10G SFP+ uplinks for mission-critical institutional LAN.",
-    specs: ["24x 2.5GbE PoE+ RJ45 Ports", "2x 10G SFP+ Uplinks", "400W Total PoE Power Budget", "Layer 3 Switching & VLAN Routing"],
+    id: "unifi-switch",
+    name: "Ubiquiti UniFi Pro Max 48 PoE",
+    category: "MANAGED_SWITCH",
+    description: "Layer 3 switch with 10G SFP+ uplinks, 2.5GbE PoE++ ports, and Etherlighting port telemetry.",
+    specs: ["48 GbE/2.5GbE PoE Ports", "4x 10G SFP+ Uplinks", "720W PoE Availability", "Direct-Attach Fiber"],
   },
   {
-    id: "eq-2",
-    name: "Crestron Flex UC Boardroom Video System",
-    category: "AV_CONFERENCING",
-    description: "Native Zoom Rooms and Microsoft Teams boardroom collaboration system with beamforming microphone array and intelligent 4K auto-framing camera.",
-    specs: ["Native Zoom/Teams Touch Controller", "4K Ultra-HD Intelligent Camera", "Dual Display Support (4K HDR)", "Acoustic Echo Cancellation"],
+    id: "unifi-ap",
+    name: "UniFi U7 Pro Enterprise AP",
+    category: "WIRELESS_ACCESS",
+    description: "Tri-band WiFi 7 access point with 6GHz spectrum, 2.5GbE uplink, and 9.3Gbps aggregate over-the-air throughput.",
+    specs: ["Tri-Band WiFi 7 Support", "2.5GbE PoE+ Uplink", "500+ Concurrent Devices", "Zero-Handoff Roaming"],
   },
   {
-    id: "eq-3",
-    name: "Hikvision Pro 32-Channel 4K AcuSense NVR",
-    category: "SECURITY_CCTV",
-    description: "AI-powered surveillance recorder with real-time perimeter protection, facial recognition, vehicle classification, and RAID-1 failover.",
-    specs: ["32 Channels up to 12MP Resolution", "4x SATA Interface (up to 40TB)", "AcuSense AI Deep Learning Filter", "H.265+ Compression Engine"],
+    id: "logitech-rally",
+    name: "Logitech Rally Bar Video System",
+    category: "BOARDROOM_AV",
+    description: "All-in-one 4K motorized PTZ video bar with adaptive beamforming mic array and AI optical framing.",
+    specs: ["Cinema-Quality 4K Optical PTZ", "RightSight 2 Auto-Framing", "15ft Mic Pickup Radius", "Teams/Zoom Native"],
   },
 ];
 
 const infraFeatures = [
   {
-    title: "Structured Cabling & High-Density LAN",
-    description: "Cat6A / Cat7 structured cabling, 10G fiber backbones, patch panel terminations, and organized server rack layouts.",
-    proof: "Certified fluke-tested runs with zero packet loss and clean labeling.",
+    title: "Structured Cabling & Fiber Core",
+    description: "Cat6A shielded copper runs, multimode & singlemode OM3/OM4 fiber backbones, patch panel dressing, and Fluke certification.",
+    proof: "Guaranteed 10Gbps inter-rack backbone bandwidth with zero packet crosstalk.",
     icon: Network,
-    accent: "text-blue-500",
-    bg: "bg-blue-500/10",
-    border: "border-blue-500/20",
+    accent: "text-accent-dark dark:text-accent-light",
+    bg: "bg-accent/10",
+    border: "border-accent/25",
   },
   {
     title: "Executive Boardroom AV & Video Systems",
     description: "Crestron, Logitech, and Polycom Zoom Rooms / Microsoft Teams setups with acoustic ceiling microphones and multi-screen matrix routing.",
     proof: "One-touch meeting start with zero wireless connectivity confusion.",
     icon: Video,
-    accent: "text-purple-500",
-    bg: "bg-purple-500/10",
-    border: "border-purple-500/20",
+    accent: "text-[#C9A24B]",
+    bg: "bg-[#C9A24B]/10",
+    border: "border-[#C9A24B]/25",
   },
   {
     title: "CCTV Surveillance & Perimeter Security",
     description: "4K IP surveillance cameras, AI perimeter detection, continuous cloud & local NVR recording, and remote live monitor streaming.",
     proof: "Engineered for estates, warehouses, and commercial office complexes.",
     icon: ShieldCheck,
-    accent: "text-emerald-500",
+    accent: "text-emerald-600 dark:text-emerald-400",
     bg: "bg-emerald-500/10",
-    border: "border-emerald-500/20",
+    border: "border-emerald-500/25",
   },
   {
     title: "Biometric Access Control & Turnstiles",
     description: "Time-attendance facial recognition, RFID barriers, and automated visitor pass management integrated with backend payroll.",
     proof: "Eliminates unauthorized access with sub-second biometric scans.",
     icon: Cpu,
-    accent: "text-[#C9A24B]",
-    bg: "bg-[#C9A24B]/10",
-    border: "border-[#C9A24B]/20",
+    accent: "text-accent-dark dark:text-accent-light",
+    bg: "bg-accent/10",
+    border: "border-accent/25",
   },
 ];
 
@@ -127,17 +120,17 @@ export default function InfrastructureServicesPage({
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/60 border border-border text-foreground">
-                  <Activity className="h-3.5 w-3.5 text-emerald-500" />
-                  <span>24/7 SLA Guarantee</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
+                  <Activity className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span className="font-medium">24/7 SLA Guarantee</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/60 border border-border text-foreground">
-                  <Network className="h-3.5 w-3.5 text-blue-500" />
-                  <span>10G SFP+ Fiber Core</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
+                  <Network className="h-3.5 w-3.5 text-[#C9A24B]" />
+                  <span className="font-medium">10G SFP+ Fiber Core</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/60 border border-border text-foreground">
-                  <ShieldCheck className="h-3.5 w-3.5 text-[#C9A24B]" />
-                  <span>Fluke-Certified Runs</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
+                  <ShieldCheck className="h-3.5 w-3.5 text-accent-dark dark:text-accent-light" />
+                  <span className="font-medium">Fluke-Certified Runs</span>
                 </div>
               </div>
             </motion.div>
@@ -166,7 +159,7 @@ export default function InfrastructureServicesPage({
                       <div className={`flex h-11 w-11 items-center justify-center rounded-lg ${bg} ${accent}`}>
                         <Icon className="h-5 w-5" />
                       </div>
-                      <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                      <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-semibold">
                         Field Certified
                       </span>
                     </div>
@@ -174,7 +167,7 @@ export default function InfrastructureServicesPage({
                     <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-muted-foreground">{description}</p>
                   </div>
                   <p className="mt-4 border-t border-border pt-3 text-xs sm:text-sm font-semibold text-foreground flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B]" />
                     {proof}
                   </p>
                 </motion.div>
@@ -207,10 +200,10 @@ export default function InfrastructureServicesPage({
                   key={item.id}
                   whileHover={{ y: -4 }}
                   transition={jellyPresets.snap}
-                  className="flex flex-col justify-between rounded-xl border border-border bg-background p-5 shadow-2xs"
+                  className="flex flex-col justify-between rounded-xl border border-border bg-background/80 p-5 shadow-2xs"
                 >
                   <div>
-                    <span className="rounded bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
+                    <span className="rounded bg-accent/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
                       {item.category.replace("_", " ")}
                     </span>
                     <h3 className="font-display text-base font-bold text-foreground mt-2.5">
@@ -224,7 +217,7 @@ export default function InfrastructureServicesPage({
                   {item.specs && item.specs.length > 0 && (
                     <div className="mt-4 pt-3 border-t border-border space-y-1.5">
                       {item.specs.map((spec, i) => (
-                        <div key={i} className="flex items-center gap-1.5 text-[11px] text-foreground/80 font-medium">
+                        <div key={i} className="flex items-center gap-1.5 text-[11px] text-foreground/90 font-medium">
                           <CheckCircle2 size={12} className="text-[#C9A24B] shrink-0" />
                           <span>{spec}</span>
                         </div>
@@ -251,8 +244,8 @@ export default function InfrastructureServicesPage({
             </div>
             <ul className="space-y-3">
               {infraStandards.map((standard) => (
-                <li key={standard} className="flex items-start gap-3 rounded-lg border border-border bg-background p-3.5 text-xs font-semibold text-foreground">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-dark dark:text-accent-light" />
+                <li key={standard} className="flex items-start gap-3 rounded-lg border border-border bg-background/80 p-3.5 text-xs font-semibold text-foreground shadow-xs">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#C9A24B]" />
                   <span>{standard}</span>
                 </li>
               ))}
@@ -260,27 +253,27 @@ export default function InfrastructureServicesPage({
           </div>
 
           {/* Conversion CTA */}
-          <div className="rounded-2xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-lg">
+          <div className="rounded-2xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-xl relative overflow-hidden">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="font-display text-2xl sm:text-3xl font-black">
+                <h2 className="font-display text-2xl sm:text-3xl font-black text-white">
                   Ready to deploy structured cabling or boardroom AV?
                 </h2>
-                <p className="mt-2 text-xs sm:text-sm text-primary-foreground/75 sm:text-base max-w-xl">
+                <p className="mt-2 text-xs sm:text-sm text-white/80 sm:text-base max-w-xl">
                   Share your floor plan, office capacity, or rack specifications. Our field engineering team will provide a comprehensive deployment blueprint.
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/projects/request"
-                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light shadow-md"
                 >
                   Configure Hardware
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-white/20 bg-white/10 px-5 py-3.5 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/20"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-white/25 bg-white/10 px-5 py-3.5 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/20"
                 >
                   Contact Field Desk
                 </Link>
@@ -316,23 +309,23 @@ function RackTelemetryMonitor() {
   }, []);
 
   return (
-    <div className="rounded-xl overflow-hidden bg-[#090D14] border border-border/80 shadow-2xl p-4 sm:p-5 font-mono text-xs">
+    <div className="rounded-xl overflow-hidden bg-[#07111D] border border-[#C9A24B]/35 shadow-2xl p-4 sm:p-5 font-mono text-xs ring-1 ring-black/10 dark:ring-white/10">
       {/* Rack Header Bar */}
-      <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10 text-[11px] text-white/60">
+      <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#C9A24B]/20 text-[11px] text-white/70">
         <div className="flex items-center gap-2">
-          <Server className="h-4 w-4 text-accent" />
-          <span className="font-bold text-white">42U CORE RACK · NAIROBI LAB</span>
+          <Server className="h-4 w-4 text-[#C9A24B]" />
+          <span className="font-bold text-white tracking-wider">42U CORE RACK · NAIROBI LAB</span>
         </div>
-        <div className="flex items-center gap-1.5 text-emerald-400">
+        <div className="flex items-center gap-1.5 text-emerald-400 font-semibold">
           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
           <span>99.99% ONLINE</span>
         </div>
       </div>
 
       {/* Switch 1: 24-Port 10G Managed Switch */}
-      <div className="p-3 rounded-lg bg-[#111722] border border-white/10 mb-3 space-y-2">
-        <div className="flex items-center justify-between text-[10px] text-white/70">
-          <span>U12: UNIFI 24-PORT POE+ SWITCH</span>
+      <div className="p-3 rounded-lg bg-[#0B1A2C] border border-[#C9A24B]/20 mb-3 space-y-2">
+        <div className="flex items-center justify-between text-[10px] text-white/80">
+          <span className="font-semibold">U12: UNIFI 24-PORT POE+ SWITCH</span>
           <span className="text-emerald-400 font-bold">10G SFP+ ACTIVE</span>
         </div>
         {/* 24 Port Grid */}
@@ -341,7 +334,7 @@ function RackTelemetryMonitor() {
             <div
               key={idx}
               className={`h-3 rounded-xs flex items-center justify-center transition-colors ${
-                active ? "bg-emerald-500/30 border border-emerald-400" : "bg-black/50 border border-white/10"
+                active ? "bg-emerald-500/30 border border-emerald-400/80" : "bg-black/60 border border-white/10"
               }`}
             >
               <div
@@ -355,30 +348,30 @@ function RackTelemetryMonitor() {
       </div>
 
       {/* Switch 2: Core Firewall Gateway */}
-      <div className="p-3 rounded-lg bg-[#111722] border border-white/10 mb-3 flex items-center justify-between text-[10px]">
+      <div className="p-3 rounded-lg bg-[#0B1A2C] border border-[#C9A24B]/20 mb-3 flex items-center justify-between text-[10px]">
         <div>
-          <div className="text-white/80 font-bold">U10: DUAL-WAN FIREWALL &amp; BGP</div>
-          <div className="text-muted-foreground text-[9px] mt-0.5">ISP1: Safaricom Fiber (1Gbps) · ISP2: Liquid Backup</div>
+          <div className="text-white font-bold">U10: DUAL-WAN FIREWALL &amp; BGP</div>
+          <div className="text-white/60 text-[9px] mt-0.5">ISP1: Safaricom Fiber (1Gbps) · ISP2: Liquid Backup</div>
         </div>
         <div className="text-right">
           <div className="text-emerald-400 font-bold">FAILOVER READY</div>
-          <div className="text-[9px] text-white/50">Ping: 3.2ms</div>
+          <div className="text-[9px] text-[#E8CD84]">Ping: 3.2ms</div>
         </div>
       </div>
 
       {/* Environmental & Load Gauges */}
       <div className="grid grid-cols-3 gap-2 text-[10px]">
-        <div className="p-2 rounded bg-black/40 border border-white/5">
-          <div className="text-white/50">TEMP</div>
+        <div className="p-2 rounded bg-black/40 border border-[#C9A24B]/20">
+          <div className="text-white/60 font-medium">TEMP</div>
           <div className="text-sm font-bold text-white mt-0.5">21.4°C</div>
         </div>
-        <div className="p-2 rounded bg-black/40 border border-white/5">
-          <div className="text-white/50">POE LOAD</div>
-          <div className="text-sm font-bold text-[#C9A24B] mt-0.5">184W / 400W</div>
+        <div className="p-2 rounded bg-black/40 border border-[#C9A24B]/20">
+          <div className="text-white/60 font-medium">POE LOAD</div>
+          <div className="text-sm font-bold text-[#E8CD84] mt-0.5">184W / 400W</div>
         </div>
-        <div className="p-2 rounded bg-black/40 border border-white/5">
-          <div className="text-white/50">THROUGHPUT</div>
-          <div className="text-sm font-bold text-blue-400 mt-0.5">8.4 Gbps</div>
+        <div className="p-2 rounded bg-black/40 border border-[#C9A24B]/20">
+          <div className="text-white/60 font-medium">THROUGHPUT</div>
+          <div className="text-sm font-bold text-[#C9A24B] mt-0.5">8.4 Gbps</div>
         </div>
       </div>
     </div>

@@ -98,8 +98,10 @@ export default function BriefLine({
           setDisplayedPlaceholder(currentPhrase.slice(0, displayedPlaceholder.length - 1));
         }, 25);
       } else {
-        setIsDeleting(false);
-        setExampleIndex((prev) => (prev + 1) % HERO_EXAMPLES.length);
+        timer = setTimeout(() => {
+          setIsDeleting(false);
+          setExampleIndex((prev) => (prev + 1) % HERO_EXAMPLES.length);
+        }, 0);
       }
     }
 

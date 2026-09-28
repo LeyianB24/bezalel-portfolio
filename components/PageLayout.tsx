@@ -52,7 +52,7 @@ export default function PageLayout({
   };
 
   return (
-    <div className={`min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-clip ${className}`}>
+    <div className={`min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-clip pb-16 md:pb-0 ${className}`}>
       
       {/* --- SCROLL PROGRESS BAR --- */}
       {showScrollProgress && (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { 
   ArrowLeft, Upload, FileText, CheckCircle2, 
@@ -9,7 +10,7 @@ import {
 import Link from "next/link";
 import { ProjectCategory } from "@prisma/client";
 
-const CATEGORIES = [
+export const CATEGORIES = [
   { id: ProjectCategory.WEB_APP, label: "Web Platform / System", desc: "Custom portals, internal operations tools, dashboards" },
   { id: ProjectCategory.MOBILE_APP, label: "Mobile Application", desc: "iOS / Android apps, field tools, customer apps" },
   { id: ProjectCategory.SYSTEM_INTEGRATION, label: "System Integration", desc: "M-Pesa, Stripe, bank APIs, database pipelines" },
@@ -18,7 +19,7 @@ const CATEGORIES = [
   { id: ProjectCategory.OTHER, label: "Other Technical Project", desc: "Hardware setups, AV configurations, custom workflows" },
 ];
 
-const TIMELINES = [
+export const TIMELINES = [
   "Under 1 Month (Urgent)",
   "1–3 Months (Standard)",
   "3–6 Months",
@@ -26,14 +27,68 @@ const TIMELINES = [
   "Flexible / Phased Rollout",
 ];
 
+export function parseInitialParams(searchParams: { get: (key: string) => string | null } | null) {
+  if (!searchParams) {
+    return { brief: "", category: ProjectCategory.WEB_APP };
+  }
+  const rawBrief = searchParams.get("brief");
+  const rawType = searchParams.get("type");
+
+  const brief = rawBrief ? rawBrief.trim().slice(0, 500) : "";
+
+  let category: ProjectCategory = ProjectCategory.WEB_APP;
+  if (rawType) {
+    const normalized = rawType.trim().toLowerCase();
+    if (
+      normalized === "web_app" ||
+      normalized === "website" ||
+      normalized === "web" ||
+      normalized === "starter" ||
+      normalized === "growth"
+    ) {
+      category = ProjectCategory.WEB_APP;
+    } else if (normalized === "mobile_app" || normalized === "mobile") {
+      category = ProjectCategory.MOBILE_APP;
+    } else if (
+      normalized === "system_integration" ||
+      normalized === "system-integration" ||
+      normalized === "business-system" ||
+      normalized === "business_system" ||
+      normalized === "enterprise"
+    ) {
+      category = ProjectCategory.SYSTEM_INTEGRATION;
+    } else if (
+      normalized === "ui_ux_design" ||
+      normalized === "ui_ux" ||
+      normalized === "design"
+    ) {
+      category = ProjectCategory.UI_UX_DESIGN;
+    } else if (
+      normalized === "consulting" ||
+      normalized === "it-infrastructure" ||
+      normalized === "infrastructure" ||
+      normalized === "audit"
+    ) {
+      category = ProjectCategory.CONSULTING;
+    } else if (normalized === "other") {
+      category = ProjectCategory.OTHER;
+    }
+  }
+
+  return { brief, category };
+}
+
 export default function RequestForm() {
+  const searchParams = useSearchParams();
+  const initialParams = parseInitialParams(searchParams);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [phone, setPhone] = useState("");
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState<ProjectCategory>(ProjectCategory.WEB_APP);
+  const [description, setDescription] = useState(initialParams.brief);
+  const [category, setCategory] = useState<ProjectCategory>(initialParams.category);
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState(TIMELINES[1]);
   const [attachmentFile, setAttachmentFile] = useState<File | null>(null);

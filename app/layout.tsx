@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono, IBM_Plex_Serif } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import { Providers } from "@/components/Providers";
+import ContactRail from "@/components/ContactRail";
+import BriefLine from "@/components/BriefLine";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -148,7 +150,11 @@ export default function RootLayout({
             scrollbar-hide
           `}
         >
-          <Providers>{children}</Providers>
+          <Providers>
+            {children}
+            <ContactRail />
+            <BriefLine variant="bar" />
+          </Providers>
         </body>
       </html>
     </ViewTransitions>

@@ -29,6 +29,7 @@ import Footer from "@/components/Footer";
 import HeroProductMockup from "@/components/HeroProductMockup";
 import TechArsenal from "@/components/TechArsenal";
 import DeploymentRadarMap from "@/components/DeploymentRadarMap";
+import BriefLine from "@/components/BriefLine";
 
 export interface PortfolioTeaserItem {
   id: string;
@@ -161,6 +162,7 @@ const testimonials = [
 const pricingTiers = [
   {
     name: "Starter / Focused Modules",
+    slug: "starter",
     priceKES: "KES 150k – 350k",
     priceUSD: "~$1,200 – $2,800",
     timeline: "2–3 Weeks Delivery",
@@ -178,6 +180,7 @@ const pricingTiers = [
   },
   {
     name: "Growth / Full Operational Platform",
+    slug: "growth",
     priceKES: "KES 500k – 1.5M",
     priceUSD: "~$4,000 – $12,000",
     timeline: "6–10 Weeks Delivery",
@@ -195,6 +198,7 @@ const pricingTiers = [
   },
   {
     name: "Enterprise & High-Availability SLA",
+    slug: "enterprise",
     priceKES: "From KES 2.0M+",
     priceUSD: "~$15,000+ / Quoted",
     timeline: "Phased Milestone Roadmap",
@@ -288,7 +292,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
       );
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground pb-16 md:pb-0">
       {/* 1. Header */}
       <Header />
 
@@ -353,24 +357,21 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                   Bezalel Technologies architects dependable, mission-critical systems for companies, startups, and institutions worldwide: bespoke web portals, cloud systems, mobile apps, IT infrastructure, and payment integrations.
                 </p>
 
-                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full sm:w-auto">
-                  <Link
-                    href="/projects/request"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-bold text-accent-foreground shadow-md transition-colors hover:bg-accent-light text-center"
-                  >
-                    Start a project
-                    <ArrowRight className="h-4 w-4 shrink-0" />
-                  </Link>
-
-                  <a
-                    href="https://wa.me/254796157265"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md border border-white/25 bg-white/[0.04] px-5 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/10 hover:border-white/40 text-center"
-                  >
-                    Talk on WhatsApp
-                    <ExternalLink className="h-4 w-4 shrink-0" />
-                  </a>
+                <div className="mt-6 sm:mt-8 w-full max-w-xl">
+                  <BriefLine variant="hero" />
+                  <div className="mt-3">
+                    <span className="text-xs text-white/65">
+                      Prefer to talk?{" "}
+                      <a
+                        href="https://wa.me/254796157265"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white/85 hover:text-[#C9A24B] underline underline-offset-2 transition-colors font-medium"
+                      >
+                        WhatsApp us
+                      </a>
+                    </span>
+                  </div>
                 </div>
 
                 <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-x-4 sm:gap-x-6 gap-y-2 border-t border-white/15 pt-4 sm:pt-6 text-[10px] xs:text-[11px] sm:text-xs text-white/70">
@@ -739,14 +740,8 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               We approach engineering as senior technical partners, not ticket-takers. Before writing a line of code or terminating fiber, we map your operations, identify points of failure, and agree on clear milestone deliverables. Every system is built to run reliably in production with full source code ownership, transparent milestone delivery, and international engineering standards.
             </p>
 
-            <div className="mt-6 sm:mt-8 flex justify-center">
-              <Link
-                href="/projects/request"
-                className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-accent-dark dark:text-accent-light hover:underline"
-              >
-                Submit a brief for an objective assessment
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+            <div className="mt-8 sm:mt-10 flex justify-center w-full">
+              <BriefLine variant="inline" />
             </div>
           </div>
         </section>
@@ -822,34 +817,26 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
 
                   <div className="mt-8 pt-4 border-t border-border">
                     <Link
-                      href="/projects/request"
-                      className={`w-full inline-flex items-center justify-center gap-2 rounded-md px-4 py-3 text-xs font-bold uppercase tracking-wider text-center transition-colors ${
-                        tier.isPopular
-                          ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
-                          : "border border-border bg-background hover:bg-muted text-foreground"
-                      }`}
+                      href={`/projects/request?type=${tier.slug}`}
+                      className="w-full inline-flex items-center justify-between text-xs font-bold text-accent-dark dark:text-accent-light hover:underline group py-2"
                     >
-                      {tier.ctaText}
-                      <ArrowRight className="h-4 w-4 shrink-0" />
+                      <span>Scope this project</span>
+                      <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-10 rounded-xl border border-border bg-card p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div>
+            <div className="mt-10 rounded-xl border border-border bg-card p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="max-w-xl">
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Custom Architecture Scope</p>
                 <h4 className="text-sm sm:text-base font-bold text-foreground mt-0.5">Need a detailed itemized RFP or board-ready proposal?</h4>
                 <p className="text-xs text-muted-foreground mt-1">We evaluate technical specifications and issue formal itemized quotations with milestone SLAs within 24 hours.</p>
               </div>
-              <Link
-                href="/projects/request"
-                className="shrink-0 inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-xs font-bold text-accent-foreground hover:bg-accent-light"
-              >
-                Generate Itemized Quotation
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="w-full lg:max-w-md shrink-0">
+                <BriefLine variant="inline" />
+              </div>
             </div>
           </div>
         </section>

@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useSyncExternalStore, useRef } from "react";
+import React, { useState, useEffect, useSyncExternalStore, useRef } from "react";
 import { 
-  motion, 
+  motion,
+  AnimatePresence,
   useTransform, 
   useSpring, 
   useMotionValue 
@@ -16,6 +17,12 @@ import {
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import { jellyPresets } from "@/lib/jelly-springs";
+
+const heroImages = [
+  "/BG_images/team-collaborates-digitally-stockcake.jpg",
+  "/BG_images/istockphoto-2132788044-170667a.jpg",
+  "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
+];
 
 type Platform = "ios" | "android";
 
@@ -79,11 +86,19 @@ const mobileStandards = [
 
 export default function MobileServicesPage() {
   const [platform, setPlatform] = useState<Platform>("ios");
+  const [activeImage, setActiveImage] = useState(0);
   const isClient = useSyncExternalStore(
     () => () => {},
     () => true,
     () => false
   );
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveImage((c) => (c + 1) % heroImages.length);
+    }, 7000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   const theme: Theme = {
     ios: {
@@ -112,29 +127,61 @@ export default function MobileServicesPage() {
 
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-x-clip">
-        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
-          
+      {/* ── Full-bleed Hero with Ken Burns Background ── */}
+      <section className="relative overflow-hidden bg-[#050D17] text-white pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+        {/* Ken Burns background */}
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={heroImages[activeImage]}
+            src={heroImages[activeImage]}
+            alt=""
+            aria-hidden="true"
+            initial={{ opacity: 0, scale: 1.0 }}
+            animate={{ opacity: 0.18, scale: 1.06 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.6, ease: "easeOut" }}
+            className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+          />
+        </AnimatePresence>
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.12] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(201,162,75,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201,162,75,0.35) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+        {/* Atmospheric gradient */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 30% 20%, rgba(201,162,75,0.14) 0%, rgba(5,13,23,0.84) 55%, rgba(5,13,23,0.99) 100%)",
+          }}
+        />
+
+        <div className="relative z-10 mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Hero Section */}
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-16 sm:mb-24 pb-12 sm:pb-16 border-b border-border">
-            
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+
             {/* Left Content */}
             <div className="lg:col-span-6 space-y-6">
               <div className="flex flex-wrap items-center gap-3">
-                <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/40 bg-[#C9A24B]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#E8CD84] backdrop-blur-sm">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B] animate-pulse" />
                   Mobile Engineering
                 </div>
 
                 {/* Platform Switcher Pill */}
-                <div className="bg-secondary/80 border border-border p-1 rounded-full flex items-center shadow-xs">
+                <div className="bg-white/10 border border-white/20 p-1 rounded-full flex items-center shadow-xs backdrop-blur-sm">
                   <button
                     type="button"
                     onClick={() => setPlatform("ios")}
                     className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
                       platform === "ios"
-                        ? "bg-accent text-accent-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "bg-[#C9A24B] text-[#050D17] shadow-xs"
+                        : "text-white/70 hover:text-white"
                     }`}
                   >
                     iOS
@@ -144,8 +191,8 @@ export default function MobileServicesPage() {
                     onClick={() => setPlatform("android")}
                     className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
                       platform === "android"
-                        ? "bg-accent text-accent-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "bg-emerald-500 text-white shadow-xs"
+                        : "text-white/70 hover:text-white"
                     }`}
                   >
                     Android
@@ -153,51 +200,56 @@ export default function MobileServicesPage() {
                 </div>
               </div>
 
-              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-foreground text-balance">
+              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white text-balance">
                 Mobile Applications & Field Workflows
               </h1>
 
-              <p className="text-xs sm:text-base lg:text-lg leading-relaxed text-muted-foreground">
+              <p className="text-xs sm:text-base lg:text-lg leading-relaxed text-white/80">
                 We engineer dependable mobile applications built around real-world usage patterns for international audiences and bandwidth-constrained mobile environments alike. Whether you need field logistics tools, customer apps, or multi-currency mobile checkout, our solutions are engineered for stability.
               </p>
 
               {/* Hardware Performance Metrics */}
               <div className="grid grid-cols-3 gap-3 pt-2">
-                <div className="p-3 sm:p-4 rounded-xl border border-border bg-card shadow-xs">
-                  <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 mb-1">
+                <div className="p-3 sm:p-4 rounded-xl border border-white/15 bg-white/8 shadow-xs backdrop-blur-sm">
+                  <div className="flex items-center gap-1.5 text-emerald-400 mb-1">
                     <Activity className="h-4 w-4" />
                     <span className="text-[10px] font-mono font-bold uppercase">Frame Time</span>
                   </div>
-                  <div className="text-lg sm:text-2xl font-black text-foreground">16ms</div>
-                  <div className="text-[10px] text-muted-foreground font-medium">Smooth 60fps</div>
+                  <div className="text-lg sm:text-2xl font-black text-white">16ms</div>
+                  <div className="text-[10px] text-white/60 font-medium">Smooth 60fps</div>
                 </div>
 
-                <div className="p-3 sm:p-4 rounded-xl border border-border bg-card shadow-xs">
-                  <div className="flex items-center gap-1.5 text-accent-dark dark:text-accent-light mb-1">
-                    <Zap className="h-4 w-4 text-[#C9A24B]" />
+                <div className="p-3 sm:p-4 rounded-xl border border-white/15 bg-white/8 shadow-xs backdrop-blur-sm">
+                  <div className="flex items-center gap-1.5 text-[#C9A24B] mb-1">
+                    <Zap className="h-4 w-4" />
                     <span className="text-[10px] font-mono font-bold uppercase">Cold Start</span>
                   </div>
-                  <div className="text-lg sm:text-2xl font-black text-foreground">0.38s</div>
-                  <div className="text-[10px] text-muted-foreground font-medium">Hermes Engine</div>
+                  <div className="text-lg sm:text-2xl font-black text-white">0.38s</div>
+                  <div className="text-[10px] text-white/60 font-medium">Hermes Engine</div>
                 </div>
 
-                <div className="p-3 sm:p-4 rounded-xl border border-border bg-card shadow-xs">
-                  <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 mb-1">
+                <div className="p-3 sm:p-4 rounded-xl border border-white/15 bg-white/8 shadow-xs backdrop-blur-sm">
+                  <div className="flex items-center gap-1.5 text-emerald-400 mb-1">
                     <Fingerprint className="h-4 w-4" />
                     <span className="text-[10px] font-mono font-bold uppercase">Auth Speed</span>
                   </div>
-                  <div className="text-lg sm:text-2xl font-black text-foreground">&lt;0.2s</div>
-                  <div className="text-[10px] text-muted-foreground font-medium">Biometric Lock</div>
+                  <div className="text-lg sm:text-2xl font-black text-white">&lt;0.2s</div>
+                  <div className="text-[10px] text-white/60 font-medium">Biometric Lock</div>
                 </div>
               </div>
             </div>
 
             {/* Right: 3D Interactive Phone Canvas */}
             <div className="lg:col-span-6 h-[540px] xs:h-[580px] sm:h-[620px] w-full flex items-center justify-center relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-primary/5 to-accent/10 rounded-3xl blur-2xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#C9A24B]/10 via-white/5 to-[#C9A24B]/10 rounded-3xl blur-2xl pointer-events-none" />
               {isClient && <InteractivePhone theme={theme} platform={platform} />}
             </div>
           </div>
+        </div>
+      </section>
+
+      <main className="pb-16 sm:pb-24 overflow-x-clip">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24">
 
           {/* Core Capabilities */}
           <div className="mb-16 sm:mb-24">

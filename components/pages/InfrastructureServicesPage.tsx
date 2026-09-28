@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Network, Server, Video, ShieldCheck, Cpu, 
   CheckCircle2, ArrowRight, Activity
@@ -9,6 +9,12 @@ import {
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import { jellyPresets } from "@/lib/jelly-springs";
+
+const heroImages = [
+  "/BG_images/coporate.avif",
+  "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
+  "/BG_images/istockphoto-1293816416-170667a.jpg",
+];
 
 interface EquipmentData {
   id: string;
@@ -93,43 +99,83 @@ export default function InfrastructureServicesPage({
 }: {
   equipmentList?: EquipmentData[];
 }) {
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveImage((c) => (c + 1) % heroImages.length);
+    }, 7000);
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-x-clip">
-        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
-          
-          {/* Header */}
-          <div className="grid lg:grid-cols-12 gap-10 items-center mb-16 sm:mb-24 pb-12 sm:pb-16 border-b border-border">
+      {/* ── Full-bleed Hero with Ken Burns Background ── */}
+      <section className="relative overflow-hidden bg-[#050D17] text-white pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+        {/* Ken Burns background */}
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={heroImages[activeImage]}
+            src={heroImages[activeImage]}
+            alt=""
+            aria-hidden="true"
+            initial={{ opacity: 0, scale: 1.0 }}
+            animate={{ opacity: 0.2, scale: 1.06 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.6, ease: "easeOut" }}
+            className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+          />
+        </AnimatePresence>
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.12] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(201,162,75,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201,162,75,0.35) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+        {/* Atmospheric gradient */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 70% 10%, rgba(201,162,75,0.14) 0%, rgba(5,13,23,0.82) 55%, rgba(5,13,23,0.99) 100%)",
+          }}
+        />
+
+        <div className="relative z-10 mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-10 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={jellyPresets.soft}
               className="lg:col-span-7"
             >
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light mb-4">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/40 bg-[#C9A24B]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#E8CD84] mb-4 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B] animate-pulse" />
                 Physical & Digital Infrastructure
               </div>
-              
-              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-foreground text-balance">
+
+              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white text-balance">
                 IT Infrastructure & Boardroom AV
               </h1>
-              
-              <p className="mt-4 sm:mt-6 text-xs sm:text-base lg:text-lg leading-relaxed text-muted-foreground max-w-2xl">
+
+              <p className="mt-4 sm:mt-6 text-xs sm:text-base lg:text-lg leading-relaxed text-white/80 max-w-2xl">
                 We engineer, cable, and deploy high-reliability network infrastructure, executive boardroom video collaboration systems, CCTV surveillance, and server hardware for businesses and institutions — with remote management worldwide and dedicated on-site field deployments.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
-                  <Activity className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white shadow-xs backdrop-blur-sm">
+                  <Activity className="h-3.5 w-3.5 text-emerald-400" />
                   <span className="font-medium">24/7 SLA Guarantee</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white shadow-xs backdrop-blur-sm">
                   <Network className="h-3.5 w-3.5 text-[#C9A24B]" />
                   <span className="font-medium">10G SFP+ Fiber Core</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
-                  <ShieldCheck className="h-3.5 w-3.5 text-accent-dark dark:text-accent-light" />
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white shadow-xs backdrop-blur-sm">
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#C9A24B]" />
                   <span className="font-medium">Fluke-Certified Runs</span>
                 </div>
               </div>
@@ -140,6 +186,11 @@ export default function InfrastructureServicesPage({
               <RackTelemetryMonitor />
             </div>
           </div>
+        </div>
+      </section>
+
+      <main className="pb-16 sm:pb-24 overflow-x-clip">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24">
 
           {/* 4 Feature Cards */}
           <div className="mb-16 sm:mb-24">

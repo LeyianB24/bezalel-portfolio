@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   CheckCircle2, Globe, ArrowRight, Database, LayoutTemplate,
   Lock, Zap, Code2, Smartphone, Terminal, ShieldCheck, Activity
@@ -9,6 +9,12 @@ import {
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import { jellyPresets } from "@/lib/jelly-springs";
+
+const heroImages = [
+  "/BG_images/codes people.jpg",
+  "/BG_images/AdobeStock_292953404-scaled.jpeg",
+  "/BG_images/data.avif",
+];
 
 const capabilities = [
   {
@@ -57,52 +63,93 @@ const standards = [
 ];
 
 export default function WebSystemsPage() {
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveImage((c) => (c + 1) % heroImages.length);
+    }, 7000);
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
     <PageLayout variant="subtle">
-      <main className="min-h-screen pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-x-clip">
-        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
-          
+      {/* ── Full-bleed Hero with Ken Burns Background ── */}
+      <section className="relative overflow-hidden bg-[#050D17] text-white pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+        {/* Ken Burns background */}
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={heroImages[activeImage]}
+            src={heroImages[activeImage]}
+            alt=""
+            aria-hidden="true"
+            initial={{ opacity: 0, scale: 1.0 }}
+            animate={{ opacity: 0.18, scale: 1.06 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.6, ease: "easeOut" }}
+            className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+          />
+        </AnimatePresence>
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.12] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(201,162,75,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201,162,75,0.35) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+        {/* Atmospheric gradient */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 80% 20%, rgba(201,162,75,0.16) 0%, rgba(5,13,23,0.82) 50%, rgba(5,13,23,0.99) 100%)",
+          }}
+        />
+
+        <div className="relative z-10 mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header & Terminal Hero Grid */}
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-16 sm:mb-24 pb-12 sm:pb-16 border-b border-border">
-            
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+
             {/* Left Content */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={jellyPresets.soft}
               className="lg:col-span-7"
             >
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light mb-4">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/40 bg-[#C9A24B]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#E8CD84] mb-4 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B] animate-pulse" />
                 Scalable Systems Architecture
               </div>
-              
-              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-foreground text-balance">
+
+              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white text-balance">
                 Web Systems & Enterprise Platforms
               </h1>
-              
-              <p className="mt-4 sm:mt-6 max-w-2xl text-xs sm:text-base lg:text-lg leading-relaxed text-muted-foreground">
+
+              <p className="mt-4 sm:mt-6 max-w-2xl text-xs sm:text-base lg:text-lg leading-relaxed text-white/80">
                 We design, build, and maintain custom web platforms and portals for organizations worldwide. From internal workflow tools to high-traffic customer platforms with multi-currency support, our systems are built for long-term reliability and effortless global scaling.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-2.5 sm:gap-3 text-xs font-mono">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white shadow-xs backdrop-blur-sm">
                   <Zap className="h-3.5 w-3.5 text-[#C9A24B]" />
                   <span className="font-medium">Sub-100ms TTFB</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
-                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white shadow-xs backdrop-blur-sm">
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
                   <span className="font-medium">SOC2 & RBAC Ready</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary/70 border border-border text-foreground shadow-xs">
-                  <Globe className="h-3.5 w-3.5 text-accent-dark dark:text-accent-light" />
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white shadow-xs backdrop-blur-sm">
+                  <Globe className="h-3.5 w-3.5 text-[#C9A24B]" />
                   <span className="font-medium">Global Edge CDN</span>
                 </div>
               </div>
             </motion.div>
 
             {/* Right: Live Terminal Window (Architectural Console) */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ ...jellyPresets.bubble, delay: 0.15 }}
@@ -125,6 +172,11 @@ export default function WebSystemsPage() {
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      <main className="pb-16 sm:pb-24 overflow-x-clip">
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24">
 
           {/* Interactive Architecture Diagram & Performance Section */}
           <div className="mb-16 sm:mb-24">

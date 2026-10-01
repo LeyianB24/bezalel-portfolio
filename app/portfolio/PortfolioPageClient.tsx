@@ -30,6 +30,25 @@ const categories = ["All", "Web Systems", "Mobile Apps", "API & Infra", "UI/UX D
 
 const defaultProjects: PortfolioData[] = [
   {
+    id: "unigo-east-africa",
+    name: "UniGo East Africa Admissions Portal",
+    clientName: "UniGo East Africa",
+    clientLogoUrl: "/images/portfolio/unigo/unigo-logo.png",
+    category: "Web Systems",
+    techTags: ["Next.js", "TypeScript", "Tailwind CSS", "Payload CMS", "PostgreSQL", "WhatsApp API"],
+    description:
+      "A comprehensive international university admissions and student consultation platform serving students across Kenya, Uganda, Tanzania, and Rwanda seeking higher education opportunities in Cyprus and Turkey.",
+    result: "Streamlined student inquiry intake with automated course matching, scholarship guidance, and direct WhatsApp advisor routing.",
+    year: "2024",
+    image: "/images/portfolio/unigo/unigo-desktop.png",
+    images: [
+      "/images/portfolio/unigo/unigo-desktop.png",
+      "/images/portfolio/unigo/unigo-hero.png",
+      "/images/portfolio/unigo/unigo-fullpage.png",
+    ],
+    liveUrl: "https://www.unigoeastafrica.com/",
+  },
+  {
     id: "1",
     name: "BezaShop Global Commerce Platform",
     clientName: "BezaShop Retail & Exports",

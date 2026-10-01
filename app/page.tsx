@@ -5,6 +5,20 @@ export const dynamic = "force-dynamic";
 
 const verifiedCaseStudies: PortfolioTeaserItem[] = [
   {
+    id: "case-unigo",
+    name: "UniGo East Africa Admissions Portal",
+    clientName: "UniGo University Admissions",
+    clientLogoUrl: "/images/portfolio/unigo/unigo-logo.png",
+    category: "Web Systems",
+    sector: "Education & EdTech",
+    description:
+      "International university admissions and student consultation platform connecting East African students with institutions in Cyprus and Turkey.",
+    outcome: "Automated admissions workflow, course recommendation engine, and direct WhatsApp advisor routing with sub-second page loads.",
+    image: "/images/portfolio/unigo/unigo-desktop.png",
+    liveUrl: "https://www.unigoeastafrica.com/",
+    techTags: ["Next.js", "TypeScript", "Tailwind CSS", "Payload CMS", "PostgreSQL"],
+  },
+  {
     id: "case-osotua",
     name: "Osotua Dairy Cooperative ERP",
     clientName: "Osotua Dairy Cooperative",

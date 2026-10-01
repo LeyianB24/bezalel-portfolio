@@ -164,6 +164,21 @@ async function main() {
   // ── Portfolio Items ──────────────────────────────────────────
   const portfolioItems = [
     {
+      name: 'UniGo East Africa Admissions Platform',
+      clientName: 'UniGo East Africa',
+      clientLogoUrl: '/images/portfolio/unigo/unigo-logo.png',
+      description: 'Comprehensive university admissions guidance platform for East African residents pursuing undergraduate and postgraduate studies in Cyprus and Turkey. Features course exploration, verified scholarship matching, structured consultation workflows, automated WhatsApp advisory routing, visa file preparation, and pre-departure briefings.',
+      techTags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Payload CMS', 'PostgreSQL', 'WhatsApp API', 'SEO Architecture'],
+      liveUrl: 'https://www.unigoeastafrica.com/',
+      images: [
+        '/images/portfolio/unigo/unigo-desktop.png',
+        '/images/portfolio/unigo/unigo-hero.png',
+        '/images/portfolio/unigo/unigo-fullpage.png',
+      ],
+      featured: true,
+      displayOrder: 1,
+    },
+    {
       name: 'Harambee Financial Core SACCO System',
       clientName: 'Harambee SACCO Society',
       clientLogoUrl: '/logos/bezalel-mark-gold.svg',

@@ -11,12 +11,12 @@ import PageLayout from "@/components/PageLayout";
 import { jellyPresets } from "@/lib/jelly-springs";
 
 const heroImages = [
+  "/images/services/infrastructure-hero.jpg",
+  "/images/network_infrastructure.jpg",
   "/BG_images/coporate.avif",
-  "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
-  "/BG_images/istockphoto-1293816416-170667a.jpg",
 ];
 
-interface EquipmentData {
+export interface EquipmentData {
   id: string;
   name: string;
   category: string;
@@ -100,18 +100,24 @@ export default function InfrastructureServicesPage({
   equipmentList?: EquipmentData[];
 }) {
   const [activeImage, setActiveImage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
     const interval = window.setInterval(() => {
       setActiveImage((c) => (c + 1) % heroImages.length);
     }, 7000);
     return () => window.clearInterval(interval);
-  }, []);
+  }, [isPaused]);
 
   return (
     <PageLayout variant="subtle">
       {/* ── Full-bleed Hero with Ken Burns Background ── */}
-      <section className="relative overflow-hidden bg-[#050D17] text-white pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+      <section 
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        className="relative overflow-hidden bg-[#050D17] text-white pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24"
+      >
         {/* Ken Burns background */}
         <AnimatePresence initial={false}>
           <motion.img
@@ -120,7 +126,7 @@ export default function InfrastructureServicesPage({
             alt=""
             aria-hidden="true"
             initial={{ opacity: 0, scale: 1.0 }}
-            animate={{ opacity: 0.2, scale: 1.06 }}
+            animate={{ opacity: 0.3, scale: 1.05 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.6, ease: "easeOut" }}
             className="absolute inset-0 h-full w-full object-cover pointer-events-none"
@@ -185,6 +191,29 @@ export default function InfrastructureServicesPage({
             <div className="lg:col-span-5">
               <RackTelemetryMonitor />
             </div>
+          </div>
+
+          {/* Slideshow Pill Indicators */}
+          <div className="mt-8 sm:mt-10 flex items-center justify-between border-t border-white/10 pt-4">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/50">Visual Showcase</span>
+              {heroImages.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveImage(idx)}
+                  aria-label={`Switch to hero visual ${idx + 1}`}
+                  className={`h-1.5 transition-all duration-300 rounded-full ${
+                    activeImage === idx
+                      ? "w-8 bg-[#C9A24B]"
+                      : "w-2.5 bg-white/25 hover:bg-white/60"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-[10px] font-mono text-white/40">
+              {activeImage + 1} / {heroImages.length}
+            </span>
           </div>
         </div>
       </section>

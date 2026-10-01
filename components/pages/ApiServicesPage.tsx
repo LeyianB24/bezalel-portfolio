@@ -11,9 +11,9 @@ import PageLayout from "@/components/PageLayout";
 import { jellyPresets } from "@/lib/jelly-springs";
 
 const heroImages = [
+  "/images/services/api-systems-hero.jpg",
+  "/images/nextstack-real.jpg",
   "/BG_images/data.avif",
-  "/BG_images/codes people.jpg",
-  "/BG_images/istockphoto-1483547670-170667a.jpg",
 ];
 
 const apiFeatures = [
@@ -64,18 +64,24 @@ const apiStandards = [
 
 export default function ApiServicesPage() {
   const [activeImage, setActiveImage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
     const interval = window.setInterval(() => {
       setActiveImage((c) => (c + 1) % heroImages.length);
     }, 7000);
     return () => window.clearInterval(interval);
-  }, []);
+  }, [isPaused]);
 
   return (
     <PageLayout variant="subtle">
       {/* ── Full-bleed Hero with Ken Burns Background ── */}
-      <section className="relative overflow-hidden bg-[#050D17] text-white pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+      <section 
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        className="relative overflow-hidden bg-[#050D17] text-white pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24"
+      >
         {/* Ken Burns background */}
         <AnimatePresence initial={false}>
           <motion.img
@@ -84,7 +90,7 @@ export default function ApiServicesPage() {
             alt=""
             aria-hidden="true"
             initial={{ opacity: 0, scale: 1.0 }}
-            animate={{ opacity: 0.18, scale: 1.06 }}
+            animate={{ opacity: 0.32, scale: 1.05 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.6, ease: "easeOut" }}
             className="absolute inset-0 h-full w-full object-cover pointer-events-none"
@@ -104,7 +110,7 @@ export default function ApiServicesPage() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 0%, rgba(16,185,129,0.12) 0%, rgba(5,13,23,0.88) 55%, rgba(5,13,23,0.99) 100%)",
+              "radial-gradient(ellipse at 50% 0%, rgba(16,185,129,0.14) 0%, rgba(5,13,23,0.85) 55%, rgba(5,13,23,0.99) 100%)",
           }}
         />
 
@@ -128,6 +134,27 @@ export default function ApiServicesPage() {
             <p className="mt-4 sm:mt-6 text-xs sm:text-base lg:text-lg leading-relaxed text-white/80">
               We design and implement enterprise-grade backend systems and API layers that connect applications, global payment rails, distributed databases, and third-party SaaS into unified, high-throughput digital infrastructure.
             </p>
+
+            {/* Slideshow Pill Indicators */}
+            <div className="mt-8 flex items-center justify-center gap-2">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 mr-1">Visual Showcase</span>
+              {heroImages.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveImage(idx)}
+                  aria-label={`Switch to hero visual ${idx + 1}`}
+                  className={`h-1.5 transition-all duration-300 rounded-full ${
+                    activeImage === idx
+                      ? "w-8 bg-emerald-400"
+                      : "w-2.5 bg-white/25 hover:bg-white/60"
+                  }`}
+                />
+              ))}
+              <span className="text-[10px] font-mono text-white/40 ml-2">
+                {activeImage + 1} / {heroImages.length}
+              </span>
+            </div>
           </div>
         </div>
       </section>

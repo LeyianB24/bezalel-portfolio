@@ -294,13 +294,13 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
   return (
     <div className="min-h-screen bg-background text-foreground pb-16 md:pb-0">
       {/* 1. Header */}
-      <Header />
+      <Header transparent />
 
       <main>
         {/* 2. Hero — Split Layout: Dark Typography Statement + Live Multi-Sector Terminal */}
         <section
           id="home"
-          className="relative min-h-[88svh] sm:min-h-[92svh] overflow-hidden bg-[#050D17] text-white pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-24 flex items-center"
+          className="relative min-h-[100svh] overflow-hidden bg-[#050D17] text-white pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-24 flex items-center"
         >
           {/* Ken Burns Background Slideshow */}
           <AnimatePresence initial={false}>

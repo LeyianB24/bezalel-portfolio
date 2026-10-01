@@ -15,7 +15,11 @@ const NAV_LINKS = [
   { name: "Contact", href: "/contact" },
 ];
 
-export default function Header() {
+interface HeaderProps {
+  transparent?: boolean;
+}
+
+export default function Header({ transparent = false }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -63,9 +67,11 @@ export default function Header() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed left-0 right-0 top-0 z-50 w-full border-b transition-all duration-300 ${
+        className={`fixed left-0 right-0 top-0 z-50 w-full border-b transition-all duration-500 ${
           isScrolled
             ? "border-border/80 bg-background/95 backdrop-blur-xl shadow-sm"
+            : transparent
+            ? "border-transparent bg-transparent backdrop-blur-none"
             : "border-border/40 bg-background/85 backdrop-blur-md"
         }`}
       >
@@ -83,22 +89,35 @@ export default function Header() {
                 alt="Bezalel Mark"
                 className="h-8 w-8 object-contain shrink-0"
               />
-              <span className="font-display text-sm xs:text-base font-black tracking-tight text-foreground truncate">
+              <span className={`font-display text-sm xs:text-base font-black tracking-tight truncate transition-colors duration-500 ${
+                transparent && !isScrolled ? "text-white" : "text-foreground"
+              }`}>
                 BEZALEL
               </span>
             </div>
 
             {/* Full Horizontal Wordmark for sm, md, lg and up */}
-            <img
-              src="/logos/bezalel-logo-horizontal-dark.png"
-              alt="Bezalel Technologies"
-              className="hidden h-9 sm:block sm:h-10 md:h-11 lg:h-12 w-auto max-h-12 object-contain dark:hidden"
-            />
-            <img
-              src="/logos/bezalel-logo-horizontal-light.png"
-              alt="Bezalel Technologies"
-              className="hidden h-9 dark:sm:block dark:sm:h-10 dark:md:h-11 dark:lg:h-12 w-auto max-h-12 object-contain"
-            />
+            {/* When transparent+unscrolled (dark hero), always show the light logo */}
+            {transparent && !isScrolled ? (
+              <img
+                src="/logos/bezalel-logo-horizontal-light.png"
+                alt="Bezalel Technologies"
+                className="hidden h-9 sm:block sm:h-10 md:h-11 lg:h-12 w-auto max-h-12 object-contain"
+              />
+            ) : (
+              <>
+                <img
+                  src="/logos/bezalel-logo-horizontal-dark.png"
+                  alt="Bezalel Technologies"
+                  className="hidden h-9 sm:block sm:h-10 md:h-11 lg:h-12 w-auto max-h-12 object-contain dark:hidden"
+                />
+                <img
+                  src="/logos/bezalel-logo-horizontal-light.png"
+                  alt="Bezalel Technologies"
+                  className="hidden h-9 dark:sm:block dark:sm:h-10 dark:md:h-11 dark:lg:h-12 w-auto max-h-12 object-contain"
+                />
+              </>
+            )}
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
@@ -107,7 +126,11 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={(event) => handleHashNavigation(event, item.href)}
-                className="rounded-md px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary/70 hover:text-foreground"
+                className={`rounded-md px-3 py-2 text-sm font-semibold transition-colors duration-300 ${
+                  transparent && !isScrolled
+                    ? "text-white/80 hover:bg-white/10 hover:text-white"
+                    : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
+                }`}
               >
                 {item.name}
               </Link>
@@ -130,7 +153,11 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen((open) => !open)}
-              className="rounded-md border border-border bg-card p-1.5 sm:p-2 text-foreground"
+              className={`rounded-md border p-1.5 sm:p-2 transition-colors duration-300 ${
+                transparent && !isScrolled
+                  ? "border-white/25 bg-white/10 text-white"
+                  : "border-border bg-card text-foreground"
+              }`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
             >

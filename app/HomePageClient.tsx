@@ -310,7 +310,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               alt=""
               aria-hidden="true"
               initial={{ opacity: 0, scale: 1.0 }}
-              animate={{ opacity: 0.18, scale: 1.06 }}
+              animate={{ opacity: 0.26, scale: 1.06 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.6, ease: "easeOut" }}
               className="absolute inset-0 h-full w-full object-cover pointer-events-none"
@@ -333,6 +333,12 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               background:
                 "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.16) 0%, rgba(5, 13, 23, 0.85) 50%, rgba(5, 13, 23, 0.99) 100%)",
             }}
+          />
+
+          {/* Top Scrim for Seamless Navbar Transparency & Contrast */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#050D17]/75 via-[#050D17]/35 to-transparent pointer-events-none"
           />
 
           <div className="relative z-10 mx-auto w-full max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8 min-w-0 overflow-hidden">

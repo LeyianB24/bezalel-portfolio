@@ -30,9 +30,9 @@ export default function Header({ transparent = false }: HeaderProps) {
   });
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 36);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -61,18 +61,20 @@ export default function Header({ transparent = false }: HeaderProps) {
     }
   };
 
+  const isTransparentActive = transparent && !isScrolled;
+
   return (
     <>
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed left-0 right-0 top-0 z-50 w-full border-b transition-all duration-500 ${
+        className={`fixed left-0 right-0 top-0 z-50 w-full transition-all duration-300 ${
           isScrolled
-            ? "border-border/80 bg-background/95 backdrop-blur-xl shadow-sm"
+            ? "border-b border-border/80 bg-background/95 backdrop-blur-xl shadow-sm"
             : transparent
-            ? "border-transparent bg-transparent backdrop-blur-none"
-            : "border-border/40 bg-background/85 backdrop-blur-md"
+            ? "border-b-0 border-transparent bg-transparent backdrop-blur-none shadow-none"
+            : "border-b border-border/40 bg-background/85 backdrop-blur-md"
         }`}
       >
         <div className="flex w-full items-center justify-between px-3 xs:px-4 sm:px-6 lg:px-8 3xl:px-12 py-2.5 sm:py-3.5">
@@ -90,7 +92,7 @@ export default function Header({ transparent = false }: HeaderProps) {
                 className="h-8 w-8 object-contain shrink-0"
               />
               <span className={`font-display text-sm xs:text-base font-black tracking-tight truncate transition-colors duration-500 ${
-                transparent && !isScrolled ? "text-white" : "text-foreground"
+                isTransparentActive ? "text-white" : "text-foreground"
               }`}>
                 BEZALEL
               </span>
@@ -98,7 +100,7 @@ export default function Header({ transparent = false }: HeaderProps) {
 
             {/* Full Horizontal Wordmark for sm, md, lg and up */}
             {/* When transparent+unscrolled (dark hero), always show the light logo */}
-            {transparent && !isScrolled ? (
+            {isTransparentActive ? (
               <img
                 src="/logos/bezalel-logo-horizontal-light.png"
                 alt="Bezalel Technologies"
@@ -127,8 +129,8 @@ export default function Header({ transparent = false }: HeaderProps) {
                 href={item.href}
                 onClick={(event) => handleHashNavigation(event, item.href)}
                 className={`rounded-md px-3 py-2 text-sm font-semibold transition-colors duration-300 ${
-                  transparent && !isScrolled
-                    ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  isTransparentActive
+                    ? "text-white/85 hover:bg-white/10 hover:text-white"
                     : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
                 }`}
               >
@@ -138,10 +140,14 @@ export default function Header({ transparent = false }: HeaderProps) {
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <ThemeToggle />
+            <ThemeToggle transparent={isTransparentActive} />
             <Link
               href="/projects/request"
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+              className={`inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold shadow-sm transition-all duration-300 ${
+                isTransparentActive
+                  ? "bg-[#C9A24B] text-[#050D17] hover:bg-[#d8b056] shadow-[0_0_20px_rgba(201,162,75,0.25)]"
+                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+              }`}
             >
               Start a project
               <ArrowRight className="h-4 w-4" />
@@ -149,13 +155,13 @@ export default function Header({ transparent = false }: HeaderProps) {
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
-            <ThemeToggle />
+            <ThemeToggle transparent={isTransparentActive} />
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen((open) => !open)}
               className={`rounded-md border p-1.5 sm:p-2 transition-colors duration-300 ${
-                transparent && !isScrolled
-                  ? "border-white/25 bg-white/10 text-white"
+                isTransparentActive
+                  ? "border-white/25 bg-white/10 text-white hover:bg-white/20"
                   : "border-border bg-card text-foreground"
               }`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -166,10 +172,13 @@ export default function Header({ transparent = false }: HeaderProps) {
           </div>
         </div>
 
-        <motion.div
-          className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-accent/80"
-          style={{ scaleX }}
-        />
+        {/* Scroll Progress Bar — only visible when header is in solid/scrolled state */}
+        {(!transparent || isScrolled) && (
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-accent/80"
+            style={{ scaleX }}
+          />
+        )}
       </motion.header>
 
       {isMobileMenuOpen && (

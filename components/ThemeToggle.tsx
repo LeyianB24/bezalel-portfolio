@@ -7,7 +7,11 @@ import { useSyncExternalStore } from "react";
 
 const emptySubscribe = () => () => {};
 
-export default function ThemeToggle() {
+interface ThemeToggleProps {
+  transparent?: boolean;
+}
+
+export default function ThemeToggle({ transparent = false }: ThemeToggleProps) {
   const { setTheme, theme, systemTheme } = useTheme();
   const mounted = useSyncExternalStore(
     emptySubscribe,
@@ -29,8 +33,11 @@ export default function ThemeToggle() {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative group flex items-center justify-center w-10 h-10 rounded-full 
-                 glass-card border border-border/50 transition-all duration-500 overflow-hidden"
+      className={`relative group flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 overflow-hidden ${
+        transparent
+          ? "border border-white/20 bg-white/5 text-white backdrop-blur-sm hover:border-[#C9A24B] hover:bg-white/10"
+          : "glass-card border border-border/50"
+      }`}
       aria-label="Toggle Theme"
     >
       {/* --- BACKGROUND GLOW --- */}

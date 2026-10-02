@@ -57,7 +57,7 @@ export default function TermsPage() {
 
   return (
     <PageLayout variant="subtle">
-      <div className="pt-24 xs:pt-28 sm:pt-36 pb-16 sm:pb-24">
+      <div className="pt-8 sm:pt-12 pb-16 sm:pb-24">
         <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-12 sm:mb-16 border-b border-border pb-8 sm:pb-12">

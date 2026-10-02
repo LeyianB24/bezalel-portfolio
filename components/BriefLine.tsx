@@ -187,12 +187,12 @@ export default function BriefLine({
             maxLength={500}
             aria-describedby={hint ? hintId : undefined}
             placeholder={activePlaceholder}
-            className="w-full rounded-lg border border-white/20 bg-white/[0.08] pl-3.5 pr-11 py-2.5 text-xs text-white placeholder:text-white/45 focus:border-[#C9A24B] focus:outline-none focus:ring-1 focus:ring-[#C9A24B]"
+            className="w-full rounded-lg border border-white/20 bg-white/[0.08] pl-3.5 pr-11 py-2.5 text-xs text-white placeholder:text-white/45 focus:border-[#C9A24B] focus:outline-none focus:ring-1 focus:ring-[#C9A24B] min-h-[44px]"
           />
           <button
             type="submit"
             aria-label="Submit project brief"
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-md bg-[#C9A24B] hover:bg-[#E8CD84] text-[#050D17] flex items-center justify-center transition-colors shadow-sm"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 h-9 w-9 rounded-md bg-[#C9A24B] hover:bg-[#E8CD84] text-[#050D17] flex items-center justify-center transition-colors shadow-sm"
           >
             <ArrowRight className="h-4 w-4" />
           </button>

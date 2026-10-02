@@ -159,7 +159,7 @@ export default function Header({ transparent = false }: HeaderProps) {
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen((open) => !open)}
-              className={`rounded-md border p-1.5 sm:p-2 transition-colors duration-300 ${
+              className={`rounded-md border p-2 transition-colors duration-300 min-h-[44px] min-w-[44px] flex items-center justify-center ${
                 isTransparentActive
                   ? "border-white/25 bg-white/10 text-white hover:bg-white/20"
                   : "border-border bg-card text-foreground"
@@ -182,14 +182,14 @@ export default function Header({ transparent = false }: HeaderProps) {
       </motion.header>
 
       {isMobileMenuOpen && (
-        <div className="fixed inset-x-0 top-[53px] sm:top-[67px] bottom-0 z-40 bg-background/98 px-4 pb-8 pt-6 backdrop-blur-xl overflow-y-auto max-h-[calc(100vh-53px)] sm:max-h-[calc(100vh-67px)] lg:hidden border-b border-border">
+        <div className="fixed inset-x-0 top-[53px] sm:top-[67px] bottom-0 z-40 bg-background/98 px-4 pb-[calc(2rem+var(--sab))] pt-6 backdrop-blur-xl overflow-y-auto max-h-[calc(100vh-53px)] sm:max-h-[calc(100vh-67px)] lg:hidden border-b border-border">
           <nav className="mx-auto flex max-w-md flex-col gap-2.5" aria-label="Mobile navigation">
             {NAV_LINKS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={(event) => handleHashNavigation(event, item.href)}
-                className="rounded-lg border border-border bg-card px-4 py-3.5 text-base sm:text-lg font-semibold text-foreground hover:border-accent/40 transition-colors"
+                className="rounded-lg border border-border bg-card px-4 py-3.5 text-base font-semibold text-foreground hover:border-accent/40 transition-colors min-h-[48px] flex items-center"
               >
                 {item.name}
               </Link>
@@ -197,11 +197,29 @@ export default function Header({ transparent = false }: HeaderProps) {
             <Link
               href="/projects/request"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 sm:py-4 text-sm sm:text-base font-bold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+              className="mt-3 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3.5 sm:py-4 text-sm sm:text-base font-bold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors min-h-[48px]"
             >
               Start a project
               <ArrowRight className="h-4 w-4" />
             </Link>
+
+            {/* Quick Direct Mobile Contact Actions */}
+            <div className="mt-4 pt-4 border-t border-border grid grid-cols-2 gap-2 text-xs">
+              <a
+                href="https://wa.me/254796157265"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 py-3 font-semibold text-emerald-600 dark:text-emerald-400 min-h-[44px]"
+              >
+                WhatsApp Desk
+              </a>
+              <a
+                href="tel:+254796157265"
+                className="flex items-center justify-center gap-2 rounded-lg border border-border bg-card py-3 font-semibold text-foreground min-h-[44px]"
+              >
+                Direct Call
+              </a>
+            </div>
           </nav>
         </div>
       )}

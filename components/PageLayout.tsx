@@ -14,6 +14,10 @@ interface PageLayoutProps {
   showScrollToTop?: boolean;
   showFooter?: boolean;
   showHeader?: boolean;
+  /** When true, removes the default pt-16/pt-20 from main so hero sections start at page top under the transparent header */
+  heroMode?: boolean;
+  /** When true, passes transparent prop to Header (makes it overlay the hero) */
+  transparentHeader?: boolean;
   className?: string;
   title?: string;
 }
@@ -25,6 +29,8 @@ export default function PageLayout({
   showScrollToTop = true,
   showFooter = true,
   showHeader = true,
+  heroMode = false,
+  transparentHeader = false,
   className = '',
 }: PageLayoutProps) {
   
@@ -52,7 +58,7 @@ export default function PageLayout({
   };
 
   return (
-    <div className={`min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-clip pb-16 md:pb-0 ${className}`}>
+    <div className={`min-h-screen bg-background text-foreground relative transition-colors duration-500 font-sans overflow-x-clip pb-[calc(4.5rem+var(--sab))] md:pb-0 ${className}`}>
       
       {/* --- SCROLL PROGRESS BAR --- */}
       {showScrollProgress && (
@@ -66,13 +72,13 @@ export default function PageLayout({
       <UnifiedBackground variant={variant} />
 
       {/* --- PREMIUM OPEN LAYOUT --- */}
-      {showHeader && <Header />}
+      {showHeader && <Header transparent={transparentHeader} />}
       
       <motion.main 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 pt-16 sm:pt-20 min-h-screen"
+        className={`relative z-10 min-h-screen${heroMode ? '' : ' pt-16 sm:pt-20'}`}
       >
         {children}
         {showFooter && <Footer />}

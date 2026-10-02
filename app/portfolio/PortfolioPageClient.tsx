@@ -193,11 +193,11 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground pb-[calc(4.5rem+var(--sab))] md:pb-0">
       <Header />
 
       <main>
-        <section className="border-b border-border px-3 xs:px-4 pb-10 pt-28 sm:px-6 sm:pb-16 sm:pt-36 lg:pt-40">
+        <section className="border-b border-border px-3 xs:px-4 pb-10 pt-24 sm:px-6 sm:pb-16 sm:pt-36 lg:pt-40">
           <div className="mx-auto max-w-7xl 3xl:max-w-[1600px]">
             <p className="mb-3 sm:mb-4 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
               Engineering Portfolio
@@ -214,14 +214,14 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
         </section>
 
         {/* Filter Bar */}
-        <section className="sticky top-16 sm:top-20 z-30 border-b border-border bg-background/95 px-3 xs:px-4 py-2.5 sm:px-6 sm:py-3 backdrop-blur-xl">
+        <section className="sticky top-[53px] sm:top-[68px] z-30 border-b border-border bg-background/95 px-3 xs:px-4 py-2.5 sm:px-6 sm:py-3 backdrop-blur-xl">
           <div className="mx-auto flex max-w-7xl 3xl:max-w-[1600px] gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide">
             {categories.map((category) => (
               <button
                 key={category}
                 type="button"
                 onClick={() => setActiveCategory(category)}
-                className={`shrink-0 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] xs:text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors ${
+                className={`shrink-0 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] xs:text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors min-h-[40px] xs:min-h-[44px] flex items-center ${
                   activeCategory === category
                     ? "bg-primary text-primary-foreground"
                     : "border border-border text-muted-foreground hover:text-foreground"

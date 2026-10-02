@@ -292,7 +292,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
       );
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-16 md:pb-0">
+    <div className="min-h-screen bg-background text-foreground pb-[calc(4.5rem+var(--sab))] md:pb-0">
       {/* 1. Header */}
       <Header transparent />
 

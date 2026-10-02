@@ -129,7 +129,7 @@ export default function MobileServicesPage() {
   }[platform];
 
   return (
-    <PageLayout variant="subtle">
+    <PageLayout variant="subtle" heroMode transparentHeader>
       {/* ── Full-bleed Hero with Ken Burns Background ── */}
       <section 
         onMouseEnter={() => setIsPaused(true)}
@@ -406,7 +406,7 @@ function InteractivePhone({ theme, platform }: { theme: Theme; platform: Platfor
   return (
     <div 
       ref={containerRef}
-      className="w-full h-full flex items-center justify-center perspective-[1200px]" 
+      className="w-full h-full flex items-center justify-center perspective-[1200px] overflow-hidden" 
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

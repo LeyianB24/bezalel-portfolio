@@ -236,9 +236,9 @@ export default function StorePageClient({ products, categories }: StorePageClien
       {/* 2. Main Header & Sticky Store Nav */}
       <Header />
 
-      <main className="flex-1 pt-20 sm:pt-24 pb-16">
+      <main className="flex-1 pt-20 sm:pt-24 pb-[calc(4.5rem+var(--sab))] md:pb-16">
         {/* Store Sub-Header: Search & Cart Trigger */}
-        <section aria-label="Store search and category filters" className="border-b border-border bg-card/80 backdrop-blur-md sticky top-[60px] sm:top-[70px] z-30 px-3 xs:px-4 sm:px-6 lg:px-8 py-3 shadow-xs">
+        <section aria-label="Store search and category filters" className="border-b border-border bg-card/80 backdrop-blur-md sticky top-[53px] sm:top-[68px] z-30 px-3 xs:px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 shadow-xs">
           <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] flex flex-col md:flex-row items-center justify-between gap-3">
             {/* Search Bar */}
             <div className="relative w-full md:max-w-md">
@@ -248,13 +248,13 @@ export default function StorePageClient({ products, categories }: StorePageClien
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search switches, HDMI cables, routers, sockets, adapters..."
-                className="w-full pl-10 pr-9 py-2 rounded-lg border border-border bg-background text-xs text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+                className="w-full pl-10 pr-9 py-2.5 rounded-lg border border-border bg-background text-xs sm:text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none min-h-[44px]"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -267,7 +267,7 @@ export default function StorePageClient({ products, categories }: StorePageClien
                 <button
                   type="button"
                   onClick={() => setViewFilter("all")}
-                  className={`px-3 py-1 rounded-md font-medium transition-all ${
+                  className={`px-3 py-1.5 rounded-md font-medium transition-all min-h-[36px] ${
                     viewFilter === "all"
                       ? "bg-card text-foreground font-bold shadow-xs"
                       : "text-muted-foreground hover:text-foreground"
@@ -278,7 +278,7 @@ export default function StorePageClient({ products, categories }: StorePageClien
                 <button
                   type="button"
                   onClick={() => setViewFilter("bestseller")}
-                  className={`px-3 py-1 rounded-md font-medium transition-all ${
+                  className={`px-3 py-1.5 rounded-md font-medium transition-all min-h-[36px] ${
                     viewFilter === "bestseller"
                       ? "bg-card text-foreground font-bold shadow-xs"
                       : "text-muted-foreground hover:text-foreground"
@@ -292,7 +292,7 @@ export default function StorePageClient({ products, categories }: StorePageClien
               <button
                 type="button"
                 onClick={() => setIsCartOpen(true)}
-                className="relative inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-colors shadow-xs"
+                className="relative inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-colors shadow-xs min-h-[44px]"
               >
                 <ShoppingCart className="h-4 w-4" />
                 <span className="hidden sm:inline">Cart</span>
@@ -749,7 +749,7 @@ export default function StorePageClient({ products, categories }: StorePageClien
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-card border-l border-border z-50 flex flex-col justify-between shadow-2xl p-5 sm:p-6"
+              className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-card border-l border-border z-50 flex flex-col justify-between shadow-2xl p-4 xs:p-5 sm:p-6 pb-[calc(1.5rem+var(--sab))]"
             >
               <div>
                 <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
@@ -762,7 +762,8 @@ export default function StorePageClient({ products, categories }: StorePageClien
                   <button
                     type="button"
                     onClick={() => setIsCartOpen(false)}
-                    className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
+                    className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    aria-label="Close shopping cart"
                   >
                     <X className="h-5 w-5" />
                   </button>

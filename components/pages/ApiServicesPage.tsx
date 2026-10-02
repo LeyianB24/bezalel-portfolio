@@ -75,7 +75,7 @@ export default function ApiServicesPage() {
   }, [isPaused]);
 
   return (
-    <PageLayout variant="subtle">
+    <PageLayout variant="subtle" heroMode transparentHeader>
       {/* ── Full-bleed Hero with Ken Burns Background ── */}
       <section 
         onMouseEnter={() => setIsPaused(true)}

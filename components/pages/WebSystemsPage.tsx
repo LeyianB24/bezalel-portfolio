@@ -75,7 +75,7 @@ export default function WebSystemsPage() {
   }, [isPaused]);
 
   return (
-    <PageLayout variant="subtle">
+    <PageLayout variant="subtle" heroMode transparentHeader>
       {/* ── Full-bleed Hero with Ken Burns Background ── */}
       <section 
         onMouseEnter={() => setIsPaused(true)}
@@ -388,7 +388,7 @@ const allLines = [
 
 function TypewriterEffect() {
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -404,13 +404,16 @@ function TypewriterEffect() {
   }, []);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }, [displayedLines]);
 
   return (
-    <div className="space-y-1.5 font-mono text-[11px] sm:text-xs">
+    <div 
+      ref={containerRef} 
+      className="h-full overflow-y-auto scrollbar-hide space-y-1.5 font-mono text-[11px] sm:text-xs"
+    >
       {displayedLines.map((line, i) => (
         <div 
           key={i} 
@@ -423,7 +426,6 @@ function TypewriterEffect() {
           {line.replace("[wait] ", "")}
         </div>
       ))}
-      <div ref={scrollRef} />
       <motion.span 
         animate={{ opacity: [0, 1, 0] }}
         transition={{ repeat: Infinity, duration: 0.8 }}

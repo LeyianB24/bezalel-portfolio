@@ -26,7 +26,7 @@ export interface PortfolioData {
   createdAt?: string | Date;
 }
 
-const categories = ["All", "Web Systems", "Mobile Apps", "API & Infra", "UI/UX Design"];
+const categories = ["All", "Web Systems", "Mobile Apps", "API & Infra", "Fintech & SACCO", "UI/UX Design"];
 
 const defaultProjects: PortfolioData[] = [
   {
@@ -145,6 +145,66 @@ const defaultProjects: PortfolioData[] = [
       "/images/screenshots/financial-transactions.jpg",
       "/images/mobile_app.jpg",
       "/images/web_system.jpg",
+    ],
+    liveUrl: "https://bezalel.website",
+  },
+  {
+    id: "compass-cartage",
+    name: "Compass Cartage Cross-Border Fleet System",
+    clientName: "Compass Cartage East Africa",
+    clientLogoUrl: "/images/logo.png",
+    category: "Mobile Apps",
+    techTags: ["React Native", "TypeScript", "Offline SQLite", "Node.js", "GPS Telemetry", "IoT MQTT"],
+    description:
+      "Offline-first driver manifests with local SQLite persistence and automated telematics synchronization across Kenya-Uganda-Rwanda border corridors. IoT temperature sensors monitor perishable cold-chain cargo in real time across 48 refrigerated vehicles.",
+    result: "40% reduction in border transit clearance delays with 100% offline manifest availability in zero-connectivity zones.",
+    year: "2024",
+    image: "/images/mobile_app.jpg",
+    images: [
+      "/images/mobile_app.jpg",
+      "/images/screenshots/mobile-telemetry.jpg",
+      "/images/network_infrastructure.jpg",
+      "/BG_images/AdobeStock_292953404-scaled.jpeg",
+    ],
+    liveUrl: "https://bezalel.website",
+  },
+  {
+    id: "osotua-farming",
+    name: "Osotua Farming Cooperative ERP",
+    clientName: "Osotua Farming Co-operative",
+    clientLogoUrl: "/images/logo.png",
+    category: "Web Systems",
+    techTags: ["Next.js", "PostgreSQL", "M-Pesa B2C Daraja", "IoT Scales", "React Native", "Offline Sync"],
+    description:
+      "Farm-gate milk intake collection with automated IoT weight scale integration, biometric farmer manifests, offline field agent sync, and instant automated dividend disbursements via M-Pesa B2C across 1,420+ registered smallholder farmers.",
+    result: "Reduced payout cycles from 14 days to under 3 minutes with zero reconciliation discrepancies.",
+    year: "2024",
+    image: "/images/saas_kit.jpg",
+    images: [
+      "/images/saas_kit.jpg",
+      "/images/screenshots/analytics-overview.jpg",
+      "/images/mobile_app.jpg",
+      "/BG_images/AdobeStock_292953404-scaled.jpeg",
+    ],
+    liveUrl: "https://bezalel.website",
+  },
+  {
+    id: "umoja-sacco",
+    name: "Umoja SACCO Core Banking System",
+    clientName: "Umoja SACCO",
+    clientLogoUrl: "/images/logo.png",
+    category: "Fintech & SACCO",
+    techTags: ["Next.js", "PostgreSQL (ACID)", "M-Pesa Express", "Redis", "Docker"],
+    description:
+      "High-throughput transactional ledger, multi-branch member savings accounting, automated micro-loan underwriting, and real-time M-Pesa C2B/B2C reconciliation for a fully digital SACCO core banking experience.",
+    result: "Achieved 42ms P99 settlement latency with automated daily reconciliation of KES 1.48M+ daily contribution flow.",
+    year: "2024",
+    image: "/images/web_system.jpg",
+    images: [
+      "/images/web_system.jpg",
+      "/images/screenshots/financial-transactions.jpg",
+      "/images/screenshots/analytics-overview.jpg",
+      "/BG_images/codes people.jpg",
     ],
     liveUrl: "https://bezalel.website",
   },

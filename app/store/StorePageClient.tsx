@@ -103,6 +103,13 @@ const PROMO_SLIDES = [
   },
 ];
 
+const storeHeroImages = [
+  "/images/network_infrastructure.jpg",
+  "/images/products/unifi-switch-48-poe.jpg",
+  "/BG_images/data.avif",
+  "/images/products/mikrotik-cloud-router.jpg",
+];
+
 export default function StorePageClient({ products, categories }: StorePageClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -110,6 +117,17 @@ export default function StorePageClient({ products, categories }: StorePageClien
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [viewFilter, setViewFilter] = useState<"all" | "featured" | "bestseller">("all");
+  const [activeHeroImage, setActiveHeroImage] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
+
+  // Rotating hero slideshow timer
+  useEffect(() => {
+    if (isHeroPaused) return;
+    const timer = setInterval(() => {
+      setActiveHeroImage((prev) => (prev + 1) % storeHeroImages.length);
+    }, 7000);
+    return () => clearInterval(timer);
+  }, [isHeroPaused]);
 
   // Rotating carousel timer
   useEffect(() => {
@@ -200,45 +218,140 @@ export default function StorePageClient({ products, categories }: StorePageClien
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col justify-between">
-      {/* 1. Top Bar */}
-      <aside aria-label="Store contact and delivery information" className="w-full bg-[#050D17] text-white/90 text-[11px] border-b border-white/10 px-3 xs:px-4 sm:px-6 lg:px-8 py-2">
-        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-4">
-          <div className="flex items-center gap-2 text-center sm:text-left truncate">
-            <MapPin className="h-3.5 w-3.5 text-[#C9A24B] shrink-0" />
-            <span className="truncate">
-              Valley View Office Park, 2nd Floor, Parklands, Nairobi · Fast Dispatch Countrywide
-            </span>
+    <div className="min-h-screen bg-background text-foreground flex flex-col justify-between relative transition-colors duration-300">
+      {/* Hero-matched ambient lighting — dark mode only */}
+      <div
+        className="fixed inset-0 pointer-events-none hidden dark:block"
+        style={{
+          background:
+            "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.14) 0%, rgba(5, 13, 23, 0.0) 55%), radial-gradient(ellipse at 10% 70%, rgba(11, 32, 54, 0.5) 0%, transparent 60%)",
+        }}
+      />
+      {/* Gold engineering grid */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(201, 162, 75, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201, 162, 75, 0.35) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+
+      {/* Main Header */}
+      <Header transparent />
+
+      <main className="relative z-10 flex-1">
+        {/* Store Hero Banner with Ken Burns Background */}
+        <section
+          onMouseEnter={() => setIsHeroPaused(true)}
+          onMouseLeave={() => setIsHeroPaused(false)}
+          className="relative overflow-hidden bg-[#050D17] text-white border-b border-white/10 pt-28 pb-10 sm:pt-36 sm:pb-16 lg:pt-40 lg:pb-20"
+        >
+          {/* Ken Burns Background Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={storeHeroImages[activeHeroImage]}
+              src={storeHeroImages[activeHeroImage]}
+              alt=""
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 1.0 }}
+              animate={{ opacity: 0.28, scale: 1.06 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.6, ease: "easeOut" }}
+              className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+            />
+          </AnimatePresence>
+
+          {/* Subtle Technical Engineering Grid */}
+          <div
+            className="absolute inset-0 opacity-[0.14] pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(201, 162, 75, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201, 162, 75, 0.35) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          />
+
+          {/* Deep Atmospheric Glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.16) 0%, rgba(5, 13, 23, 0.85) 50%, rgba(5, 13, 23, 0.99) 100%)",
+            }}
+          />
+
+          {/* Top Scrim for Seamless Navbar Transparency & Contrast */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#050D17]/75 via-[#050D17]/35 to-transparent pointer-events-none"
+          />
+
+          <div className="relative z-10 mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
+            {/* Top Store Notice Strip */}
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2 text-xs text-white/80 border-b border-white/10 pb-3">
+              <div className="inline-flex items-center gap-2">
+                <MapPin className="h-3.5 w-3.5 text-[#C9A24B] shrink-0" />
+                <span>Valley View Office Park, 2nd Floor, Parklands, Nairobi · Fast Dispatch Countrywide</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <a href="tel:+254796157265" className="hover:text-white inline-flex items-center gap-1.5 transition-colors">
+                  <Phone className="h-3 w-3 text-[#C9A24B]" />
+                  <span>+254 796 157 265</span>
+                </a>
+                <span className="text-white/30">|</span>
+                <a
+                  href="https://wa.me/254796157265?text=Hello%20Bezalel%20Store%2C%20I%20have%20an%20inquiry%20about%20your%20products"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#C9A24B] hover:text-white inline-flex items-center gap-1 font-semibold transition-colors"
+                >
+                  <FaWhatsapp className="h-3.5 w-3.5" />
+                  <span>WhatsApp Orders</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/40 bg-[#C9A24B]/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#C9A24B] mb-3 shadow-xs backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B] animate-pulse" />
+                Enterprise Hardware & Electronics Store · Nairobi HQ
+              </div>
+              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white text-balance leading-tight">
+                Networking Gear, Cables & Enterprise Infrastructure Equipment.
+              </h1>
+              <p className="mt-4 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed max-w-2xl">
+                Genuine Layer-3 PoE+ managed switches, 10G routers, HDMI 2.1 8K cables, smart surge PDU sockets, and server racks with fast countrywide courier dispatch from Nairobi and verified warranties.
+              </p>
+
+              {/* Slideshow Pill Indicators & Highlights */}
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 mr-1">Hardware Catalog</span>
+                  {storeHeroImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setActiveHeroImage(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        activeHeroImage === idx ? "w-6 bg-[#C9A24B]" : "w-1.5 bg-white/30 hover:bg-white/50"
+                      }`}
+                      aria-label={`View hardware slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <div className="hidden sm:flex items-center gap-3 text-xs text-white/70 border-l border-white/20 pl-4">
+                  <span className="inline-flex items-center gap-1.5"><Truck className="h-3.5 w-3.5 text-[#C9A24B]" /> Fast Dispatch</span>
+                  <span className="inline-flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-[#C9A24B]" /> Genuine Warranty</span>
+                  <span className="inline-flex items-center gap-1.5"><Package className="h-3.5 w-3.5 text-[#C9A24B]" /> Verified Stock</span>
+                </div>
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div className="flex items-center gap-4 text-white/80">
-            <a
-              href="tel:+254796157265"
-              className="hover:text-white inline-flex items-center gap-1.5 transition-colors"
-            >
-              <Phone className="h-3 w-3 text-[#C9A24B]" />
-              <span>+254 796 157 265</span>
-            </a>
-            <span className="text-white/30">|</span>
-            <a
-              href="https://wa.me/254796157265?text=Hello%20Bezalel%20Store%2C%20I%20have%20an%20inquiry%20about%20your%20products"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#C9A24B] hover:text-white inline-flex items-center gap-1 font-semibold transition-colors"
-            >
-              <FaWhatsapp className="h-3.5 w-3.5" />
-              <span>WhatsApp Order Line</span>
-            </a>
-          </div>
-        </div>
-      </aside>
-
-      {/* 2. Main Header & Sticky Store Nav */}
-      <Header />
-
-      <main className="flex-1 pt-20 sm:pt-24 pb-[calc(4.5rem+var(--sab))] md:pb-16">
         {/* Store Sub-Header: Search & Cart Trigger */}
-        <section aria-label="Store search and category filters" className="border-b border-border bg-card/80 backdrop-blur-md sticky top-[53px] sm:top-[68px] z-30 px-3 xs:px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 shadow-xs">
+        <section aria-label="Store search and category filters" className="border-b border-border bg-card/90 dark:bg-[#050D17]/95 backdrop-blur-md sticky top-[53px] sm:top-[68px] z-30 px-3 xs:px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 shadow-xs">
           <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] flex flex-col md:flex-row items-center justify-between gap-3">
             {/* Search Bar */}
             <div className="relative w-full md:max-w-md">
@@ -869,7 +982,9 @@ export default function StorePageClient({ products, categories }: StorePageClien
         )}
       </AnimatePresence>
 
-      <Footer />
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }

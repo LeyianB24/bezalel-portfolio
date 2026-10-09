@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   Building2,
@@ -28,6 +29,13 @@ const GoogleMapsEmbed = dynamic(() => import("@/components/GoogleMapsEmbed"), {
   ),
 });
 
+const heroImages = [
+  "/BG_images/business-people-meeting-high-tech-it-office_236854-48620.avif",
+  "/BG_images/group-african-american-business-people-working-office-together_1086199-10130.jpg",
+  "/BG_images/coporate.avif",
+  "/BG_images/team-collaborates-digitally-stockcake.jpg",
+];
+
 export default function ContactPageClient() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,6 +44,16 @@ export default function ContactPageClient() {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [activeHeroImage, setActiveHeroImage] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
+
+  useEffect(() => {
+    if (isHeroPaused) return;
+    const interval = window.setInterval(() => {
+      setActiveHeroImage((current) => (current + 1) % heroImages.length);
+    }, 7000);
+    return () => window.clearInterval(interval);
+  }, [isHeroPaused]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,24 +94,107 @@ export default function ContactPageClient() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col justify-between">
-      <Header />
+    <div className="relative min-h-screen bg-background text-foreground flex flex-col justify-between transition-colors duration-300">
+      {/* Hero-matched ambient lighting — dark mode only */}
+      <div
+        className="fixed inset-0 pointer-events-none hidden dark:block"
+        style={{
+          background:
+            "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.14) 0%, rgba(5, 13, 23, 0.0) 55%), radial-gradient(ellipse at 10% 70%, rgba(11, 32, 54, 0.5) 0%, transparent 60%)",
+        }}
+      />
+      {/* Gold engineering grid */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(201, 162, 75, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201, 162, 75, 0.35) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-      <main className="flex-1 pt-24 pb-16 sm:pt-28 sm:pb-24">
-        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
-          {/* Header Banner */}
-          <div className="mb-10 sm:mb-12 max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light mb-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-              Engineering Desk & Inquiries
+      <Header transparent />
+
+      <main className="relative z-10 flex-1">
+        {/* Contact Hero Banner with Ken Burns Background */}
+        <section
+          onMouseEnter={() => setIsHeroPaused(true)}
+          onMouseLeave={() => setIsHeroPaused(false)}
+          className="relative overflow-hidden bg-[#050D17] text-white border-b border-white/10 pt-28 pb-12 sm:pt-36 sm:pb-16 lg:pt-40 lg:pb-20"
+        >
+          {/* Ken Burns Background Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={heroImages[activeHeroImage]}
+              src={heroImages[activeHeroImage]}
+              alt=""
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 1.0 }}
+              animate={{ opacity: 0.28, scale: 1.06 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.6, ease: "easeOut" }}
+              className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+            />
+          </AnimatePresence>
+
+          {/* Subtle Technical Engineering Grid */}
+          <div
+            className="absolute inset-0 opacity-[0.14] pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(201, 162, 75, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201, 162, 75, 0.35) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          />
+
+          {/* Deep Atmospheric Glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.16) 0%, rgba(5, 13, 23, 0.85) 50%, rgba(5, 13, 23, 0.99) 100%)",
+            }}
+          />
+
+          {/* Top Scrim for Seamless Navbar Transparency & Contrast */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#050D17]/75 via-[#050D17]/35 to-transparent pointer-events-none"
+          />
+
+          <div className="relative z-10 mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/40 bg-[#C9A24B]/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#C9A24B] mb-3 shadow-xs backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B] animate-pulse" />
+                Engineering Desk & Direct Inquiries
+              </div>
+              <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white text-balance leading-tight">
+                Speak directly with our technical team.
+              </h1>
+              <p className="mt-4 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed max-w-2xl">
+                Whether scoping a mission-critical core system, auditing distributed architecture, or deploying high-availability infrastructure across borders, our engineers are ready to assist.
+              </p>
+
+              {/* Slideshow Pill Indicators */}
+              <div className="mt-6 flex items-center gap-2">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 mr-1">Engineering HQ</span>
+                {heroImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveHeroImage(idx)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      activeHeroImage === idx ? "w-6 bg-[#C9A24B]" : "w-1.5 bg-white/30 hover:bg-white/50"
+                    }`}
+                    aria-label={`View slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
-            <h1 className="font-serif text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground text-balance">
-              Speak directly with our technical team.
-            </h1>
-            <p className="mt-4 text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
-              Whether scoping a mission-critical core system, auditing distributed architecture, or deploying high-availability infrastructure across borders, our engineers are ready to assist.
-            </p>
           </div>
+        </section>
+
+        <div className="mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
           <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] items-start">
             {/* Left Channel Details */}

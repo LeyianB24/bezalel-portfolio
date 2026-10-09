@@ -44,7 +44,7 @@ export default function HeroProductMockup() {
         <button
           type="button"
           onClick={() => setActiveTab("sacco")}
-          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold min-h-[38px] sm:min-h-[42px] transition-all ${
             activeTab === "sacco"
               ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
               : "text-white/70 hover:text-white hover:bg-white/[0.04]"
@@ -57,7 +57,7 @@ export default function HeroProductMockup() {
         <button
           type="button"
           onClick={() => setActiveTab("logistics")}
-          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold min-h-[38px] sm:min-h-[42px] transition-all ${
             activeTab === "logistics"
               ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
               : "text-white/70 hover:text-white hover:bg-white/[0.04]"
@@ -70,7 +70,7 @@ export default function HeroProductMockup() {
         <button
           type="button"
           onClick={() => setActiveTab("agri")}
-          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold min-h-[38px] sm:min-h-[42px] transition-all ${
             activeTab === "agri"
               ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
               : "text-white/70 hover:text-white hover:bg-white/[0.04]"
@@ -83,7 +83,7 @@ export default function HeroProductMockup() {
         <button
           type="button"
           onClick={() => setActiveTab("payments")}
-          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold transition-all ${
+          className={`flex min-w-0 items-center justify-center gap-1 rounded-md px-1.5 py-2 text-[10px] sm:text-xs font-semibold min-h-[38px] sm:min-h-[42px] transition-all ${
             activeTab === "payments"
               ? "bg-[#C9A24B] text-[#050D17] shadow-sm font-bold"
               : "text-white/70 hover:text-white hover:bg-white/[0.04]"

@@ -163,7 +163,7 @@ const TechItem = memo(function TechItem({ tech }: { tech: Tech }) {
       <div className="mb-1.5 sm:mb-2 text-xl sm:text-2xl text-foreground/80 transition-colors group-hover:text-accent-dark dark:group-hover:text-accent-light shrink-0">
         {tech.icon}
       </div>
-      <span className="text-[11px] xs:text-xs font-semibold text-foreground truncate max-w-full">{tech.name}</span>
+      <span className="text-[10.5px] xs:text-xs font-semibold text-foreground leading-tight text-center max-w-full">{tech.name}</span>
       {tech.tag && (
         <span className="mt-1 rounded bg-primary/10 px-1.5 py-0.5 text-[8.5px] xs:text-[9px] font-bold uppercase tracking-wider text-accent-dark dark:text-accent-light">
           {tech.tag}

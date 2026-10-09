@@ -153,7 +153,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4 text-zinc-100 selection:bg-accent/30 selection:text-accent-light">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-[#050D17] px-4 text-zinc-100 selection:bg-accent/30 selection:text-accent-light">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(201,162,75,0.12),rgba(0,0,0,0))] pointer-events-none" />
       

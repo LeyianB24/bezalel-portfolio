@@ -355,7 +355,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                   <span className="truncate">Global Engineering Partner · HQ Nairobi, Kenya</span>
                 </div>
 
-                <h1 className="font-serif text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.12] sm:leading-[1.05] tracking-tight text-white text-balance">
+                <h1 className="font-serif text-2xl xs:text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.12] sm:leading-[1.05] tracking-tight text-white text-balance break-words">
                   Software and infrastructure for organisations that cannot afford downtime.
                 </h1>
 
@@ -440,11 +440,11 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               <span className="shrink-0 text-[10px] xs:text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
                 Sectors Served (Filter):
               </span>
-              <div className="flex flex-wrap items-center gap-1.5 xs:gap-2">
+              <div className="flex items-center gap-1.5 xs:gap-2 overflow-x-auto scrollbar-hide py-1 sm:flex-wrap">
                 <button
                   type="button"
                   onClick={() => handleSectorClick("All")}
-                  className={`rounded-md border px-2.5 py-1 sm:px-3 sm:py-1.5 text-[11px] sm:text-xs font-semibold transition-colors ${
+                  className={`shrink-0 rounded-md border px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-[11px] sm:text-xs font-semibold min-h-[36px] flex items-center transition-colors ${
                     selectedSector === "All"
                       ? "border-accent bg-accent text-accent-foreground shadow-xs"
                       : "border-border bg-card text-foreground hover:border-foreground/30"
@@ -457,7 +457,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                     key={ind}
                     type="button"
                     onClick={() => handleSectorClick(ind)}
-                    className={`rounded-md border px-2.5 py-1 sm:px-3 sm:py-1.5 text-[11px] sm:text-xs font-semibold transition-colors ${
+                    className={`shrink-0 rounded-md border px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-[11px] sm:text-xs font-semibold min-h-[36px] flex items-center transition-colors ${
                       selectedSector === ind
                         ? "border-accent bg-accent text-accent-foreground shadow-xs"
                         : "border-border bg-card text-foreground hover:border-foreground/30"
@@ -525,7 +525,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                 <p className="mb-2 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
                   Client Endorsements
                 </p>
-                <h2 className="font-display text-2xl xs:text-3xl sm:text-4xl font-black tracking-tight text-foreground">
+                <h2 className="font-display text-2xl xs:text-3xl sm:text-4xl font-black tracking-tight text-foreground break-words text-balance">
                   Tested under real transactional loads.
                 </h2>
               </div>
@@ -539,30 +539,45 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               {testimonials.map((t) => (
                 <div
                   key={t.author}
-                  className="rounded-xl border border-border bg-background/90 p-5 sm:p-6 shadow-xs flex flex-col justify-between"
+                  className="rounded-xl border border-border bg-background/95 p-4 xs:p-5 sm:p-6 shadow-xs flex flex-col justify-between transition-all hover:border-accent/40"
                 >
                   <div>
-                    <div className="flex items-center gap-1 text-[#C9A24B] mb-3">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-3.5 w-3.5 fill-[#C9A24B]" />
-                      ))}
-                      <span className="ml-2 text-[11px] font-bold text-accent-dark dark:text-accent-light uppercase tracking-wider">
-                        {t.metric}
+                    {/* Top Row: 5 Stars + Sector Tag */}
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-1 text-[#C9A24B]">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="h-3.5 w-3.5 fill-[#C9A24B]" />
+                        ))}
+                      </div>
+                      <span className="rounded-full bg-accent/10 border border-accent/25 px-2 py-0.5 text-[9.5px] xs:text-[10px] font-bold text-accent-dark dark:text-accent-light uppercase tracking-wider shrink-0">
+                        {t.sector}
                       </span>
                     </div>
+
+                    {/* Operational Achievement Highlight */}
+                    <div className="mb-3 inline-flex items-center gap-1.5 rounded-md bg-[#C9A24B]/10 border border-[#C9A24B]/25 px-2.5 py-1 text-[11px] font-bold text-accent-dark dark:text-[#E8CD84] max-w-full">
+                      <ShieldCheck className="h-3.5 w-3.5 text-[#C9A24B] shrink-0" />
+                      <span className="leading-tight break-words">{t.metric}</span>
+                    </div>
+
+                    {/* Quote */}
                     <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed italic">
                       &ldquo;{t.quote}&rdquo;
                     </p>
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-border flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-full bg-accent/20 text-accent font-bold flex items-center justify-center text-xs shrink-0">
+                  {/* Author, Role & Company Footer */}
+                  <div className="mt-5 pt-4 border-t border-border flex items-start gap-3">
+                    <div className="h-9 w-9 rounded-full bg-accent/20 text-accent font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
                       {t.author.charAt(0)}
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-foreground truncate">{t.author}</p>
-                      <p className="text-[11px] text-muted-foreground truncate">
-                        {t.role} · <span className="font-medium text-foreground/80">{t.company}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-bold text-foreground leading-snug">{t.author}</p>
+                      <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
+                        {t.role}
+                      </p>
+                      <p className="text-[11px] font-semibold text-accent-dark dark:text-accent-light leading-tight mt-0.5">
+                        {t.company}
                       </p>
                     </div>
                   </div>
@@ -594,13 +609,13 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
             </div>
 
             {/* Filter Chips */}
-            <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-2">
+            <div className="mt-6 sm:mt-8 flex items-center gap-2 overflow-x-auto scrollbar-hide py-1 sm:flex-wrap">
               {["All", "SACCO / FinTech", "Agribusiness", "Logistics", "Commerce", "Infrastructure"].map((sec) => (
                 <button
                   key={sec}
                   type="button"
                   onClick={() => setSelectedSector(sec)}
-                  className={`rounded-full px-3 py-1 text-xs font-medium transition-all ${
+                  className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium min-h-[36px] flex items-center transition-all ${
                     selectedSector.toLowerCase() === sec.toLowerCase()
                       ? "bg-[#C9A24B] text-black font-bold shadow-xs"
                       : "bg-white/[0.08] text-white/80 hover:bg-white/[0.14] hover:text-white border border-white/10"
@@ -613,7 +628,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                 <button
                   type="button"
                   onClick={() => setSelectedSector("All")}
-                  className="text-xs text-white/60 hover:text-white underline ml-2"
+                  className="shrink-0 text-xs text-white/60 hover:text-white underline ml-2 min-h-[36px] flex items-center"
                 >
                   Reset Filter
                 </button>
@@ -774,7 +789,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               {pricingTiers.map((tier) => (
                 <div
                   key={tier.name}
-                  className={`rounded-2xl border p-6 flex flex-col justify-between relative transition-all ${
+                  className={`rounded-2xl border p-4 xs:p-6 sm:p-7 flex flex-col justify-between relative transition-all ${
                     tier.isPopular
                       ? "border-accent bg-card shadow-lg ring-1 ring-accent/30"
                       : "border-border bg-card/80 shadow-xs"
@@ -834,7 +849,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
               ))}
             </div>
 
-            <div className="mt-10 rounded-xl border border-border bg-card p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="mt-10 rounded-xl border border-border bg-card p-4 xs:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
               <div className="max-w-xl">
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Custom Architecture Scope</p>
                 <h4 className="text-sm sm:text-base font-bold text-foreground mt-0.5">Need a detailed itemized RFP or board-ready proposal?</h4>
@@ -1040,7 +1055,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                           value={contactName}
                           onChange={(e) => setContactName(e.target.value)}
                           placeholder="e.g. David Kipkorir"
-                          className="w-full rounded-md border border-border bg-card px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none"
+                          className="w-full rounded-md border border-border bg-card px-3 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none min-h-[44px]"
                         />
                       </div>
                       <div>
@@ -1053,7 +1068,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                           value={contactEmail}
                           onChange={(e) => setContactEmail(e.target.value)}
                           placeholder="e.g. david@enterprise.co.ke"
-                          className="w-full rounded-md border border-border bg-card px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none"
+                          className="w-full rounded-md border border-border bg-card px-3 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none min-h-[44px]"
                         />
                       </div>
                     </div>
@@ -1068,7 +1083,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                           value={contactCompany}
                           onChange={(e) => setContactCompany(e.target.value)}
                           placeholder="e.g. Osotua Dairy Co-op"
-                          className="w-full rounded-md border border-border bg-card px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none"
+                          className="w-full rounded-md border border-border bg-card px-3 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none min-h-[44px]"
                         />
                       </div>
                       <div>
@@ -1078,7 +1093,7 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                         <select
                           value={contactCategory}
                           onChange={(e) => setContactCategory(e.target.value)}
-                          className="w-full rounded-md border border-border bg-card px-3 py-2 text-xs text-foreground focus:border-accent focus:outline-none"
+                          className="w-full rounded-md border border-border bg-card px-3 py-2.5 text-xs text-foreground focus:border-accent focus:outline-none min-h-[44px]"
                         >
                           <option value="SACCO / Core Banking">SACCO / Core Banking</option>
                           <option value="Agribusiness ERP & Supply Chain">Agribusiness ERP & Supply Chain</option>
@@ -1101,14 +1116,14 @@ export default function HomePageClient({ portfolioProjects }: HomePageClientProp
                         value={contactMessage}
                         onChange={(e) => setContactMessage(e.target.value)}
                         placeholder="Describe your current system, performance challenges, target timeline, or desired integrations..."
-                        className="w-full rounded-md border border-border bg-card px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none resize-none"
+                        className="w-full rounded-md border border-border bg-card px-3 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none resize-none"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={contactSubmitting}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-primary py-3 px-4 text-xs font-bold uppercase tracking-wider text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors disabled:opacity-60"
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-primary py-3.5 px-4 text-xs font-bold uppercase tracking-wider text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors disabled:opacity-60 min-h-[48px]"
                     >
                       {contactSubmitting ? (
                         <>

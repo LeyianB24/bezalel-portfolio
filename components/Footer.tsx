@@ -53,7 +53,7 @@ export default function Footer() {
           <div className="flex flex-col gap-2.5 sm:flex-row lg:justify-end w-full sm:w-auto">
             <Link
               href="/projects/request"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light text-center"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-xs sm:text-sm font-bold text-accent-foreground transition-colors hover:bg-accent-light text-center min-h-[44px]"
             >
               Start a project
               <ArrowUpRight className="h-4 w-4" />
@@ -62,7 +62,7 @@ export default function Footer() {
               href="https://wa.me/254796157265"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-5 py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-colors hover:bg-white/10 text-center"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-5 py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-colors hover:bg-white/10 text-center min-h-[44px]"
             >
               WhatsApp
               <ArrowUpRight className="h-4 w-4" />
@@ -126,7 +126,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="rounded-md border border-white/10 p-2 text-primary-foreground/70 transition-colors hover:border-accent-light hover:text-accent-light"
+                className="rounded-md border border-white/10 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-primary-foreground/70 transition-colors hover:border-accent-light hover:text-accent-light"
               >
                 <Icon className="h-4 w-4" />
               </a>

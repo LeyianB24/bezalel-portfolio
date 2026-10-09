@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ExternalLink } from "lucide-react";
@@ -150,12 +150,29 @@ const defaultProjects: PortfolioData[] = [
   },
 ];
 
+const heroImages = [
+  "/BG_images/codes people.jpg",
+  "/BG_images/AdobeStock_292953404-scaled.jpeg",
+  "/BG_images/team-collaborates-digitally-stockcake.jpg",
+  "/images/web_system.jpg",
+];
+
 interface PortfolioPageClientProps {
   initialProjects?: PortfolioData[];
 }
 
 export default function PortfolioPageClient({ initialProjects = [] }: PortfolioPageClientProps) {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [activeHeroImage, setActiveHeroImage] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
+
+  useEffect(() => {
+    if (isHeroPaused) return;
+    const interval = window.setInterval(() => {
+      setActiveHeroImage((current) => (current + 1) % heroImages.length);
+    }, 7000);
+    return () => window.clearInterval(interval);
+  }, [isHeroPaused]);
 
   const normalizedProjects = initialProjects.length > 0
     ? initialProjects.map((p) => {
@@ -193,28 +210,112 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-[calc(4.5rem+var(--sab))] md:pb-0">
-      <Header />
+    <div className="relative min-h-screen bg-background text-foreground pb-[calc(4.5rem+var(--sab))] md:pb-0 transition-colors duration-300">
+      {/* Hero-matched ambient lighting — dark mode only */}
+      <div
+        className="fixed inset-0 pointer-events-none hidden dark:block"
+        style={{
+          background:
+            "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.14) 0%, rgba(5, 13, 23, 0.0) 55%), radial-gradient(ellipse at 10% 70%, rgba(11, 32, 54, 0.5) 0%, transparent 60%)",
+        }}
+      />
+      {/* Gold engineering grid */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(201, 162, 75, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201, 162, 75, 0.35) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-      <main>
-        <section className="border-b border-border px-3 xs:px-4 pb-10 pt-24 sm:px-6 sm:pb-16 sm:pt-36 lg:pt-40">
-          <div className="mx-auto max-w-7xl 3xl:max-w-[1600px]">
-            <p className="mb-3 sm:mb-4 text-[10px] xs:text-xs font-bold uppercase tracking-[0.24em] text-accent-dark dark:text-accent-light">
-              Engineering Portfolio
-            </p>
-            <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
-              <h1 className="font-display text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight tracking-tight">
-                Systems shaped around reliability, performance, and clean handover.
-              </h1>
-              <p className="max-w-2xl text-xs sm:text-sm lg:text-base leading-relaxed text-muted-foreground">
-                Selected production platforms across custom web systems, cross-border mobile field workflows, payment APIs, and interface architecture developed for clients worldwide. Every build is accompanied by complete documentation and source code handover.
-              </p>
+      <Header transparent />
+
+      <main className="relative z-10">
+        <section
+          onMouseEnter={() => setIsHeroPaused(true)}
+          onMouseLeave={() => setIsHeroPaused(false)}
+          className="relative overflow-hidden bg-[#050D17] text-white border-b border-white/10 pt-28 pb-12 sm:pt-36 sm:pb-16 lg:pt-40 lg:pb-20"
+        >
+          {/* Ken Burns Background Slideshow */}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={heroImages[activeHeroImage]}
+              src={heroImages[activeHeroImage]}
+              alt=""
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 1.0 }}
+              animate={{ opacity: 0.28, scale: 1.06 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.6, ease: "easeOut" }}
+              className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+            />
+          </AnimatePresence>
+
+          {/* Subtle Technical Engineering Grid */}
+          <div
+            className="absolute inset-0 opacity-[0.14] pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(201, 162, 75, 0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(201, 162, 75, 0.35) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          />
+
+          {/* Deep Atmospheric Glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at 80% 20%, rgba(201, 162, 75, 0.16) 0%, rgba(5, 13, 23, 0.85) 50%, rgba(5, 13, 23, 0.99) 100%)",
+            }}
+          />
+
+          {/* Top Scrim for Seamless Navbar Transparency & Contrast */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#050D17]/75 via-[#050D17]/35 to-transparent pointer-events-none"
+          />
+
+          <div className="relative z-10 mx-auto max-w-7xl 3xl:max-w-[1600px] px-3 xs:px-4 sm:px-6 lg:px-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#C9A24B]/40 bg-[#C9A24B]/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#C9A24B] mb-4 shadow-xs backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24B] animate-pulse" />
+              Verified Engineering Deliveries · East Africa & Global
+            </div>
+
+            <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+              <div>
+                <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white text-balance">
+                  Systems shaped around reliability, performance, and clean handover.
+                </h1>
+              </div>
+              <div>
+                <p className="max-w-2xl text-xs sm:text-sm lg:text-base leading-relaxed text-white/80">
+                  Selected production platforms across custom web systems, cross-border mobile field workflows, payment APIs, and interface architecture developed for clients worldwide. Every build is accompanied by complete documentation and source code handover.
+                </p>
+
+                {/* Slideshow Pill Indicators */}
+                <div className="mt-6 flex items-center gap-2">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 mr-1">Case Studies</span>
+                  {heroImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setActiveHeroImage(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        activeHeroImage === idx ? "w-6 bg-[#C9A24B]" : "w-1.5 bg-white/30 hover:bg-white/50"
+                      }`}
+                      aria-label={`View slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Filter Bar */}
-        <section className="sticky top-[53px] sm:top-[68px] z-30 border-b border-border bg-background/95 px-3 xs:px-4 py-2.5 sm:px-6 sm:py-3 backdrop-blur-xl">
+        <section className="sticky top-[53px] sm:top-[68px] z-30 border-b border-border bg-card/90 dark:bg-[#050D17]/95 px-3 xs:px-4 py-2.5 sm:px-6 sm:py-3 backdrop-blur-xl">
           <div className="mx-auto flex max-w-7xl 3xl:max-w-[1600px] gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide">
             {categories.map((category) => (
               <button
@@ -223,8 +324,8 @@ export default function PortfolioPageClient({ initialProjects = [] }: PortfolioP
                 onClick={() => setActiveCategory(category)}
                 className={`shrink-0 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] xs:text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors min-h-[40px] xs:min-h-[44px] flex items-center ${
                   activeCategory === category
-                    ? "bg-primary text-primary-foreground"
-                    : "border border-border text-muted-foreground hover:text-foreground"
+                    ? "bg-accent text-accent-foreground shadow-xs font-bold"
+                    : "border border-border bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                 }`}
               >
                 {category}

@@ -47,6 +47,16 @@ enum AdminPermission {
   MESSAGES
 }
 
+// Saved role templates that the main admin can create and assign to sub-admins
+model CustomAdminRole {
+  id          String            @id @default(cuid())
+  name        String            @unique
+  description String?
+  permissions AdminPermission[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String

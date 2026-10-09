@@ -122,7 +122,7 @@ export default function ProductDetailClient({
     .slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden transition-colors duration-300">
       <UnifiedBackground variant="subtle" />
       <div className="relative z-10">
         <Header />

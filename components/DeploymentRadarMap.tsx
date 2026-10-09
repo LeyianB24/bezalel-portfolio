@@ -119,7 +119,7 @@ export default function DeploymentRadarMap() {
   const [activeSite, setActiveSite] = useState<DeploymentSite>(DEPLOYMENT_SITES[0]);
 
   return (
-    <div className="rounded-2xl border border-border bg-[#050D17] text-white p-5 sm:p-8 lg:p-10 shadow-xl overflow-hidden relative">
+    <div className="rounded-2xl border border-border bg-[#050D17] text-white p-3.5 xs:p-5 sm:p-8 lg:p-10 shadow-xl overflow-hidden relative">
       {/* Background Technical Grid */}
       <div
         className="absolute inset-0 opacity-[0.1] pointer-events-none"
@@ -197,7 +197,7 @@ export default function DeploymentRadarMap() {
                   type="button"
                   onClick={() => setActiveSite(site)}
                   style={{ top: `${site.topPct}%`, left: `${site.leftPct}%` }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 group focus:outline-none z-20 cursor-pointer"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 group focus:outline-none z-20 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                   title={`${site.name} · ${site.client}`}
                 >
                   {/* Ping Animation on Active */}
